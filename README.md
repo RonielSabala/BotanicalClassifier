@@ -49,7 +49,7 @@ Computer-vision desktop application that classifies five flower types: **roses**
 
 ### `.env` configuration
 
-Create a `.env` file at `src/API/.env` with the keys shown below.
+Create a `.env` file at `src/api/.env` with the keys shown below.
 
 ```env
 KEY='your-prediction-key'

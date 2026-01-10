@@ -2,7 +2,7 @@ _RUTA = "src\\"
 
 # Carpetas
 RUTA_DATA = f"{_RUTA}storage\\data\\"
-RUTA_IMGS = f"{_RUTA}UI\\assets\\imagenes\\"
+RUTA_IMGS = f"{_RUTA}ui\\assets\\imagenes\\"
 
 # Data guardada
 DATA_IMGS = f"{RUTA_DATA}imagenes"

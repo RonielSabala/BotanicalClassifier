@@ -1,8 +1,8 @@
 import os
 
 from common.constants import DATA_IMGS
-from UI import main
-from UI.pages.menu.main import Menu
+from ui import main
+from ui.pages.menu.main import Menu
 
 # Crear carpeta donde se almacenarán las imágenes
 if not os.path.exists(DATA_IMGS):
