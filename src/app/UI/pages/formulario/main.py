@@ -1,20 +1,18 @@
 import shutil
 import tkinter as tk
-from tkinter import filedialog
-from tkinter import messagebox
+from tkinter import filedialog, messagebox
 
 from ....common.constants import DEFAULT_IMG
 from ....storage import main as Data
+from ...assets.main import IMG_ICONO
 from ...main import Page
 from ...styles import main as Estilos
-from ...assets.main import IMG_ICONO
 from ..menu.main import Menu
-
 from .validaciones import (
-    validar_nombre,
     validar_apellido,
-    validar_ubicacion,
     validar_imagen,
+    validar_nombre,
+    validar_ubicacion,
 )
 
 
@@ -45,7 +43,7 @@ def guardar_formulario() -> None:
 
     except Exception as e:
         messagebox.showerror(
-            f"Error",
+            "Error",
             f"Se produjo el siguiente error al guardar el formulario: {e}",
         )
 
@@ -68,7 +66,7 @@ class Formulario(Page):
 
     @classmethod
     def mostrar(cls) -> None:
-        # Resetear variables
+        # Restablecer variables
         cls._imagen = ""
         cls.nombre.set("")
         cls.apellido.set("")
@@ -111,7 +109,7 @@ class Formulario(Page):
             state="readonly",
             **Estilos.campo_txt,
         )
-        boton_guardar = tk.Button(
+        btn_guardar = tk.Button(
             cls.raiz,
             text="Guardar",
             command=lambda: guardar_formulario(),
@@ -130,7 +128,7 @@ class Formulario(Page):
         campo_nombre.bind("<Return>", lambda event: campo_apellido.focus_set())
         campo_nombre.pack()
 
-        # Campo de appellido
+        # Campo de apellido
         cls.colocar_texto("", 2)
         cls.colocar_texto("Apellido", tamaño, fg=color)
         campo_apellido.bind("<Escape>", lambda event: cls.raiz.focus_set())
@@ -167,9 +165,9 @@ class Formulario(Page):
         campo_imagen.bind("<Button-1>", lambda event: seleccionar_imagen())
         campo_imagen.bind("<Escape>", lambda event: cls.raiz.focus_set())
         campo_imagen.bind("<Up>", lambda event: campo_ubicacion.focus_set())
-        campo_imagen.bind("<Return>", lambda event: boton_guardar.invoke())
+        campo_imagen.bind("<Return>", lambda event: btn_guardar.invoke())
         campo_imagen.pack(padx=10, pady=10)
-        boton_guardar.pack(pady=40)
+        btn_guardar.pack(pady=40)
 
         # - Footer:
 

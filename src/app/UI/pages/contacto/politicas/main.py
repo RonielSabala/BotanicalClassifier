@@ -3,8 +3,7 @@ from tkinter import scrolledtext
 
 # Escenas
 from ....main import Page
-from ..main import Contacto
-
+from ..main import Contact
 
 info = """
 Estas Políticas (en adelante, las "Políticas") condicionan el uso de los servicios del Portal de Internet "http://www.jbn.gob.do" (en adelante, el "Portal") del organismo gubernamental "Jardín Botánico Nacional Dr Rafael Ma Moscoso" (en lo que sigue, "Jardín Botánico Nacional"), institución gubernamental con dependencia directa del Poder Ejecutivo, creada mediante el ley  No. 456, de fecha 26 de Octubre del año 1976, con su domicilio y oficina principal en la Ave. República de Colombia esq. Av. Los Próceres, Sector los Altos de Galá, Santo Domingo, D.N. República Dominicana
@@ -68,8 +67,8 @@ Las Presentes Políticas se rigen en todas y cada una de sus partes por las leye
 El Jardín Botánico Nacional y el Usuario, con renuncia tácita a cualquier otro fuero, se someten al de los tribunales de la República Dominicana. Para cualquier sugerencia o propuesta de colaboración escríbanos a nuestro correo electrónico contacto@jbn.gob.do."""
 
 
-class Politicas(Page):
-    pagina_anterior = Contacto
+class Politics(Page):
+    pagina_anterior = Contact
 
     @classmethod
     def cargar(cls) -> None:

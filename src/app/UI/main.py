@@ -5,17 +5,16 @@ from typing import Type
 from ..common.constants import RUTA_ICONO
 from .styles import main as Estilos
 
-
 # - Variables para la pagina principal:
 
 RAIZ = tk.Tk()
 RAIZ.title("jbn")
 RAIZ.iconphoto(True, PhotoImage(file=RUTA_ICONO))
 
-WIDTH, HEIGTH = 750, 900
+WIDTH, HEIGHT = 750, 900
 padx = int(1920 / 2 + WIDTH / 2 - WIDTH)
-pady = int(1080 / 2 + HEIGTH / 2 - HEIGTH)
-RAIZ.geometry(f"{WIDTH}x{HEIGTH}+{padx}+{pady}")
+pady = int(1080 / 2 + HEIGHT / 2 - HEIGHT)
+RAIZ.geometry(f"{WIDTH}x{HEIGHT}+{padx}+{pady}")
 RAIZ.resizable(False, False)
 
 # Contenedor para las páginas
@@ -89,9 +88,9 @@ class Page:
                 item.icursor(tk.END)
 
     @classmethod
-    def resetear(cls) -> None:
+    def restablecer(cls) -> None:
         """
-        Resetea la pagina dejandola en blanco.
+        Restablece la página dejándola en blanco.
         """
 
         cls.raiz.destroy()
@@ -103,7 +102,7 @@ class Page:
         """
         Configura las relaciones entre las páginas
         anteriores y posteriores de las páginas
-        involucradas en la pagina actual.
+        involucradas en la página actual.
         """
         ...
 
@@ -169,7 +168,7 @@ class Page:
             fg=fg,
             bg=cls.color_fondo,
         )
-        boton = tk.Button(
+        btn = tk.Button(
             cls.raiz,
             fg=fg,
             command=lambda: escape(None),
@@ -179,7 +178,7 @@ class Page:
 
         cls.raiz.bind("<Escape>", escape)
         texto.place(relx=0.048, rely=0.13, anchor="nw")
-        boton.place(relx=0.05, rely=0.05, anchor="nw")
+        btn.place(relx=0.05, rely=0.05, anchor="nw")
 
     @classmethod
     def colocar_footer(cls):

@@ -1,10 +1,8 @@
 import tkinter as tk
 from tkinter import scrolledtext
 
-# Escenas
 from ....main import Page
-from ..main import Contacto
-
+from ..main import Contact
 
 info = """
 P: ¿Qué es el jardín Botánico?
@@ -62,7 +60,7 @@ R: De lunes a domingo en horario de 9:00 a.m. a 5:00 p.m."""
 
 
 class Preguntas(Page):
-    pagina_anterior = Contacto
+    pagina_anterior = Contact
 
     @classmethod
     def cargar(cls) -> None:

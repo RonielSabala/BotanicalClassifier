@@ -1,11 +1,10 @@
+import os
+
 from azure.cognitiveservices.vision.customvision.prediction import (
     CustomVisionPredictionClient,
 )
-
-from msrest.authentication import ApiKeyCredentials
 from dotenv import load_dotenv
-import os
-
+from msrest.authentication import ApiKeyCredentials
 
 load_dotenv()
 key = os.getenv("KEY")

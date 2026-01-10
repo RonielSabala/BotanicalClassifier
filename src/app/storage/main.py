@@ -1,7 +1,7 @@
 import os
 
 from ..API.main import obtener_prediccion
-from ..common.constants import FORMULARIOS, DATA_IMGS
+from ..common.constants import DATA_IMGS, FORMULARIOS
 
 
 def es_ruta(ruta: str) -> bool:
@@ -14,7 +14,7 @@ def es_ruta(ruta: str) -> bool:
 
 def obtener_ruta(ruta: str):
     """
-    Devuelve la ruta completa en la carpeta de imagenes.
+    Devuelve la ruta completa en la carpeta de imágenes.
     """
 
     ruta = os.path.join(DATA_IMGS, ruta)
@@ -35,10 +35,10 @@ def obtener_formularios() -> tuple[list, ...]:
         return tuple(list(eval(i.strip("\n"))) for i in f.readlines())
 
 
-def obtener_imagenes():
+def obtener_imágenes():
     """
-    Devuelve la ruta de todas las imagenes de
-    la carpeta imagenes.
+    Devuelve la ruta de todas las imágenes de
+    la carpeta imágenes.
     """
 
     return (obtener_ruta(img) for img in os.listdir(DATA_IMGS))
@@ -46,21 +46,21 @@ def obtener_imagenes():
 
 def n_archivos() -> int:
     """
-    Devuelve el número de archivos de la carpeta imagenes.
+    Devuelve el número de archivos de la carpeta imágenes.
     """
 
-    return len(tuple(obtener_imagenes()))
+    return len(tuple(obtener_imágenes()))
 
 
 def limpiar_registros():
     """
-    Elimina todos los formularios e imagenes.
+    Elimina todos los formularios e imágenes.
     """
 
     with open(FORMULARIOS, "w") as f:
         f.write("")
 
-    for ruta in obtener_imagenes():
+    for ruta in obtener_imágenes():
         try:
             os.unlink(ruta)
 
@@ -71,7 +71,7 @@ def limpiar_registros():
 def insertar_clasificacion(linea: int):
     """
     Inserta en el registro de la línea especificada
-    la clasificación de la imagén que tiene dicho registro.
+    la clasificación de la imagen que tiene dicho registro.
     """
 
     linea -= 1

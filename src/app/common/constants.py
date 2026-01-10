@@ -1,23 +1,21 @@
-# - Rutas:
-
 _RUTA = "src\\app\\"
 
 # Carpetas
 RUTA_DATA = f"{_RUTA}storage\\data\\"
-RUTA_IMGS = f"{_RUTA}UI\\assets\\imagenes\\"
+RUTA_IMGS = f"{_RUTA}UI\\assets\\imágenes\\"
 
 # Data guardada
-DATA_IMGS = f"{RUTA_DATA}imagenes"
+DATA_IMGS = f"{RUTA_DATA}imágenes"
 FORMULARIOS = f"{RUTA_DATA}formularios.txt"
 
-# Imagenes
+# Imágenes
 RUTA_ICONO = f"{RUTA_IMGS}icono.png"
 RUTA_ESCUDO = f"{RUTA_IMGS}escudo.png"
 RUTA_BANNER = f"{RUTA_IMGS}banner.png"
 RUTA_VACIO = f"{RUTA_IMGS}vacio.png"
 
 
-# Tamaño por defecto de despliege las imagenes (en pixeles)
+# Tamaño por defecto de despliega las imágenes (en pixeles)
 IMG_SIZE = 128
 
 
@@ -25,9 +23,7 @@ IMG_SIZE = 128
 DEFAULT_IMG = "<Selecciona una imagen>"
 
 
-# Tabla de registros:
-
-
+# Tabla de registros
 COLUMNAS: tuple[str, ...] = (
     " ",
     "Subido por",

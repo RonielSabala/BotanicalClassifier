@@ -3,11 +3,10 @@ from tkinter import scrolledtext
 
 # Escenas
 from ....main import Page
-from ..main import Contacto
-
+from ..main import Contact
 
 info = """
-Los presentes términos de uso (en lo que sigue, los "Términos de Uso") regulan los servicios del portal web "http://www.jbn.gob.do" (en lo que sigue, el "Portal") del organismo gubernamental "Jardín Botánico Nacional Dr. Rafael ma.Moscoso" (en lo que sigue, "Jardin Botanico Nacional"), creado en fecha 26 de Abril del año 2014, bajo la dirección de la División de Tecnologías de la Información y Comunicación (en lo que sigue, "Division TIC"), del Organismo Gubernamental, institución gubernamental con dependencia directa del Poder Ejecutivo, creada mediante el ley No. 456, de fecha 26 de diciembre del año 1976, con su domicilio y oficina principal en la Av. República de Colombia esq. Av. Los Próceres, Sector los Altos de Galá, Santo Domingo, D.N. República Dominicana.
+Los presentes términos de uso (en lo que sigue, los "Términos de Uso") regulan los servicios del portal web "http://www.jbn.gob.do" (en lo que sigue, el "Portal") del organismo gubernamental "Jardín Botánico Nacional Dr. Rafael ma.Moscoso" (en lo que sigue, "Jardín Botánico Nacional"), creado en fecha 26 de Abril del año 2014, bajo la dirección de la División de Tecnologías de la Información y Comunicación (en lo que sigue, "Division TIC"), del Organismo Gubernamental, institución gubernamental con dependencia directa del Poder Ejecutivo, creada mediante el ley No. 456, de fecha 26 de diciembre del año 1976, con su domicilio y oficina principal en la Av. República de Colombia esq. Av. Los Próceres, Sector los Altos de Galá, Santo Domingo, D.N. República Dominicana.
 
 El uso del Portal le otorga la condición de usuario del Portal (en lo que sigue, el "Usuario") e implica la aceptación plena y sin reservas de todas y cada una de las disposiciones establecidas en los Términos de Uso y las Políticas publicadas por el Organismo Gubernamental al momento en que el Usuario acceda al Portal. Por lo tanto, se hace necesario que el Usuario lea detenidamente estos términos en cada ocasión en que utilice el Portal, ya que este puede sufrir modificaciones sin previo aviso.
 
@@ -21,7 +20,7 @@ El uso del Portal le otorga la condición de usuario del Portal (en lo que sigue
 
 3.Veracidad de la información.- Toda información facilitada al Usuario mediante los Servicios deberá ser veraz. Por esto, el Usuario se compromete a garantizar el carácter auténtico de los datos que provea a consecuencia de los requisitos de los formularios necesarios para la suscripción de los Servicios. De igual forma, será responsabilidad del Usuario mantener toda la información facilitada al Jardín Botánico Nacional debidamente actualizada de manera tal que responda, en cada momento, a la situación real del Usuario. En todo caso el Usuario será el único responsable de las informaciones falsas o inexactas que realice y de los perjuicios que pueda causar el Jardín Botánico Nacional o a terceros por la información que suministre.
 
-4.Propiedad Intelectual.- Todo el contenido de este Portal, ya sean textos, imágenes, recopilaciones, marcas, logotipos, combinaciones de colores, o cualquier otro elemento, su estructura y diseño, la selección y forma de presentación de los materiales incluidos en la misma, y los programas necesarios para su funcionamiento, acceso y uso, están protegidos por derechos de propiedad intelectual, de los cuales es titular el Jardín Botánico Nacional  o de terceros licenciantes, que el Usuario de este Portal debe respetar.
+4.Propiedad Intelectual.- Todo el contenido de este Portal, ya sean textos, imágenes, recopilaciones, marcas, logotipos, combinaciones de colores, o cualquier otro elemento, su estructura y diseño, la selección y forma de presentación de los materiales incluidos en la misma, y los programas necesarios para su funcionamiento, acceso y uso, están protegidos por derechos de propiedad intelectual, de los cuales es titular el Jardín Botánico Nacional o de terceros licenciantes, que el Usuario de este Portal debe respetar.
 
 5.El Usuario del Portal deberá abstenerse de suprimir, alterar, eludir o manipular cualquier dispositivo de protección o sistema de seguridad que pueda estar instalado en el mismo.
 
@@ -36,8 +35,8 @@ El uso del Portal le otorga la condición de usuario del Portal (en lo que sigue
 4.Para utilizar el Portal no es indispensable la instalación de las "cookies" enviadas por el Jardín Botánico Nacional, sin perjuicio de que en tal caso puede ser necesario que el Usuario se registre cada vez que acceda a un Servicio que requiera un registro previo."""
 
 
-class Terminos(Page):
-    pagina_anterior = Contacto
+class Terms(Page):
+    pagina_anterior = Contact
 
     @classmethod
     def cargar(cls) -> None:

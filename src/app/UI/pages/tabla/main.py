@@ -1,14 +1,13 @@
 import math
 import tkinter as tk
-from tkinter import font
-from tkinter import messagebox
+from tkinter import font, messagebox
 from typing import Sequence
 
+from ....common.constants import COLUMNA_FLOR, COLUMNA_MAX, COLUMNAS, FILA_MAX
 from ....storage import main as Data
-from ....common.constants import COLUMNAS, FILA_MAX, COLUMNA_MAX, COLUMNA_FLOR
+from ...assets.main import IMG_ICONO, IMG_VACIO, reescalar_imagen
 from ...main import Page
 from ...styles import main as Estilos
-from ...assets.main import reescalar_imagen, IMG_ICONO, IMG_VACIO
 from ..formulario.main import Formulario
 from ..menu.main import Menu
 
@@ -76,7 +75,7 @@ class Tabla(Page):
         """
 
         cls.fue_cargada = False
-        cls.resetear()
+        cls.restablecer()
         super().mostrar()
 
     @classmethod
@@ -123,13 +122,13 @@ class Tabla(Page):
         if len(cls._registros) <= 1:
             return
 
-        eleccion = messagebox.askyesno(
+        choice = messagebox.askyesno(
             "Confirmación",
             "¿Estas seguro de que quieres eliminar todo?\n"
             + "Esta acción no puede deshacerse.",
         )
 
-        if not eleccion:
+        if not choice:
             return
 
         Data.limpiar_registros()
@@ -183,7 +182,7 @@ class Tabla(Page):
         grid = tk.Frame(raiz, bg=bg)
         grid.rowconfigure(0, weight=1)
 
-        tk.Label(grid, text=f"N/A", font=("Arial", 13), bg=bg).grid(
+        tk.Label(grid, text="N/A", font=("Arial", 13), bg=bg).grid(
             row=0, column=0, pady=5
         )
 
@@ -195,20 +194,20 @@ class Tabla(Page):
             cls.pagina = pagina
             cls.actualizar_tabla()
 
-        boton = tk.Button(
+        btn = tk.Button(
             grid,
             text="Clasificar",
             command=lambda valor=index: clasificar(valor),
             **Estilos.btn_primario,
         )
-        boton.config(
+        btn.config(
             font=("Arial", 16, "bold"),
             fg="Black",
             bg=bg,
             activebackground=bg,
             activeforeground="VioletRed3",
         )
-        boton.grid(row=2, column=0)
+        btn.grid(row=2, column=0)
 
         return grid
 
@@ -240,7 +239,7 @@ class Tabla(Page):
                     grid,
                     text=dato,
                     font=("Arial", 10),
-                    fg="Black" if i == 0 else f"Gray{60 + 8*i}",
+                    fg="Black" if i == 0 else f"Gray{60 + 8 * i}",
                     bg="GoldenRod1" if i == 0 else "White",
                 ).grid(row=i + 1, column=j, sticky="nsew")
 
@@ -265,12 +264,12 @@ class Tabla(Page):
         buscador.config(width=30)
         buscador.grid(row=0, column=1, columnspan=3, sticky="nsew", padx=0, pady=10)
         buscador.bind("<Escape>", lambda event: cls.raiz.focus_set())
-        buscador.bind("<Return>", lambda event: boton_buscar.invoke())
+        buscador.bind("<Return>", lambda event: btn_buscar.invoke())
         if cls.ultimo_filtro[0] is not None:
             cls.main_element = buscador
 
         # Botón de buscar
-        boton_buscar = tk.Button(
+        btn_buscar = tk.Button(
             grid,
             text="Buscar",
             font=("Arial", 13),
@@ -278,7 +277,7 @@ class Tabla(Page):
             cursor="hand2",
         )
 
-        boton_buscar.grid(row=0, column=4, sticky="w")
+        btn_buscar.grid(row=0, column=4, sticky="w")
 
         # - Insertar registros en el grid:
 

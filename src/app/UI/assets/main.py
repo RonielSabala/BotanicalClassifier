@@ -2,9 +2,9 @@ from PIL import Image, ImageTk
 
 from ...common.constants import (
     IMG_SIZE,
-    RUTA_ICONO,
-    RUTA_ESCUDO,
     RUTA_BANNER,
+    RUTA_ESCUDO,
+    RUTA_ICONO,
     RUTA_VACIO,
 )
 
@@ -31,7 +31,7 @@ def reescalar_imagen(ruta_imagen: str):
     return ImageTk.PhotoImage(base)
 
 
-# Imagenes
+# Imágenes
 IMG_ICONO = obtener_imagen(RUTA_ICONO)
 IMG_ESCUDO = obtener_imagen(RUTA_ESCUDO)
 IMG_BANNER = obtener_imagen(RUTA_BANNER)

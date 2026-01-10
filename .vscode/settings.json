@@ -1,0 +1,48 @@
+{
+  "cSpell.words": [
+    // Spanish words
+    "raiz",
+    "Galá",
+    "vacio",
+    "Moscoso",
+    "generico",
+    "terminos",
+    "telefono",
+    "ubicacion",
+    "direccion",
+    "politicas",
+    "reescalar",
+    "categoria",
+    "prediccion",
+    "florísticos",
+    "licenciantes",
+    "clasificacion",
+    "inutilización",
+    "descompilación",
+    "redimensionada",
+    // Library names
+    "shutil",
+    "dotenv",
+    "msrest",
+    "tkinter",
+    "cognitiveservices",
+    // Tkinter names
+    "padx",
+    "pady",
+    "relx",
+    "nsew",
+    "RRHH",
+    "columnspan",
+    "textvariable",
+    "activebackground",
+    "activeforeground",
+    "selectbackground",
+    "selectforeground",
+    // Colors
+    "cornsilk",
+    "violetred",
+    "Dodgerblue",
+    // Fonts
+    "Segoe"
+  ]
+}

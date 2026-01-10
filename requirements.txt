@@ -1,0 +1,6 @@
+PIL
+shutil
+dotenv
+tkinter
+msrest.authentication
+azure.cognitiveservices

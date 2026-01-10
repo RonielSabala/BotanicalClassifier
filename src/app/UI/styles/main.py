@@ -4,14 +4,14 @@ from typing import Any
 def actualizar_estilo(
     estilo1: dict[str, Any],
     estilo2: dict[str, Any],
-    sobreescribir: bool = False,
+    sobrescribir: bool = False,
 ) -> dict[str, Any]:
     """
     Actualiza un primer estilo con un segundo estilo.
     """
 
     estilo1.update(
-        {k: v for k, v in estilo2.items() if sobreescribir or k not in estilo1}
+        {k: v for k, v in estilo2.items() if sobrescribir or k not in estilo1}
     )
 
     return estilo1

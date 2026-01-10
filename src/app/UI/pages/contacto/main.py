@@ -1,12 +1,12 @@
 import tkinter as tk
 
+from ...assets.main import IMG_ESCUDO, IMG_ICONO
 from ...main import Page
 from ...styles import main as Estilos
-from ...assets.main import IMG_ESCUDO, IMG_ICONO
 from ..menu.main import Menu
 
 
-class Contacto(Page):
+class Contact(Page):
     pagina_anterior = Menu
 
     @classmethod
@@ -22,9 +22,9 @@ class Contacto(Page):
 
     @classmethod
     def cargar(cls) -> None:
-        from .terminos.main import Terminos
-        from .politicas.main import Politicas
+        from .politicas.main import Politics
         from .preguntas.main import Preguntas
+        from .terminos.main import Terms
 
         # - Creación de los grids:
 
@@ -118,13 +118,13 @@ class Contacto(Page):
         terminos = tk.Button(
             grid_links,
             text="Términos De Uso",
-            command=Terminos.mostrar,
+            command=Terms.mostrar,
             **Estilos.list_link,
         )
         politicas = tk.Button(
             grid_links,
             text="Políticas De Privacidad",
-            command=Politicas.mostrar,
+            command=Politics.mostrar,
             **Estilos.list_link,
         )
         preguntas = tk.Button(
