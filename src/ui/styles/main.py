@@ -19,7 +19,6 @@ def actualizar_estilo(
 
 # - Botones:
 
-
 btn_generico = {
     "bd": 0,
     "padx": 5,
@@ -68,14 +67,11 @@ btn_menu = {
     "cursor": "hand2",
 }
 
-
 # Agregar el estilo principal a los botones
 for btn in (btn_primario, btn_añadir, btn_eliminar):
     actualizar_estilo(btn, btn_generico)
 
-
 # - Elementos:
-
 
 # Campo de texto
 campo_txt = {
@@ -97,9 +93,7 @@ flecha_nav = {
     "activebackground": "white",
 }
 
-
 # - Elementos de lista:
-
 
 list_icono = {
     "font": ("Arial", 32),

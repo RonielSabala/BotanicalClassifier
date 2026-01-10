@@ -1,7 +1,7 @@
 import os
 
 from api.main import obtener_prediccion
-from common.constants import DATA_IMGS, FORMULARIOS
+from common.constants import STORAGE_FORMS_ROUTE, STORAGE_IMGS_ROUTE
 
 
 def es_ruta(ruta: str) -> bool:
@@ -17,7 +17,7 @@ def obtener_ruta(ruta: str):
     Devuelve la ruta completa en la carpeta de imágenes.
     """
 
-    ruta = os.path.join(DATA_IMGS, ruta)
+    ruta = os.path.join(STORAGE_IMGS_ROUTE, ruta)
     return ruta.replace("\\", "\\\\")
 
 
@@ -26,12 +26,12 @@ def agregar_registro(registro: str) -> None:
     Guarda un registro en el archivo formularios.
     """
 
-    with open(FORMULARIOS, "a") as f:
+    with open(STORAGE_FORMS_ROUTE, "a") as f:
         f.write(f"{registro}\n")
 
 
 def obtener_formularios() -> tuple[list, ...]:
-    with open(FORMULARIOS, "r") as f:
+    with open(STORAGE_FORMS_ROUTE, "r") as f:
         return tuple(list(eval(i.strip("\n"))) for i in f.readlines())
 
 
@@ -41,7 +41,7 @@ def obtener_imágenes():
     la carpeta imágenes.
     """
 
-    return (obtener_ruta(img) for img in os.listdir(DATA_IMGS))
+    return (obtener_ruta(img) for img in os.listdir(STORAGE_IMGS_ROUTE))
 
 
 def n_archivos() -> int:
@@ -57,7 +57,7 @@ def limpiar_registros():
     Elimina todos los formularios e imágenes.
     """
 
-    with open(FORMULARIOS, "w") as f:
+    with open(STORAGE_FORMS_ROUTE, "w") as f:
         f.write("")
 
     for ruta in obtener_imágenes():
@@ -75,7 +75,7 @@ def insertar_clasificacion(linea: int):
     """
 
     linea -= 1
-    with open(FORMULARIOS, "r") as f:
+    with open(STORAGE_FORMS_ROUTE, "r") as f:
         lineas = f.readlines()
 
     if 0 <= linea <= len(lineas) - 1:
@@ -83,7 +83,7 @@ def insertar_clasificacion(linea: int):
         data[-1] = obtener_prediccion(data[-2])
         lineas[linea] = f"{data}\n"
 
-        with open(FORMULARIOS, "w") as f:
+        with open(STORAGE_FORMS_ROUTE, "w") as f:
             f.writelines(lineas)
     else:
         raise ValueError("Error: Número de línea fuera de rango.")

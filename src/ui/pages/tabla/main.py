@@ -3,10 +3,15 @@ import tkinter as tk
 from tkinter import font, messagebox
 from typing import Sequence
 
-from common.constants import COLUMNA_FLOR, COLUMNA_MAX, COLUMNAS, FILA_MAX
-from storage import main as Data
+from common.constants import (
+    DEFAULT_TABLE_COLUMNS,
+    FLOWER_COLUMN,
+    MAX_TABLE_COLUMN,
+    MAX_TABLE_ROW,
+)
+from local_storage import main as Data
 
-from ...assets.main import IMG_ICONO, IMG_VACIO, reescalar_imagen
+from ...assets.main import EMPTY_IMG, ICON_IMG, reescalar_imagen
 from ...main import Page
 from ...styles import main as Estilos
 from ..formulario.main import Formulario
@@ -25,7 +30,7 @@ class Tabla(Page):
     flecha_izquierda: tk.Button
     var_filtro = tk.StringVar()
     ultimo_filtro = (None, None)
-    categoria: str = COLUMNAS[1]
+    categoria: str = DEFAULT_TABLE_COLUMNS[1]
     cabezales: list[tk.Button] = []
 
     @classmethod
@@ -51,7 +56,7 @@ class Tabla(Page):
         else:
             # Filtrar los registros
             filtro = cls.var_filtro.get().lower()
-            columna = COLUMNAS.index(cls.categoria)
+            columna = DEFAULT_TABLE_COLUMNS.index(cls.categoria)
             registros = [
                 x
                 for x in cls._registros
@@ -61,12 +66,12 @@ class Tabla(Page):
         # - Completar los registros:
 
         n = len(registros)
-        if n > FILA_MAX:
-            for _ in range(FILA_MAX - (n - 1) % (FILA_MAX - 1) - 1):
-                registros.append([" "] * COLUMNA_MAX)
+        if n > MAX_TABLE_ROW:
+            for _ in range(MAX_TABLE_ROW - (n - 1) % (MAX_TABLE_ROW - 1) - 1):
+                registros.append([" "] * MAX_TABLE_COLUMN)
 
         cls.pagina = int(len(registros) != 1)
-        cls.max_pagina = math.ceil((n - 1) / (FILA_MAX - 1))
+        cls.max_pagina = math.ceil((n - 1) / (MAX_TABLE_ROW - 1))
         cls.registros = registros
 
     @classmethod
@@ -251,7 +256,7 @@ class Tabla(Page):
         # - Header:
 
         cls.colocar_retorno()
-        tk.Label(cls.raiz, image=IMG_ICONO, bg=cls.color_fondo).pack(padx=20, pady=15)
+        tk.Label(cls.raiz, image=ICON_IMG, bg=cls.color_fondo).pack(padx=20, pady=15)
         cls.colocar_texto("Registros", 32, pady=0, fg="#091518")
         cls.colocar_texto("", 0, pady=2)
 
@@ -283,12 +288,12 @@ class Tabla(Page):
         # - Insertar registros en el grid:
 
         cls.cabezales = []
-        index = (FILA_MAX - 1) * (cls.pagina - 1)
-        for fila, data in enumerate(cls.registros[index : index + FILA_MAX + 1]):
+        index = (MAX_TABLE_ROW - 1) * (cls.pagina - 1)
+        for fila, data in enumerate(cls.registros[index : index + MAX_TABLE_ROW + 1]):
             if fila == 0:
-                data = COLUMNAS
+                data = DEFAULT_TABLE_COLUMNS
 
-            elif fila == FILA_MAX:
+            elif fila == MAX_TABLE_ROW:
                 break
 
             # Insertar fila
@@ -299,16 +304,16 @@ class Tabla(Page):
                     if fila == 0:
                         # Cabezales
                         fg, bg = "white", "Dodgerblue4"
-                    elif columna != COLUMNA_MAX - 1 and sub_data != " ":
+                    elif columna != MAX_TABLE_COLUMN - 1 and sub_data != " ":
                         # Registros
                         bg = "Gray96" if fila % 2 else "Gray92"
 
                 # Crear una imagen
-                if fila > 0 and columna == COLUMNA_FLOR:
+                if fila > 0 and columna == FLOWER_COLUMN:
                     img = (
                         reescalar_imagen(sub_data)
                         if Data.es_ruta(sub_data)
-                        else IMG_VACIO
+                        else EMPTY_IMG
                     )
 
                     elemento = tk.Label(grid, image=img)
@@ -329,14 +334,20 @@ class Tabla(Page):
                         continue
 
                     # Predicciones
-                    elif sub_data != " " and fila > 0 and columna == COLUMNA_MAX - 1:
+                    elif (
+                        sub_data != " " and fila > 0 and columna == MAX_TABLE_COLUMN - 1
+                    ):
                         elemento = cls.tabla_prediccion(grid, sub_data)
                         elemento.config(bg=bg)
                         elemento.grid(row=fila + 1, column=columna)
                         continue
 
                     # Crear un label
-                    elif fila > 0 or columna in (0, COLUMNA_FLOR, COLUMNA_MAX - 1):
+                    elif fila > 0 or columna in (
+                        0,
+                        FLOWER_COLUMN,
+                        MAX_TABLE_COLUMN - 1,
+                    ):
                         elemento = tk.Label(grid)
                         if fila > 0:
                             fuente = "Segoe UI Emoji", 13
@@ -370,7 +381,7 @@ class Tabla(Page):
                         elemento.config(
                             anchor=(
                                 "center"
-                                if fila in (0, FILA_MAX)
+                                if fila in (0, MAX_TABLE_ROW)
                                 else ("e" if columna == 0 else "w")
                             ),
                             padx=15,

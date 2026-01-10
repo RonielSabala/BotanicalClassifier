@@ -1,6 +1,6 @@
 import tkinter as tk
 
-from ...assets.main import IMG_ESCUDO, IMG_ICONO
+from ...assets.main import ICON_IMG, SHIELD_IMG
 from ...main import Page
 from ...styles import main as Estilos
 from ..menu.main import Menu
@@ -45,9 +45,9 @@ class Contact(Page):
         # - Header:
 
         cls.colocar_retorno()
-        escudo = tk.Label(grid_header, image=IMG_ESCUDO, bg=cls.color_fondo)
+        escudo = tk.Label(grid_header, image=SHIELD_IMG, bg=cls.color_fondo)
         sep_header = cls.obtener_sep(grid_header, 25)
-        icono = tk.Label(grid_header, image=IMG_ICONO, bg=cls.color_fondo)
+        icono = tk.Label(grid_header, image=ICON_IMG, bg=cls.color_fondo)
         titulo = tk.Label(
             grid_header,
             text="Jardín Botánico Nacional",

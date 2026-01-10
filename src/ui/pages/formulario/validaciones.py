@@ -1,7 +1,7 @@
 from tkinter import messagebox
 
-from common.constants import DEFAULT_IMG
-from storage.main import es_ruta
+from common.constants import DEFAULT_IMG_SELECT_STR
+from local_storage.main import es_ruta
 
 
 def validar_campo(campo: str, nombre: str) -> bool:
@@ -51,7 +51,7 @@ def validar_imagen(ruta_imagen: str) -> bool:
         es_valida = False
         msg = "La ruta de la imagen es invalida."
 
-    elif ruta_imagen == DEFAULT_IMG:
+    elif ruta_imagen == DEFAULT_IMG_SELECT_STR:
         es_valida = False
         msg = "Ingrese una imagen."
 

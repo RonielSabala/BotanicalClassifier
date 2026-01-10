@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import PhotoImage
 from typing import Type
 
-from common.constants import RUTA_ICONO
+from common.constants import ICON_IMG_ROUTE
 
 from .styles import main as Estilos
 
@@ -10,7 +10,7 @@ from .styles import main as Estilos
 
 RAIZ = tk.Tk()
 RAIZ.title("jbn")
-RAIZ.iconphoto(True, PhotoImage(file=RUTA_ICONO))
+RAIZ.iconphoto(True, PhotoImage(file=ICON_IMG_ROUTE))
 
 WIDTH, HEIGHT = 750, 900
 padx = int(1920 / 2 + WIDTH / 2 - WIDTH)

@@ -1,27 +1,24 @@
-_RUTA = "src\\"
+_PROJECT_ROUTE = "src\\"
 
-# Carpetas
-RUTA_DATA = f"{_RUTA}storage\\data\\"
-RUTA_IMGS = f"{_RUTA}ui\\assets\\imagenes\\"
+# Local storage
+STORAGE_ROUTE = f"{_PROJECT_ROUTE}local_storage\\data\\"
+STORAGE_IMGS_ROUTE = f"{STORAGE_ROUTE}imgs"
+STORAGE_FORMS_ROUTE = f"{STORAGE_ROUTE}forms.txt"
 
-# Data guardada
-DATA_IMGS = f"{RUTA_DATA}imagenes"
-FORMULARIOS = f"{RUTA_DATA}formularios.txt"
+# Asset images
+ASSET_IMGS_ROUTE = f"{_PROJECT_ROUTE}ui\\assets\\imgs\\"
+ICON_IMG_ROUTE = f"{ASSET_IMGS_ROUTE}icon.png"
+EMPTY_IMG_ROUTE = f"{ASSET_IMGS_ROUTE}empty.png"
+BANNER_IMG_ROUTE = f"{ASSET_IMGS_ROUTE}banner.png"
+SHIELD_IMG_ROUTE = f"{ASSET_IMGS_ROUTE}shield.png"
 
-# Imágenes
-RUTA_ICONO = f"{RUTA_IMGS}icono.png"
-RUTA_ESCUDO = f"{RUTA_IMGS}escudo.png"
-RUTA_BANNER = f"{RUTA_IMGS}banner.png"
-RUTA_VACIO = f"{RUTA_IMGS}vacio.png"
+# Image constants
+DEFAULT_IMG_SIZE = 128
+DEFAULT_IMG_SELECT_STR = "<Selecciona una imagen>"
 
-# Tamaño por defecto de despliega las imágenes (en pixeles)
-IMG_SIZE = 128
+# - Table constants:
 
-# Texto por defecto para seleccionar una imagen
-DEFAULT_IMG = "<Selecciona una imagen>"
-
-# Tabla de registros
-COLUMNAS: tuple[str, ...] = (
+DEFAULT_TABLE_COLUMNS = (
     " ",
     "Subido por",
     "Apellido",
@@ -30,6 +27,6 @@ COLUMNAS: tuple[str, ...] = (
     "Predicción",
 )
 
-FILA_MAX = 4
-COLUMNA_MAX = len(COLUMNAS)
-COLUMNA_FLOR = COLUMNAS.index("Flor")
+MAX_TABLE_ROW = 4
+MAX_TABLE_COLUMN = len(DEFAULT_TABLE_COLUMNS)
+FLOWER_COLUMN = DEFAULT_TABLE_COLUMNS.index("Flor")

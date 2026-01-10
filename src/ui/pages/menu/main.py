@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import font
 
-from ...assets.main import IMG_BANNER
+from ...assets.main import BANNER_IMG
 from ...main import RAIZ, Page, close_pages
 from ...styles import main as Estilos
 
@@ -30,7 +30,7 @@ class Menu(Page):
 
         # - Header:
 
-        tk.Label(cls.raiz, image=IMG_BANNER, bg=cls.color_fondo).pack(padx=10, pady=5)
+        tk.Label(cls.raiz, image=BANNER_IMG, bg=cls.color_fondo).pack(padx=10, pady=5)
         cls.colocar_textoXY(
             "Presidencia de la República: www.presidencia.gob.do",
             9,

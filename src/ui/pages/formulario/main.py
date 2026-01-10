@@ -2,10 +2,10 @@ import shutil
 import tkinter as tk
 from tkinter import filedialog, messagebox
 
-from common.constants import DEFAULT_IMG
-from storage import main as Data
+from common.constants import DEFAULT_IMG_SELECT_STR
+from local_storage import main as Data
 
-from ...assets.main import IMG_ICONO
+from ...assets.main import ICON_IMG
 from ...main import Page
 from ...styles import main as Estilos
 from ..menu.main import Menu
@@ -72,7 +72,7 @@ class Formulario(Page):
         cls.nombre.set("")
         cls.apellido.set("")
         cls.ubicacion.set("")
-        cls.imagen.set(DEFAULT_IMG)
+        cls.imagen.set(DEFAULT_IMG_SELECT_STR)
         super().mostrar()
 
     @classmethod
@@ -80,7 +80,7 @@ class Formulario(Page):
         # - Header:
 
         cls.colocar_retorno()
-        tk.Label(cls.raiz, image=IMG_ICONO, bg=cls.color_fondo).pack(padx=10, pady=15)
+        tk.Label(cls.raiz, image=ICON_IMG, bg=cls.color_fondo).pack(padx=10, pady=15)
         cls.colocar_texto("Formulario", 35, pady=15, fg="#091518")
         cls.colocar_texto("", 0, pady=15)
 
