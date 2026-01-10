@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import font
 
 from ...assets.main import BANNER_IMG
-from ...main import RAIZ, Page, close_pages
+from ...main import TK_ROOT, Page, close_pages
 from ...styles import main as Estilos
 
 
@@ -14,7 +14,7 @@ class Menu(Page):
 
     @classmethod
     def cerrar(cls) -> None:
-        RAIZ.destroy()
+        TK_ROOT.destroy()
 
     @classmethod
     def configurar_escenas(cls):
@@ -24,7 +24,7 @@ class Menu(Page):
 
     @classmethod
     def cargar(cls) -> None:
-        from ..contacto.main import Contact
+        from ..contact.contact import Contact
         from ..formulario.main import Formulario
         from ..tabla.main import Tabla
 

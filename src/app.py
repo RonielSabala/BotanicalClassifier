@@ -12,7 +12,7 @@ if not os.path.exists(STORAGE_IMGS_ROUTE):
 Menu.mostrar()
 
 # Asociar la acción de cerrar la ventana con cerrar todas las páginas
-main.RAIZ.protocol("WM_DELETE_WINDOW", main.close_pages)
+main.TK_ROOT.protocol("WM_DELETE_WINDOW", main.close_pages)
 
 # Bucle de la ventana
-main.RAIZ.mainloop()
+main.TK_ROOT.mainloop()

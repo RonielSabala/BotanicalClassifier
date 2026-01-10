@@ -5,6 +5,17 @@ from ...main import Page
 from ...styles import main as Estilos
 from ..menu.main import Menu
 
+# Page text
+PAGE_TITLE = "Jardín Botánico Nacional"
+PAGE_SUBTITLE = "Dr. Rafael M. Moscoso"
+
+# Organization info
+ORG_EMAIL = "jardinbotanico@jbn.gob.do"
+ORG_PHONE_NUMBER = "(809) 385-2611 Ext. 221"
+ORG_DIRECTION = """Av. República de Colombia esq. Av. Los Próceres
+Sector los Altos de Galá, Santo Domingo, D.N
+República Dominicana"""
+
 
 class Contact(Page):
     pagina_anterior = Menu
@@ -22,9 +33,9 @@ class Contact(Page):
 
     @classmethod
     def cargar(cls) -> None:
-        from .politicas.main import Politics
-        from .preguntas.main import Preguntas
-        from .terminos.main import Terms
+        from ._faq import Faq
+        from ._policies import Policies
+        from ._terms import Terms
 
         # - Creación de los grids:
 
@@ -49,69 +60,26 @@ class Contact(Page):
         sep_header = cls.obtener_sep(grid_header, 25)
         icono = tk.Label(grid_header, image=ICON_IMG, bg=cls.color_fondo)
         titulo = tk.Label(
-            grid_header,
-            text="Jardín Botánico Nacional",
-            font=("Arial", 30),
-            bg=cls.color_fondo,
+            grid_header, text=PAGE_TITLE, font=("Arial", 30), bg=cls.color_fondo
         )
+
         sub_titulo = tk.Label(
-            grid_header,
-            text="Dr. Rafael M. Moscoso",
-            font=("Arial", 15),
-            bg=cls.color_fondo,
+            grid_header, text=PAGE_SUBTITLE, font=("Arial", 15), bg=cls.color_fondo
         )
 
         # - Contenido:
 
-        direccion = tk.Label(
-            grid,
-            text="📍",
-            **Estilos.list_icono,
-        )
-        texto_direccion = tk.Label(
-            grid,
-            text="Dirección",
-            **Estilos.list_titulo,
-        )
-        info_direccion = tk.Label(
-            grid,
-            text="Av. República de Colombia esq. Av. Los Próceres,\n"
-            + "Sector los Altos de Galá, Santo Domingo, D.N.\n"
-            + "República Dominicana",
-            **Estilos.list_info,
-        )
+        direccion = tk.Label(grid, text="📍", **Estilos.list_icono)
+        texto_direccion = tk.Label(grid, text="Dirección", **Estilos.list_titulo)
+        info_direccion = tk.Label(grid, text=ORG_DIRECTION, **Estilos.list_info)
 
-        telefono = tk.Label(
-            grid,
-            text="📞",
-            **Estilos.list_icono,
-        )
-        texto_telefono = tk.Label(
-            grid,
-            text="Tel.",
-            **Estilos.list_titulo,
-        )
-        info_telefono = tk.Label(
-            grid,
-            text="(809) 385-2611 Ext. 221",
-            **Estilos.list_info,
-        )
+        telefono = tk.Label(grid, text="📞", **Estilos.list_icono)
+        texto_telefono = tk.Label(grid, text="Tel.", **Estilos.list_titulo)
+        info_telefono = tk.Label(grid, text=ORG_PHONE_NUMBER, **Estilos.list_info)
 
-        email = tk.Label(
-            grid,
-            text="📧",
-            **Estilos.list_icono,
-        )
-        texto_email = tk.Label(
-            grid,
-            text="Email",
-            **Estilos.list_titulo,
-        )
-        info_email = tk.Label(
-            grid,
-            text="jardinbotanico@jbn.gob.do",
-            **Estilos.list_info,
-        )
+        email = tk.Label(grid, text="📧", **Estilos.list_icono)
+        texto_email = tk.Label(grid, text="Email", **Estilos.list_titulo)
+        info_email = tk.Label(grid, text=ORG_EMAIL, **Estilos.list_info)
 
         # - Links:
 
@@ -121,16 +89,18 @@ class Contact(Page):
             command=Terms.mostrar,
             **Estilos.list_link,
         )
+
         politicas = tk.Button(
             grid_links,
             text="Políticas De Privacidad",
-            command=Politics.mostrar,
+            command=Policies.mostrar,
             **Estilos.list_link,
         )
+
         preguntas = tk.Button(
             grid_links,
             text="Preguntas Frecuentes",
-            command=Preguntas.mostrar,
+            command=Faq.mostrar,
             **Estilos.list_link,
         )
 
@@ -168,7 +138,5 @@ class Contact(Page):
         politicas.grid(row=0, column=2, sticky="ns")
         sep2.grid(row=0, column=3, sticky="ns")
         preguntas.grid(row=0, column=4, sticky="nsw")
-
-        # - Footer:
 
         cls.colocar_footer()

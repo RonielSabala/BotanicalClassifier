@@ -8,21 +8,21 @@ from .styles import main as Estilos
 
 # - Variables para la pagina principal:
 
-RAIZ = tk.Tk()
-RAIZ.title("jbn")
-RAIZ.iconphoto(True, PhotoImage(file=ICON_IMG_ROUTE))
+TK_ROOT = tk.Tk()
+TK_ROOT.title("jbn")
+TK_ROOT.iconphoto(True, PhotoImage(file=ICON_IMG_ROUTE))
 
-WIDTH, HEIGHT = 750, 900
-padx = int(1920 / 2 + WIDTH / 2 - WIDTH)
-pady = int(1080 / 2 + HEIGHT / 2 - HEIGHT)
-RAIZ.geometry(f"{WIDTH}x{HEIGHT}+{padx}+{pady}")
-RAIZ.resizable(False, False)
+WINDOW_WIDTH, WINDOW_HEIGHT = 750, 900
+padx = int(1920 / 2 + WINDOW_WIDTH / 2 - WINDOW_WIDTH)
+pady = int(1080 / 2 + WINDOW_HEIGHT / 2 - WINDOW_HEIGHT)
+TK_ROOT.geometry(f"{WINDOW_WIDTH}x{WINDOW_HEIGHT}+{padx}+{pady}")
+TK_ROOT.resizable(False, False)
 
 # Contenedor para las páginas
-CONTENEDOR = tk.Frame(RAIZ)
-CONTENEDOR.pack(fill="both", expand=True)
-CONTENEDOR.grid_rowconfigure(0, weight=1)
-CONTENEDOR.grid_columnconfigure(0, weight=1)
+TK_FRAME = tk.Frame(TK_ROOT)
+TK_FRAME.pack(fill="both", expand=True)
+TK_FRAME.grid_rowconfigure(0, weight=1)
+TK_FRAME.grid_columnconfigure(0, weight=1)
 
 
 class Page:
@@ -38,7 +38,7 @@ class Page:
         super().__init_subclass__(**kwargs)
 
         # Asignar un Frame del contenedor a cada subclase
-        cls.raiz = tk.Frame(CONTENEDOR)
+        cls.raiz = tk.Frame(TK_FRAME)
         cls.raiz.grid(row=0, column=0, sticky="nsew")
 
     @classmethod
@@ -95,7 +95,7 @@ class Page:
         """
 
         cls.raiz.destroy()
-        cls.raiz = tk.Frame(CONTENEDOR)
+        cls.raiz = tk.Frame(TK_FRAME)
         cls.raiz.grid(row=0, column=0, sticky="nsew")
 
     @classmethod

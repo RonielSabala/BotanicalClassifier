@@ -12,6 +12,12 @@ EMPTY_IMG_ROUTE = f"{ASSET_IMGS_ROUTE}empty.png"
 BANNER_IMG_ROUTE = f"{ASSET_IMGS_ROUTE}banner.png"
 SHIELD_IMG_ROUTE = f"{ASSET_IMGS_ROUTE}shield.png"
 
+# Contact info
+CONTACT_INFO_ROUTE = f"{_PROJECT_ROUTE}ui\\pages\\contact\\info\\"
+FAQ_ROUTE = f"{CONTACT_INFO_ROUTE}/faq.txt"
+TERMS_ROUTE = f"{CONTACT_INFO_ROUTE}/terms.txt"
+POLICIES_ROUTE = f"{CONTACT_INFO_ROUTE}/policies.txt"
+
 # Image constants
 DEFAULT_IMG_SIZE = 128
 DEFAULT_IMG_SELECT_STR = "<Selecciona una imagen>"
