@@ -1,63 +1,102 @@
 # BotanicalClassifier
 
-Computer vision project built in Python using [Azure AI Custom Vision](https://www.customvision.ai/) for classifying roses, orchids, daisies, carnations and sunflowers.
+Computer-vision desktop application that classifies five flower types: **roses**, **orchids**, **daisies**, **carnations**, and **sunflowers**. The application provides a simple Tkinter GUI to collect survey data, upload images, store images locally, and call [Azure AI Custom Vision](https://www.customvision.ai/) for predictions.
+
+> For detailed design decisions, cost analysis, risks, and screenshots, see
+> [`documentation.pdf`](./documentation.pdf).
+
+---
 
 ## Table of Contents
 
+* [Features](#features)
 * [Requirements](#requirements)
 * [Quick Start](#quick-start)
-  * [1. Create a virtual environment](1. Create a virtual environment)
-  * [2. Activate the venv](2. Activate the venv)
-  * [3. Update pip / setuptools / wheel](3. Update pip / setuptools / wheel)
-  * [4. Install the project in development mode](4. Install the project in development mode)
-  * [5. Verify installation](5. Verify installation)
-  * [6. Update after changes](6. Update after changes)
-  * [7. Uninstall (if necessary)](7. Uninstall (if necessary))
+  * [`.env` configuration](env-configuration)
+  * [Create a virtual environment](create-venv)
+  * [Activate the venv](activate-venv)
+  * [Upgrade packaging basics](upgrade-packaging-basics)
+  * [Install the project in development mode](install-project-in-dev-mode)
+  * [Verify installation](verify-installation)
+  * [Update after changes (Optional)](update-after-changes)
   * [Run locally](#run-locally)
+* [GUI overview](#gui-overview)
+* [Dataset & data format](#dataset--data-format)
+* [Limitations & risks](#limitations--risks)
 * [Contributing](#contributing)
+* [Credits](#credits)
 * [License](#license)
+
+---
+
+## Features
+
+* Desktop GUI built with Tkinter to:
+  * Complete a short survey and upload a flower image.
+  * Save uploaded images locally.
+  * Send images to **Azure Custom Vision** and **display predictions**.
+  * View, search and manage stored survey records.
+
+* **Prediction output**: a probability table sorted by confidence, with the top result highlighted.
+
+---
 
 ## Requirements
 
 * Python 3.11
 
+---
+
 ## Quick Start
 
-### 1. Create a virtual environment
+### `.env` configuration
+
+Create a `.env` file at `src/app/API/.env` with the keys shown below.
+
+```env
+KEY='your-prediction-key'
+ENDPOINT='your-prediction-endpoint'
+PROJECT_ID='your-project-id'
+PUBLISHED_ITERATION_NAME='your-published-iteration-name'
+```
+
+### Create a virtual environment
+
+From the repository root, run:
 
 ```bash
 py -3.11 -m venv .venv
 ```
 
-### 2. Activate the venv
+### Activate the venv
 
-Windows:
+**Windows**:
 
 ```bash
 .venv\Scripts\Activate.ps1
 ```
 
-Linux/macOS:
+**Linux / macOS**:
 
 ```bash
 source .venv/bin/activate
 ```
 
-### 3. Update pip / setuptools / wheel
+### Upgrade packaging basics
 
 ```bash
 python -m pip install --upgrade pip setuptools wheel
 ```
 
-### 4. Install the project in development mode
+### Install the project in development mode
 
 ```bash
 python -m pip install -e ".[dev]"
 ```
 
-> This installs the local code so changes are immediately available without re-installing:
+> This installs the local code so changes are immediately available without re-installing.
 
-### 5. Verify installation
+### Verify installation
 
 ```bash
 python -m pip show botanical-classifier
@@ -65,27 +104,55 @@ python -m pip show botanical-classifier
 
 Check the `Location` field to ensure the package is inside your `.venv` path.
 
-### 6. Update after changes
+### Update after changes (Optional)
 
-When you change packaging metadata or dependencies, you can update:
+If you change packaging metadata or dependencies, you can update:
 
 ```bash
 python -m pip install -e . --upgrade
 ```
 
-### 7. Uninstall (if necessary)
-
-```bash
-python -m pip uninstall botanical-classifier
-```
-
 ### Run locally
 
-From the repository root, run:
+From the repository root with the venv activated:
 
 ```bash
 py ./src/index.py
 ```
+
+---
+
+## GUI overview
+
+* **Sobre nosotros**: contact and project info, policies and FAQ.
+
+* **Llenar encuesta**: complete the survey, attach an image; the image is saved locally and then submitted to Azure Custom Vision for classification.
+
+* **Registros**: view previously stored submissions; search by name, surname or location; add new records or delete all records.
+
+* **Salir**: close the application.
+
+---
+
+## Dataset & data format
+
+Images used to build and validate the model were collected from **Pexels** and curated into a dataset of at least **50 images per flower class**. Images were saved under the naming convention:
+
+```md
+flor_survey_xx.png
+```
+
+This convention is used by the application to ingest and normalize incoming user images.
+
+---
+
+## Limitations & risks
+
+* **Dependency on internet & Azure**: the application requires network access and Azure Custom Vision availability.
+* **Limited class set**: the current model supports only five flower types.
+* **Image quality sensitivity**: poor resolution, blur, or non-standard formats may cause incorrect classifications.
+* **Prediction quotas**: free-tier limitations or constrained subscription limits may restrict the number of monthly predictions.
+* **App bugs**: possible failures in the desktop UI.
 
 ---
 
@@ -98,6 +165,14 @@ Contributions are welcome. Suggested workflow:
 3. Commit, push, and open a pull request describing the change and reason.
 
 ---
+
+## Credits
+
+* Images: Pexels.
+* Images research: Abel Eduardo Martínez Robles.
+* Model service: Azure AI Custom Vision.
+
+--
 
 ## License
 
