@@ -1,9 +1,8 @@
 # BotanicalClassifier
 
-Computer-vision desktop application that classifies five flower types: **roses**, **orchids**, **daisies**, **carnations**, and **sunflowers**. The application provides a simple Tkinter GUI to collect survey data, upload images, store images locally, and call [Azure AI Custom Vision](https://www.customvision.ai/) for predictions.
+Computer-vision desktop application that classifies five flower types: **roses**, **orchids**, **daisies**, **carnations** and **sunflowers**. The application provides a simple Tkinter GUI to collect survey data, upload images, store images locally and call [Azure AI Custom Vision](https://www.customvision.ai/) for predictions.
 
-> For detailed design decisions, cost analysis, risks, and screenshots, see
-> [`documentation.pdf`](./documentation.pdf).
+> For detailed design decisions, cost analysis, risks and screenshots, see `documentation.pdf`.
 
 ---
 
@@ -11,12 +10,12 @@ Computer-vision desktop application that classifies five flower types: **roses**
 
 * [Features](#features)
 * [Requirements](#requirements)
-* [Quick Start](#quick-start)
+* [Installation](#installation)
   * [`.env` configuration](env-configuration)
   * [Create a virtual environment](create-venv)
   * [Activate the venv](activate-venv)
   * [Upgrade packaging basics](upgrade-packaging-basics)
-  * [Install the project in development mode](install-project-in-dev-mode)
+  * [Install project in development mode](install-project-in-dev-mode)
   * [Verify installation](verify-installation)
   * [Update after changes (Optional)](update-after-changes)
   * [Run locally](#run-locally)
@@ -47,7 +46,7 @@ Computer-vision desktop application that classifies five flower types: **roses**
 
 ---
 
-## Quick Start
+## Installation
 
 ### `.env` configuration
 
@@ -88,7 +87,7 @@ source .venv/bin/activate
 python -m pip install --upgrade pip setuptools wheel
 ```
 
-### Install the project in development mode
+### Install project in development mode
 
 ```bash
 python -m pip install -e ".[dev]"
@@ -114,7 +113,7 @@ python -m pip install -e . --upgrade
 
 ### Run locally
 
-From the repository root with the venv activated:
+From the repository root with the venv activated, run:
 
 ```bash
 py ./src/index.py
@@ -169,10 +168,10 @@ Contributions are welcome. Suggested workflow:
 ## Credits
 
 * Images: Pexels.
-* Images research: Abel Eduardo Martínez Robles.
+* Research: Abel Eduardo Martínez Robles.
 * Model service: Azure AI Custom Vision.
 
---
+---
 
 ## License
 
