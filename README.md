@@ -19,7 +19,6 @@ Computer-vision desktop application that classifies five flower types: **roses**
   * [Verify installation](verify-installation)
   * [Update after changes (Optional)](update-after-changes)
   * [Run locally](#run-locally)
-* [GUI overview](#gui-overview)
 * [Dataset & data format](#dataset--data-format)
 * [Limitations & risks](#limitations--risks)
 * [Contributing](#contributing)
@@ -121,18 +120,6 @@ py ./src/index.py
 
 ---
 
-## GUI overview
-
-* **Sobre nosotros**: contact and project info, policies and FAQ.
-
-* **Llenar encuesta**: complete the survey, attach an image; the image is saved locally and then submitted to Azure Custom Vision for classification.
-
-* **Registros**: view previously stored submissions; search by name, surname or location; add new records or delete all records.
-
-* **Salir**: close the application.
-
----
-
 ## Dataset & data format
 
 Images used to build and validate the model were collected from **Pexels** and curated into a dataset of at least **50 images per flower class**. Images were saved under the naming convention:
@@ -167,9 +154,9 @@ Contributions are welcome. Suggested workflow:
 
 ## Credits
 
-* Images: Pexels.
-* Research: Abel Eduardo Martínez Robles.
-* Model service: Azure AI Custom Vision.
+* **Images**: Pexels.
+* **Research**: Abel Eduardo Martínez Robles.
+* **Model service**: Azure AI Custom Vision.
 
 ---
 
