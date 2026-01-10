@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "botanical-classifier"
+version = "0.1.0"
+description = "Computer vision project for classifying flower species."
+requires-python = ">=3.11"
+license = { text = "MIT" }
+
+authors = [{ name = "Roniel Sabala", email = "ronielsabala@gmail.com" }]
+
+keywords = [
+    "botany",
+    "computer-vision",
+    "custom-vision",
+    "azure",
+    "flowers",
+    "tkinter",
+]
+
+dependencies = [
+    "Pillow",
+    "python-dotenv",
+    "azure-cognitiveservices-vision-customvision",
+    "azure-common",
+    "msrest",
+]
+
+[project.optional-dependencies]
+dev = ["ruff"]
+
+[project.urls]
+Repository = "https://github.com/ronielsabala/BotanicalClassifier"

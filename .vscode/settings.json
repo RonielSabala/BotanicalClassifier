@@ -26,6 +26,7 @@
     "msrest",
     "tkinter",
     "cognitiveservices",
+    "customvision",
     // Tkinter names
     "padx",
     "pady",
@@ -38,7 +39,7 @@
     "activeforeground",
     "selectbackground",
     "selectforeground",
-    // Colors
+    // Tkinter colors
     "cornsilk",
     "violetred",
     "Dodgerblue",
