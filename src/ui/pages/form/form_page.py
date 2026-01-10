@@ -7,7 +7,7 @@ from common.utils import get_img_route
 
 from ...assets.images import ICON_IMG
 from ...styles import btn_primary, field_text
-from ..menu_page import Menu
+from ..menu_page import MenuPage
 from ..page import Page
 from .utils import (
     append_record,
@@ -32,10 +32,10 @@ def save_form() -> None:
     Guarda y valida la información del formulario.
     """
 
-    name = Form.name.get()
-    last_name = Form.last_name.get()
-    location = Form.location.get()
-    img = Form._img
+    name = FormPage.name.get()
+    last_name = FormPage.last_name.get()
+    location = FormPage.location.get()
+    img = FormPage._img
 
     # Validate fields
     if not (
@@ -62,12 +62,12 @@ def save_form() -> None:
         return
 
     # Show previous page
-    if Form.prev_page is not None:
-        Form.prev_page.show()
+    if FormPage.prev_page is not None:
+        FormPage.prev_page.show()
 
 
-class Form(Page):
-    prev_page = Menu
+class FormPage(Page):
+    prev_page = MenuPage
 
     # Variables
     name = tk.StringVar()

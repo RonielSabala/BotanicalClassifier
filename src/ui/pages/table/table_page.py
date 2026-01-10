@@ -13,14 +13,14 @@ from common.utils import is_valid_route
 
 from ...assets.images import EMPTY_IMG, ICON_IMG, get_resized_image
 from ...styles import btn_add, btn_delete, btn_primary, field_text, nav_arrow
-from ..form.form_page import Form
-from ..menu_page import Menu
+from ..form.form_page import FormPage
+from ..menu_page import MenuPage
 from ..page import Page
 from .utils import clean_records, get_records, insert_classification
 
 
-class Table(Page):
-    prev_page = Menu
+class TablePage(Page):
+    prev_page = MenuPage
 
     # Variables
     _registros: list[Sequence]
@@ -42,7 +42,7 @@ class Table(Page):
 
     @classmethod
     def config_pages(cls):
-        Form.prev_page = cls
+        FormPage.prev_page = cls
 
     @classmethod
     def obtener_registros(cls) -> None:
@@ -139,7 +139,7 @@ class Table(Page):
             return
 
         clean_records()
-        Menu.show()
+        MenuPage.show()
 
     @classmethod
     def cambiar_categoria(cls, nuevo_valor: str) -> None:
@@ -448,7 +448,7 @@ class Table(Page):
         btn_añadir_registros = tk.Button(
             cls.root,
             text="✚ Añadir",
-            command=Form.show,
+            command=FormPage.show,
             **btn_add,  # type: ignore
         )
         btn_añadir_registros.pack(pady=0)

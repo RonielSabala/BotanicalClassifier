@@ -2,7 +2,7 @@ import tkinter as tk
 
 from ...assets.images import ICON_IMG, SHIELD_IMG
 from ...styles import list_icon, list_info, list_link, list_title
-from ..menu_page import Menu
+from ..menu_page import MenuPage
 from ..page import Page
 
 # Page title and subtitle
@@ -17,8 +17,8 @@ Sector los Altos de Galá, Santo Domingo, D.N
 República Dominicana"""
 
 
-class Contact(Page):
-    prev_page = Menu
+class ContactPage(Page):
+    prev_page = MenuPage
 
     @classmethod
     def get_separation(cls, frame, font_size: int):
@@ -33,9 +33,9 @@ class Contact(Page):
 
     @classmethod
     def load(cls) -> None:
-        from ._faq import Faq
-        from ._policies import Policies
-        from ._terms import Terms
+        from ._faq import FaqPage
+        from ._policies import PoliciesPage
+        from ._terms import TermsPage
 
         # Create grids
         header_grid = cls.get_grid_from_root()
@@ -82,25 +82,25 @@ class Contact(Page):
         terms = tk.Button(
             links_grid,
             text="Términos De Uso",
-            command=Terms.show,
+            command=TermsPage.show,
             **list_link,
         )
 
         policies = tk.Button(
             links_grid,
             text="Políticas De Privacidad",
-            command=Policies.show,
+            command=PoliciesPage.show,
             **list_link,
         )
 
         faq = tk.Button(
             links_grid,
             text="Preguntas Frecuentes",
-            command=Faq.show,
+            command=FaqPage.show,
             **list_link,
         )
 
-        # - Elements config:
+        # - Configure elements:
 
         # Title and subtitle
         shield.grid(row=0, column=0, sticky="nse")

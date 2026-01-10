@@ -1,6 +1,6 @@
 import os
 
-from common.constants import STORAGE_IMGS_ROUTE
+from .constants import STORAGE_IMGS_ROUTE
 
 
 def is_valid_route(route: str) -> bool:

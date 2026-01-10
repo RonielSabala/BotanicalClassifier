@@ -4,7 +4,7 @@ from tkinter import scrolledtext
 from common.constants import FAQ_ROUTE
 
 from ..page import Page
-from .contact_page import Contact
+from .contact_page import ContactPage
 
 PAGE_TITLE = "Preguntas Frecuentes"
 
@@ -13,8 +13,8 @@ with open(FAQ_ROUTE, "r", encoding="utf-8") as f:
     faq_content = f.read()
 
 
-class Faq(Page):
-    prev_page = Contact
+class FaqPage(Page):
+    prev_page = ContactPage
 
     @classmethod
     def load(cls) -> None:

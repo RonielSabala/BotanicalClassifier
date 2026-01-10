@@ -4,7 +4,7 @@ from tkinter import scrolledtext
 from common.constants import TERMS_ROUTE
 
 from ..page import Page
-from .contact_page import Contact
+from .contact_page import ContactPage
 
 PAGE_TITLE = "Términos De Uso"
 
@@ -13,8 +13,8 @@ with open(TERMS_ROUTE, "r", encoding="utf-8") as f:
     terms_content = f.read()
 
 
-class Terms(Page):
-    prev_page = Contact
+class TermsPage(Page):
+    prev_page = ContactPage
 
     @classmethod
     def load(cls) -> None:

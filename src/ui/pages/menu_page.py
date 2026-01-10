@@ -17,7 +17,7 @@ PAGE_HOOK = "¿Te gustaría participar?"
 PAGE_INSTRUCTIONS = "Solo tienes que completar la siguiente encuesta:"
 
 
-class Menu(Page):
+class MenuPage(Page):
     @classmethod
     def show(cls) -> None:
         cls.config_pages()
@@ -29,15 +29,15 @@ class Menu(Page):
 
     @classmethod
     def config_pages(cls):
-        from .form.form_page import Form
+        from .form.form_page import FormPage
 
-        Form.prev_page = cls
+        FormPage.prev_page = cls
 
     @classmethod
     def load(cls) -> None:
-        from .contact.contact_page import Contact
-        from .form.form_page import Form
-        from .table.table_page import Table
+        from .contact.contact_page import ContactPage
+        from .form.form_page import FormPage
+        from .table.table_page import TablePage
 
         # Header
         tk.Label(cls.root, image=BANNER_IMG, bg=cls.bg_color).pack(padx=10, pady=5)
@@ -52,13 +52,13 @@ class Menu(Page):
         # - Create buttons:
 
         btn_form = tk.Button(
-            cls.root, text="Llenar encuesta", command=Form.show, **btn_primary
+            cls.root, text="Llenar encuesta", command=FormPage.show, **btn_primary
         )
 
         btn_records = tk.Button(
             cls.root,
             text="📝",
-            command=Table.show,
+            command=TablePage.show,
             fg="ivory4",
             activeforeground="Gray20",
             **btn_menu,
@@ -67,7 +67,7 @@ class Menu(Page):
         btn_about = tk.Button(
             cls.root,
             text="❀",
-            command=Contact.show,
+            command=ContactPage.show,
             fg="springGreen4",
             activeforeground="violetred4",
             **btn_menu,
