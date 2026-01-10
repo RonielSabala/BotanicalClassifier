@@ -16,11 +16,11 @@ credentials = ApiKeyCredentials(in_headers={"Prediction-key": key})  # type: ign
 client = CustomVisionPredictionClient(endpoint, credentials)
 
 
-def obtener_prediccion(ruta_imagen: str) -> list[tuple[str, float]]:
+def get_prediction(image_route: str) -> list[tuple[str, float]]:
     """
     Devuelve la predicción del modelo a una imagen.
     """
 
-    with open(ruta_imagen, "rb") as img:
+    with open(image_route, "rb") as img:
         results = client.classify_image(project_id, published_name, img.read())
         return [(p.tag_name, p.probability) for p in results.predictions]  # type: ignore

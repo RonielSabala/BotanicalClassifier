@@ -11,9 +11,9 @@ WINDOW_FOOTER = "Jardín Botánico Nacional\n©2025 Todos los derechos reservado
 _PROJECT_ROUTE = "src\\"
 
 # Local storage
-STORAGE_ROUTE = f"{_PROJECT_ROUTE}local_storage\\data\\"
+STORAGE_ROUTE = f"{_PROJECT_ROUTE}local_storage\\"
 STORAGE_IMGS_ROUTE = f"{STORAGE_ROUTE}imgs"
-STORAGE_FORMS_ROUTE = f"{STORAGE_ROUTE}forms.txt"
+STORAGE_RECORDS_ROUTE = f"{STORAGE_ROUTE}records.txt"
 
 # Asset images
 ASSET_IMGS_ROUTE = f"{_PROJECT_ROUTE}ui\\assets\\imgs\\"

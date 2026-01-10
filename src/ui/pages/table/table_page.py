@@ -9,13 +9,14 @@ from common.constants import (
     MAX_TABLE_COLUMN,
     MAX_TABLE_ROW,
 )
-from local_storage import main as Data
+from common.utils import is_valid_route
 
-from ..assets.images import EMPTY_IMG, ICON_IMG, get_resized_image
-from ..styles import btn_add, btn_delete, btn_primary, field_text, nav_arrow
-from .form.form_page import Form
-from .menu_page import Menu
-from .page import Page
+from ...assets.images import EMPTY_IMG, ICON_IMG, get_resized_image
+from ...styles import btn_add, btn_delete, btn_primary, field_text, nav_arrow
+from ..form.form_page import Form
+from ..menu_page import Menu
+from ..page import Page
+from .utils import clean_records, get_records, insert_classification
 
 
 class Table(Page):
@@ -46,7 +47,7 @@ class Table(Page):
     @classmethod
     def obtener_registros(cls) -> None:
         cls._registros = [()]
-        for i, registro in enumerate(Data.obtener_formularios(), start=1):
+        for i, registro in enumerate(get_records(), start=1):
             cls._registros.append([f"{i}."] + registro)
 
     @classmethod
@@ -137,7 +138,7 @@ class Table(Page):
         if not choice:
             return
 
-        Data.limpiar_registros()
+        clean_records()
         Menu.show()
 
     @classmethod
@@ -194,7 +195,7 @@ class Table(Page):
 
         def clasificar(linea: int) -> None:
             pagina = cls.pagina
-            Data.insertar_clasificacion(linea)
+            insert_classification(linea)
             cls.obtener_registros()
             cls.actualizar_registros()
             cls.pagina = pagina
@@ -312,7 +313,7 @@ class Table(Page):
                 if fila > 0 and columna == FLOWER_COLUMN:
                     img = (
                         get_resized_image(sub_data)
-                        if Data.is_route(sub_data)
+                        if is_valid_route(sub_data)
                         else EMPTY_IMG
                     )
 

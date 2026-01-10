@@ -1,7 +1,12 @@
+import os
 from tkinter import messagebox
 
-from common.constants import DEFAULT_IMG_SELECT_STR
-from local_storage.main import is_route
+from common.constants import (
+    DEFAULT_IMG_SELECT_STR,
+    STORAGE_IMGS_ROUTE,
+    STORAGE_RECORDS_ROUTE,
+)
+from common.utils import is_valid_route
 
 
 def is_valid_field(field: str, name_on_error: str) -> bool:
@@ -45,7 +50,7 @@ def is_valid_location(location: str) -> bool:
 def is_valid_image_route(image_route: str) -> bool:
     error_msg = ""
     is_valid = True
-    if not is_route(image_route):
+    if not is_valid_route(image_route):
         is_valid = False
         error_msg = "La ruta de la imagen es invalida."
 
@@ -57,3 +62,20 @@ def is_valid_image_route(image_route: str) -> bool:
         messagebox.showerror("Error", error_msg)
 
     return is_valid
+
+
+def get_images_count() -> int:
+    """
+    Devuelve el número de archivos de la carpeta imágenes.
+    """
+
+    return len(os.listdir(STORAGE_IMGS_ROUTE))
+
+
+def append_record(record: str) -> None:
+    """
+    Guarda un registro en el archivo formularios.
+    """
+
+    with open(STORAGE_RECORDS_ROUTE, "a") as f:
+        f.write(f"{record}\n")

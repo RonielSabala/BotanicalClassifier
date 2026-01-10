@@ -3,13 +3,15 @@ import tkinter as tk
 from tkinter import filedialog, messagebox
 
 from common.constants import DEFAULT_IMG_SELECT_STR
-from local_storage import main as Data
+from common.utils import get_img_route
 
 from ...assets.images import ICON_IMG
 from ...styles import btn_primary, field_text
 from ..menu_page import Menu
 from ..page import Page
 from .utils import (
+    append_record,
+    get_images_count,
     is_valid_image_route,
     is_valid_last_name,
     is_valid_location,
@@ -46,11 +48,9 @@ def save_form() -> None:
 
     try:
         img_extension = img.split(".")[-1]
-        img_route = Data.obtener_ruta(
-            f"flor_survey_{Data.n_archivos()}.{img_extension}"
-        )
+        img_route = get_img_route(f"flor_survey_{get_images_count()}.{img_extension}")
 
-        Data.agregar_registro(str([name, last_name, location, img_route, None]))
+        append_record(str([name, last_name, location, img_route, None]))
         shutil.copy(img, img_route)
 
     except Exception as e:

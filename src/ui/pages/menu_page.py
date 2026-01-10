@@ -37,7 +37,7 @@ class Menu(Page):
     def load(cls) -> None:
         from .contact.contact_page import Contact
         from .form.form_page import Form
-        from .table_page import Table
+        from .table.table_page import Table
 
         # Header
         tk.Label(cls.root, image=BANNER_IMG, bg=cls.bg_color).pack(padx=10, pady=5)
