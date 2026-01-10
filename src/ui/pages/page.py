@@ -12,15 +12,16 @@ from common.constants import (
     WINDOW_WIDTH,
 )
 
-from ..styles import btn_retorno
+from ..styles import btn_return
 
+# App root
 TK_ROOT = tk.Tk()
 TK_ROOT.title(WINDOW_NAME)
 TK_ROOT.iconphoto(True, PhotoImage(file=ICON_IMG_ROUTE))
 TK_ROOT.geometry(f"{WINDOW_WIDTH}x{WINDOW_HEIGHT}+{WINDOW_PADX}+{WINDOW_PADY}")
 TK_ROOT.resizable(False, False)
 
-# Page frame
+# App frame
 TK_FRAME = tk.Frame(TK_ROOT)
 TK_FRAME.pack(fill="both", expand=True)
 TK_FRAME.grid_rowconfigure(0, weight=1)
@@ -28,20 +29,19 @@ TK_FRAME.grid_columnconfigure(0, weight=1)
 
 
 class Page:
-    raiz: tk.Frame
-    fue_cargada: bool = False
-    pagina_anterior: Type["Page"] | None = None
-    pagina_posterior: Type["Page"] | None = None
-    color_fondo: str = "White"
-    color_fondo_opaco: str = "Gray78"
-    main_element: None | tk.Entry = None
+    root: tk.Frame
+    was_loaded: bool = False
+    prev_page: Type["Page"] | None = None
+    main_field: None | tk.Entry = None
+    bg_color: str = "White"
+    return_btn_bg_color: str = "Gray78"
 
     def __init_subclass__(cls, **kwargs) -> None:
         super().__init_subclass__(**kwargs)
 
-        # Asignar un Frame del contenedor a cada subclase
-        cls.raiz = tk.Frame(TK_FRAME)
-        cls.raiz.grid(row=0, column=0, sticky="nsew")
+        # Assign a frame to each subclass
+        cls.root = tk.Frame(TK_FRAME)
+        cls.root.grid(row=0, column=0, sticky="nsew")
 
     @classmethod
     def load(cls) -> None:
@@ -76,19 +76,20 @@ class Page:
         Muestra la pagina.
         """
 
-        if cls.fue_cargada is False:
+        if not cls.was_loaded:
             cls.load()
-            cls.fue_cargada = True
+            cls.was_loaded = True
 
-        cls.raiz.tkraise()
-        cls.raiz.focus_set()
-        cls.raiz.config(bg=cls.color_fondo)
-        item = cls.main_element
-        if item is not None:
-            item.focus_set()
+        cls.root.tkraise()
+        cls.root.focus_set()
+        cls.root.config(bg=cls.bg_color)
 
-            if isinstance(item, tk.Entry):
-                item.icursor(tk.END)
+        main_field = cls.main_field
+        if main_field is not None:
+            main_field.focus_set()
+
+            if isinstance(main_field, tk.Entry):
+                main_field.icursor(tk.END)
 
     @classmethod
     def reset(cls) -> None:
@@ -96,9 +97,9 @@ class Page:
         Restablece la página dejándola en blanco.
         """
 
-        cls.raiz.destroy()
-        cls.raiz = tk.Frame(TK_FRAME)
-        cls.raiz.grid(row=0, column=0, sticky="nsew")
+        cls.root.destroy()
+        cls.root = tk.Frame(TK_FRAME)
+        cls.root.grid(row=0, column=0, sticky="nsew")
 
     @classmethod
     def config_pages(cls):
@@ -111,17 +112,17 @@ class Page:
 
     @classmethod
     def set_text(
-        cls, text: str, size: int, pady: int = 10, fg: str = "cornsilk2"
+        cls, text: str, font_size: int, pady: int = 10, fg: str = "cornsilk2"
     ) -> None:
         """
         Coloca un texto en la pagina.
         """
 
         tk.Label(
-            cls.raiz,
+            cls.root,
             text=text,
-            font=("Arial", size),
-            bg=cls.color_fondo,
+            font=("Arial", font_size),
+            bg=cls.bg_color,
             fg=fg,
             pady=pady,
         ).pack()
@@ -130,7 +131,7 @@ class Page:
     def set_text_at(
         cls,
         text: str,
-        size: int = 10,
+        font_size: int = 10,
         coordinates: tuple[float, float] = (0.5, 0.5),
         anchor: str = "se",
         fg: str = "white",
@@ -140,10 +141,10 @@ class Page:
         """
 
         label = tk.Label(
-            cls.raiz,
+            cls.root,
             text=text,
-            font=("Arial", size),
-            bg=cls.color_fondo,
+            font=("Arial", font_size),
+            bg=cls.bg_color,
             fg=fg,
         )
 
@@ -157,26 +158,26 @@ class Page:
         activado.
         """
 
-        if cls.pagina_anterior is None:
+        if cls.prev_page is None:
             return
 
         def escape_event(event) -> None:
-            cls.pagina_anterior.show()  # type: ignore
+            cls.prev_page.show()  # type: ignore
             cls.close()
 
         text = tk.Label(
-            cls.raiz, text="Volver", font=("Arial", 12), fg=fg, bg=cls.color_fondo
+            cls.root, text="Volver", font=("Arial", 12), fg=fg, bg=cls.bg_color
         )
 
         btn = tk.Button(
-            cls.raiz,
+            cls.root,
             fg=fg,
             command=lambda: escape_event(None),
-            activebackground=cls.color_fondo_opaco,
-            **btn_retorno,
+            activebackground=cls.return_btn_bg_color,
+            **btn_return,
         )
 
-        cls.raiz.bind("<Escape>", escape_event)
+        cls.root.bind("<Escape>", escape_event)
         text.place(relx=0.048, rely=0.13, anchor="nw")
         btn.place(relx=0.05, rely=0.05, anchor="nw")
 
@@ -185,8 +186,8 @@ class Page:
         cls.set_text_at(WINDOW_FOOTER, 9, (0.5, 0.98), anchor="center", fg="black")
 
     @classmethod
-    def get_grid(cls):
-        return tk.Frame(cls.raiz, bg=cls.color_fondo)
+    def get_grid_from_root(cls):
+        return tk.Frame(cls.root, bg=cls.bg_color)
 
 
 def destroy_all_pages():

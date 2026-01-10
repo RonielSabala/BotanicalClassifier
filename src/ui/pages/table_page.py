@@ -11,15 +11,15 @@ from common.constants import (
 )
 from local_storage import main as Data
 
-from ..assets.main import EMPTY_IMG, ICON_IMG, reescalar_imagen
-from ..styles import btn_añadir, btn_eliminar, btn_primario, campo_txt, flecha_nav
+from ..assets.images import EMPTY_IMG, ICON_IMG, get_resized_image
+from ..styles import btn_add, btn_delete, btn_primary, field_text, nav_arrow
 from .form.form_page import Form
 from .menu_page import Menu
 from .page import Page
 
 
 class Table(Page):
-    pagina_anterior = Menu
+    prev_page = Menu
 
     # Variables
     _registros: list[Sequence]
@@ -37,11 +37,11 @@ class Table(Page):
     def close(cls):
         cls.var_filtro.set("")
         cls.ultimo_filtro = None, None
-        cls.main_element = None
+        cls.main_field = None
 
     @classmethod
     def config_pages(cls):
-        Form.pagina_anterior = cls
+        Form.prev_page = cls
 
     @classmethod
     def obtener_registros(cls) -> None:
@@ -80,7 +80,7 @@ class Table(Page):
         Actualiza la tabla.
         """
 
-        cls.fue_cargada = False
+        cls.was_loaded = False
         cls.reset()
         super().show()
 
@@ -183,9 +183,9 @@ class Table(Page):
             cls.actualizar_tabla()
 
     @classmethod
-    def clasificar_registro(cls, raiz, index: int) -> tk.Frame:
+    def clasificar_registro(cls, root, index: int) -> tk.Frame:
         bg = "white"
-        grid = tk.Frame(raiz, bg=bg)
+        grid = tk.Frame(root, bg=bg)
         grid.rowconfigure(0, weight=1)
 
         tk.Label(grid, text="N/A", font=("Arial", 13), bg=bg).grid(
@@ -204,7 +204,7 @@ class Table(Page):
             grid,
             text="Clasificar",
             command=lambda valor=index: clasificar(valor),
-            **btn_primario,
+            **btn_primary,
         )
         btn.config(
             font=("Arial", 16, "bold"),
@@ -218,8 +218,8 @@ class Table(Page):
         return grid
 
     @classmethod
-    def tabla_prediccion(cls, raiz, data) -> tk.Frame:
-        grid = tk.Frame(raiz)
+    def tabla_prediccion(cls, root, data) -> tk.Frame:
+        grid = tk.Frame(root)
 
         # Cabezales
         for i, texto in enumerate(("Tag", "Probabilidad")):
@@ -256,23 +256,23 @@ class Table(Page):
         # - Header:
 
         cls.set_return_btn()
-        tk.Label(cls.raiz, image=ICON_IMG, bg=cls.color_fondo).pack(padx=20, pady=15)
+        tk.Label(cls.root, image=ICON_IMG, bg=cls.bg_color).pack(padx=20, pady=15)
         cls.set_text("Registros", 32, pady=0, fg="#091518")
         cls.set_text("", 0, pady=2)
 
         # - Grid de registros:
 
-        grid = cls.get_grid()
+        grid = cls.get_grid_from_root()
         grid.pack(fill="both", padx=20, pady=0)
 
         # Buscador de registros
-        buscador = tk.Entry(grid, textvariable=cls.var_filtro, **campo_txt)
+        buscador = tk.Entry(grid, textvariable=cls.var_filtro, **field_text)
         buscador.config(width=30)
         buscador.grid(row=0, column=1, columnspan=3, sticky="nsew", padx=0, pady=10)
-        buscador.bind("<Escape>", lambda event: cls.raiz.focus_set())
+        buscador.bind("<Escape>", lambda event: cls.root.focus_set())
         buscador.bind("<Return>", lambda event: btn_buscar.invoke())
         if cls.ultimo_filtro[0] is not None:
-            cls.main_element = buscador
+            cls.main_field = buscador
 
         # Botón de buscar
         btn_buscar = tk.Button(
@@ -299,7 +299,7 @@ class Table(Page):
             # Insertar fila
             for columna, sub_data in enumerate(data):
                 # Color de las filas
-                fg, bg = "Black", cls.color_fondo
+                fg, bg = "Black", cls.bg_color
                 if columna > 0:
                     if fila == 0:
                         # Cabezales
@@ -311,7 +311,7 @@ class Table(Page):
                 # Crear una imagen
                 if fila > 0 and columna == FLOWER_COLUMN:
                     img = (
-                        reescalar_imagen(sub_data)
+                        get_resized_image(sub_data)
                         if Data.is_route(sub_data)
                         else EMPTY_IMG
                     )
@@ -397,7 +397,7 @@ class Table(Page):
 
         # - Grid de navegación:
 
-        grid_nav = cls.get_grid()
+        grid_nav = cls.get_grid_from_root()
         grid_nav.pack(fill="none", padx=35, pady=0)
 
         # Flecha para retroceder
@@ -406,7 +406,7 @@ class Table(Page):
             text="<",
             command=cls.pag_anterior,
             font=("Arial", 24),
-            **flecha_nav,
+            **nav_arrow,
         )
         cls.flecha_izquierda.grid(row=0, column=0, sticky="nsew", padx=0, pady=5)
 
@@ -415,7 +415,7 @@ class Table(Page):
             grid_nav,
             text=f"pagina {cls.pagina} de {cls.max_pagina}",
             fg="Black",
-            bg=cls.color_fondo,
+            bg=cls.bg_color,
             font=("Arial", 14),
         ).grid(row=0, column=1, sticky="nsew", padx=0, pady=5)
 
@@ -425,7 +425,7 @@ class Table(Page):
             text=">",
             command=cls.pag_posterior,
             font=("Arial", 24),
-            **flecha_nav,
+            **nav_arrow,
         )
         cls.flecha_derecha.grid(row=0, column=2, sticky="nsew", padx=0, pady=5)
 
@@ -445,19 +445,19 @@ class Table(Page):
 
         # Botón para añadir registros
         btn_añadir_registros = tk.Button(
-            cls.raiz,
+            cls.root,
             text="✚ Añadir",
             command=Form.show,
-            **btn_añadir,  # type: ignore
+            **btn_add,  # type: ignore
         )
         btn_añadir_registros.pack(pady=0)
 
         # Botón para eliminar todos los registros
         btn_eliminar_registros = tk.Button(
-            cls.raiz,
+            cls.root,
             text="✘ Eliminar (TODO)",
             command=cls.eliminar_registros,
-            **btn_eliminar,  # type: ignore
+            **btn_delete,  # type: ignore
         )
         btn_eliminar_registros.pack(pady=12)
 

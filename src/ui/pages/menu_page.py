@@ -1,9 +1,20 @@
 import tkinter as tk
 from tkinter import font
 
-from ..assets.main import BANNER_IMG
-from ..styles import btn_menu, btn_primario
+from ..assets.images import BANNER_IMG
+from ..styles import btn_menu, btn_primary
 from .page import TK_ROOT, Page, destroy_all_pages
+
+# Page content
+COUNTRY_URL = "Presidencia de la República: www.presidencia.gob.do"
+PAGE_TITLE = "Flor survey"
+PAGE_DESCRIPTION = """Estamos realizando una investigación a nivel nacional para calcular
+la cantidad de flores de cada tipo que tienen las personas en sus
+hogares."""
+
+DESCRIPTION_SEPARATION = "_" * 70
+PAGE_HOOK = "¿Te gustaría participar?"
+PAGE_INSTRUCTIONS = "Solo tienes que completar la siguiente encuesta:"
 
 
 class Menu(Page):
@@ -20,7 +31,7 @@ class Menu(Page):
     def config_pages(cls):
         from .form.form_page import Form
 
-        Form.pagina_anterior = cls
+        Form.prev_page = cls
 
     @classmethod
     def load(cls) -> None:
@@ -28,55 +39,24 @@ class Menu(Page):
         from .form.form_page import Form
         from .table_page import Table
 
-        # - Header:
-
-        tk.Label(cls.raiz, image=BANNER_IMG, bg=cls.color_fondo).pack(padx=10, pady=5)
-        cls.set_text_at(
-            "Presidencia de la República: www.presidencia.gob.do",
-            9,
-            (0.5, 0.01),
-            anchor="center",
-            fg="black",
-        )
-
-        cls.set_text("Flor survey", 35, pady=10, fg="#091518")
-        cls.set_text(
-            "Estamos realizando una investigación a nivel nacional para calcular\n"
-            + "la cantidad de flores de cada tipo que tienen las personas en sus\n"
-            + "hogares.",
-            12,
-            pady=25,
-            fg="#091518",
-        )
-
-        cls.set_text("_" * 70, 10, pady=0, fg="#091518")
-        cls.set_text(
-            "¿Te gustaría participar?",
-            15,
-            pady=25,
-            fg="#091518",
-        )
-
-        cls.set_text(
-            "Solo tienes que completar la siguiente encuesta:",
-            13,
-            pady=3,
-            fg="#091518",
-        )
-
+        # Header
+        tk.Label(cls.root, image=BANNER_IMG, bg=cls.bg_color).pack(padx=10, pady=5)
+        cls.set_text_at(COUNTRY_URL, 9, (0.5, 0.01), anchor="center", fg="black")
+        cls.set_text(PAGE_TITLE, 35, pady=10, fg="#091518")
+        cls.set_text(PAGE_DESCRIPTION, 12, pady=25, fg="#091518")
+        cls.set_text(DESCRIPTION_SEPARATION, 10, pady=0, fg="#091518")
+        cls.set_text(PAGE_HOOK, 15, pady=25, fg="#091518")
+        cls.set_text(PAGE_INSTRUCTIONS, 13, pady=3, fg="#091518")
         cls.set_text("", 13, pady=15, fg="#091518")
 
-        # - Creación de los botones:
+        # - Create buttons:
 
-        btn_formulario = tk.Button(
-            cls.raiz,
-            text="Llenar encuesta",
-            command=Form.show,
-            **btn_primario,
+        btn_form = tk.Button(
+            cls.root, text="Llenar encuesta", command=Form.show, **btn_primary
         )
 
-        btn_registros = tk.Button(
-            cls.raiz,
+        btn_records = tk.Button(
+            cls.root,
             text="📝",
             command=Table.show,
             fg="ivory4",
@@ -84,8 +64,8 @@ class Menu(Page):
             **btn_menu,
         )
 
-        btn_sobre_nosotros = tk.Button(
-            cls.raiz,
+        btn_about = tk.Button(
+            cls.root,
             text="❀",
             command=Contact.show,
             fg="springGreen4",
@@ -93,8 +73,8 @@ class Menu(Page):
             **btn_menu,
         )
 
-        btn_salir = tk.Button(
-            cls.raiz,
+        btn_exit = tk.Button(
+            cls.root,
             text="Salir",
             command=destroy_all_pages,
             fg="Red3",
@@ -103,34 +83,30 @@ class Menu(Page):
             **btn_menu,
         )
 
-        # - Configuración:
+        # - Configure elements:
 
-        btn_formulario.pack(pady=0)
+        btn_form.pack(pady=0)
 
-        # Botón de registros
+        # Records btn
         x, y = 0.5, 0.73
-        btn_registros.place(relx=x, rely=y, anchor="center")
+        btn_records.place(relx=x, rely=y, anchor="center")
         cls.set_text_at(
             "Registros", 14, (x - 0.01, y + 0.06), anchor="center", fg="black"
         )
 
-        # Botón sobre nosotros
+        # About btn
         x, y = 0.1, 0.9
-        btn_sobre_nosotros.place(relx=x, rely=y, anchor="center")
+        btn_about.place(relx=x, rely=y, anchor="center")
         cls.set_text_at(
             "Sobre\nnosotros", 14, (x, y + 0.06), anchor="center", fg="black"
         )
 
-        # Botón de salir
+        # Exit btn
         x, y = 0.92, 0.94
-        btn_salir.config(
+        btn_exit.config(
             font=font.Font(family="Arial", size=18, underline=True), width=3
         )
-        btn_salir.place(relx=x, rely=y, anchor="center")
-        cls.set_text_at(
-            "⥱", 25, (x, y + 0.04), anchor="center", fg=btn_salir.cget("fg")
-        )
-
-        # - Footer:
+        btn_exit.place(relx=x, rely=y, anchor="center")
+        cls.set_text_at("⥱", 25, (x, y + 0.04), anchor="center", fg=btn_exit.cget("fg"))
 
         cls.set_footer()

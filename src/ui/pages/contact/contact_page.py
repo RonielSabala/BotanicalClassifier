@@ -1,7 +1,7 @@
 import tkinter as tk
 
-from ...assets.main import ICON_IMG, SHIELD_IMG
-from ...styles import list_icono, list_info, list_link, list_titulo
+from ...assets.images import ICON_IMG, SHIELD_IMG
+from ...styles import list_icon, list_info, list_link, list_title
 from ..menu_page import Menu
 from ..page import Page
 
@@ -18,16 +18,16 @@ República Dominicana"""
 
 
 class Contact(Page):
-    pagina_anterior = Menu
+    prev_page = Menu
 
     @classmethod
-    def obtener_sep(cls, frame, tamaño: int):
+    def get_separation(cls, frame, font_size: int):
         return tk.Label(
             frame,
             text="|",
-            font=("Arial", tamaño),
+            font=("Arial", font_size),
             fg="Gray20",
-            bg=cls.color_fondo,
+            bg=cls.bg_color,
             padx=0,
         )
 
@@ -38,71 +38,67 @@ class Contact(Page):
         from ._terms import Terms
 
         # Create grids
-        grid_header = cls.get_grid()
-        grid_header.pack(fill="none", padx=85, pady=40)
-        grid_header.grid_rowconfigure(0, pad=45)
-        grid_header.grid_columnconfigure(1, pad=0)
+        header_grid = cls.get_grid_from_root()
+        header_grid.pack(fill="none", padx=85, pady=40)
+        header_grid.grid_rowconfigure(0, pad=45)
+        header_grid.grid_columnconfigure(1, pad=0)
 
-        grid = cls.get_grid()
-        grid.pack(fill="none", expand=True, padx=85, pady=35)
-        grid.grid_columnconfigure(0, weight=1)
-        grid.grid_rowconfigure(1, pad=50)
-        grid.grid_columnconfigure(1, pad=40)
+        content_grid = cls.get_grid_from_root()
+        content_grid.pack(fill="none", expand=True, padx=85, pady=35)
+        content_grid.grid_columnconfigure(0, weight=1)
+        content_grid.grid_rowconfigure(1, pad=50)
+        content_grid.grid_columnconfigure(1, pad=40)
 
-        grid_links = cls.get_grid()
-        grid_links.pack(fill="y", padx=0, pady=100)
+        links_grid = cls.get_grid_from_root()
+        links_grid.pack(fill="y", padx=0, pady=100)
 
-        # Title and subtitle
+        # Header
         cls.set_return_btn()
-        shield = tk.Label(grid_header, image=SHIELD_IMG, bg=cls.color_fondo)
-        sep_header = cls.obtener_sep(grid_header, 25)
-        icon = tk.Label(grid_header, image=ICON_IMG, bg=cls.color_fondo)
+        shield = tk.Label(header_grid, image=SHIELD_IMG, bg=cls.bg_color)
+        sep_header = cls.get_separation(header_grid, 25)
+        icon = tk.Label(header_grid, image=ICON_IMG, bg=cls.bg_color)
         title = tk.Label(
-            grid_header, text=PAGE_TITLE, font=("Arial", 30), bg=cls.color_fondo
+            header_grid, text=PAGE_TITLE, font=("Arial", 30), bg=cls.bg_color
         )
 
         subtitle = tk.Label(
-            grid_header, text=PAGE_SUBTITLE, font=("Arial", 15), bg=cls.color_fondo
+            header_grid, text=PAGE_SUBTITLE, font=("Arial", 15), bg=cls.bg_color
         )
 
         # Page content
-        location = tk.Label(grid, text="📍", **list_icono)
-        location_text = tk.Label(grid, text="Dirección", **list_titulo)
-        location_info = tk.Label(grid, text=ORG_LOCATION, **list_info)
+        location = tk.Label(content_grid, text="📍", **list_icon)
+        location_text = tk.Label(content_grid, text="Dirección", **list_title)
+        location_info = tk.Label(content_grid, text=ORG_LOCATION, **list_info)
 
-        phone = tk.Label(grid, text="📞", **list_icono)
-        phone_text = tk.Label(grid, text="Tel.", **list_titulo)
-        phone_info = tk.Label(grid, text=ORG_PHONE, **list_info)
+        phone = tk.Label(content_grid, text="📞", **list_icon)
+        phone_text = tk.Label(content_grid, text="Tel.", **list_title)
+        phone_info = tk.Label(content_grid, text=ORG_PHONE, **list_info)
 
-        email = tk.Label(grid, text="📧", **list_icono)
-        email_text = tk.Label(grid, text="Email", **list_titulo)
-        email_info = tk.Label(grid, text=ORG_EMAIL, **list_info)
+        email = tk.Label(content_grid, text="📧", **list_icon)
+        email_text = tk.Label(content_grid, text="Email", **list_title)
+        email_info = tk.Label(content_grid, text=ORG_EMAIL, **list_info)
 
         # Links
         terms = tk.Button(
-            grid_links,
+            links_grid,
             text="Términos De Uso",
             command=Terms.show,
             **list_link,
         )
 
         policies = tk.Button(
-            grid_links,
+            links_grid,
             text="Políticas De Privacidad",
             command=Policies.show,
             **list_link,
         )
 
         faq = tk.Button(
-            grid_links,
+            links_grid,
             text="Preguntas Frecuentes",
             command=Faq.show,
             **list_link,
         )
-
-        # Links separators
-        sep1 = cls.obtener_sep(grid_links, 16)
-        sep2 = cls.obtener_sep(grid_links, 16)
 
         # - Elements config:
 
@@ -129,6 +125,8 @@ class Contact(Page):
         email_info.grid(row=2, column=2, sticky="nsw")
 
         # Links
+        sep1 = cls.get_separation(links_grid, 16)
+        sep2 = cls.get_separation(links_grid, 16)
         terms.grid(row=0, column=0, sticky="nse")
         sep1.grid(row=0, column=1, sticky="ns")
         policies.grid(row=0, column=2, sticky="ns")

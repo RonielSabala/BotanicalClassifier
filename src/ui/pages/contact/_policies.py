@@ -14,7 +14,7 @@ with open(POLICIES_ROUTE, "r", encoding="utf-8") as f:
 
 
 class Policies(Page):
-    pagina_anterior = Contact
+    prev_page = Contact
 
     @classmethod
     def load(cls) -> None:
@@ -25,7 +25,7 @@ class Policies(Page):
         cls.set_text("", 0, pady=0)
 
         # Scrollable text
-        box = scrolledtext.ScrolledText(cls.raiz, wrap=tk.WORD, width=50, height=12)
+        box = scrolledtext.ScrolledText(cls.root, wrap=tk.WORD, width=50, height=12)
         box.pack(padx=85, pady=0, fill=tk.BOTH, expand=True)
         box.config(state=tk.NORMAL, font=("Arial", 10), bg="Gray95")
         box.insert(tk.END, policies_content)

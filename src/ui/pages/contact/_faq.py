@@ -14,7 +14,7 @@ with open(FAQ_ROUTE, "r", encoding="utf-8") as f:
 
 
 class Faq(Page):
-    pagina_anterior = Contact
+    prev_page = Contact
 
     @classmethod
     def load(cls) -> None:
@@ -25,7 +25,7 @@ class Faq(Page):
         cls.set_text("", 0, pady=25)
 
         # Scrollable text
-        box = scrolledtext.ScrolledText(cls.raiz, wrap=tk.WORD, width=50, height=12)
+        box = scrolledtext.ScrolledText(cls.root, wrap=tk.WORD, width=50, height=12)
         box.pack(padx=85, pady=0, fill=tk.BOTH, expand=True)
         box.config(state=tk.NORMAL, font=("Arial", 13), relief="flat")
         box.insert(tk.END, faq_content)

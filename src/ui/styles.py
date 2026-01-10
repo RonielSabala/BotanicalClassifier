@@ -1,25 +1,6 @@
-from typing import Any
+# - Buttons:
 
-
-def update_style(
-    estilo1: dict[str, Any],
-    estilo2: dict[str, Any],
-    sobrescribir: bool = False,
-) -> dict[str, Any]:
-    """
-    Actualiza un primer estilo con un segundo estilo.
-    """
-
-    estilo1.update(
-        {k: v for k, v in estilo2.items() if sobrescribir or k not in estilo1}
-    )
-
-    return estilo1
-
-
-# - Botones:
-
-btn_generico = {
+_btn_generic_style = {
     "bd": 0,
     "padx": 5,
     "pady": 2,
@@ -30,7 +11,7 @@ btn_generico = {
     "font": ("Arial", 16, "bold"),
 }
 
-btn_primario = {
+btn_primary = {
     "font": ("Arial", 26, "bold"),
     "fg": "black",
     "bg": "goldenrod1",
@@ -38,17 +19,17 @@ btn_primario = {
     "activebackground": "goldenrod3",
 }
 
-btn_añadir = {
+btn_add = {
     "bg": "SpringGreen4",
     "activebackground": "Dark Green",
 }
 
-btn_eliminar = {
+btn_delete = {
     "bg": "#b22222",
     "activebackground": "#8b0000",
 }
 
-btn_retorno = {
+btn_return = {
     "text": "↵",
     "font": ("Arial", 25),
     "width": 2,
@@ -67,14 +48,15 @@ btn_menu = {
     "cursor": "hand2",
 }
 
-# Agregar el estilo principal a los botones
-for btn in (btn_primario, btn_añadir, btn_eliminar):
-    update_style(btn, btn_generico)
+# Add generic style to every btn type
+for btn_style in (btn_primary, btn_add, btn_delete):
+    btn_style.update(
+        {k: v for k, v in _btn_generic_style.items() if k not in btn_style}
+    )
 
-# - Elementos:
+# - Field elements:
 
-# Campo de texto
-campo_txt = {
+field_text = {
     "width": 22,
     "font": ("Arial", 18),
     "fg": "black",
@@ -83,8 +65,7 @@ campo_txt = {
     "selectbackground": "GoldenRod1",
 }
 
-# Flechas de navegación
-flecha_nav = {
+nav_arrow = {
     "border": 0,
     "relief": "sunken",
     "fg": "Black",
@@ -93,15 +74,15 @@ flecha_nav = {
     "activebackground": "white",
 }
 
-# - Elementos de lista:
+# List elements:
 
-list_icono = {
+list_icon = {
     "font": ("Arial", 32),
     "fg": "DodgerBlue4",
     "bg": "White",
 }
 
-list_titulo = {
+list_title = {
     "font": ("Arial", 16, "bold"),
     "justify": "left",
     "anchor": "w",
