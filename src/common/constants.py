@@ -1,3 +1,13 @@
+# Window constants
+WINDOW_NAME = "jbn"
+WINDOW_WIDTH = 750
+WINDOW_HEIGHT = 900
+MAX_WINDOW_WIDTH = 1920
+MAX_WINDOW_HEIGHT = 1080
+WINDOW_PADX = int(MAX_WINDOW_WIDTH / 2 + WINDOW_WIDTH / 2 - WINDOW_WIDTH)
+WINDOW_PADY = int(MAX_WINDOW_HEIGHT / 2 + WINDOW_HEIGHT / 2 - WINDOW_HEIGHT)
+WINDOW_FOOTER = "Jardín Botánico Nacional\n©2025 Todos los derechos reservados."
+
 _PROJECT_ROUTE = "src\\"
 
 # Local storage

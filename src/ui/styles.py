@@ -1,7 +1,7 @@
 from typing import Any
 
 
-def actualizar_estilo(
+def update_style(
     estilo1: dict[str, Any],
     estilo2: dict[str, Any],
     sobrescribir: bool = False,
@@ -69,7 +69,7 @@ btn_menu = {
 
 # Agregar el estilo principal a los botones
 for btn in (btn_primario, btn_añadir, btn_eliminar):
-    actualizar_estilo(btn, btn_generico)
+    update_style(btn, btn_generico)
 
 # - Elementos:
 

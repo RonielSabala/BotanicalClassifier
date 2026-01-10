@@ -1,18 +1,14 @@
 import os
 
 from common.constants import STORAGE_IMGS_ROUTE
-from ui import main
-from ui.pages.menu.main import Menu
+from ui.pages import page
+from ui.pages.menu_page import Menu
 
-# Crear carpeta donde se almacenarán las imágenes
+# Create default image folder in the local storage
 if not os.path.exists(STORAGE_IMGS_ROUTE):
     os.mkdir(STORAGE_IMGS_ROUTE)
 
-# Iniciar la ventana mostrando el menú
-Menu.mostrar()
-
-# Asociar la acción de cerrar la ventana con cerrar todas las páginas
-main.TK_ROOT.protocol("WM_DELETE_WINDOW", main.close_pages)
-
-# Bucle de la ventana
-main.TK_ROOT.mainloop()
+# Start with menu page
+Menu.show()
+page.TK_ROOT.protocol("WM_DELETE_WINDOW", page.destroy_all_pages)
+page.TK_ROOT.mainloop()

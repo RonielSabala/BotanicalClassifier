@@ -4,7 +4,7 @@ from api.main import obtener_prediccion
 from common.constants import STORAGE_FORMS_ROUTE, STORAGE_IMGS_ROUTE
 
 
-def es_ruta(ruta: str) -> bool:
+def is_route(ruta: str) -> bool:
     """
     Devuelve si la ruta es valida.
     """

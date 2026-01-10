@@ -2,23 +2,25 @@ import tkinter as tk
 from tkinter import PhotoImage
 from typing import Type
 
-from common.constants import ICON_IMG_ROUTE
+from common.constants import (
+    ICON_IMG_ROUTE,
+    WINDOW_FOOTER,
+    WINDOW_HEIGHT,
+    WINDOW_NAME,
+    WINDOW_PADX,
+    WINDOW_PADY,
+    WINDOW_WIDTH,
+)
 
-from .styles import main as Estilos
-
-# - Variables para la pagina principal:
+from ..styles import btn_retorno
 
 TK_ROOT = tk.Tk()
-TK_ROOT.title("jbn")
+TK_ROOT.title(WINDOW_NAME)
 TK_ROOT.iconphoto(True, PhotoImage(file=ICON_IMG_ROUTE))
-
-WINDOW_WIDTH, WINDOW_HEIGHT = 750, 900
-padx = int(1920 / 2 + WINDOW_WIDTH / 2 - WINDOW_WIDTH)
-pady = int(1080 / 2 + WINDOW_HEIGHT / 2 - WINDOW_HEIGHT)
-TK_ROOT.geometry(f"{WINDOW_WIDTH}x{WINDOW_HEIGHT}+{padx}+{pady}")
+TK_ROOT.geometry(f"{WINDOW_WIDTH}x{WINDOW_HEIGHT}+{WINDOW_PADX}+{WINDOW_PADY}")
 TK_ROOT.resizable(False, False)
 
-# Contenedor para las páginas
+# Page frame
 TK_FRAME = tk.Frame(TK_ROOT)
 TK_FRAME.pack(fill="both", expand=True)
 TK_FRAME.grid_rowconfigure(0, weight=1)
@@ -42,7 +44,7 @@ class Page:
         cls.raiz.grid(row=0, column=0, sticky="nsew")
 
     @classmethod
-    def cargar(cls) -> None:
+    def load(cls) -> None:
         """
         Carga la pagina con todos sus elementos.
         """
@@ -50,7 +52,7 @@ class Page:
         ...
 
     @classmethod
-    def cerrar(cls) -> None:
+    def destroy(cls) -> None:
         """
         Cuando se va a cerrar la pagina principal
         se llama a esta función para guardar información
@@ -60,7 +62,7 @@ class Page:
         ...
 
     @classmethod
-    def salir(cls) -> None:
+    def close(cls) -> None:
         """
         Esta función se llama cada vez que se pasa
         de la pagina actual a una pagina anterior.
@@ -69,13 +71,13 @@ class Page:
         ...
 
     @classmethod
-    def mostrar(cls) -> None:
+    def show(cls) -> None:
         """
         Muestra la pagina.
         """
 
         if cls.fue_cargada is False:
-            cls.cargar()
+            cls.load()
             cls.fue_cargada = True
 
         cls.raiz.tkraise()
@@ -89,7 +91,7 @@ class Page:
                 item.icursor(tk.END)
 
     @classmethod
-    def restablecer(cls) -> None:
+    def reset(cls) -> None:
         """
         Restablece la página dejándola en blanco.
         """
@@ -99,7 +101,7 @@ class Page:
         cls.raiz.grid(row=0, column=0, sticky="nsew")
 
     @classmethod
-    def configurar_escenas(cls):
+    def config_pages(cls):
         """
         Configura las relaciones entre las páginas
         anteriores y posteriores de las páginas
@@ -108,8 +110,8 @@ class Page:
         ...
 
     @classmethod
-    def colocar_texto(
-        cls, texto: str, tamaño: int, pady: int = 10, fg: str = "cornsilk2"
+    def set_text(
+        cls, text: str, size: int, pady: int = 10, fg: str = "cornsilk2"
     ) -> None:
         """
         Coloca un texto en la pagina.
@@ -117,19 +119,19 @@ class Page:
 
         tk.Label(
             cls.raiz,
-            text=texto,
-            font=("Arial", tamaño),
+            text=text,
+            font=("Arial", size),
             bg=cls.color_fondo,
             fg=fg,
             pady=pady,
         ).pack()
 
     @classmethod
-    def colocar_textoXY(
+    def set_text_at(
         cls,
-        texto: str,
-        tamaño: int = 10,
-        coords: tuple[float, float] = (0.5, 0.5),
+        text: str,
+        size: int = 10,
+        coordinates: tuple[float, float] = (0.5, 0.5),
         anchor: str = "se",
         fg: str = "white",
     ) -> None:
@@ -139,16 +141,16 @@ class Page:
 
         label = tk.Label(
             cls.raiz,
-            text=texto,
-            font=("Arial", tamaño),
+            text=text,
+            font=("Arial", size),
             bg=cls.color_fondo,
             fg=fg,
         )
 
-        label.place(relx=coords[0], rely=coords[1], anchor=anchor)  # type: ignore
+        label.place(relx=coordinates[0], rely=coordinates[1], anchor=anchor)  # type: ignore
 
     @classmethod
-    def colocar_retorno(cls, fg: str = "Black") -> None:
+    def set_return_btn(cls, fg: str = "Black") -> None:
         """
         Coloca un botón de retorno para ir a la pagina
         anterior. Si se presiona ESC dicho botón es
@@ -158,48 +160,39 @@ class Page:
         if cls.pagina_anterior is None:
             return
 
-        def escape(event) -> None:
-            cls.pagina_anterior.mostrar()  # type: ignore
-            cls.salir()
+        def escape_event(event) -> None:
+            cls.pagina_anterior.show()  # type: ignore
+            cls.close()
 
-        texto = tk.Label(
-            cls.raiz,
-            text="Volver",
-            font=("Arial", 12),
-            fg=fg,
-            bg=cls.color_fondo,
+        text = tk.Label(
+            cls.raiz, text="Volver", font=("Arial", 12), fg=fg, bg=cls.color_fondo
         )
+
         btn = tk.Button(
             cls.raiz,
             fg=fg,
-            command=lambda: escape(None),
+            command=lambda: escape_event(None),
             activebackground=cls.color_fondo_opaco,
-            **Estilos.btn_retorno,
+            **btn_retorno,
         )
 
-        cls.raiz.bind("<Escape>", escape)
-        texto.place(relx=0.048, rely=0.13, anchor="nw")
+        cls.raiz.bind("<Escape>", escape_event)
+        text.place(relx=0.048, rely=0.13, anchor="nw")
         btn.place(relx=0.05, rely=0.05, anchor="nw")
 
     @classmethod
-    def colocar_footer(cls):
-        cls.colocar_textoXY(
-            "Jardín Botánico Nacional\n©2025 Todos los derechos reservados.",
-            9,
-            (0.5, 0.98),
-            anchor="center",
-            fg="black",
-        )
+    def set_footer(cls):
+        cls.set_text_at(WINDOW_FOOTER, 9, (0.5, 0.98), anchor="center", fg="black")
 
     @classmethod
-    def obtener_grid(cls):
+    def get_grid(cls):
         return tk.Frame(cls.raiz, bg=cls.color_fondo)
 
 
-def close_pages():
+def destroy_all_pages():
     """
     Cierra todas las páginas.
     """
 
-    for pagina in Page.__subclasses__():
-        pagina.cerrar()
+    for page in Page.__subclasses__():
+        page.destroy()

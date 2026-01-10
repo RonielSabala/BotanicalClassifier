@@ -11,14 +11,14 @@ from common.constants import (
 )
 from local_storage import main as Data
 
-from ...assets.main import EMPTY_IMG, ICON_IMG, reescalar_imagen
-from ...main import Page
-from ...styles import main as Estilos
-from ..formulario.main import Formulario
-from ..menu.main import Menu
+from ..assets.main import EMPTY_IMG, ICON_IMG, reescalar_imagen
+from ..styles import btn_añadir, btn_eliminar, btn_primario, campo_txt, flecha_nav
+from .form.form_page import Form
+from .menu_page import Menu
+from .page import Page
 
 
-class Tabla(Page):
+class Table(Page):
     pagina_anterior = Menu
 
     # Variables
@@ -34,14 +34,14 @@ class Tabla(Page):
     cabezales: list[tk.Button] = []
 
     @classmethod
-    def salir(cls):
+    def close(cls):
         cls.var_filtro.set("")
         cls.ultimo_filtro = None, None
         cls.main_element = None
 
     @classmethod
-    def configurar_escenas(cls):
-        Formulario.pagina_anterior = cls
+    def config_pages(cls):
+        Form.pagina_anterior = cls
 
     @classmethod
     def obtener_registros(cls) -> None:
@@ -81,12 +81,12 @@ class Tabla(Page):
         """
 
         cls.fue_cargada = False
-        cls.restablecer()
-        super().mostrar()
+        cls.reset()
+        super().show()
 
     @classmethod
-    def mostrar(cls) -> None:
-        cls.configurar_escenas()
+    def show(cls) -> None:
+        cls.config_pages()
         cls.obtener_registros()
         cls.actualizar_registros()
         cls.actualizar_tabla()
@@ -138,7 +138,7 @@ class Tabla(Page):
             return
 
         Data.limpiar_registros()
-        Menu.mostrar()
+        Menu.show()
 
     @classmethod
     def cambiar_categoria(cls, nuevo_valor: str) -> None:
@@ -204,7 +204,7 @@ class Tabla(Page):
             grid,
             text="Clasificar",
             command=lambda valor=index: clasificar(valor),
-            **Estilos.btn_primario,
+            **btn_primario,
         )
         btn.config(
             font=("Arial", 16, "bold"),
@@ -252,21 +252,21 @@ class Tabla(Page):
         return grid
 
     @classmethod
-    def cargar(cls) -> None:
+    def load(cls) -> None:
         # - Header:
 
-        cls.colocar_retorno()
+        cls.set_return_btn()
         tk.Label(cls.raiz, image=ICON_IMG, bg=cls.color_fondo).pack(padx=20, pady=15)
-        cls.colocar_texto("Registros", 32, pady=0, fg="#091518")
-        cls.colocar_texto("", 0, pady=2)
+        cls.set_text("Registros", 32, pady=0, fg="#091518")
+        cls.set_text("", 0, pady=2)
 
         # - Grid de registros:
 
-        grid = cls.obtener_grid()
+        grid = cls.get_grid()
         grid.pack(fill="both", padx=20, pady=0)
 
         # Buscador de registros
-        buscador = tk.Entry(grid, textvariable=cls.var_filtro, **Estilos.campo_txt)
+        buscador = tk.Entry(grid, textvariable=cls.var_filtro, **campo_txt)
         buscador.config(width=30)
         buscador.grid(row=0, column=1, columnspan=3, sticky="nsew", padx=0, pady=10)
         buscador.bind("<Escape>", lambda event: cls.raiz.focus_set())
@@ -312,7 +312,7 @@ class Tabla(Page):
                 if fila > 0 and columna == FLOWER_COLUMN:
                     img = (
                         reescalar_imagen(sub_data)
-                        if Data.es_ruta(sub_data)
+                        if Data.is_route(sub_data)
                         else EMPTY_IMG
                     )
 
@@ -397,7 +397,7 @@ class Tabla(Page):
 
         # - Grid de navegación:
 
-        grid_nav = cls.obtener_grid()
+        grid_nav = cls.get_grid()
         grid_nav.pack(fill="none", padx=35, pady=0)
 
         # Flecha para retroceder
@@ -406,7 +406,7 @@ class Tabla(Page):
             text="<",
             command=cls.pag_anterior,
             font=("Arial", 24),
-            **Estilos.flecha_nav,
+            **flecha_nav,
         )
         cls.flecha_izquierda.grid(row=0, column=0, sticky="nsew", padx=0, pady=5)
 
@@ -425,7 +425,7 @@ class Tabla(Page):
             text=">",
             command=cls.pag_posterior,
             font=("Arial", 24),
-            **Estilos.flecha_nav,
+            **flecha_nav,
         )
         cls.flecha_derecha.grid(row=0, column=2, sticky="nsew", padx=0, pady=5)
 
@@ -441,26 +441,24 @@ class Tabla(Page):
         else:
             cls.flecha_derecha.config(cursor="hand2")
 
-        cls.colocar_texto("", 0, pady=2)
+        cls.set_text("", 0, pady=2)
 
         # Botón para añadir registros
-        btn_añadir = tk.Button(
+        btn_añadir_registros = tk.Button(
             cls.raiz,
             text="✚ Añadir",
-            command=Formulario.mostrar,
-            **Estilos.btn_añadir,  # type: ignore
+            command=Form.show,
+            **btn_añadir,  # type: ignore
         )
-        btn_añadir.pack(pady=0)
+        btn_añadir_registros.pack(pady=0)
 
         # Botón para eliminar todos los registros
-        btn_eliminar = tk.Button(
+        btn_eliminar_registros = tk.Button(
             cls.raiz,
             text="✘ Eliminar (TODO)",
             command=cls.eliminar_registros,
-            **Estilos.btn_eliminar,  # type: ignore
+            **btn_eliminar,  # type: ignore
         )
-        btn_eliminar.pack(pady=12)
+        btn_eliminar_registros.pack(pady=12)
 
-        # - Footer:
-
-        cls.colocar_footer()
+        cls.set_footer()
