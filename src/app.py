@@ -1,5 +1,12 @@
+import os
+
+from common.constants import DATA_IMGS
 from UI import main
 from UI.pages.menu.main import Menu
+
+# Crear carpeta donde se almacenarán las imágenes
+if not os.path.exists(DATA_IMGS):
+    os.mkdir(DATA_IMGS)
 
 # Iniciar la ventana mostrando el menú
 Menu.mostrar()

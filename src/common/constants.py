@@ -14,14 +14,11 @@ RUTA_ESCUDO = f"{RUTA_IMGS}escudo.png"
 RUTA_BANNER = f"{RUTA_IMGS}banner.png"
 RUTA_VACIO = f"{RUTA_IMGS}vacio.png"
 
-
 # Tamaño por defecto de despliega las imágenes (en pixeles)
 IMG_SIZE = 128
 
-
 # Texto por defecto para seleccionar una imagen
 DEFAULT_IMG = "<Selecciona una imagen>"
-
 
 # Tabla de registros
 COLUMNAS: tuple[str, ...] = (

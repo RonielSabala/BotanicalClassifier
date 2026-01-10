@@ -1,6 +1,5 @@
 {
   "cSpell.words": [
-    // Spanish words
     "raiz",
     "Galá",
     "vacio",
@@ -20,14 +19,12 @@
     "inutilización",
     "descompilación",
     "redimensionada",
-    // Library names
     "shutil",
     "dotenv",
     "msrest",
     "tkinter",
     "cognitiveservices",
     "customvision",
-    // Tkinter names
     "padx",
     "pady",
     "relx",
@@ -39,11 +36,9 @@
     "activeforeground",
     "selectbackground",
     "selectforeground",
-    // Tkinter colors
     "cornsilk",
     "violetred",
     "Dodgerblue",
-    // Fonts
     "Segoe"
   ]
 }
