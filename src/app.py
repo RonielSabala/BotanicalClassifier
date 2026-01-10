@@ -1,5 +1,5 @@
-from app.UI import main
-from app.UI.pages.menu.main import Menu
+from UI import main
+from UI.pages.menu.main import Menu
 
 # Iniciar la ventana mostrando el menú
 Menu.mostrar()

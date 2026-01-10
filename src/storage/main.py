@@ -1,7 +1,7 @@
 import os
 
-from ..API.main import obtener_prediccion
-from ..common.constants import DATA_IMGS, FORMULARIOS
+from API.main import obtener_prediccion
+from common.constants import DATA_IMGS, FORMULARIOS
 
 
 def es_ruta(ruta: str) -> bool:

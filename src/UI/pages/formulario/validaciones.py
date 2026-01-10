@@ -1,7 +1,7 @@
 from tkinter import messagebox
 
-from ....common.constants import DEFAULT_IMG
-from ....storage.main import es_ruta
+from common.constants import DEFAULT_IMG
+from storage.main import es_ruta
 
 
 def validar_campo(campo: str, nombre: str) -> bool:

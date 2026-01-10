@@ -3,8 +3,9 @@ import tkinter as tk
 from tkinter import font, messagebox
 from typing import Sequence
 
-from ....common.constants import COLUMNA_FLOR, COLUMNA_MAX, COLUMNAS, FILA_MAX
-from ....storage import main as Data
+from common.constants import COLUMNA_FLOR, COLUMNA_MAX, COLUMNAS, FILA_MAX
+from storage import main as Data
+
 from ...assets.main import IMG_ICONO, IMG_VACIO, reescalar_imagen
 from ...main import Page
 from ...styles import main as Estilos

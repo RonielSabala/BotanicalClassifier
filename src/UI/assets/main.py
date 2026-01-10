@@ -1,6 +1,6 @@
 from PIL import Image, ImageTk
 
-from ...common.constants import (
+from common.constants import (
     IMG_SIZE,
     RUTA_BANNER,
     RUTA_ESCUDO,

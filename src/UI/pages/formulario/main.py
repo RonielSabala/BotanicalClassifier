@@ -2,8 +2,9 @@ import shutil
 import tkinter as tk
 from tkinter import filedialog, messagebox
 
-from ....common.constants import DEFAULT_IMG
-from ....storage import main as Data
+from common.constants import DEFAULT_IMG
+from storage import main as Data
+
 from ...assets.main import IMG_ICONO
 from ...main import Page
 from ...styles import main as Estilos

@@ -2,7 +2,8 @@ import tkinter as tk
 from tkinter import PhotoImage
 from typing import Type
 
-from ..common.constants import RUTA_ICONO
+from common.constants import RUTA_ICONO
+
 from .styles import main as Estilos
 
 # - Variables para la pagina principal:

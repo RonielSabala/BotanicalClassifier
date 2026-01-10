@@ -49,7 +49,7 @@ Computer-vision desktop application that classifies five flower types: **roses**
 
 ### `.env` configuration
 
-Create a `.env` file at `src/app/API/.env` with the keys shown below.
+Create a `.env` file at `src/API/.env` with the keys shown below.
 
 ```env
 KEY='your-prediction-key'
@@ -115,7 +115,7 @@ python -m pip install -e . --upgrade
 From the repository root with the venv activated, run:
 
 ```bash
-py ./src/index.py
+py ./src/app.py
 ```
 
 ---
@@ -155,7 +155,7 @@ Contributions are welcome. Suggested workflow:
 ## Credits
 
 * **Images**: Pexels.
-* **Research**: Abel Eduardo Martínez Robles.
+* **Dataset creation**: Abel Eduardo Martínez Robles.
 * **Model service**: Azure AI Custom Vision.
 
 ---

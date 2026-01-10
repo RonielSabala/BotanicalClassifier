@@ -1,11 +1,11 @@
-_RUTA = "src\\app\\"
+_RUTA = "src\\"
 
 # Carpetas
 RUTA_DATA = f"{_RUTA}storage\\data\\"
-RUTA_IMGS = f"{_RUTA}UI\\assets\\imágenes\\"
+RUTA_IMGS = f"{_RUTA}UI\\assets\\imagenes\\"
 
 # Data guardada
-DATA_IMGS = f"{RUTA_DATA}imágenes"
+DATA_IMGS = f"{RUTA_DATA}imagenes"
 FORMULARIOS = f"{RUTA_DATA}formularios.txt"
 
 # Imágenes
