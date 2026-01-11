@@ -39,7 +39,7 @@ MAX_TABLE_COLUMN = len(COLUMN_NAMES) - 1
 FLOWER_COLUMN_INDEX = COLUMN_NAMES.index(_FLOWER_COLUMN_NAME)
 
 
-class TablePage(Page):
+class Records(Page):
     prev_page = MenuPage
 
     # Variables

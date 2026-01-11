@@ -29,7 +29,7 @@ EMAIL_LABEL = "Email"
 EMAIL_INFO = "jardinbotanico@jbn.gob.do"
 
 
-class ContactPage(Page):
+class AboutPage(Page):
     prev_page = MenuPage
 
     @classmethod

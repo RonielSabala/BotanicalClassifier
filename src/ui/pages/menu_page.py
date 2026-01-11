@@ -48,9 +48,9 @@ class MenuPage(Page):
 
     @classmethod
     def load(cls) -> None:
-        from .contact.contact_page import ContactPage
+        from .about.about_page import AboutPage
         from .form.form_page import FormPage
-        from .table.table_page import TablePage
+        from .records.records_page import Records
 
         # - Header elements:
 
@@ -81,7 +81,7 @@ class MenuPage(Page):
         records_button = tk.Button(
             cls.root,
             text=RECORDS_BUTTON_TEXT,
-            command=TablePage.show,
+            command=Records.show,
             fg="ivory4",
             activeforeground="Gray20",
             **menu_button_style,
@@ -90,7 +90,7 @@ class MenuPage(Page):
         about_button = tk.Button(
             cls.root,
             text=ABOUT_BUTTON_TEXT,
-            command=ContactPage.show,
+            command=AboutPage.show,
             fg="springGreen4",
             activeforeground="violetred4",
             **menu_button_style,

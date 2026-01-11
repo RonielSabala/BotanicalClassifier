@@ -32,8 +32,8 @@ APP_BANNER_IMAGE_ROUTE = f"{_IMAGES_ROUTE}app_banner.png"
 COUNTRY_SHIELD_IMAGE_ROUTE = f"{_IMAGES_ROUTE}country_shield.png"
 EMPTY_IMAGE_ROUTE = f"{_IMAGES_ROUTE}empty_image.png"
 
-# Contact info routes
-CONTACT_INFO_ROUTE = f"{_PROJECT_ROUTE}ui\\pages\\contact\\info\\"
-FAQ_ROUTE = f"{CONTACT_INFO_ROUTE}/faq.txt"
-TERMS_ROUTE = f"{CONTACT_INFO_ROUTE}/terms.txt"
-POLICIES_ROUTE = f"{CONTACT_INFO_ROUTE}/policies.txt"
+# About info routes
+_ABOUT_INFO_ROUTE = f"{_PROJECT_ROUTE}ui\\pages\\about\\info\\"
+FAQ_ROUTE = f"{_ABOUT_INFO_ROUTE}/faq.txt"
+TERMS_ROUTE = f"{_ABOUT_INFO_ROUTE}/terms.txt"
+POLICIES_ROUTE = f"{_ABOUT_INFO_ROUTE}/policies.txt"

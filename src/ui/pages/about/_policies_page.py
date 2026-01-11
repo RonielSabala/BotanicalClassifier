@@ -4,7 +4,7 @@ from tkinter import scrolledtext
 from common.constants import POLICIES_ROUTE
 
 from ..page import Page
-from .contact_page import ContactPage
+from .about_page import AboutPage
 
 # - Page info:
 
@@ -16,7 +16,7 @@ with open(POLICIES_ROUTE, "r", encoding="utf-8") as f:
 
 
 class PoliciesPage(Page):
-    prev_page = ContactPage
+    prev_page = AboutPage
 
     @classmethod
     def load(cls) -> None:
