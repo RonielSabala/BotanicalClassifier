@@ -21,6 +21,9 @@ def get_flower_prediction(flower_image_route: str) -> list[tuple[str, float]]:
     Devuelve la predicción del modelo a una imagen.
     """
 
-    with open(image_route, "rb") as img:
-        results = client.classify_image(project_id, published_name, img.read())
-        return [(p.tag_name, p.probability) for p in results.predictions]  # type: ignore
+    with open(flower_image_route, "rb") as image:
+        results = client.classify_image(project_id, published_name, image.read())
+        return [
+            (prediction.tag_name, prediction.probability)
+            for prediction in results.predictions  # type: ignore
+        ]
