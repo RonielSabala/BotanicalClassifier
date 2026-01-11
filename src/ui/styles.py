@@ -1,6 +1,6 @@
 # - Buttons:
 
-_btn_generic_style = {
+_button_style = {
     "bd": 0,
     "padx": 5,
     "pady": 2,
@@ -11,7 +11,7 @@ _btn_generic_style = {
     "font": ("Arial", 16, "bold"),
 }
 
-btn_primary = {
+primary_button_style = {
     "font": ("Arial", 26, "bold"),
     "fg": "black",
     "bg": "goldenrod1",
@@ -19,17 +19,17 @@ btn_primary = {
     "activebackground": "goldenrod3",
 }
 
-btn_add = {
+add_button_style = {
     "bg": "SpringGreen4",
     "activebackground": "Dark Green",
 }
 
-btn_delete = {
+delete_button_style = {
     "bg": "#b22222",
     "activebackground": "#8b0000",
 }
 
-btn_return = {
+return_button_style = {
     "text": "↵",
     "font": ("Arial", 25),
     "width": 2,
@@ -39,7 +39,7 @@ btn_return = {
     "bg": "White",
 }
 
-btn_menu = {
+menu_button_style = {
     "font": ("Arial", 50),
     "width": 2,
     "border": 0,
@@ -48,15 +48,13 @@ btn_menu = {
     "cursor": "hand2",
 }
 
-# Add generic style to every btn type
-for btn_style in (btn_primary, btn_add, btn_delete):
-    btn_style.update(
-        {k: v for k, v in _btn_generic_style.items() if k not in btn_style}
-    )
+# Add generic style to every button type
+for btn_style in (primary_button_style, add_button_style, delete_button_style):
+    btn_style.update({k: v for k, v in _button_style.items() if k not in btn_style})
 
-# - Field elements:
+# - Entry elements:
 
-field_text = {
+entry_text_style = {
     "width": 22,
     "font": ("Arial", 18),
     "fg": "black",
@@ -65,7 +63,7 @@ field_text = {
     "selectbackground": "GoldenRod1",
 }
 
-nav_arrow = {
+navigation_arrow_style = {
     "border": 0,
     "relief": "sunken",
     "fg": "Black",
@@ -74,15 +72,15 @@ nav_arrow = {
     "activebackground": "white",
 }
 
-# List elements:
+# - List elements:
 
-list_icon = {
+list_emoji_style = {
     "font": ("Arial", 32),
     "fg": "DodgerBlue4",
     "bg": "White",
 }
 
-list_title = {
+list_title_style = {
     "font": ("Arial", 16, "bold"),
     "justify": "left",
     "anchor": "w",
@@ -91,7 +89,7 @@ list_title = {
     "bg": "White",
 }
 
-list_info = {
+list_info_style = {
     "width": 0,
     "border": 0,
     "font": ("Arial", 12),
@@ -99,7 +97,7 @@ list_info = {
     "bg": "White",
 }
 
-list_link = {
+list_link_style = {
     "font": ("Arial", 13),
     "width": 0,
     "border": 0,

@@ -3,20 +3,40 @@ import tkinter as tk
 from tkinter import font, messagebox
 from typing import Sequence
 
-from common.constants import (
-    DEFAULT_TABLE_COLUMNS,
-    FLOWER_COLUMN,
-    MAX_TABLE_COLUMN,
-    MAX_TABLE_ROW,
-)
 from common.utils import is_valid_route
 
-from ...assets.images import EMPTY_IMG, ICON_IMG, get_resized_image
-from ...styles import btn_add, btn_delete, btn_primary, field_text, nav_arrow
+from ...assets.loaded_images import APP_ICON_IMAGE, EMPTY_IMAGE, get_resized_image
+from ...styles import (
+    add_button_style,
+    delete_button_style,
+    entry_text_style,
+    navigation_arrow_style,
+    primary_button_style,
+)
 from ..form.form_page import FormPage
 from ..menu_page import MenuPage
 from ..page import Page
 from .utils import clean_records, get_records, insert_classification
+
+# - Table constants:
+
+_OWNER_COLUMN_NAME = "Subido por"
+_LAST_NAME_COLUMN_NAME = "Apellido"
+_LOCATION_COLUMN_NAME = "Ubicación"
+_FLOWER_COLUMN_NAME = "Flor"
+_PREDICTION_COLUMN_NAME = "Predicción"
+COLUMN_NAMES = (
+    " ",
+    _OWNER_COLUMN_NAME,
+    _LAST_NAME_COLUMN_NAME,
+    _LOCATION_COLUMN_NAME,
+    _FLOWER_COLUMN_NAME,
+    _PREDICTION_COLUMN_NAME,
+)
+
+MAX_TABLE_ROW = 4
+MAX_TABLE_COLUMN = len(COLUMN_NAMES) - 1
+FLOWER_COLUMN_INDEX = COLUMN_NAMES.index(_FLOWER_COLUMN_NAME)
 
 
 class TablePage(Page):
@@ -31,14 +51,14 @@ class TablePage(Page):
     flecha_izquierda: tk.Button
     var_filtro = tk.StringVar()
     ultimo_filtro = (None, None)
-    categoria: str = DEFAULT_TABLE_COLUMNS[1]
+    categoria: str = COLUMN_NAMES[1]
     cabezales: list[tk.Button] = []
 
     @classmethod
     def close(cls):
         cls.var_filtro.set("")
         cls.ultimo_filtro = None, None
-        cls.main_field = None
+        cls.main_entry = None
 
     @classmethod
     def config_pages(cls):
@@ -57,7 +77,7 @@ class TablePage(Page):
         else:
             # Filtrar los registros
             filtro = cls.var_filtro.get().lower()
-            columna = DEFAULT_TABLE_COLUMNS.index(cls.categoria)
+            columna = COLUMN_NAMES.index(cls.categoria)
             registros = [
                 x
                 for x in cls._registros
@@ -69,7 +89,7 @@ class TablePage(Page):
         n = len(registros)
         if n > MAX_TABLE_ROW:
             for _ in range(MAX_TABLE_ROW - (n - 1) % (MAX_TABLE_ROW - 1) - 1):
-                registros.append([" "] * MAX_TABLE_COLUMN)
+                registros.append([" "] * (MAX_TABLE_COLUMN + 1))
 
         cls.pagina = int(len(registros) != 1)
         cls.max_pagina = math.ceil((n - 1) / (MAX_TABLE_ROW - 1))
@@ -81,7 +101,7 @@ class TablePage(Page):
         Actualiza la tabla.
         """
 
-        cls.was_loaded = False
+        cls.is_loaded = False
         cls.reset()
         super().show()
 
@@ -205,7 +225,7 @@ class TablePage(Page):
             grid,
             text="Clasificar",
             command=lambda valor=index: clasificar(valor),
-            **btn_primary,
+            **primary_button_style,
         )
         btn.config(
             font=("Arial", 16, "bold"),
@@ -257,7 +277,7 @@ class TablePage(Page):
         # - Header:
 
         cls.set_return_btn()
-        tk.Label(cls.root, image=ICON_IMG, bg=cls.bg_color).pack(padx=20, pady=15)
+        tk.Label(cls.root, image=APP_ICON_IMAGE, bg=cls.bg_color).pack(padx=20, pady=15)
         cls.set_text("Registros", 32, pady=0, fg="#091518")
         cls.set_text("", 0, pady=2)
 
@@ -267,13 +287,13 @@ class TablePage(Page):
         grid.pack(fill="both", padx=20, pady=0)
 
         # Buscador de registros
-        buscador = tk.Entry(grid, textvariable=cls.var_filtro, **field_text)
+        buscador = tk.Entry(grid, textvariable=cls.var_filtro, **entry_text_style)
         buscador.config(width=30)
         buscador.grid(row=0, column=1, columnspan=3, sticky="nsew", padx=0, pady=10)
         buscador.bind("<Escape>", lambda event: cls.root.focus_set())
         buscador.bind("<Return>", lambda event: btn_buscar.invoke())
         if cls.ultimo_filtro[0] is not None:
-            cls.main_field = buscador
+            cls.main_entry = buscador
 
         # Botón de buscar
         btn_buscar = tk.Button(
@@ -292,7 +312,7 @@ class TablePage(Page):
         index = (MAX_TABLE_ROW - 1) * (cls.pagina - 1)
         for fila, data in enumerate(cls.registros[index : index + MAX_TABLE_ROW + 1]):
             if fila == 0:
-                data = DEFAULT_TABLE_COLUMNS
+                data = COLUMN_NAMES
 
             elif fila == MAX_TABLE_ROW:
                 break
@@ -305,16 +325,16 @@ class TablePage(Page):
                     if fila == 0:
                         # Cabezales
                         fg, bg = "white", "Dodgerblue4"
-                    elif columna != MAX_TABLE_COLUMN - 1 and sub_data != " ":
+                    elif columna != MAX_TABLE_COLUMN and sub_data != " ":
                         # Registros
                         bg = "Gray96" if fila % 2 else "Gray92"
 
                 # Crear una imagen
-                if fila > 0 and columna == FLOWER_COLUMN:
+                if fila > 0 and columna == FLOWER_COLUMN_INDEX:
                     img = (
                         get_resized_image(sub_data)
                         if is_valid_route(sub_data)
-                        else EMPTY_IMG
+                        else EMPTY_IMAGE
                     )
 
                     elemento = tk.Label(grid, image=img)
@@ -335,9 +355,7 @@ class TablePage(Page):
                         continue
 
                     # Predicciones
-                    elif (
-                        sub_data != " " and fila > 0 and columna == MAX_TABLE_COLUMN - 1
-                    ):
+                    elif sub_data != " " and fila > 0 and columna == MAX_TABLE_COLUMN:
                         elemento = cls.tabla_prediccion(grid, sub_data)
                         elemento.config(bg=bg)
                         elemento.grid(row=fila + 1, column=columna)
@@ -346,8 +364,8 @@ class TablePage(Page):
                     # Crear un label
                     elif fila > 0 or columna in (
                         0,
-                        FLOWER_COLUMN,
-                        MAX_TABLE_COLUMN - 1,
+                        FLOWER_COLUMN_INDEX,
+                        MAX_TABLE_COLUMN,
                     ):
                         elemento = tk.Label(grid)
                         if fila > 0:
@@ -407,7 +425,7 @@ class TablePage(Page):
             text="<",
             command=cls.pag_anterior,
             font=("Arial", 24),
-            **nav_arrow,
+            **navigation_arrow_style,
         )
         cls.flecha_izquierda.grid(row=0, column=0, sticky="nsew", padx=0, pady=5)
 
@@ -426,7 +444,7 @@ class TablePage(Page):
             text=">",
             command=cls.pag_posterior,
             font=("Arial", 24),
-            **nav_arrow,
+            **navigation_arrow_style,
         )
         cls.flecha_derecha.grid(row=0, column=2, sticky="nsew", padx=0, pady=5)
 
@@ -449,7 +467,7 @@ class TablePage(Page):
             cls.root,
             text="✚ Añadir",
             command=FormPage.show,
-            **btn_add,  # type: ignore
+            **add_button_style,  # type: ignore
         )
         btn_añadir_registros.pack(pady=0)
 
@@ -458,7 +476,7 @@ class TablePage(Page):
             cls.root,
             text="✘ Eliminar (TODO)",
             command=cls.eliminar_registros,
-            **btn_delete,  # type: ignore
+            **delete_button_style,  # type: ignore
         )
         btn_eliminar_registros.pack(pady=12)
 

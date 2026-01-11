@@ -1,13 +1,13 @@
 import os
 
-from common.constants import STORAGE_IMGS_ROUTE
+from common.constants import LOCAL_STORAGE_IMGS_ROUTE
 from common.utils import is_valid_route
 from ui.pages import page
 from ui.pages.menu_page import MenuPage
 
 # Create default image folder at local storage
-if not is_valid_route(STORAGE_IMGS_ROUTE):
-    os.mkdir(STORAGE_IMGS_ROUTE)
+if not is_valid_route(LOCAL_STORAGE_IMGS_ROUTE):
+    os.mkdir(LOCAL_STORAGE_IMGS_ROUTE)
 
 # Show menu page
 MenuPage.show()
