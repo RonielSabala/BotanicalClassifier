@@ -1,5 +1,4 @@
 # Window constants
-WINDOW_NAME = "jbn"
 WINDOW_WIDTH = 750
 WINDOW_HEIGHT = 900
 MAX_WINDOW_WIDTH = 1920
@@ -7,11 +6,7 @@ MAX_WINDOW_HEIGHT = 1080
 WINDOW_PADX = int(MAX_WINDOW_WIDTH / 2 + WINDOW_WIDTH / 2 - WINDOW_WIDTH)
 WINDOW_PADY = int(MAX_WINDOW_HEIGHT / 2 + WINDOW_HEIGHT / 2 - WINDOW_HEIGHT)
 
-# Page constants
-PAGE_RETURN_BUTTON_TEXT = "Volver"
-PAGE_FOOTER = "Jardín Botánico Nacional\n©2025 Todos los derechos reservados."
-
-# Image constants
+# Images constants
 IMAGE_SIZE = 128
 IMAGE_PREFIX = "flor_survey"
 DEFAULT_IMAGE_ENTRY_TEXT = "<Selecciona una imagen>"

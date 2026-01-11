@@ -3,16 +3,18 @@ from tkinter import Frame, PhotoImage
 
 from common.constants import (
     APP_ICON_IMAGE_ROUTE,
-    PAGE_FOOTER,
-    PAGE_RETURN_BUTTON_TEXT,
     WINDOW_HEIGHT,
-    WINDOW_NAME,
     WINDOW_PADX,
     WINDOW_PADY,
     WINDOW_WIDTH,
 )
 
 from ..styles import return_button_style
+
+# App constants
+WINDOW_NAME = "jbn - flor survey"
+PAGE_FOOTER = "Jardín Botánico Nacional\n©2025 Todos los derechos reservados."
+PAGE_RETURN_BUTTON_TEXT = "Volver"
 
 # App root
 TK_ROOT = tk.Tk()
