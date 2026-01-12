@@ -19,7 +19,7 @@ PAGE_RETURN_BUTTON_TEXT = "Volver"
 # App root
 TK_ROOT = tk.Tk()
 TK_ROOT.title(WINDOW_NAME)
-TK_ROOT.iconphoto(True, PhotoImage(file=APP_ICON_IMAGE_ROUTE))
+TK_ROOT.iconphoto(False, PhotoImage(file=APP_ICON_IMAGE_ROUTE))
 TK_ROOT.geometry(f"{WINDOW_WIDTH}x{WINDOW_HEIGHT}+{WINDOW_PADX}+{WINDOW_PADY}")
 TK_ROOT.resizable(False, False)
 

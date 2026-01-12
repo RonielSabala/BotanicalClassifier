@@ -20,14 +20,14 @@ from .utils import clean_records, get_records, insert_record_prediction
 
 # - Table constants:
 
-_RECORD_NUMERATION_COLUMN_NAME = " "
+EMPTY_CELL_VALUE = " "
 _OWNER_COLUMN_NAME = "Subido por"
 _LAST_NAME_COLUMN_NAME = "Apellido"
 _LOCATION_COLUMN_NAME = "Ubicación"
 _FLOWER_COLUMN_NAME = "Flor"
 _PREDICTION_COLUMN_NAME = "Predicción"
 COLUMN_NAMES = (
-    _RECORD_NUMERATION_COLUMN_NAME,
+    EMPTY_CELL_VALUE,
     _OWNER_COLUMN_NAME,
     _LAST_NAME_COLUMN_NAME,
     _LOCATION_COLUMN_NAME,
@@ -91,7 +91,7 @@ class Records(Page):
     filter_column: str = _OWNER_COLUMN_NAME
 
     @classmethod
-    def config_pages(cls):
+    def config_pages(cls) -> None:
         FormPage.prev_page = cls
 
     @classmethod
@@ -101,7 +101,7 @@ class Records(Page):
         cls.filter_var.set("")
 
     @classmethod
-    def _update_table(cls):
+    def _update_table(cls) -> None:
         """
         Actualiza la tabla.
         """
@@ -121,7 +121,10 @@ class Records(Page):
         if count < 1:
             return
 
-        missing_records = [[" "] * (MAX_COLUMN_INDEX + 1) for _ in range(count)]
+        missing_records = [
+            [EMPTY_CELL_VALUE] * (MAX_COLUMN_INDEX + 1) for _ in range(count)
+        ]
+
         cls.records.extend(missing_records)
 
     @classmethod
@@ -167,7 +170,7 @@ class Records(Page):
         cls._update_table()
 
     @classmethod
-    def _load_prev_page(cls):
+    def _load_prev_page(cls) -> None:
         """
         Carga la pagina anterior de registros
         en la tabla.
@@ -181,7 +184,7 @@ class Records(Page):
         cls._update_table()
 
     @classmethod
-    def _load_next_page(cls):
+    def _load_next_page(cls) -> None:
         """
         Carga la pagina siguiente de registros
         en la tabla.
@@ -195,7 +198,7 @@ class Records(Page):
         cls._update_table()
 
     @classmethod
-    def _delete_all_records(cls):
+    def _delete_all_records(cls) -> None:
         """
         Elimina todos los registros guardados.
         """
@@ -269,7 +272,7 @@ class Records(Page):
         cls._update_table()
 
     @classmethod
-    def _get_classified_record_grid(cls, root: Frame, record_index: int) -> Frame:
+    def _get_prediction_button(cls, root: Frame, record_index: int) -> Frame:
         bg_color = "white"
         grid = Frame(root, bg=bg_color)
         grid.rowconfigure(0, weight=1)
@@ -314,12 +317,10 @@ class Records(Page):
 
         # Add column names
         for i, column_name in enumerate(prediction_column_names):
+            label_font = "Arial", 12 if i == 0 else 10, "bold"
+            fg_color = "White" if i == 0 else "GoldenRod1"
             tk.Label(
-                grid,
-                text=column_name,
-                font=("Arial", 12 if i == 0 else 10, "bold"),
-                fg="White" if i == 0 else "GoldenRod1",
-                bg="Gray15",
+                grid, text=column_name, font=label_font, fg=fg_color, bg="Gray15"
             ).grid(row=0, column=i, sticky="nsew", padx=0)
 
         sorted_predictions = sorted(
@@ -327,6 +328,7 @@ class Records(Page):
         )
 
         # Add predictions
+        label_font = "Arial", 10
         for i, prediction in enumerate(sorted_predictions):
             for j, data in enumerate(prediction):
                 if isinstance(data, str):
@@ -338,18 +340,105 @@ class Records(Page):
                         else FAILED_FLOWER_PROBABILITY_EMOJI
                     )
 
+                fg_color = "Black" if i == 0 else f"Gray{60 + 8 * i}"
+                bg_color = "GoldenRod1" if i == 0 else "White"
                 tk.Label(
-                    grid,
-                    text=data,
-                    font=("Arial", 10),
-                    fg="Black" if i == 0 else f"Gray{60 + 8 * i}",
-                    bg="GoldenRod1" if i == 0 else "White",
+                    grid, text=data, font=label_font, fg=fg_color, bg=bg_color
                 ).grid(row=i + 1, column=j, sticky="nsew")
 
         return grid
 
     @classmethod
-    def _fill_records_grid(cls, records_grid: Frame) -> None:
+    def _get_cell_colors(cls, row: int, col: int, cell_value: str) -> tuple[str, str]:
+        fg, bg = "Black", cls.bg_color
+        if col == 0:
+            return fg, bg
+
+        # Column names colors
+        if row == 0:
+            fg, bg = "white", "Dodgerblue4"
+
+        # Records colors
+        elif col < MAX_COLUMN_INDEX and cell_value != EMPTY_CELL_VALUE:
+            bg = "Gray96" if row % 2 else "Gray92"
+
+        return fg, bg
+
+    @classmethod
+    def _get_cell_element(
+        cls,
+        root: Frame,
+        row: int,
+        col: int,
+        cell_value: str,
+        bg_color: str,
+        row_data: list[str],
+    ) -> tuple[Frame | tk.Label | tk.Button, bool]:
+        # Flower image
+        if row > 0 and col == FLOWER_COLUMN_INDEX:
+            image = (
+                get_resized_image(cell_value)
+                if is_valid_route(cell_value)
+                else EMPTY_IMAGE
+            )
+
+            cell_image = tk.Label(root, image=image)
+            cell_image.image = image  # type: ignore
+            return cell_image, True
+
+        # Predict button
+        if cell_value is None:
+            record_index = int(row_data[0][:-1])
+            button = cls._get_prediction_button(root, record_index - 1)
+            button.grid(row=row + 1, column=col, padx=0, pady=1)
+            return button, False
+
+        # Predictions grid
+        if row > 0 and col == MAX_COLUMN_INDEX and cell_value != EMPTY_CELL_VALUE:
+            grid = cls._get_prediction_grid(root, cell_value)  # type: ignore
+            grid.config(bg=bg_color)
+            grid.grid(row=row + 1, column=col)
+            return grid, False
+
+        element_font = "Arial", 16, "bold"
+
+        # Label
+        if row > 0 or col in (0, FLOWER_COLUMN_INDEX, MAX_COLUMN_INDEX):
+            element = tk.Label(root)
+            if row > 0:
+                element_font = "Segoe UI Emoji", 13
+                if col > 0:
+                    element.config(cursor="xterm")
+
+        # Button
+        else:
+            # Underline filter column
+            if cell_value == cls.filter_column:
+                element_font += ("underline",)
+
+            element = tk.Button(
+                root,
+                border=0,
+                activeforeground="Black",
+                activebackground="DodgerBlue4",
+                cursor="hand2",
+                command=lambda value=cell_value: cls._update_filter_column(value),
+            )
+
+            cls.column_buttons.append(element)
+
+        element.config(text=cell_value, font=element_font, relief="flat")
+
+        if col not in (0, 1):
+            return element, True
+
+        # Configure item anchor
+        element_anchor = "center" if row == 0 else ("e" if col == 0 else "w")
+        element.config(anchor=element_anchor, padx=15)
+        return element, True
+
+    @classmethod
+    def _fill_records_grid(cls, grid: Frame) -> None:
         cls.column_buttons = []
         start_index = max(0, MAX_ROW_INDEX_PER_PAGE * (cls.page_index - 1))
         end_index = min(start_index + MAX_ROW_INDEX_PER_PAGE, len(cls.records) - 1)
@@ -363,100 +452,22 @@ class Records(Page):
             else:
                 row_data = cls.records[record_index]
 
-            # Insert row
-            for col, cell_data in enumerate(row_data):
-                # Row color
-                fg_color, bg_color = "Black", cls.bg_color
-                if col > 0:
-                    # Column names
-                    if row == 0:
-                        fg_color, bg_color = "white", "Dodgerblue4"
+            for col, cell_value in enumerate(row_data):
+                fg_color, bg_color = cls._get_cell_colors(row, col, cell_value)
+                cell_element, needs_config = cls._get_cell_element(
+                    grid,
+                    row,
+                    col,
+                    cell_value,
+                    bg_color,
+                    row_data,  # type: ignore
+                )
 
-                    # Records
-                    elif col != MAX_COLUMN_INDEX and cell_data != " ":
-                        bg_color = "Gray96" if row % 2 else "Gray92"
+                if not needs_config:
+                    continue
 
-                # Insert the flower image
-                if row > 0 and col == FLOWER_COLUMN_INDEX:
-                    image = (
-                        get_resized_image(cell_data)
-                        if is_valid_route(cell_data)
-                        else EMPTY_IMAGE
-                    )
-
-                    # Configure image
-                    item = tk.Label(records_grid, image=image)
-
-                # Insert a label/button
-                else:
-                    font = "Arial", 16, "bold"
-
-                    # Insert predict button
-                    if cell_data is None:
-                        record_enumeration = row_data[0][:-1]
-                        item = cls._get_classified_record_grid(
-                            records_grid, int(record_enumeration) - 1
-                        )
-
-                        item.grid(row=row + 1, column=col, padx=0, pady=1)
-                        continue
-
-                    # Insert predictions grid
-                    elif cell_data != " " and row > 0 and col == MAX_COLUMN_INDEX:
-                        item = cls._get_prediction_grid(records_grid, cell_data)  # type: ignore
-                        item.config(bg=bg_color)
-                        item.grid(row=row + 1, column=col)
-                        continue
-
-                    # Insert label
-                    elif row > 0 or col in (
-                        0,
-                        FLOWER_COLUMN_INDEX,
-                        MAX_COLUMN_INDEX,
-                    ):
-                        item = tk.Label(records_grid)
-                        if row > 0:
-                            font = "Segoe UI Emoji", 13
-                            if col > 0:
-                                item.config(cursor="xterm")
-
-                    # Insert button
-                    else:
-                        if cls.filter_column == cell_data:
-                            font += ("underline",)
-
-                        item = tk.Button(
-                            records_grid,
-                            border=0,
-                            activeforeground="Black",
-                            activebackground="DodgerBlue4",
-                            cursor="hand2",
-                            command=lambda valor=cell_data: cls._update_filter_column(
-                                valor
-                            ),
-                        )
-
-                        cls.column_buttons.append(item)
-
-                    item.config(
-                        text=cell_data,
-                        font=font,
-                        relief="flat",
-                    )
-
-                    # Configure item anchor
-                    if col in (0, 1):
-                        item_anchor = (
-                            "center"
-                            if row in (0, MAX_ROW_INDEX_PER_PAGE + 1)
-                            else ("e" if col == 0 else "w")
-                        )
-
-                        item.config(anchor=item_anchor, padx=15)
-
-                # Configure item
-                item.config(fg=fg_color, bg=bg_color)
-                item.grid(row=row + 1, column=col, sticky="nsew", pady=1)
+                cell_element.config(fg=fg_color, bg=bg_color)  # type: ignore
+                cell_element.grid(row=row + 1, column=col, sticky="nsew", pady=1)
 
     @classmethod
     def load(cls) -> None:
