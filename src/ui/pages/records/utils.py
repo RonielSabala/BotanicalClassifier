@@ -29,7 +29,7 @@ def clean_records() -> None:
         try:
             os.unlink(image)
         except Exception as e:
-            messagebox.showerror(f"{DELETE_IMAGE_ERROR} {image}: {e}")
+            messagebox.showerror("Error", f"{DELETE_IMAGE_ERROR} {image}: {e}")
             return
 
 
@@ -45,7 +45,7 @@ def insert_record_prediction(record_index: int) -> None:
 
     # Validate record index
     if not (0 <= record_index < len(records)):
-        messagebox.showerror(RECORD_INDEX_ERROR)
+        messagebox.showerror("Error", RECORD_INDEX_ERROR)
         return
 
     # - Get prediction:

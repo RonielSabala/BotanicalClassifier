@@ -75,11 +75,10 @@ FAILED_FLOWER_PROBABILITY_EMOJI = "✗"
 
 class Records(Page):
     prev_page = MenuPage
-
     column_buttons: list[tk.Button] = []
 
     records: list[Sequence]
-    _records: list[Sequence]
+    _all_records: list[Sequence]
 
     page_index: int = 0
     max_page_index: int = 0
@@ -113,39 +112,52 @@ class Records(Page):
 
     @classmethod
     def _fill_records(cls) -> None:
-        cls._records = [()]
-        for i, record in enumerate(get_records(), start=1):
-            record = [f"{i}."] + record
-            cls._records.append(record)
+        cls._all_records = [
+            [f"{i}."] + record for i, record in enumerate(get_records(), start=1)
+        ]
+
+    @classmethod
+    def _append_missing_records(cls, count: int) -> None:
+        if count < 1:
+            return
+
+        missing_records = [[" "] * (MAX_COLUMN_INDEX + 1) for _ in range(count)]
+        cls.records.extend(missing_records)
 
     @classmethod
     def _update_records(cls) -> None:
         # Get records
         if cls.last_filter[0] is None:
-            filtered_records = cls._records.copy()
+            filtered_records = cls._all_records.copy()
         else:
             text_to_filter = cls.filter_var.get().lower()
             filter_column_index = COLUMN_NAMES.index(cls.filter_column)
             filtered_records = [
                 record
-                for record in cls._records
+                for record in cls._all_records
                 if len(record) == 0
                 or text_to_filter in str(record[filter_column_index]).lower()
             ]
+
+        if not filtered_records:
+            cls.records = []
+            cls.page_index = 0
+            cls.max_page_index = 0
+            return
 
         max_record_index = len(filtered_records) - 1
         last_page_index, last_page_records_count = divmod(
             max_record_index, MAX_ROW_INDEX_PER_PAGE
         )
 
-        # Add empty records to fill the table
-        if max_record_index >= MAX_ROW_INDEX_PER_PAGE + 1:
-            for _ in range(MAX_ROW_INDEX_PER_PAGE - last_page_records_count):
-                filtered_records.append([" "] * (MAX_COLUMN_INDEX + 1))
-
         cls.records = filtered_records
-        cls.page_index = int(len(filtered_records) != 1)
+        cls.page_index = 1
         cls.max_page_index = last_page_index + 1
+
+        if max_record_index >= MAX_ROW_INDEX_PER_PAGE:
+            cls._append_missing_records(
+                MAX_ROW_INDEX_PER_PAGE - last_page_records_count
+            )
 
     @classmethod
     def show(cls) -> None:
@@ -188,7 +200,7 @@ class Records(Page):
         Elimina todos los registros guardados.
         """
 
-        if len(cls._records) == 0:
+        if not cls._all_records:
             return
 
         choice = messagebox.askyesno(DELETE_ALL_DIALOG_TITLE, DELETE_ALL_DIALOG_TEXT)
@@ -339,14 +351,17 @@ class Records(Page):
     @classmethod
     def _fill_records_grid(cls, records_grid: Frame) -> None:
         cls.column_buttons = []
-        start_index = MAX_ROW_INDEX_PER_PAGE * (cls.page_index - 1)
+        start_index = max(0, MAX_ROW_INDEX_PER_PAGE * (cls.page_index - 1))
+        end_index = min(start_index + MAX_ROW_INDEX_PER_PAGE, len(cls.records) - 1)
 
-        row_data = None
-        for row in range(start_index, start_index + MAX_ROW_INDEX_PER_PAGE + 1):
-            if row_data is None:
+        for row, record_index in enumerate(range(start_index - 1, end_index + 1)):
+            if row == MAX_ROW_INDEX_PER_PAGE + 1:
+                break
+
+            if row == 0:
                 row_data = COLUMN_NAMES
             else:
-                row_data = cls.records[row]
+                row_data = cls.records[record_index]
 
             # Insert row
             for col, cell_data in enumerate(row_data):
@@ -378,10 +393,11 @@ class Records(Page):
 
                     # Insert predict button
                     if cell_data is None:
-                        record_index = int(cls.records[start_index + row][0][:-1]) - 1
+                        record_enumeration = row_data[0][:-1]
                         item = cls._get_classified_record_grid(
-                            records_grid, record_index
+                            records_grid, int(record_enumeration) - 1
                         )
+
                         item.grid(row=row + 1, column=col, padx=0, pady=1)
                         continue
 
@@ -430,14 +446,13 @@ class Records(Page):
 
                     # Configure item anchor
                     if col in (0, 1):
-                        item.config(
-                            anchor=(
-                                "center"
-                                if row in (0, MAX_ROW_INDEX_PER_PAGE + 1)
-                                else ("e" if col == 0 else "w")
-                            ),
-                            padx=15,
+                        item_anchor = (
+                            "center"
+                            if row in (0, MAX_ROW_INDEX_PER_PAGE + 1)
+                            else ("e" if col == 0 else "w")
                         )
+
+                        item.config(anchor=item_anchor, padx=15)
 
                 # Configure item
                 item.config(fg=fg_color, bg=bg_color)

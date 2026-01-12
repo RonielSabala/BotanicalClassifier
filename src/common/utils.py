@@ -1,4 +1,5 @@
 import os
+from typing import Generator
 
 from .constants import LOCAL_STORAGE_IMGS_ROUTE
 
@@ -15,7 +16,7 @@ def get_full_image_route(route: str) -> str:
     return os.path.join(LOCAL_STORAGE_IMGS_ROUTE, route).replace("\\", "\\\\")
 
 
-def get_all_images():
+def get_all_images() -> Generator[str, None, None]:
     """
     Devuelve la ruta de todas las imágenes de
     la carpeta imágenes.
