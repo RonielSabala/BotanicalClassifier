@@ -1,5 +1,5 @@
 .env
 .venv
 *.egg-info
-__pycache__
 */local_storage
+__pycache__

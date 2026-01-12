@@ -1,7 +1,7 @@
 import os
 from tkinter import messagebox
 
-from api.main import get_flower_prediction
+from api.predictor import get_flower_prediction
 from common.constants import LOCAL_STORAGE_RECORDS_ROUTE
 from common.utils import get_all_images
 

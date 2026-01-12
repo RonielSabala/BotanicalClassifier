@@ -56,7 +56,7 @@ def save_form() -> None:
 
     # Save form
     try:
-        image_extension = image_route.split(".")[-1]
+        image_extension = (image_route.split(".")[-1]).lower()
         image_filename = get_next_image_filename(image_extension)
         full_image_route = get_full_image_route(image_filename)
 

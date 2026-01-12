@@ -122,10 +122,10 @@ py ./src/app.py
 
 ## Dataset & data format
 
-Images used to build and validate the model were collected from **Pexels** and curated into a dataset of at least **50 images per flower class**. Images were saved under the naming convention:
+Images used to build and validate the model were collected from **Pexels** and curated into a dataset of at least **60 images per flower class**. Images were saved under the naming convention:
 
 ```md
-flor_survey_xx.png
+flower_survey_xx.png
 ```
 
 This convention is used by the application to ingest and normalize incoming user images.

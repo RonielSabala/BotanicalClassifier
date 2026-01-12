@@ -6,8 +6,8 @@ from common.constants import (
     LOCAL_STORAGE_RECORDS_ROUTE,
 )
 from common.utils import is_valid_route
-from ui.pages import page
-from ui.pages.menu_page import MenuPage
+from gui.pages import page
+from gui.pages.menu_page import MenuPage
 
 # Create local storage
 if not is_valid_route(_LOCAL_STORAGE_ROUTE):

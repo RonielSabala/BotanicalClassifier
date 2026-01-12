@@ -3,7 +3,7 @@ from tkinter import Frame, font, messagebox
 from typing import Optional, Sequence
 
 from common.utils import is_valid_route
-from ui.assets.loaded_images import EMPTY_IMAGE, get_resized_image
+from gui.assets.loaded_images import EMPTY_IMAGE, get_resized_image
 
 from ...assets.loaded_images import APP_ICON_IMAGE
 from ...styles import (
