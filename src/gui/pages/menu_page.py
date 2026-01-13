@@ -31,7 +31,7 @@ class MenuPage(Page):
 
     @classmethod
     def load(cls) -> None:
-        from .about.about_page import AboutPage
+        from .about_page import AboutPage
         from .form.form_page import FormPage
         from .records.records_page import RecordsPage
 

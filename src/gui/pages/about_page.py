@@ -1,17 +1,18 @@
 import tkinter as tk
-from tkinter import Frame
+from tkinter import Frame, scrolledtext
 
+from common.constants import FAQ_PATH, POLICIES_PATH, TERMS_PATH
 from services.i18n import i18n
 
-from ...assets.images import APP_ICON_IMAGE, COUNTRY_SHIELD_IMAGE
-from ...page import Page
-from ...styles import (
+from ..assets.images import APP_ICON_IMAGE, COUNTRY_SHIELD_IMAGE
+from ..page import Page
+from ..styles import (
     list_emoji_style,
     list_info_style,
     list_link_style,
     list_title_style,
 )
-from ..menu_page import MenuPage
+from .menu_page import MenuPage
 
 ADDRESS_EMOJI = "📍"
 PHONE_EMOJI = "📞"
@@ -38,10 +39,6 @@ class AboutPage(Page):
 
     @classmethod
     def load(cls) -> None:
-        from ._faq_page import FaqPage
-        from ._policies_page import PoliciesPage
-        from ._terms_page import TermsPage
-
         # - Grids creation:
 
         header_grid = cls.get_grid_from_root()
@@ -163,3 +160,78 @@ class AboutPage(Page):
         faq_button.grid(row=0, column=4, sticky="nsw")
 
         cls.set_footer()
+
+
+def get_page_content(path: str) -> str:
+    path = path.format(lang=i18n.current_language)
+    with open(path, "r", encoding="utf-8") as file:
+        return file.read()
+
+
+class FaqPage(Page):
+    prev_page = AboutPage
+
+    @classmethod
+    def load(cls) -> None:
+        # Header
+        cls.set_return_btn()
+        cls.set_text("", 0, pady=35)
+        cls.set_text(i18n.get("about.faq.title"), 30, pady=0, fg="#091518")
+        cls.set_text("", 0, pady=25)
+
+        # Content
+        scrollable_text = scrolledtext.ScrolledText(
+            cls.root, wrap=tk.WORD, width=50, height=12
+        )
+
+        scrollable_text.pack(padx=85, pady=0, fill=tk.BOTH, expand=True)
+        scrollable_text.config(state=tk.NORMAL, font=("Arial", 13), relief="flat")
+        scrollable_text.insert(tk.END, get_page_content(FAQ_PATH))
+        scrollable_text.config(state=tk.DISABLED)
+        cls.set_text("", 0, pady=35)
+
+
+class PoliciesPage(Page):
+    prev_page = AboutPage
+
+    @classmethod
+    def load(cls) -> None:
+        # Header
+        cls.set_return_btn()
+        cls.set_text("", 0, pady=35)
+        cls.set_text(i18n.get("about.policies.title"), 30, pady=0, fg="#091518")
+        cls.set_text("", 0, pady=0)
+
+        # Content
+        scrollable_text = scrolledtext.ScrolledText(
+            cls.root, wrap=tk.WORD, width=50, height=12
+        )
+
+        scrollable_text.pack(padx=85, pady=0, fill=tk.BOTH, expand=True)
+        scrollable_text.config(state=tk.NORMAL, font=("Arial", 10), bg="Gray95")
+        scrollable_text.insert(tk.END, get_page_content(POLICIES_PATH))
+        scrollable_text.config(state=tk.DISABLED)
+        cls.set_text("", 0, pady=30)
+
+
+class TermsPage(Page):
+    prev_page = AboutPage
+
+    @classmethod
+    def load(cls) -> None:
+        # Header
+        cls.set_return_btn()
+        cls.set_text("", 0, pady=35)
+        cls.set_text(i18n.get("about.terms.title"), 30, pady=0, fg="#091518")
+        cls.set_text("", 0, pady=0)
+
+        # Content
+        scrollable_text = scrolledtext.ScrolledText(
+            cls.root, wrap=tk.WORD, width=50, height=12
+        )
+
+        scrollable_text.pack(padx=85, pady=0, fill=tk.BOTH, expand=True)
+        scrollable_text.config(state=tk.NORMAL, font=("Arial", 10), bg="Gray95")
+        scrollable_text.insert(tk.END, get_page_content(TERMS_PATH))
+        scrollable_text.config(state=tk.DISABLED)
+        cls.set_text("", 0, pady=30)
