@@ -1,10 +1,11 @@
 import tkinter as tk
+from datetime import date
 from tkinter import Frame, PhotoImage
 
 from common.constants import APP_ICON_IMAGE_PATH
-from common.i18n import i18n
+from services.i18n import i18n
 
-from ..styles import return_button_style
+from .styles import return_button_style
 
 # App root
 TK_ROOT = tk.Tk()
@@ -27,10 +28,15 @@ TK_FRAME.pack(fill="both", expand=True)
 TK_FRAME.grid_rowconfigure(0, weight=1)
 TK_FRAME.grid_columnconfigure(0, weight=1)
 
+# Copyright constants
+CURRENT_YEAR = date.year
+COMPANY_NAME = "Jardín Botánico Nacional"
+COPYRIGHT_SYMBOL = "©"
+
 
 def get_app_rights() -> str:
     rights = i18n.get("app.rights")
-    return f"Jardín Botánico Nacional\n©2026 {rights}."
+    return f"{COMPANY_NAME}\n{COPYRIGHT_SYMBOL}{CURRENT_YEAR} {rights}."
 
 
 class Page:

@@ -6,7 +6,7 @@ from common.constants import (
     LOCAL_STORAGE_RECORDS_PATH,
 )
 from common.utils import is_valid_path
-from gui.pages import page
+from gui import page
 from gui.pages.menu_page import MenuPage
 
 # Create local storage

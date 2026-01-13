@@ -5,9 +5,10 @@ from common.constants import (
     APP_ICON_IMAGE_PATH,
     COUNTRY_SHIELD_IMAGE_PATH,
     EMPTY_IMAGE_PATH,
-    IMAGE_MODE,
     IMAGE_SIZE,
 )
+
+IMAGE_MODE = "RGBA"
 
 
 def get_image_from_path(image_path: str):

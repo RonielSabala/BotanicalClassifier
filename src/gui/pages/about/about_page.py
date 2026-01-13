@@ -1,9 +1,10 @@
 import tkinter as tk
 from tkinter import Frame
 
-from common.i18n import i18n
+from services.i18n import i18n
 
-from ...assets.loaded_images import APP_ICON_IMAGE, COUNTRY_SHIELD_IMAGE
+from ...assets.images import APP_ICON_IMAGE, COUNTRY_SHIELD_IMAGE
+from ...page import Page
 from ...styles import (
     list_emoji_style,
     list_info_style,
@@ -11,7 +12,6 @@ from ...styles import (
     list_title_style,
 )
 from ..menu_page import MenuPage
-from ..page import Page
 
 LOCATION_EMOJI = "📍"
 PHONE_EMOJI = "📞"

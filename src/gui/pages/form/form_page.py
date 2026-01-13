@@ -3,14 +3,14 @@ import tkinter as tk
 from tkinter import filedialog, messagebox
 
 from common.constants import VALID_IMAGE_FILE_TYPES
-from common.i18n import i18n
 from common.utils import get_full_image_path
+from services.i18n import i18n
 
-from ...assets.loaded_images import APP_ICON_IMAGE
+from ...assets.images import APP_ICON_IMAGE
+from ...page import Page
 from ...styles import entry_text_style, primary_button_style
 from ..menu_page import MenuPage
-from ..page import Page
-from .utils import (
+from .helpers import (
     append_record,
     get_next_image_filename,
     is_valid_image_path,

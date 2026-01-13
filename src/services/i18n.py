@@ -1,11 +1,9 @@
 import json
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Dict
 
 from common.constants import I18N_DIR
-
-from .utils import is_valid_path
+from common.utils import is_valid_path
 
 
 class Language(str, Enum):
@@ -18,14 +16,14 @@ class Language(str, Enum):
 
 
 @dataclass(slots=True)
-class I18n:
+class I18nService:
     """
     Lightweight i18n loader using JSON files.
     """
 
     default: Language
     _current: Language = field(init=False)
-    _catalogs: Dict[str, Dict[str, str]] = field(default_factory=dict, init=False)
+    _catalogs: dict[str, dict[str, str]] = field(default_factory=dict, init=False)
 
     def __post_init__(self) -> None:
         self._current = self.default
@@ -40,6 +38,10 @@ class I18n:
                 lang_json = json.load(lang_file)
 
             self._catalogs[lang] = {str(k): str(v) for k, v in lang_json.items()}
+
+    @property
+    def current(self) -> str:
+        return self._current.value
 
     def set_language(self, lang: Language) -> None:
         """
@@ -58,4 +60,4 @@ class I18n:
 
 
 # Global singleton
-i18n = I18n(default=Language.EN)
+i18n = I18nService(default=Language.EN)

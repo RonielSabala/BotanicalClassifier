@@ -1,10 +1,10 @@
 import os
 from tkinter import messagebox
 
-from api.predictor import get_flower_prediction
 from common.constants import LOCAL_STORAGE_RECORDS_PATH
-from common.i18n import i18n
 from common.utils import get_all_images
+from services.i18n import i18n
+from services.predictor import get_flower_prediction
 
 
 def get_records() -> tuple[list, ...]:

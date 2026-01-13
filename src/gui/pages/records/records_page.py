@@ -2,11 +2,12 @@ import tkinter as tk
 from tkinter import Frame, font, messagebox
 from typing import Optional, Sequence
 
-from common.i18n import i18n
 from common.utils import is_valid_path
-from gui.assets.loaded_images import EMPTY_IMAGE, get_resized_image
+from gui.assets.images import EMPTY_IMAGE, get_resized_image
+from services.i18n import i18n
 
-from ...assets.loaded_images import APP_ICON_IMAGE
+from ...assets.images import APP_ICON_IMAGE
+from ...page import Page
 from ...styles import (
     add_button_style,
     delete_button_style,
@@ -16,8 +17,7 @@ from ...styles import (
 )
 from ..form.form_page import FormPage
 from ..menu_page import MenuPage
-from ..page import Page
-from .utils import clean_records, get_records, insert_record_prediction
+from .helpers import clean_records, get_records, insert_record_prediction
 
 # GUI constants
 LEFT_NAV_ARROW_BUTTON_TEXT = ">"

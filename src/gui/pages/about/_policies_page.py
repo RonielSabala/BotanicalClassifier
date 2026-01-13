@@ -2,14 +2,16 @@ import tkinter as tk
 from tkinter import scrolledtext
 
 from common.constants import POLICIES_PATH
-from common.i18n import i18n
+from services.i18n import i18n
 
-from ..page import Page
+from ...page import Page
 from .about_page import AboutPage
 
-# Get page content
-with open(POLICIES_PATH, "r", encoding="utf-8") as f:
-    page_content = f.read()
+
+def get_page_content() -> str:
+    path = POLICIES_PATH.format(lang=i18n.current)
+    with open(path, "r", encoding="utf-8") as file:
+        return file.read()
 
 
 class PoliciesPage(Page):
@@ -30,6 +32,6 @@ class PoliciesPage(Page):
 
         scrollable_text.pack(padx=85, pady=0, fill=tk.BOTH, expand=True)
         scrollable_text.config(state=tk.NORMAL, font=("Arial", 10), bg="Gray95")
-        scrollable_text.insert(tk.END, page_content)
+        scrollable_text.insert(tk.END, get_page_content())
         scrollable_text.config(state=tk.DISABLED)
         cls.set_text("", 0, pady=30)

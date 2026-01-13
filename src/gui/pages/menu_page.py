@@ -1,11 +1,11 @@
 import tkinter as tk
 from tkinter import font
 
-from common.i18n import i18n
+from services.i18n import i18n
 
-from ..assets.loaded_images import APP_BANNER_IMAGE
+from ..assets.images import APP_BANNER_IMAGE
+from ..page import TK_ROOT, Page, destroy_all_pages
 from ..styles import menu_button_style, primary_button_style
-from .page import TK_ROOT, Page, destroy_all_pages
 
 RECORDS_BUTTON_TEXT = "📝"
 ABOUT_BUTTON_TEXT = "❀"

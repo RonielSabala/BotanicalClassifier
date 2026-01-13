@@ -6,8 +6,8 @@ from common.constants import (
     LOCAL_STORAGE_IMGS_PATH,
     LOCAL_STORAGE_RECORDS_PATH,
 )
-from common.i18n import i18n
 from common.utils import is_valid_path
+from services.i18n import i18n
 
 
 def show_error(error_message: str) -> None:
