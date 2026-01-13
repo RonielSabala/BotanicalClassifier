@@ -4,7 +4,7 @@ from typing import Optional, Sequence
 
 from common.utils import is_valid_path
 from gui.assets.images import EMPTY_IMAGE, get_resized_image
-from services.i18n import i18n
+from services.i18n_service import i18n
 
 from ...assets.images import APP_ICON_IMAGE
 from ...page import Page

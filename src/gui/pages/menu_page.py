@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import font
 
-from services.i18n import i18n
+from services.i18n_service import i18n
 
 from ..assets.images import APP_BANNER_IMAGE
 from ..page import APP_ROOT, Page, destroy_all_pages

@@ -12,7 +12,7 @@ from common.constants import (
 from common.paths import (
     APP_ICON_IMAGE_PATH,
 )
-from services.i18n import i18n
+from services.i18n_service import i18n
 
 from .styles import return_button_style
 

@@ -6,7 +6,7 @@ from common.paths import (
     LOCAL_RECORDS_PATH,
 )
 from common.utils import is_valid_path, show_error_messagebox
-from services.i18n import i18n
+from services.i18n_service import i18n
 
 
 def is_valid_entry(entry_name: str, name_on_error: str) -> bool:

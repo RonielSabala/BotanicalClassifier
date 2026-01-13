@@ -4,7 +4,7 @@ from tkinter import filedialog
 
 from common.constants import ALLOWED_IMAGE_EXTENSIONS
 from common.utils import get_full_image_path, show_error_messagebox
-from services.i18n import i18n
+from services.i18n_service import i18n
 
 from ...assets.images import APP_ICON_IMAGE
 from ...page import Page

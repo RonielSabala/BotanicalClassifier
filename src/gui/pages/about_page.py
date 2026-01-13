@@ -8,7 +8,7 @@ from common.constants import (
     ABOUT_SUBTITLE,
 )
 from common.paths import FAQ_PATH, POLICIES_PATH, TERMS_PATH
-from services.i18n import i18n
+from services.i18n_service import i18n
 
 from ..assets.images import APP_ICON_IMAGE, COUNTRY_SHIELD_IMAGE
 from ..page import Page
