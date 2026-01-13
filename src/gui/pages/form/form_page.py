@@ -1,9 +1,9 @@
 import shutil
 import tkinter as tk
-from tkinter import filedialog, messagebox
+from tkinter import filedialog
 
 from common.constants import VALID_IMAGE_FILE_TYPES
-from common.utils import get_full_image_path
+from common.utils import get_full_image_path, show_error_messagebox
 from services.i18n import i18n
 
 from ...assets.images import APP_ICON_IMAGE
@@ -48,8 +48,7 @@ def save_form() -> None:
         append_record(str([name, surname, address, full_image_path, None]))
         shutil.copy(image_path, full_image_path)
     except Exception as e:
-        save_error = i18n.get("form.save_error")
-        messagebox.showerror("Error", f"{save_error}: {e}")
+        show_error_messagebox(f"{i18n.get('form.save_error')}: {e}")
         return
 
     if FormPage.prev_page is None:

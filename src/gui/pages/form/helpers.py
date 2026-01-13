@@ -1,17 +1,12 @@
 import os
-from tkinter import messagebox
 
 from common.constants import (
     LOCAL_IMAGES_PREFIX,
     LOCAL_STORAGE_IMGS_PATH,
     LOCAL_STORAGE_RECORDS_PATH,
 )
-from common.utils import is_valid_path
+from common.utils import is_valid_path, show_error_messagebox
 from services.i18n import i18n
-
-
-def show_error(error_message: str) -> None:
-    messagebox.showerror("Error", error_message)
 
 
 def is_valid_entry(entry_name: str, name_on_error: str) -> bool:
@@ -35,7 +30,7 @@ def is_valid_entry(entry_name: str, name_on_error: str) -> bool:
         error_msg += " " + i18n.get("form.utils.maximum_char_requirement")
 
     if not is_valid:
-        show_error(error_msg + ".")
+        show_error_messagebox(error_msg + ".")
 
     return is_valid
 
@@ -62,7 +57,7 @@ def is_valid_image_path(image_path: str) -> bool:
 
     is_valid = error_msg is None
     if not is_valid:
-        show_error(error_msg)
+        show_error_messagebox(error_msg)
 
     return is_valid
 

@@ -54,7 +54,5 @@
   "records.prediction_column": "Prediction",
   "records.classify_button": "Classify",
   "records.prediction_tag_column": "Tag",
-  "records.prediction_probability_column": "Probability",
-  "records.utils.delete_image_error": "Error deleting",
-  "records.utils.record_index_error": "Error inserting prediction: Line number out of range ({record_index})."
+  "records.prediction_probability_column": "Probability"
 }

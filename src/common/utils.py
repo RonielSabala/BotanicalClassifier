@@ -1,4 +1,5 @@
 import os
+from tkinter import messagebox
 from typing import Generator
 
 from .constants import LOCAL_STORAGE_IMGS_PATH
@@ -16,10 +17,14 @@ def get_full_image_path(path: str) -> str:
     return os.path.join(LOCAL_STORAGE_IMGS_PATH, path)
 
 
-def get_all_images() -> Generator[str, None, None]:
+def get_all_local_images() -> Generator[str, None, None]:
     """
     Devuelve la ruta de todas las imágenes de
     la carpeta imágenes.
     """
 
     return (get_full_image_path(image) for image in os.listdir(LOCAL_STORAGE_IMGS_PATH))
+
+
+def show_error_messagebox(error_message: str) -> None:
+    messagebox.showerror("Error", error_message)

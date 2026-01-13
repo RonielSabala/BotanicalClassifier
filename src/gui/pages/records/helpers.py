@@ -1,9 +1,7 @@
 import os
-from tkinter import messagebox
 
 from common.constants import LOCAL_STORAGE_RECORDS_PATH
-from common.utils import get_all_images
-from services.i18n import i18n
+from common.utils import get_all_local_images
 from services.predictor import get_flower_prediction
 
 
@@ -22,13 +20,8 @@ def clean_records() -> None:
         f.write("")
 
     # Delete record images
-    for image in get_all_images():
-        try:
-            os.unlink(image)
-        except Exception as e:
-            delete_image_error = i18n.get("records.utils.delete_image_error")
-            messagebox.showerror("Error", f"{delete_image_error} {image}: {e}")
-            return
+    for image in get_all_local_images():
+        os.unlink(image)
 
 
 def insert_record_prediction(record_index: int) -> None:
@@ -43,9 +36,9 @@ def insert_record_prediction(record_index: int) -> None:
 
     # Validate record index
     if not (0 <= record_index < len(records)):
-        record_index_error = i18n.get("records.utils.record_index_error")
-        messagebox.showerror("Error", record_index_error.format(record_index))
-        return
+        raise ValueError(
+            f"Error inserting prediction: record_index ({record_index}) out of range."
+        )
 
     # - Get prediction:
 
