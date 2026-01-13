@@ -14,13 +14,13 @@
   "menu.exit_button": "Exit",
 
   "about.title": "National Botanical Garden",
+  "about.country_name": "Dominican Republic",
   "about.location": "Address",
-  "about.location_info": "Av. República de Colombia esq. Av. Los Próceres\nSector los Altos de Gala, Santo Domingo, D.N\nDominican Republic",
   "about.phone": "Phone",
   "about.email": "Email",
   "about.terms.title": "Terms of Use",
   "about.policies.title": "Privacy Policies",
-  "about.faq.title": "FAQ",
+  "about.faq.title": "Frequently Asked Questions",
 
   "form.title": "Form",
   "form.name": "Name",

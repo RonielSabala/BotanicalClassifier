@@ -19,6 +19,7 @@ EMAIL_EMOJI = "📧"
 PHONE_INFO = "(809) 385-2611 Ext. 221"
 EMAIL_INFO = "jardinbotanico@jbn.gob.do"
 PAGE_SUBTITLE = "Dr. Rafael M. Moscoso"
+LOCATION_INFO = "Av. República de Colombia esq. Av. Los Próceres\nSector los Altos de Galá, Santo Domingo, D.N."
 
 
 class AboutPage(Page):
@@ -85,7 +86,9 @@ class AboutPage(Page):
         )
 
         location_info = tk.Label(
-            content_grid, text=i18n.get("about.location_info"), **list_info_style
+            content_grid,
+            text=f"{LOCATION_INFO}\n{i18n.get('about.country_name')}",
+            **list_info_style,
         )
 
         phone_emoji = tk.Label(content_grid, text=PHONE_EMOJI, **list_emoji_style)
