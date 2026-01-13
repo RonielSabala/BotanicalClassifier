@@ -13,7 +13,7 @@ def get_full_image_path(path: str) -> str:
     Devuelve la ruta completa en la carpeta de imágenes.
     """
 
-    return os.path.join(LOCAL_STORAGE_IMGS_PATH, path).replace("\\", "\\\\")
+    return os.path.join(LOCAL_STORAGE_IMGS_PATH, path)
 
 
 def get_all_images() -> Generator[str, None, None]:

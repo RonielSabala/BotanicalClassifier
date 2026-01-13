@@ -30,7 +30,7 @@ class I18nService:
 
         # Load languages
         for lang in Language.all_languages():
-            lang_path = f"{I18N_DIR}{lang}.json"
+            lang_path = f"{I18N_DIR}/{lang}.json"
             if not is_valid_path(lang_path):
                 raise FileNotFoundError(f"Translation file not found: {lang_path}")
 
