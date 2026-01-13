@@ -51,20 +51,8 @@ class FormService:
 
         return is_valid
 
-    @classmethod
-    def is_valid_name(cls, name: str) -> bool:
-        return cls._is_valid_entry(name, i18n.get("form.utils.enter_name"))
-
-    @classmethod
-    def is_valid_surname(cls, last_name: str) -> bool:
-        return cls._is_valid_entry(last_name, i18n.get("form.utils.enter_surname"))
-
-    @classmethod
-    def is_valid_address(cls, address: str) -> bool:
-        return cls._is_valid_entry(address, i18n.get("form.utils.enter_address"))
-
     @staticmethod
-    def is_valid_image_path(image_path: str) -> bool:
+    def _is_valid_image_path(image_path: str) -> bool:
         error_msg = None
         if image_path == i18n.get("form.utils.attach_image"):
             error_msg = i18n.get("form.utils.unselected_image_error")
@@ -77,3 +65,14 @@ class FormService:
             show_error_messagebox(error_msg)
 
         return is_valid
+
+    @classmethod
+    def is_valid_record(
+        cls, name: str, surname: str, address: str, image_path: str
+    ) -> bool:
+        return (
+            cls._is_valid_entry(name, i18n.get("form.utils.enter_name"))
+            and cls._is_valid_entry(surname, i18n.get("form.utils.enter_surname"))
+            and cls._is_valid_entry(address, i18n.get("form.utils.enter_address"))
+            and FormService._is_valid_image_path(image_path)
+        )

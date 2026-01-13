@@ -22,14 +22,7 @@ def save_form() -> None:
     surname = FormPage.surname_var.get()
     address = FormPage.address_var.get()
     image_path = FormPage.image_path
-
-    # Validate entries
-    if not (
-        FormService.is_valid_name(name)
-        and FormService.is_valid_surname(surname)
-        and FormService.is_valid_address(address)
-        and FormService.is_valid_image_path(image_path)
-    ):
+    if not (FormService.is_valid_record(name, surname, address, image_path)):
         return
 
     # Save form
@@ -44,11 +37,9 @@ def save_form() -> None:
         show_error_messagebox(f"{i18n.get('form.save_error')}: {e}")
         return
 
-    if FormPage.prev_page is None:
-        return
-
     # Show previous page
-    FormPage.prev_page.show()
+    if FormPage.prev_page is not None:
+        FormPage.prev_page.show()
 
 
 class FormPage(Page):
