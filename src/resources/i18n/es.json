@@ -14,10 +14,10 @@
   "menu.exit_button": "Salir",
 
   "about.title": "Jardín Botánico Nacional",
-  "about.country_name": "República Dominicana",
   "about.address": "Dirección",
   "about.phone": "Tel.",
   "about.email": "Email",
+  "about.address_country": "República Dominicana",
   "about.terms.title": "Términos De Uso",
   "about.policies.title": "Políticas De Privacidad",
   "about.faq.title": "Preguntas Frecuentes",

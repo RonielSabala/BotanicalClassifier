@@ -84,7 +84,7 @@ class AboutPage(Page):
 
         address_info = tk.Label(
             content_grid,
-            text=f"{ADDRESS_INFO}\n{i18n.get('about.country_name')}",
+            text=f"{ADDRESS_INFO}\n{i18n.get('about.address_country')}",
             **list_info_style,
         )
 
