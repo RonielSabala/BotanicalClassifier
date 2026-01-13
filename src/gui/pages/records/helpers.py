@@ -1,12 +1,12 @@
 import os
 
-from common.constants import LOCAL_STORAGE_RECORDS_PATH
+from common.constants import LOCAL_RECORDS_PATH
 from common.utils import get_all_local_images
 from services.predictor import get_flower_prediction
 
 
 def get_records() -> tuple[list, ...]:
-    with open(LOCAL_STORAGE_RECORDS_PATH, "r") as f:
+    with open(LOCAL_RECORDS_PATH, "r") as f:
         return tuple(list(eval(line.strip("\n"))) for line in f.readlines())
 
 
@@ -16,7 +16,7 @@ def clean_records() -> None:
     """
 
     # Delete file content
-    with open(LOCAL_STORAGE_RECORDS_PATH, "w") as f:
+    with open(LOCAL_RECORDS_PATH, "w") as f:
         f.write("")
 
     # Delete record images
@@ -31,7 +31,7 @@ def insert_record_prediction(record_index: int) -> None:
     """
 
     # Get records
-    with open(LOCAL_STORAGE_RECORDS_PATH, "r") as f:
+    with open(LOCAL_RECORDS_PATH, "r") as f:
         records = f.readlines()
 
     # Validate record index
@@ -51,5 +51,5 @@ def insert_record_prediction(record_index: int) -> None:
 
     # Update records
     records[record_index] = f"{record}\n"
-    with open(LOCAL_STORAGE_RECORDS_PATH, "w") as f:
+    with open(LOCAL_RECORDS_PATH, "w") as f:
         f.writelines(records)

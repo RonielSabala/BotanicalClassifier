@@ -2,8 +2,8 @@ import os
 
 from common.constants import (
     LOCAL_IMAGES_PREFIX,
-    LOCAL_STORAGE_IMGS_PATH,
-    LOCAL_STORAGE_RECORDS_PATH,
+    LOCAL_IMGS_DIR,
+    LOCAL_RECORDS_PATH,
 )
 from common.utils import is_valid_path, show_error_messagebox
 from services.i18n import i18n
@@ -63,7 +63,7 @@ def is_valid_image_path(image_path: str) -> bool:
 
 
 def get_next_image_filename(img_extension: str) -> str:
-    images_count = len(os.listdir(LOCAL_STORAGE_IMGS_PATH))
+    images_count = len(os.listdir(LOCAL_IMGS_DIR))
     return f"{LOCAL_IMAGES_PREFIX}_{images_count}.{img_extension}"
 
 
@@ -72,5 +72,5 @@ def append_record(record: str) -> None:
     Guarda un registro en el archivo formularios.
     """
 
-    with open(LOCAL_STORAGE_RECORDS_PATH, "a") as f:
+    with open(LOCAL_RECORDS_PATH, "a") as f:
         f.write(f"{record}\n")

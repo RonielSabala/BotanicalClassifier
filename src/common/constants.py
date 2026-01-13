@@ -3,15 +3,15 @@ IMAGE_SIZE = 128
 LOCAL_IMAGES_PREFIX = "flower_survey"
 VALID_IMAGE_FILE_TYPES = "*.png;*.jpg;*.jpeg"
 
-# Paths:
+# - Paths:
 
 _RESOURCES_DIR = "src/resources"
 I18N_DIR = f"{_RESOURCES_DIR}/i18n"
 
 # Local storage paths
-_LOCAL_STORAGE_DIR = f"{_RESOURCES_DIR}/local"
-LOCAL_STORAGE_IMGS_PATH = f"{_LOCAL_STORAGE_DIR}/images"
-LOCAL_STORAGE_RECORDS_PATH = f"{_LOCAL_STORAGE_DIR}/records.txt"
+_LOCAL_DIR = f"{_RESOURCES_DIR}/local"
+LOCAL_IMGS_DIR = f"{_LOCAL_DIR}/images"
+LOCAL_RECORDS_PATH = f"{_LOCAL_DIR}/records.txt"
 
 # Asset images paths
 _IMAGES_DIR = f"{_RESOURCES_DIR}/images"

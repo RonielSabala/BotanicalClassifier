@@ -1,19 +1,19 @@
 import os
 
 from common.constants import (
-    _LOCAL_STORAGE_DIR,
-    LOCAL_STORAGE_IMGS_PATH,
-    LOCAL_STORAGE_RECORDS_PATH,
+    _LOCAL_DIR,
+    LOCAL_IMGS_DIR,
+    LOCAL_RECORDS_PATH,
 )
 from common.utils import is_valid_path
 from gui import page
 from gui.pages.menu_page import MenuPage
 
 # Create local storage
-if not is_valid_path(_LOCAL_STORAGE_DIR):
-    os.mkdir(_LOCAL_STORAGE_DIR)
-    os.mkdir(LOCAL_STORAGE_IMGS_PATH)
-    with open(LOCAL_STORAGE_RECORDS_PATH, "w") as file:
+if not is_valid_path(_LOCAL_DIR):
+    os.mkdir(_LOCAL_DIR)
+    os.mkdir(LOCAL_IMGS_DIR)
+    with open(LOCAL_RECORDS_PATH, "w") as file:
         pass
 
 # Show menu page
