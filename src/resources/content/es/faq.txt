@@ -11,7 +11,7 @@ R: Investigación, conservación, educación ambiental y esparcimiento.
 
 
 P: ¿Por qué son importantes las investigaciones científicas?
-R: Porque permiten conocer la naturaleza y características de las plantas y con las informaciones producidas hacen un manejo sostenible de los   recursos florísticos y el ambiente en general.
+R: Porque permiten conocer la naturaleza y características de las plantas y con las informaciones producidas hacen un manejo sostenible de los recursos florísticos y el ambiente en general.
 
 
 P: ¿Qué acciones lleva a cabo el jardín botánico para conservación?
@@ -32,12 +32,13 @@ R: La institución cuenta con una dirección general y seis departamentos. Admin
 
 P: ¿De los servicios ofrecidos cuáles son los más solicitados?
 R:
-    - Identificación de plantas.
-    - Labor social.
-    - Asesorías de investigaciones científicas.
-    - Recorrido en tren.
-    - Recorrido en el herbario.
-    - Entre otros.
+- Identificación de plantas.
+- Labor social.
+- Asesorías de investigaciones científicas.
+- Recorrido en tren.
+- Recorrido en el herbario.
+- Entre otros.
+
 
 P: ¿Cuáles son los días que el jardín botánico presta servicio al público y en que horarios?
 R: De lunes a domingo en horario de 9:00 a.m. a 5:00 p.m.
