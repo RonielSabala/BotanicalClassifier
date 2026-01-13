@@ -1,6 +1,6 @@
 import os
 
-from common.constants import LOCAL_RECORDS_PATH
+from common.paths import LOCAL_RECORDS_PATH
 from common.utils import get_all_local_images
 from services.predictor import get_flower_prediction
 

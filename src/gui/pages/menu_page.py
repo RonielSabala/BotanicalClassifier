@@ -4,9 +4,10 @@ from tkinter import font
 from services.i18n import i18n
 
 from ..assets.images import APP_BANNER_IMAGE
-from ..page import TK_ROOT, Page, destroy_all_pages
+from ..page import APP_ROOT, Page, destroy_all_pages
 from ..styles import menu_button_style, primary_button_style
 
+# GUI defaults
 RECORDS_BUTTON_TEXT = "📝"
 ABOUT_BUTTON_TEXT = "❀"
 EXIT_BUTTON_LABEL = "⥱"
@@ -21,7 +22,7 @@ class MenuPage(Page):
 
     @classmethod
     def destroy(cls) -> None:
-        TK_ROOT.destroy()
+        APP_ROOT.destroy()
 
     @classmethod
     def config_pages(cls) -> None:

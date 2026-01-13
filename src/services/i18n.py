@@ -2,7 +2,7 @@ import json
 from dataclasses import dataclass, field
 from enum import Enum
 
-from common.constants import I18N_DIR
+from common.paths import I18N_DIR
 from common.utils import is_valid_path
 
 

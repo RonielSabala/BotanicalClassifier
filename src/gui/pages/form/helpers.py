@@ -1,8 +1,8 @@
 import os
 
-from common.constants import (
-    LOCAL_IMAGES_PREFIX,
-    LOCAL_IMGS_DIR,
+from common.constants import LOCAL_IMAGES_PREFIX
+from common.paths import (
+    LOCAL_IMAGES_DIR,
     LOCAL_RECORDS_PATH,
 )
 from common.utils import is_valid_path, show_error_messagebox
@@ -63,7 +63,7 @@ def is_valid_image_path(image_path: str) -> bool:
 
 
 def get_next_image_filename(img_extension: str) -> str:
-    images_count = len(os.listdir(LOCAL_IMGS_DIR))
+    images_count = len(os.listdir(LOCAL_IMAGES_DIR))
     return f"{LOCAL_IMAGES_PREFIX}_{images_count}.{img_extension}"
 
 

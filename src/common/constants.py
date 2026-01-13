@@ -1,27 +1,23 @@
-# Images constants
-IMAGE_SIZE = 128
+from datetime import date
+
+# Gui defaults
+WINDOW_WIDTH = 750
+WINDOW_HEIGHT = 900
+
+# Image defaults
+BASE_IMAGE_MODE = "RGBA"
+BASE_IMAGE_COLOR = 0, 0, 0, 0
+BASE_IMAGE_SIZE_PIXELS = 128
 LOCAL_IMAGES_PREFIX = "flower_survey"
-VALID_IMAGE_FILE_TYPES = "*.png;*.jpg;*.jpeg"
+ALLOWED_IMAGE_EXTENSIONS = "*.png;*.jpg;*.jpeg"
 
-# - Paths:
+# Copyright defaults
+COPYRIGHT_SYMBOL = "©"
+CURRENT_YEAR = date.today().year
+COMPANY_NAME = "Jardín Botánico Nacional"
 
-_RESOURCES_DIR = "src/resources"
-I18N_DIR = f"{_RESOURCES_DIR}/i18n"
-
-# Local storage paths
-_LOCAL_DIR = f"{_RESOURCES_DIR}/local"
-LOCAL_IMGS_DIR = f"{_LOCAL_DIR}/images"
-LOCAL_RECORDS_PATH = f"{_LOCAL_DIR}/records.txt"
-
-# Asset images paths
-_IMAGES_DIR = f"{_RESOURCES_DIR}/images"
-APP_ICON_IMAGE_PATH = f"{_IMAGES_DIR}/app_icon.png"
-APP_BANNER_IMAGE_PATH = f"{_IMAGES_DIR}/app_banner.png"
-COUNTRY_SHIELD_IMAGE_PATH = f"{_IMAGES_DIR}/country_shield.png"
-EMPTY_IMAGE_PATH = f"{_IMAGES_DIR}/empty_image.png"
-
-# About info paths
-_ABOUT_INFO_DIR = f"{_RESOURCES_DIR}/content/{{lang}}"
-FAQ_PATH = f"{_ABOUT_INFO_DIR}/faq.txt"
-TERMS_PATH = f"{_ABOUT_INFO_DIR}/terms.txt"
-POLICIES_PATH = f"{_ABOUT_INFO_DIR}/policies.txt"
+# About defaults
+ABOUT_SUBTITLE = "Dr. Rafael M. Moscoso"
+ABOUT_ADDRESS_INFO = "Av. República de Colombia esq. Av. Los Próceres\nSector los Altos de Galá, Santo Domingo, D.N."
+ABOUT_PHONE_INFO = "(809) 385-2611 Ext. 221"
+ABOUT_EMAIL_INFO = "jardinbotanico@jbn.gob.do"

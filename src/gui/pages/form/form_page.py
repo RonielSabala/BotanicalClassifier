@@ -2,7 +2,7 @@ import shutil
 import tkinter as tk
 from tkinter import filedialog
 
-from common.constants import VALID_IMAGE_FILE_TYPES
+from common.constants import ALLOWED_IMAGE_EXTENSIONS
 from common.utils import get_full_image_path, show_error_messagebox
 from services.i18n import i18n
 
@@ -146,7 +146,7 @@ class FormPage(Page):
         def on_click() -> None:
             cls.image_path = filedialog.askopenfilename(
                 title=i18n.get("form.utils.attach_image"),
-                filetypes=[(i18n.get("form.image_files"), VALID_IMAGE_FILE_TYPES)],
+                filetypes=[(i18n.get("form.image_files"), ALLOWED_IMAGE_EXTENSIONS)],
             )
 
             if not cls.image_path:

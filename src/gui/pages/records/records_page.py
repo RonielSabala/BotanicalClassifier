@@ -19,7 +19,10 @@ from ..form.form_page import FormPage
 from ..menu_page import MenuPage
 from .helpers import clean_records, get_records, insert_record_prediction
 
-# GUI constants
+# Table defaults
+MAX_ROW_INDEX_PER_PAGE = 3
+
+# GUI defaults
 LEFT_NAV_ARROW_BUTTON_TEXT = ">"
 RIGHT_NAV_ARROW_BUTTON_TEXT = "<"
 ADD_RECORD_BUTTON_EMOJI = "✚"
@@ -27,11 +30,6 @@ DELETE_BUTTON_EMOJI = "✘"
 DEFAULT_CLASSIFIED_RECORD_VALUE = "N/A"
 HIGHEST_FLOWER_PROBABILITY_EMOJI = "✔"
 FAILED_FLOWER_PROBABILITY_EMOJI = "✗"
-
-# Table constants
-MAX_ROW_INDEX_PER_PAGE = 3
-MAX_COLUMN_INDEX = 5
-FLOWER_COLUMN_INDEX = 4
 EMPTY_CELL_VALUE = " "
 
 
@@ -43,13 +41,16 @@ class RecordsPage(Page):
     records: list[Sequence]
     _all_records: list[Sequence]
 
-    page_index: int = 0
-    max_page_index: int = 0
+    _max_column_index: int = -1
+    _flower_column_index: int = -1
+
+    page_index: int = -1
+    max_page_index: int = -1
 
     left_nav_arrow: tk.Button
     right_nav_arrow: tk.Button
 
-    filter_var = tk.StringVar()
+    filter_var: tk.StringVar = tk.StringVar()
     last_filter: tuple[Optional[str], Optional[str]] = None, None
     filter_column: str = i18n.get("records.owner_column")
 
@@ -65,14 +66,18 @@ class RecordsPage(Page):
 
     @classmethod
     def _update_column_names(cls) -> None:
+        flower_column = i18n.get("records.flower_column")
         cls._column_names = (
             EMPTY_CELL_VALUE,
             i18n.get("records.owner_column"),
             i18n.get("records.surname_column"),
             i18n.get("records.address_column"),
-            i18n.get("records.flower_column"),
+            flower_column,
             i18n.get("records.prediction_column"),
         )
+
+        cls._max_column_index = len(cls._column_names) - 1
+        cls._flower_column_index = cls._column_names.index(flower_column)
 
     @classmethod
     def _fill_records(cls) -> None:
@@ -86,7 +91,7 @@ class RecordsPage(Page):
             return
 
         missing_records = [
-            [EMPTY_CELL_VALUE] * (MAX_COLUMN_INDEX + 1) for _ in range(count)
+            [EMPTY_CELL_VALUE] * (cls._max_column_index + 1) for _ in range(count)
         ]
 
         cls.records.extend(missing_records)
@@ -338,7 +343,7 @@ class RecordsPage(Page):
             fg, bg = "white", "Dodgerblue4"
 
         # Records colors
-        elif col < MAX_COLUMN_INDEX and cell_value != EMPTY_CELL_VALUE:
+        elif col < cls._max_column_index and cell_value != EMPTY_CELL_VALUE:
             bg = "Gray96" if row % 2 else "Gray92"
 
         return fg, bg
@@ -354,7 +359,7 @@ class RecordsPage(Page):
         row_data: list[str],
     ) -> tuple[Frame | tk.Label | tk.Button, bool]:
         # Flower image
-        if row > 0 and col == FLOWER_COLUMN_INDEX:
+        if row > 0 and col == cls._flower_column_index:
             image = (
                 get_resized_image(cell_value)
                 if is_valid_path(cell_value)
@@ -373,7 +378,7 @@ class RecordsPage(Page):
             return button, False
 
         # Predictions grid
-        if row > 0 and col == MAX_COLUMN_INDEX and cell_value != EMPTY_CELL_VALUE:
+        if row > 0 and col == cls._max_column_index and cell_value != EMPTY_CELL_VALUE:
             grid = cls._get_prediction_grid(root, cell_value)  # type: ignore
             grid.config(bg=bg_color)
             grid.grid(row=row + 1, column=col)
@@ -382,7 +387,7 @@ class RecordsPage(Page):
         element_font = "Arial", 16, "bold"
 
         # Label
-        if row > 0 or col in (0, FLOWER_COLUMN_INDEX, MAX_COLUMN_INDEX):
+        if row > 0 or col in (0, cls._flower_column_index, cls._max_column_index):
             element = tk.Label(root)
             if row > 0:
                 element_font = "Segoe UI Emoji", 13

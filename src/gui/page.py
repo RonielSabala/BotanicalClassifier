@@ -1,38 +1,39 @@
 import tkinter as tk
-from datetime import date
 from tkinter import Frame, PhotoImage
 from typing import Optional
 
-from common.constants import APP_ICON_IMAGE_PATH
+from common.constants import (
+    COMPANY_NAME,
+    COPYRIGHT_SYMBOL,
+    CURRENT_YEAR,
+    WINDOW_HEIGHT,
+    WINDOW_WIDTH,
+)
+from common.paths import (
+    APP_ICON_IMAGE_PATH,
+)
 from services.i18n import i18n
 
 from .styles import return_button_style
 
 # App root
-TK_ROOT = tk.Tk()
+APP_ROOT = tk.Tk()
 
-# Window constants
-_WINDOW_WIDTH = 750
-_WINDOW_HEIGHT = 900
-_MAX_WINDOW_WIDTH = TK_ROOT.winfo_screenwidth()
-_MAX_WINDOW_HEIGHT = TK_ROOT.winfo_screenheight()
-_WINDOW_PADX = int(_MAX_WINDOW_WIDTH / 2 + _WINDOW_WIDTH / 2 - _WINDOW_WIDTH)
-_WINDOW_PADY = int(_MAX_WINDOW_HEIGHT / 2 + _WINDOW_HEIGHT / 2 - _WINDOW_HEIGHT)
-TK_ROOT.title(i18n.get("window.title"))
-TK_ROOT.iconphoto(False, PhotoImage(file=APP_ICON_IMAGE_PATH))
-TK_ROOT.geometry(f"{_WINDOW_WIDTH}x{_WINDOW_HEIGHT}+{_WINDOW_PADX}+{_WINDOW_PADY}")
-TK_ROOT.resizable(False, False)
+# Root config
+_WINDOW_PADX = int(APP_ROOT.winfo_screenwidth() / 2 + WINDOW_WIDTH / 2 - WINDOW_WIDTH)
+_WINDOW_PADY = int(
+    APP_ROOT.winfo_screenheight() / 2 + WINDOW_HEIGHT / 2 - WINDOW_HEIGHT
+)
+APP_ROOT.title(i18n.get("window.title"))
+APP_ROOT.iconphoto(True, PhotoImage(file=APP_ICON_IMAGE_PATH))
+APP_ROOT.geometry(f"{WINDOW_WIDTH}x{WINDOW_HEIGHT}+{_WINDOW_PADX}+{_WINDOW_PADY}")
+APP_ROOT.resizable(False, False)
 
 # App frame
-TK_FRAME = Frame(TK_ROOT)
-TK_FRAME.pack(fill="both", expand=True)
-TK_FRAME.grid_rowconfigure(0, weight=1)
-TK_FRAME.grid_columnconfigure(0, weight=1)
-
-# Copyright constants
-CURRENT_YEAR = date.today().year
-COMPANY_NAME = "Jardín Botánico Nacional"
-COPYRIGHT_SYMBOL = "©"
+APP_FRAME = Frame(APP_ROOT)
+APP_FRAME.pack(fill="both", expand=True)
+APP_FRAME.grid_rowconfigure(0, weight=1)
+APP_FRAME.grid_columnconfigure(0, weight=1)
 
 
 def get_app_rights() -> str:
@@ -53,7 +54,7 @@ class Page:
         super().__init_subclass__(**kwargs)
 
         # Assign a frame to each subclass
-        cls.root = Frame(TK_FRAME)
+        cls.root = Frame(APP_FRAME)
         cls.root.grid(row=0, column=0, sticky="nsew")
 
     @classmethod
@@ -121,7 +122,7 @@ class Page:
         """
 
         cls.root.destroy()
-        cls.root = Frame(TK_FRAME)
+        cls.root = Frame(APP_FRAME)
         cls.root.grid(row=0, column=0, sticky="nsew")
 
     # - Utils:

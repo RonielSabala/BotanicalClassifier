@@ -1,14 +1,12 @@
 from PIL import Image, ImageTk
 
-from common.constants import (
+from common.constants import BASE_IMAGE_COLOR, BASE_IMAGE_MODE, BASE_IMAGE_SIZE_PIXELS
+from common.paths import (
     APP_BANNER_IMAGE_PATH,
     APP_ICON_IMAGE_PATH,
     COUNTRY_SHIELD_IMAGE_PATH,
     EMPTY_IMAGE_PATH,
-    IMAGE_SIZE,
 )
-
-IMAGE_MODE = "RGBA"
 
 
 def get_image_from_path(image_path: str):
@@ -16,20 +14,28 @@ def get_image_from_path(image_path: str):
 
 
 def get_resized_image(image_path: str):
-    image = Image.open(image_path).convert(IMAGE_MODE)
-    base = Image.new(IMAGE_MODE, (IMAGE_SIZE, IMAGE_SIZE), (0, 0, 0, 0))  # type: ignore
+    image = Image.open(image_path).convert(BASE_IMAGE_MODE)
+    base_image = Image.new(
+        BASE_IMAGE_MODE,
+        (BASE_IMAGE_SIZE_PIXELS, BASE_IMAGE_SIZE_PIXELS),
+        BASE_IMAGE_COLOR,  # type: ignore
+    )
 
-    original_width, original_height = image.size
-    ratio = min(IMAGE_SIZE / original_width, IMAGE_SIZE / original_height)
-    new_width = int(original_width * ratio)
-    new_height = int(original_height * ratio)
+    image_width, image_height = image.size
+    ratio = min(
+        BASE_IMAGE_SIZE_PIXELS / image_width,
+        BASE_IMAGE_SIZE_PIXELS / image_height,
+    )
+
+    new_width = int(image_width * ratio)
+    new_height = int(image_height * ratio)
     new_image = image.resize((new_width, new_height))
 
-    x_pos = (IMAGE_SIZE - new_width) // 2
-    y_pos = (IMAGE_SIZE - new_height) // 2
+    x_pos = (BASE_IMAGE_SIZE_PIXELS - new_width) // 2
+    y_pos = (BASE_IMAGE_SIZE_PIXELS - new_height) // 2
 
-    base.paste(new_image, (x_pos, y_pos), new_image)
-    return ImageTk.PhotoImage(base)
+    base_image.paste(new_image, (x_pos, y_pos), new_image)
+    return ImageTk.PhotoImage(base_image)
 
 
 APP_ICON_IMAGE = get_image_from_path(APP_ICON_IMAGE_PATH)

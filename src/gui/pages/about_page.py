@@ -1,7 +1,13 @@
 import tkinter as tk
 from tkinter import Frame, scrolledtext
 
-from common.constants import FAQ_PATH, POLICIES_PATH, TERMS_PATH
+from common.constants import (
+    ABOUT_ADDRESS_INFO,
+    ABOUT_EMAIL_INFO,
+    ABOUT_PHONE_INFO,
+    ABOUT_SUBTITLE,
+)
+from common.paths import FAQ_PATH, POLICIES_PATH, TERMS_PATH
 from services.i18n import i18n
 
 from ..assets.images import APP_ICON_IMAGE, COUNTRY_SHIELD_IMAGE
@@ -14,13 +20,11 @@ from ..styles import (
 )
 from .menu_page import MenuPage
 
+# GUI defaults
 ADDRESS_EMOJI = "📍"
 PHONE_EMOJI = "📞"
 EMAIL_EMOJI = "📧"
-PHONE_INFO = "(809) 385-2611 Ext. 221"
-EMAIL_INFO = "jardinbotanico@jbn.gob.do"
-PAGE_SUBTITLE = "Dr. Rafael M. Moscoso"
-ADDRESS_INFO = "Av. República de Colombia esq. Av. Los Próceres\nSector los Altos de Galá, Santo Domingo, D.N."
+LINKS_SEPARATION_TEXT = "|"
 
 
 class AboutPage(Page):
@@ -30,7 +34,7 @@ class AboutPage(Page):
     def get_separation(cls, frame: Frame, font_size: int) -> tk.Label:
         return tk.Label(
             frame,
-            text="|",
+            text=LINKS_SEPARATION_TEXT,
             font=("Arial", font_size),
             fg="Gray20",
             bg=cls.bg_color,
@@ -70,7 +74,7 @@ class AboutPage(Page):
 
         subtitle = tk.Label(
             header_grid,
-            text=PAGE_SUBTITLE,
+            text=ABOUT_SUBTITLE,
             font=("Arial", 15),
             bg=cls.bg_color,
         )
@@ -84,7 +88,7 @@ class AboutPage(Page):
 
         address_info = tk.Label(
             content_grid,
-            text=f"{ADDRESS_INFO}\n{i18n.get('about.address_country')}",
+            text=f"{ABOUT_ADDRESS_INFO}\n{i18n.get('about.address_country')}",
             **list_info_style,
         )
 
@@ -93,14 +97,14 @@ class AboutPage(Page):
             content_grid, text=i18n.get("about.phone"), **list_title_style
         )
 
-        phone_info = tk.Label(content_grid, text=PHONE_INFO, **list_info_style)
+        phone_info = tk.Label(content_grid, text=ABOUT_PHONE_INFO, **list_info_style)
 
         email_emoji = tk.Label(content_grid, text=EMAIL_EMOJI, **list_emoji_style)
         email_label = tk.Label(
             content_grid, text=i18n.get("about.email"), **list_title_style
         )
 
-        email_info = tk.Label(content_grid, text=EMAIL_INFO, **list_info_style)
+        email_info = tk.Label(content_grid, text=ABOUT_EMAIL_INFO, **list_info_style)
 
         # - Page links:
 
