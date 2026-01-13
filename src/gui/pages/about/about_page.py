@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkinter import Frame
 
+from common.i18n import i18n
+
 from ...assets.loaded_images import APP_ICON_IMAGE, COUNTRY_SHIELD_IMAGE
 from ...styles import (
     list_emoji_style,
@@ -11,22 +13,12 @@ from ...styles import (
 from ..menu_page import MenuPage
 from ..page import Page
 
-# - Page info:
-
-PAGE_TITLE = "Jardín Botánico Nacional"
-PAGE_SUBTITLE = "Dr. Rafael M. Moscoso"
-
 LOCATION_EMOJI = "📍"
-LOCATION_LABEL = "Dirección"
-LOCATION_INFO = """Av. República de Colombia esq. Av. Los Próceres\nSector los Altos de Galá, Santo Domingo, D.N\nRepública Dominicana"""
-
 PHONE_EMOJI = "📞"
-PHONE_LABEL = "Tel."
-PHONE_INFO = "(809) 385-2611 Ext. 221"
-
 EMAIL_EMOJI = "📧"
-EMAIL_LABEL = "Email"
+PHONE_INFO = "(809) 385-2611 Ext. 221"
 EMAIL_INFO = "jardinbotanico@jbn.gob.do"
+PAGE_SUBTITLE = "Dr. Rafael M. Moscoso"
 
 
 class AboutPage(Page):
@@ -72,46 +64,63 @@ class AboutPage(Page):
         icon = tk.Label(header_grid, image=APP_ICON_IMAGE, bg=cls.bg_color)
 
         title = tk.Label(
-            header_grid, text=PAGE_TITLE, font=("Arial", 30), bg=cls.bg_color
+            header_grid,
+            text=i18n.get("about.title"),
+            font=("Arial", 30),
+            bg=cls.bg_color,
         )
 
         subtitle = tk.Label(
-            header_grid, text=PAGE_SUBTITLE, font=("Arial", 15), bg=cls.bg_color
+            header_grid,
+            text=PAGE_SUBTITLE,
+            font=("Arial", 15),
+            bg=cls.bg_color,
         )
 
         # - Page content:
 
         location_emoji = tk.Label(content_grid, text=LOCATION_EMOJI, **list_emoji_style)
-        location_label = tk.Label(content_grid, text=LOCATION_LABEL, **list_title_style)
-        location_info = tk.Label(content_grid, text=LOCATION_INFO, **list_info_style)
+        location_label = tk.Label(
+            content_grid, text=i18n.get("about.location"), **list_title_style
+        )
+
+        location_info = tk.Label(
+            content_grid, text=i18n.get("about.location_info"), **list_info_style
+        )
 
         phone_emoji = tk.Label(content_grid, text=PHONE_EMOJI, **list_emoji_style)
-        phone_label = tk.Label(content_grid, text=PHONE_LABEL, **list_title_style)
+        phone_label = tk.Label(
+            content_grid, text=i18n.get("about.phone"), **list_title_style
+        )
+
         phone_info = tk.Label(content_grid, text=PHONE_INFO, **list_info_style)
 
         email_emoji = tk.Label(content_grid, text=EMAIL_EMOJI, **list_emoji_style)
-        email_label = tk.Label(content_grid, text=EMAIL_LABEL, **list_title_style)
+        email_label = tk.Label(
+            content_grid, text=i18n.get("about.email"), **list_title_style
+        )
+
         email_info = tk.Label(content_grid, text=EMAIL_INFO, **list_info_style)
 
         # - Page links:
 
         terms_button = tk.Button(
             links_grid,
-            text="Términos De Uso",
+            text=i18n.get("about.terms.title"),
             command=TermsPage.show,
             **list_link_style,
         )
 
         policies_button = tk.Button(
             links_grid,
-            text="Políticas De Privacidad",
+            text=i18n.get("about.policies.title"),
             command=PoliciesPage.show,
             **list_link_style,
         )
 
         faq_button = tk.Button(
             links_grid,
-            text="Preguntas Frecuentes",
+            text=i18n.get("about.faq.title"),
             command=FaqPage.show,
             **list_link_style,
         )

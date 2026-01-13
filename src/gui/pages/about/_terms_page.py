@@ -1,17 +1,14 @@
 import tkinter as tk
 from tkinter import scrolledtext
 
-from common.constants import TERMS_ROUTE
+from common.constants import TERMS_PATH
+from common.i18n import i18n
 
 from ..page import Page
 from .about_page import AboutPage
 
-# - Page info:
-
-PAGE_TITLE = "Términos De Uso"
-
 # Get page content
-with open(TERMS_ROUTE, "r", encoding="utf-8") as f:
+with open(TERMS_PATH, "r", encoding="utf-8") as f:
     page_content = f.read()
 
 
@@ -23,7 +20,7 @@ class TermsPage(Page):
         # Header
         cls.set_return_btn()
         cls.set_text("", 0, pady=35)
-        cls.set_text(PAGE_TITLE, 30, pady=0, fg="#091518")
+        cls.set_text(i18n.get("about.terms.title"), 30, pady=0, fg="#091518")
         cls.set_text("", 0, pady=0)
 
         # Content

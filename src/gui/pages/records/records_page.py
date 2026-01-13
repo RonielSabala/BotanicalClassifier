@@ -2,7 +2,8 @@ import tkinter as tk
 from tkinter import Frame, font, messagebox
 from typing import Optional, Sequence
 
-from common.utils import is_valid_route
+from common.i18n import i18n
+from common.utils import is_valid_path
 from gui.assets.loaded_images import EMPTY_IMAGE, get_resized_image
 
 from ...assets.loaded_images import APP_ICON_IMAGE
@@ -18,64 +19,26 @@ from ..menu_page import MenuPage
 from ..page import Page
 from .utils import clean_records, get_records, insert_record_prediction
 
-# - Table constants:
-
-EMPTY_CELL_VALUE = " "
-_OWNER_COLUMN_NAME = "Subido por"
-_LAST_NAME_COLUMN_NAME = "Apellido"
-_LOCATION_COLUMN_NAME = "Ubicación"
-_FLOWER_COLUMN_NAME = "Flor"
-_PREDICTION_COLUMN_NAME = "Predicción"
-COLUMN_NAMES = (
-    EMPTY_CELL_VALUE,
-    _OWNER_COLUMN_NAME,
-    _LAST_NAME_COLUMN_NAME,
-    _LOCATION_COLUMN_NAME,
-    _FLOWER_COLUMN_NAME,
-    _PREDICTION_COLUMN_NAME,
-)
-
-
-MAX_ROW_INDEX_PER_PAGE = 3
-MAX_COLUMN_INDEX = len(COLUMN_NAMES) - 1
-FLOWER_COLUMN_INDEX = COLUMN_NAMES.index(_FLOWER_COLUMN_NAME)
-
-# - GUI constants:
-
-PAGE_TITLE = "Registros"
-SEARCH_BUTTON_TEXT = "Buscar"
-
-PAGE_NUMBER_LABEL = "página"
-PAGE_NUMBER_SEPARATOR = "de"
+# GUI constants
 LEFT_NAV_ARROW_BUTTON_TEXT = ">"
 RIGHT_NAV_ARROW_BUTTON_TEXT = "<"
-
-_ADD_RECORD_BUTTON_EMOJI = "✚"
-_ADD_RECORD_BUTTON_TEXT = "Añadir"
-ADD_RECORD_BUTTON_TEXT = f"{_ADD_RECORD_BUTTON_EMOJI} {_ADD_RECORD_BUTTON_TEXT}"
-
-_DELETE_ALL_RECORDS_BUTTON_EMOJI = "✘"
-_DELETE_ALL_RECORDS_BUTTON_TEXT = "Eliminar (TODO)"
-DELETE_ALL_RECORDS_BUTTON_TEXT = (
-    f"{_DELETE_ALL_RECORDS_BUTTON_EMOJI} {_DELETE_ALL_RECORDS_BUTTON_TEXT}"
-)
-
-DELETE_ALL_DIALOG_TITLE = "Confirmación"
-DELETE_ALL_DIALOG_TEXT = (
-    "¿Estas seguro de que quieres eliminar todo?\nEsta acción no puede deshacerse."
-)
-
-CLASSIFY_BUTTON_TEXT = "Clasificar"
+ADD_RECORD_BUTTON_EMOJI = "✚"
+DELETE_BUTTON_EMOJI = "✘"
 DEFAULT_CLASSIFIED_RECORD_VALUE = "N/A"
-PREDICTION_TAG_COLUMN_NAME = "Tag"
-PREDICTION_PROBABILITY_COLUMN_NAME = "Probabilidad"
 HIGHEST_FLOWER_PROBABILITY_EMOJI = "✔"
 FAILED_FLOWER_PROBABILITY_EMOJI = "✗"
 
+# Table constants
+MAX_ROW_INDEX_PER_PAGE = 3
+MAX_COLUMN_INDEX = 5
+FLOWER_COLUMN_INDEX = 4
+EMPTY_CELL_VALUE = " "
 
-class Records(Page):
+
+class RecordsPage(Page):
     prev_page = MenuPage
     column_buttons: list[tk.Button] = []
+    _column_names: tuple[str, ...]
 
     records: list[Sequence]
     _all_records: list[Sequence]
@@ -88,11 +51,7 @@ class Records(Page):
 
     filter_var = tk.StringVar()
     last_filter: tuple[Optional[str], Optional[str]] = (None, None)
-    filter_column: str = _OWNER_COLUMN_NAME
-
-    @classmethod
-    def config_pages(cls) -> None:
-        FormPage.prev_page = cls
+    filter_column: str = i18n.get("records.owner_column")
 
     @classmethod
     def close(cls) -> None:
@@ -101,14 +60,19 @@ class Records(Page):
         cls.filter_var.set("")
 
     @classmethod
-    def _update_table(cls) -> None:
-        """
-        Actualiza la tabla.
-        """
+    def config_pages(cls) -> None:
+        FormPage.prev_page = cls
 
-        cls.is_loaded = False
-        cls.reset()
-        super().show()
+    @classmethod
+    def _update_column_names(cls) -> None:
+        cls._column_names = (
+            EMPTY_CELL_VALUE,
+            i18n.get("records.owner_column"),
+            i18n.get("records.surname_column"),
+            i18n.get("records.location_column"),
+            i18n.get("records.flower_column"),
+            i18n.get("records.prediction_column"),
+        )
 
     @classmethod
     def _fill_records(cls) -> None:
@@ -134,7 +98,7 @@ class Records(Page):
             filtered_records = cls._all_records.copy()
         else:
             text_to_filter = cls.filter_var.get().lower()
-            filter_column_index = COLUMN_NAMES.index(cls.filter_column)
+            filter_column_index = cls._column_names.index(cls.filter_column)
             filtered_records = [
                 record
                 for record in cls._all_records
@@ -163,8 +127,19 @@ class Records(Page):
             )
 
     @classmethod
+    def _update_table(cls) -> None:
+        """
+        Actualiza la tabla.
+        """
+
+        cls.is_loaded = False
+        cls.reset()
+        super().show()
+
+    @classmethod
     def show(cls) -> None:
         cls.config_pages()
+        cls._update_column_names()
         cls._fill_records()
         cls._update_records()
         cls._update_table()
@@ -198,7 +173,7 @@ class Records(Page):
         cls._update_table()
 
     @classmethod
-    def _delete_all_records(cls) -> None:
+    def _delete(cls) -> None:
         """
         Elimina todos los registros guardados.
         """
@@ -206,7 +181,11 @@ class Records(Page):
         if not cls._all_records:
             return
 
-        choice = messagebox.askyesno(DELETE_ALL_DIALOG_TITLE, DELETE_ALL_DIALOG_TEXT)
+        choice = messagebox.askyesno(
+            i18n.get("records.delete_dialog_title"),
+            i18n.get("records.delete_dialog_text"),
+        )
+
         if not choice:
             return
 
@@ -286,7 +265,7 @@ class Records(Page):
         # Create classification button
         button = tk.Button(
             grid,
-            text=CLASSIFY_BUTTON_TEXT,
+            text=i18n.get("records.classify_button"),
             command=lambda record_index=record_index: cls._classify_record(
                 record_index
             ),
@@ -311,8 +290,8 @@ class Records(Page):
     ) -> Frame:
         grid = Frame(root)
         prediction_column_names = (
-            PREDICTION_TAG_COLUMN_NAME,
-            PREDICTION_PROBABILITY_COLUMN_NAME,
+            i18n.get("records.prediction_tag_column"),
+            i18n.get("records.prediction_probability_column"),
         )
 
         # Add column names
@@ -378,7 +357,7 @@ class Records(Page):
         if row > 0 and col == FLOWER_COLUMN_INDEX:
             image = (
                 get_resized_image(cell_value)
-                if is_valid_route(cell_value)
+                if is_valid_path(cell_value)
                 else EMPTY_IMAGE
             )
 
@@ -448,7 +427,7 @@ class Records(Page):
                 break
 
             if row == 0:
-                row_data = COLUMN_NAMES
+                row_data = cls._column_names
             else:
                 row_data = cls.records[record_index]
 
@@ -472,10 +451,11 @@ class Records(Page):
     @classmethod
     def load(cls) -> None:
         # Header elements
-        cls.set_return_btn()
+        page_title = i18n.get("records.title")
         tk.Label(cls.root, image=APP_ICON_IMAGE, bg=cls.bg_color).pack(padx=20, pady=15)
-        cls.set_text(PAGE_TITLE, 32, pady=0, fg="#091518")
+        cls.set_text(page_title, 32, pady=0, fg="#091518")
         cls.set_text("", 0, pady=2)
+        cls.set_return_btn()
 
         # - Page elements:
 
@@ -488,7 +468,7 @@ class Records(Page):
 
         search_button = tk.Button(
             records_grid,
-            text=SEARCH_BUTTON_TEXT,
+            text=i18n.get("records.search"),
             font=("Arial", 13),
             command=lambda: cls._filter_records(),
             cursor="hand2",
@@ -512,23 +492,33 @@ class Records(Page):
 
         page_number_label = tk.Label(
             navigation_grid,
-            text=f"{PAGE_NUMBER_LABEL} {cls.page_index} {PAGE_NUMBER_SEPARATOR} {cls.max_page_index}",
+            text=i18n.get("records.page_index_label").format(
+                page_index=cls.page_index, max_page_index=cls.max_page_index
+            ),
             fg="Black",
             bg=cls.bg_color,
             font=("Arial", 14),
         )
 
+        add_record_button_text = (
+            ADD_RECORD_BUTTON_EMOJI + " " + i18n.get("records.add_record")
+        )
+
         add_record_button = tk.Button(
             cls.root,
-            text=ADD_RECORD_BUTTON_TEXT,
+            text=add_record_button_text,
             command=FormPage.show,
             **add_button_style,  # type: ignore
         )
 
-        delete_all_records_button = tk.Button(
+        delete_button_text = (
+            DELETE_BUTTON_EMOJI + " " + i18n.get("records.delete_records")
+        )
+
+        delete_button = tk.Button(
             cls.root,
-            text=DELETE_ALL_RECORDS_BUTTON_TEXT,
-            command=cls._delete_all_records,
+            text=delete_button_text,
+            command=cls._delete,
             **delete_button_style,  # type: ignore
         )
 
@@ -565,7 +555,7 @@ class Records(Page):
 
         cls.set_text("", 0, pady=1)
         add_record_button.pack(pady=0)
-        delete_all_records_button.pack(pady=12)
+        delete_button.pack(pady=12)
 
         cls.set_footer()
         cls._fill_records_grid(records_grid)

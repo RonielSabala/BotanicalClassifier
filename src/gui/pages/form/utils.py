@@ -2,22 +2,12 @@ import os
 from tkinter import messagebox
 
 from common.constants import (
-    DEFAULT_IMAGE_ENTRY_TEXT,
-    IMAGE_PREFIX,
-    LOCAL_STORAGE_IMGS_ROUTE,
-    LOCAL_STORAGE_RECORDS_ROUTE,
+    LOCAL_IMAGES_PREFIX,
+    LOCAL_STORAGE_IMGS_PATH,
+    LOCAL_STORAGE_RECORDS_PATH,
 )
-from common.utils import is_valid_route
-
-# Entry error messages
-ENTER_ENTRY_TEXT = "Ingrese"
-ENTER_NAME_TEXT = "un nombre"
-ENTER_LAST_NAME_TEXT = "un apellido"
-ENTER_LOCATION_TEXT = "una ubicación"
-MINIMUM_CHAR_TEXT = "con 5 o más caracteres"
-MAXIMUM_CHAR_TEXT = "de 50 caracteres o menos"
-DEFAULT_IMAGE_ERROR = "Ingrese una imagen."
-INVALID_IMAGE_ROUTE_ERROR = "La ruta de la imagen es invalida."
+from common.i18n import i18n
+from common.utils import is_valid_path
 
 
 def show_error(error_message: str) -> None:
@@ -31,17 +21,18 @@ def is_valid_entry(entry_name: str, name_on_error: str) -> bool:
     """
 
     is_valid = True
-    error_msg = f"{ENTER_ENTRY_TEXT} {name_on_error}"
+    enter_entry = i18n.get("form.utils.enter_entry")
+    error_msg = f"{enter_entry} {name_on_error}"
     if not entry_name:
         is_valid = False
 
     elif len(entry_name) < 5:
         is_valid = False
-        error_msg += " " + MINIMUM_CHAR_TEXT
+        error_msg += " " + i18n.get("form.utils.minimum_char_requirement")
 
     elif len(entry_name) > 50:
         is_valid = False
-        error_msg += " " + MAXIMUM_CHAR_TEXT
+        error_msg += " " + i18n.get("form.utils.maximum_char_requirement")
 
     if not is_valid:
         show_error(error_msg + ".")
@@ -50,24 +41,24 @@ def is_valid_entry(entry_name: str, name_on_error: str) -> bool:
 
 
 def is_valid_name(name: str) -> bool:
-    return is_valid_entry(name, ENTER_NAME_TEXT)
+    return is_valid_entry(name, i18n.get("form.utils.enter_name"))
 
 
-def is_valid_last_name(last_name: str) -> bool:
-    return is_valid_entry(last_name, ENTER_LAST_NAME_TEXT)
+def is_valid_surname(last_name: str) -> bool:
+    return is_valid_entry(last_name, i18n.get("form.utils.enter_surname"))
 
 
 def is_valid_location(location: str) -> bool:
-    return is_valid_entry(location, ENTER_LOCATION_TEXT)
+    return is_valid_entry(location, i18n.get("form.utils.enter_location"))
 
 
-def is_valid_image_route(image_route: str) -> bool:
+def is_valid_image_path(image_path: str) -> bool:
     error_msg = None
-    if image_route == DEFAULT_IMAGE_ENTRY_TEXT:
-        error_msg = DEFAULT_IMAGE_ERROR
+    if image_path == i18n.get("form.utils.attach_image"):
+        error_msg = i18n.get("form.utils.unselected_image_error")
 
-    elif not is_valid_route(image_route):
-        error_msg = INVALID_IMAGE_ROUTE_ERROR
+    elif not is_valid_path(image_path):
+        error_msg = i18n.get("form.utils.invalid_image_error")
 
     is_valid = error_msg is None
     if not is_valid:
@@ -77,8 +68,8 @@ def is_valid_image_route(image_route: str) -> bool:
 
 
 def get_next_image_filename(img_extension: str) -> str:
-    images_count = len(os.listdir(LOCAL_STORAGE_IMGS_ROUTE))
-    return f"{IMAGE_PREFIX}_{images_count}.{img_extension}"
+    images_count = len(os.listdir(LOCAL_STORAGE_IMGS_PATH))
+    return f"{LOCAL_IMAGES_PREFIX}_{images_count}.{img_extension}"
 
 
 def append_record(record: str) -> None:
@@ -86,5 +77,5 @@ def append_record(record: str) -> None:
     Guarda un registro en el archivo formularios.
     """
 
-    with open(LOCAL_STORAGE_RECORDS_ROUTE, "a") as f:
+    with open(LOCAL_STORAGE_RECORDS_PATH, "a") as f:
         f.write(f"{record}\n")

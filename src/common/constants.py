@@ -8,27 +8,29 @@ WINDOW_PADY = int(MAX_WINDOW_HEIGHT / 2 + WINDOW_HEIGHT / 2 - WINDOW_HEIGHT)
 
 # Images constants
 IMAGE_SIZE = 128
-IMAGE_PREFIX = "flower_survey"
-DEFAULT_IMAGE_ENTRY_TEXT = "<Selecciona una imagen>"
+IMAGE_MODE = "RGBA"
+LOCAL_IMAGES_PREFIX = "flower_survey"
+VALID_IMAGE_FILE_TYPES = "*.png;*.jpg;*.jpeg"
 
-# Routes:
+# Paths:
 
-_PROJECT_ROUTE = "src\\"
+_PROJECT_DIR = "src\\"
+I18N_DIR = f"{_PROJECT_DIR}i18n\\"
 
-# Local storage routes
-_LOCAL_STORAGE_ROUTE = f"{_PROJECT_ROUTE}local_storage\\"
-LOCAL_STORAGE_IMGS_ROUTE = f"{_LOCAL_STORAGE_ROUTE}images"
-LOCAL_STORAGE_RECORDS_ROUTE = f"{_LOCAL_STORAGE_ROUTE}records.txt"
+# Local storage paths
+_LOCAL_STORAGE_DIR = f"{_PROJECT_DIR}local_storage\\"
+LOCAL_STORAGE_IMGS_PATH = f"{_LOCAL_STORAGE_DIR}images"
+LOCAL_STORAGE_RECORDS_PATH = f"{_LOCAL_STORAGE_DIR}records.txt"
 
-# Asset images routes
-_IMAGES_ROUTE = f"{_PROJECT_ROUTE}gui\\assets\\images\\"
-APP_ICON_IMAGE_ROUTE = f"{_IMAGES_ROUTE}app_icon.png"
-APP_BANNER_IMAGE_ROUTE = f"{_IMAGES_ROUTE}app_banner.png"
-COUNTRY_SHIELD_IMAGE_ROUTE = f"{_IMAGES_ROUTE}country_shield.png"
-EMPTY_IMAGE_ROUTE = f"{_IMAGES_ROUTE}empty_image.png"
+# Asset images paths
+_IMAGES_DIR = f"{_PROJECT_DIR}gui\\assets\\images\\"
+APP_ICON_IMAGE_PATH = f"{_IMAGES_DIR}app_icon.png"
+APP_BANNER_IMAGE_PATH = f"{_IMAGES_DIR}app_banner.png"
+COUNTRY_SHIELD_IMAGE_PATH = f"{_IMAGES_DIR}country_shield.png"
+EMPTY_IMAGE_PATH = f"{_IMAGES_DIR}empty_image.png"
 
-# About info routes
-_ABOUT_INFO_ROUTE = f"{_PROJECT_ROUTE}gui\\pages\\about\\info\\"
-FAQ_ROUTE = f"{_ABOUT_INFO_ROUTE}/faq.txt"
-TERMS_ROUTE = f"{_ABOUT_INFO_ROUTE}/terms.txt"
-POLICIES_ROUTE = f"{_ABOUT_INFO_ROUTE}/policies.txt"
+# About info paths
+_ABOUT_INFO_DIR = f"{_PROJECT_DIR}gui\\pages\\about\\info\\"
+FAQ_PATH = f"{_ABOUT_INFO_DIR}faq.txt"
+TERMS_PATH = f"{_ABOUT_INFO_DIR}terms.txt"
+POLICIES_PATH = f"{_ABOUT_INFO_DIR}policies.txt"

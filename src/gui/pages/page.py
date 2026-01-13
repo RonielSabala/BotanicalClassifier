@@ -2,24 +2,20 @@ import tkinter as tk
 from tkinter import Frame, PhotoImage
 
 from common.constants import (
-    APP_ICON_IMAGE_ROUTE,
+    APP_ICON_IMAGE_PATH,
     WINDOW_HEIGHT,
     WINDOW_PADX,
     WINDOW_PADY,
     WINDOW_WIDTH,
 )
+from common.i18n import i18n
 
 from ..styles import return_button_style
 
-# App constants
-WINDOW_NAME = "jbn - flor survey"
-PAGE_FOOTER = "Jardín Botánico Nacional\n©2025 Todos los derechos reservados."
-PAGE_RETURN_BUTTON_TEXT = "Volver"
-
 # App root
 TK_ROOT = tk.Tk()
-TK_ROOT.title(WINDOW_NAME)
-TK_ROOT.iconphoto(False, PhotoImage(file=APP_ICON_IMAGE_ROUTE))
+TK_ROOT.title(i18n.get("window.title"))
+TK_ROOT.iconphoto(False, PhotoImage(file=APP_ICON_IMAGE_PATH))
 TK_ROOT.geometry(f"{WINDOW_WIDTH}x{WINDOW_HEIGHT}+{WINDOW_PADX}+{WINDOW_PADY}")
 TK_ROOT.resizable(False, False)
 
@@ -28,6 +24,11 @@ TK_FRAME = Frame(TK_ROOT)
 TK_FRAME.pack(fill="both", expand=True)
 TK_FRAME.grid_rowconfigure(0, weight=1)
 TK_FRAME.grid_columnconfigure(0, weight=1)
+
+
+def get_app_rights() -> str:
+    rights = i18n.get("app.rights")
+    return f"Jardín Botánico Nacional\n©2026 {rights}."
 
 
 class Page:
@@ -162,7 +163,7 @@ class Page:
 
     @classmethod
     def set_footer(cls):
-        cls.set_text_at(PAGE_FOOTER, 9, (0.5, 0.98), anchor="center", fg="black")
+        cls.set_text_at(get_app_rights(), 9, (0.5, 0.98), anchor="center", fg="black")
 
     @classmethod
     def set_return_btn(cls, fg: str = "Black") -> None:
@@ -187,16 +188,16 @@ class Page:
             **return_button_style,
         )
 
-        button_text = tk.Label(
+        button_label = tk.Label(
             cls.root,
-            text=PAGE_RETURN_BUTTON_TEXT,
+            text=i18n.get("app.return_button"),
             font=("Arial", 12),
             fg=fg,
             bg=cls.bg_color,
         )
 
         button.place(relx=0.05, rely=0.05, anchor="nw")
-        button_text.place(relx=0.048, rely=0.13, anchor="nw")
+        button_label.place(relx=0.048, rely=0.13, anchor="nw")
         cls.root.bind("<Escape>", on_escape)
 
 
