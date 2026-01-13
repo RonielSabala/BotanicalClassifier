@@ -144,7 +144,7 @@ class FormPage(Page):
 
         # - Image entry:
 
-        def on_click():
+        def on_click() -> None:
             cls.image_path = filedialog.askopenfilename(
                 title=i18n.get("form.utils.attach_image"),
                 filetypes=[(i18n.get("form.image_files"), VALID_IMAGE_FILE_TYPES)],

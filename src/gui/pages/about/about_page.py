@@ -26,7 +26,7 @@ class AboutPage(Page):
     prev_page = MenuPage
 
     @classmethod
-    def get_separation(cls, frame: Frame, font_size: int):
+    def get_separation(cls, frame: Frame, font_size: int) -> tk.Label:
         return tk.Label(
             frame,
             text="|",

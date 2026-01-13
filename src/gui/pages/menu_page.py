@@ -24,7 +24,7 @@ class MenuPage(Page):
         TK_ROOT.destroy()
 
     @classmethod
-    def config_pages(cls):
+    def config_pages(cls) -> None:
         from .form.form_page import FormPage
 
         FormPage.prev_page = cls

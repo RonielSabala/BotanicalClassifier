@@ -50,7 +50,7 @@ class RecordsPage(Page):
     right_nav_arrow: tk.Button
 
     filter_var = tk.StringVar()
-    last_filter: tuple[Optional[str], Optional[str]] = (None, None)
+    last_filter: tuple[Optional[str], Optional[str]] = None, None
     filter_column: str = i18n.get("records.owner_column")
 
     @classmethod

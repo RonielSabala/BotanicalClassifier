@@ -1,6 +1,7 @@
 import tkinter as tk
 from datetime import date
 from tkinter import Frame, PhotoImage
+from typing import Optional
 
 from common.constants import APP_ICON_IMAGE_PATH
 from services.i18n import i18n
@@ -41,8 +42,8 @@ def get_app_rights() -> str:
 
 class Page:
     root: Frame
-    prev_page: type["Page"] | None = None
-    main_entry: None | tk.Entry = None
+    prev_page: Optional[type["Page"]] = None
+    main_entry: Optional[tk.Entry] = None
     bg_color: str = "White"
     is_loaded: bool = False
 
@@ -56,7 +57,7 @@ class Page:
         cls.root.grid(row=0, column=0, sticky="nsew")
 
     @classmethod
-    def config_pages(cls):
+    def config_pages(cls) -> None:
         """
         Configura las relaciones entre las páginas
         anteriores y posteriores de las páginas
@@ -170,7 +171,7 @@ class Page:
         text_label.place(relx=coordinates[0], rely=coordinates[1], anchor=anchor)  # type: ignore
 
     @classmethod
-    def set_footer(cls):
+    def set_footer(cls) -> None:
         cls.set_text_at(get_app_rights(), 9, (0.5, 0.98), anchor="center", fg="black")
 
     @classmethod
