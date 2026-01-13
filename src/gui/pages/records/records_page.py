@@ -69,7 +69,7 @@ class RecordsPage(Page):
             EMPTY_CELL_VALUE,
             i18n.get("records.owner_column"),
             i18n.get("records.surname_column"),
-            i18n.get("records.location_column"),
+            i18n.get("records.address_column"),
             i18n.get("records.flower_column"),
             i18n.get("records.prediction_column"),
         )

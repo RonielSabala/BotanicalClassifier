@@ -13,8 +13,8 @@ from ..menu_page import MenuPage
 from .helpers import (
     append_record,
     get_next_image_filename,
+    is_valid_address,
     is_valid_image_path,
-    is_valid_location,
     is_valid_name,
     is_valid_surname,
 )
@@ -27,14 +27,14 @@ def save_form() -> None:
 
     name = FormPage.name_var.get()
     surname = FormPage.surname_var.get()
-    location = FormPage.location_var.get()
+    address = FormPage.address_var.get()
     image_path = FormPage.image_path
 
     # Validate entries
     if not (
         is_valid_name(name)
         and is_valid_surname(surname)
-        and is_valid_location(location)
+        and is_valid_address(address)
         and is_valid_image_path(image_path)
     ):
         return
@@ -45,7 +45,7 @@ def save_form() -> None:
         image_filename = get_next_image_filename(image_extension)
         full_image_path = get_full_image_path(image_filename)
 
-        append_record(str([name, surname, location, full_image_path, None]))
+        append_record(str([name, surname, address, full_image_path, None]))
         shutil.copy(image_path, full_image_path)
     except Exception as e:
         save_error = i18n.get("form.save_error")
@@ -63,7 +63,7 @@ class FormPage(Page):
     prev_page = MenuPage
     name_var = tk.StringVar()
     surname_var = tk.StringVar()
-    location_var = tk.StringVar()
+    address_var = tk.StringVar()
     _image_var = tk.StringVar()
     image_path = ""
 
@@ -72,7 +72,7 @@ class FormPage(Page):
         # Reset variables
         cls.name_var.set("")
         cls.surname_var.set("")
-        cls.location_var.set("")
+        cls.address_var.set("")
         cls._image_var.set(i18n.get("form.utils.attach_image"))
         cls.image_path = cls._image_var.get()
 
@@ -98,8 +98,8 @@ class FormPage(Page):
             cls.root, textvariable=cls.surname_var, **entry_text_style
         )
 
-        location_entry = tk.Entry(
-            cls.root, textvariable=cls.location_var, **entry_text_style
+        address_entry = tk.Entry(
+            cls.root, textvariable=cls.address_var, **entry_text_style
         )
 
         image_entry = tk.Entry(
@@ -132,15 +132,15 @@ class FormPage(Page):
         cls.set_entry_name(i18n.get("form.surname"))
         surname_entry.bind("<Escape>", lambda event: cls.root.focus_set())
         surname_entry.bind("<Up>", lambda event: name_entry.focus_set())
-        surname_entry.bind("<Down>", lambda event: location_entry.focus_set())
-        surname_entry.bind("<Return>", lambda event: location_entry.focus_set())
+        surname_entry.bind("<Down>", lambda event: address_entry.focus_set())
+        surname_entry.bind("<Return>", lambda event: address_entry.focus_set())
         surname_entry.pack()
 
-        # Location entry
-        cls.set_entry_name(i18n.get("form.location"))
-        location_entry.bind("<Escape>", lambda event: cls.root.focus_set())
-        location_entry.bind("<Up>", lambda event: surname_entry.focus_set())
-        location_entry.pack()
+        # Address entry
+        cls.set_entry_name(i18n.get("form.address"))
+        address_entry.bind("<Escape>", lambda event: cls.root.focus_set())
+        address_entry.bind("<Up>", lambda event: surname_entry.focus_set())
+        address_entry.pack()
 
         # - Image entry:
 
@@ -161,7 +161,7 @@ class FormPage(Page):
         cls.set_entry_name(i18n.get("form.image"))
         image_entry.bind("<Button-1>", lambda event: on_click())
         image_entry.bind("<Escape>", lambda event: cls.root.focus_set())
-        image_entry.bind("<Up>", lambda event: location_entry.focus_set())
+        image_entry.bind("<Up>", lambda event: address_entry.focus_set())
         image_entry.bind("<Return>", lambda event: save_button.invoke())
         image_entry.pack(padx=10, pady=10)
 

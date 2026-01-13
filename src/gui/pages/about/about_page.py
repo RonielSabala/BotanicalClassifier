@@ -13,13 +13,13 @@ from ...styles import (
 )
 from ..menu_page import MenuPage
 
-LOCATION_EMOJI = "📍"
+ADDRESS_EMOJI = "📍"
 PHONE_EMOJI = "📞"
 EMAIL_EMOJI = "📧"
 PHONE_INFO = "(809) 385-2611 Ext. 221"
 EMAIL_INFO = "jardinbotanico@jbn.gob.do"
 PAGE_SUBTITLE = "Dr. Rafael M. Moscoso"
-LOCATION_INFO = "Av. República de Colombia esq. Av. Los Próceres\nSector los Altos de Galá, Santo Domingo, D.N."
+ADDRESS_INFO = "Av. República de Colombia esq. Av. Los Próceres\nSector los Altos de Galá, Santo Domingo, D.N."
 
 
 class AboutPage(Page):
@@ -80,14 +80,14 @@ class AboutPage(Page):
 
         # - Page content:
 
-        location_emoji = tk.Label(content_grid, text=LOCATION_EMOJI, **list_emoji_style)
-        location_label = tk.Label(
-            content_grid, text=i18n.get("about.location"), **list_title_style
+        address_emoji = tk.Label(content_grid, text=ADDRESS_EMOJI, **list_emoji_style)
+        address_label = tk.Label(
+            content_grid, text=i18n.get("about.address"), **list_title_style
         )
 
-        location_info = tk.Label(
+        address_info = tk.Label(
             content_grid,
-            text=f"{LOCATION_INFO}\n{i18n.get('about.country_name')}",
+            text=f"{ADDRESS_INFO}\n{i18n.get('about.country_name')}",
             **list_info_style,
         )
 
@@ -138,10 +138,10 @@ class AboutPage(Page):
         title.grid(row=1, columnspan=3, sticky="nsew")
         subtitle.grid(row=2, columnspan=3, sticky="nsew", pady=6)
 
-        # Location
-        location_emoji.grid(row=0, column=0, sticky="nsew")
-        location_label.grid(row=0, column=1, sticky="nsew")
-        location_info.grid(row=0, column=2, sticky="nsew")
+        # Address
+        address_emoji.grid(row=0, column=0, sticky="nsew")
+        address_label.grid(row=0, column=1, sticky="nsew")
+        address_info.grid(row=0, column=2, sticky="nsew")
 
         # Phone
         phone_emoji.grid(row=1, column=0, sticky="nsew")

@@ -48,8 +48,8 @@ def is_valid_surname(last_name: str) -> bool:
     return is_valid_entry(last_name, i18n.get("form.utils.enter_surname"))
 
 
-def is_valid_location(location: str) -> bool:
-    return is_valid_entry(location, i18n.get("form.utils.enter_location"))
+def is_valid_address(address: str) -> bool:
+    return is_valid_entry(address, i18n.get("form.utils.enter_address"))
 
 
 def is_valid_image_path(image_path: str) -> bool:
