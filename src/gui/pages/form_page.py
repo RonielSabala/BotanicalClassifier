@@ -5,19 +5,12 @@ from tkinter import filedialog
 from common.constants import ALLOWED_IMAGE_EXTENSIONS
 from common.utils import get_full_image_path, show_error_messagebox
 from services.i18n_service import i18n
+from services.pages.form_service import FormService
 
-from ...assets.images import APP_ICON_IMAGE
-from ...page import Page
-from ...styles import entry_text_style, primary_button_style
-from ..menu_page import MenuPage
-from .helpers import (
-    append_record,
-    get_next_image_filename,
-    is_valid_address,
-    is_valid_image_path,
-    is_valid_name,
-    is_valid_surname,
-)
+from ..assets.images import APP_ICON_IMAGE
+from ..page import Page
+from ..styles import entry_text_style, primary_button_style
+from .menu_page import MenuPage
 
 
 def save_form() -> None:
@@ -32,20 +25,20 @@ def save_form() -> None:
 
     # Validate entries
     if not (
-        is_valid_name(name)
-        and is_valid_surname(surname)
-        and is_valid_address(address)
-        and is_valid_image_path(image_path)
+        FormService.is_valid_name(name)
+        and FormService.is_valid_surname(surname)
+        and FormService.is_valid_address(address)
+        and FormService.is_valid_image_path(image_path)
     ):
         return
 
     # Save form
     try:
         image_extension = (image_path.split(".")[-1]).lower()
-        image_filename = get_next_image_filename(image_extension)
+        image_filename = FormService.get_next_image_filename(image_extension)
         full_image_path = get_full_image_path(image_filename)
 
-        append_record(str([name, surname, address, full_image_path, None]))
+        FormService.append_record(str([name, surname, address, full_image_path, None]))
         shutil.copy(image_path, full_image_path)
     except Exception as e:
         show_error_messagebox(f"{i18n.get('form.save_error')}: {e}")

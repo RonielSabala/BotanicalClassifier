@@ -31,7 +31,7 @@ class AboutPage(Page):
     prev_page = MenuPage
 
     @classmethod
-    def get_separation(cls, frame: Frame, font_size: int) -> tk.Label:
+    def _get_link_separator(cls, frame: Frame, font_size: int) -> tk.Label:
         return tk.Label(
             frame,
             text=LINKS_SEPARATION_TEXT,
@@ -43,6 +43,8 @@ class AboutPage(Page):
 
     @classmethod
     def load(cls) -> None:
+        bg_color = cls.bg_color
+
         # - Grids creation:
 
         header_grid = cls.get_grid_from_root()
@@ -62,21 +64,21 @@ class AboutPage(Page):
         # - Header elements:
 
         cls.set_return_btn()
-        shield = tk.Label(header_grid, image=COUNTRY_SHIELD_IMAGE, bg=cls.bg_color)
-        icon = tk.Label(header_grid, image=APP_ICON_IMAGE, bg=cls.bg_color)
+        shield = tk.Label(header_grid, image=COUNTRY_SHIELD_IMAGE, bg=bg_color)
+        icon = tk.Label(header_grid, image=APP_ICON_IMAGE, bg=bg_color)
 
         title = tk.Label(
             header_grid,
             text=i18n.get("about.title"),
             font=("Arial", 30),
-            bg=cls.bg_color,
+            bg=bg_color,
         )
 
         subtitle = tk.Label(
             header_grid,
             text=ABOUT_SUBTITLE,
             font=("Arial", 15),
-            bg=cls.bg_color,
+            bg=bg_color,
         )
 
         # - Page content:
@@ -133,7 +135,7 @@ class AboutPage(Page):
 
         # Header
         shield.grid(row=0, column=0, sticky="nse")
-        header_separator = cls.get_separation(header_grid, 25)
+        header_separator = cls._get_link_separator(header_grid, 25)
         header_separator.grid(row=0, column=1, sticky="ns")
         icon.grid(row=0, column=2, sticky="nsw")
         title.grid(row=1, columnspan=3, sticky="nsew")
@@ -154,19 +156,21 @@ class AboutPage(Page):
         email_label.grid(row=2, column=1, sticky="nsew")
         email_info.grid(row=2, column=2, sticky="nsw")
 
-        # Links
-        terms_button.grid(row=0, column=0, sticky="nse")
-        terms_separator = cls.get_separation(links_grid, 16)
-        terms_separator.grid(row=0, column=1, sticky="ns")
-        policies_button.grid(row=0, column=2, sticky="ns")
-        policies_separator = cls.get_separation(links_grid, 16)
-        policies_separator.grid(row=0, column=3, sticky="ns")
-        faq_button.grid(row=0, column=4, sticky="nsw")
+        # - Links:
 
+        terms_button.grid(row=0, column=0, sticky="nse")
+        terms_separator = cls._get_link_separator(links_grid, 16)
+        terms_separator.grid(row=0, column=1, sticky="ns")
+
+        policies_button.grid(row=0, column=2, sticky="ns")
+        policies_separator = cls._get_link_separator(links_grid, 16)
+        policies_separator.grid(row=0, column=3, sticky="ns")
+
+        faq_button.grid(row=0, column=4, sticky="nsw")
         cls.set_footer()
 
 
-def get_page_content(path: str) -> str:
+def _get_page_content(path: str) -> str:
     path = path.format(lang=i18n.current_language)
     with open(path, "r", encoding="utf-8") as file:
         return file.read()
@@ -190,7 +194,7 @@ class FaqPage(Page):
 
         scrollable_text.pack(padx=85, pady=0, fill=tk.BOTH, expand=True)
         scrollable_text.config(state=tk.NORMAL, font=("Arial", 13), relief="flat")
-        scrollable_text.insert(tk.END, get_page_content(FAQ_PATH))
+        scrollable_text.insert(tk.END, _get_page_content(FAQ_PATH))
         scrollable_text.config(state=tk.DISABLED)
         cls.set_text("", 0, pady=35)
 
@@ -213,7 +217,7 @@ class PoliciesPage(Page):
 
         scrollable_text.pack(padx=85, pady=0, fill=tk.BOTH, expand=True)
         scrollable_text.config(state=tk.NORMAL, font=("Arial", 10), bg="Gray95")
-        scrollable_text.insert(tk.END, get_page_content(POLICIES_PATH))
+        scrollable_text.insert(tk.END, _get_page_content(POLICIES_PATH))
         scrollable_text.config(state=tk.DISABLED)
         cls.set_text("", 0, pady=30)
 
@@ -236,6 +240,6 @@ class TermsPage(Page):
 
         scrollable_text.pack(padx=85, pady=0, fill=tk.BOTH, expand=True)
         scrollable_text.config(state=tk.NORMAL, font=("Arial", 10), bg="Gray95")
-        scrollable_text.insert(tk.END, get_page_content(TERMS_PATH))
+        scrollable_text.insert(tk.END, _get_page_content(TERMS_PATH))
         scrollable_text.config(state=tk.DISABLED)
         cls.set_text("", 0, pady=30)

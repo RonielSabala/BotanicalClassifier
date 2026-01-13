@@ -5,19 +5,19 @@ from typing import Optional, Sequence
 from common.utils import is_valid_path
 from gui.assets.images import EMPTY_IMAGE, get_resized_image
 from services.i18n_service import i18n
+from services.pages.records_service import RecordsService
 
-from ...assets.images import APP_ICON_IMAGE
-from ...page import Page
-from ...styles import (
+from ..assets.images import APP_ICON_IMAGE
+from ..page import Page
+from ..styles import (
     add_button_style,
     delete_button_style,
     entry_text_style,
     navigation_arrow_style,
     primary_button_style,
 )
-from ..form.form_page import FormPage
-from ..menu_page import MenuPage
-from .helpers import clean_records, get_records, insert_record_prediction
+from .form_page import FormPage
+from .menu_page import MenuPage
 
 # Table defaults
 MAX_ROW_INDEX_PER_PAGE = 3
@@ -82,7 +82,8 @@ class RecordsPage(Page):
     @classmethod
     def _fill_records(cls) -> None:
         cls._all_records = [
-            [f"{i}."] + record for i, record in enumerate(get_records(), start=1)
+            [f"{i}."] + record
+            for i, record in enumerate(RecordsService.get_all_records(), start=1)
         ]
 
     @classmethod
@@ -194,7 +195,7 @@ class RecordsPage(Page):
         if not choice:
             return
 
-        clean_records()
+        RecordsService.delete_all_records()
         MenuPage.show()
 
     @classmethod
@@ -248,7 +249,7 @@ class RecordsPage(Page):
     def _classify_record(cls, record_index: int) -> None:
         prev_page_index = cls.page_index
 
-        insert_record_prediction(record_index)
+        RecordsService.insert_record_prediction(record_index)
         cls._fill_records()
         cls._update_records()
 
