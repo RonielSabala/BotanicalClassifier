@@ -26,29 +26,22 @@ class I18nService:
     _catalogs: dict[str, dict[str, str]] = field(default_factory=dict, init=False)
 
     def __post_init__(self) -> None:
-        self._current = self.default
-
-        # Load languages
-        for lang in Language.all_languages():
-            lang_path = f"{I18N_DIR}/{lang}.json"
-            if not is_valid_path(lang_path):
-                raise FileNotFoundError(f"Translation file not found: {lang_path}")
-
-            with open(lang_path, "r", encoding="utf-8") as lang_file:
-                lang_json = json.load(lang_file)
-
-            self._catalogs[lang] = {str(k): str(v) for k, v in lang_json.items()}
-
-    @property
-    def current(self) -> str:
-        return self._current.value
+        self.set_language(self.default)
 
     def set_language(self, lang: Language) -> None:
-        """
-        Cambia el idioma actual.
-        """
+        lang_path = f"{I18N_DIR}/{lang.value}.json"
+        if not is_valid_path(lang_path):
+            raise FileNotFoundError(f"Translation file not found: {lang_path}")
+
+        with open(lang_path, "r", encoding="utf-8") as lang_file:
+            lang_json = json.load(lang_file)
 
         self._current = lang
+        self._catalogs[lang] = {str(k): str(v) for k, v in lang_json.items()}
+
+    @property
+    def current_language(self) -> str:
+        return self._current.value
 
     def get(self, key: str) -> str:
         catalog = self._catalogs[self._current]

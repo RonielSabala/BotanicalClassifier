@@ -30,7 +30,7 @@ TK_FRAME.grid_rowconfigure(0, weight=1)
 TK_FRAME.grid_columnconfigure(0, weight=1)
 
 # Copyright constants
-CURRENT_YEAR = date.year
+CURRENT_YEAR = date.today().year
 COMPANY_NAME = "Jardín Botánico Nacional"
 COPYRIGHT_SYMBOL = "©"
 

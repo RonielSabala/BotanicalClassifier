@@ -9,7 +9,7 @@ from .about_page import AboutPage
 
 
 def get_page_content() -> str:
-    path = TERMS_PATH.format(lang=i18n.current)
+    path = TERMS_PATH.format(lang=i18n.current_language)
     with open(path, "r", encoding="utf-8") as file:
         return file.read()
 
