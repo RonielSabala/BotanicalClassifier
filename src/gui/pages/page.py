@@ -1,22 +1,24 @@
 import tkinter as tk
 from tkinter import Frame, PhotoImage
 
-from common.constants import (
-    APP_ICON_IMAGE_PATH,
-    WINDOW_HEIGHT,
-    WINDOW_PADX,
-    WINDOW_PADY,
-    WINDOW_WIDTH,
-)
+from common.constants import APP_ICON_IMAGE_PATH
 from common.i18n import i18n
 
 from ..styles import return_button_style
 
 # App root
 TK_ROOT = tk.Tk()
+
+# Window constants
+_WINDOW_WIDTH = 750
+_WINDOW_HEIGHT = 900
+_MAX_WINDOW_WIDTH = TK_ROOT.winfo_screenwidth()
+_MAX_WINDOW_HEIGHT = TK_ROOT.winfo_screenheight()
+_WINDOW_PADX = int(_MAX_WINDOW_WIDTH / 2 + _WINDOW_WIDTH / 2 - _WINDOW_WIDTH)
+_WINDOW_PADY = int(_MAX_WINDOW_HEIGHT / 2 + _WINDOW_HEIGHT / 2 - _WINDOW_HEIGHT)
 TK_ROOT.title(i18n.get("window.title"))
 TK_ROOT.iconphoto(False, PhotoImage(file=APP_ICON_IMAGE_PATH))
-TK_ROOT.geometry(f"{WINDOW_WIDTH}x{WINDOW_HEIGHT}+{WINDOW_PADX}+{WINDOW_PADY}")
+TK_ROOT.geometry(f"{_WINDOW_WIDTH}x{_WINDOW_HEIGHT}+{_WINDOW_PADX}+{_WINDOW_PADY}")
 TK_ROOT.resizable(False, False)
 
 # App frame
