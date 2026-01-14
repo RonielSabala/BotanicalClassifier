@@ -413,9 +413,14 @@ class RecordsPage(Page):
                 # Insert empty row
                 if record is None:
                     for col in range(cls._max_column_index + 1):
-                        tk.Label(grid, text="", bg=cls.bg_color).grid(
-                            row=row + 1, column=col, sticky="nsew", pady=1
-                        )
+                        empty_cell = tk.Label(grid, bg=cls.bg_color)
+
+                        # Attach image
+                        if col == cls._flower_column_index:
+                            empty_cell.config(image=EMPTY_IMAGE)
+                            empty_cell.image = EMPTY_IMAGE  # type: ignore
+
+                        empty_cell.grid(row=row + 1, column=col, sticky="nsew", pady=1)
 
                     continue
 
