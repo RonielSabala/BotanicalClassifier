@@ -1,9 +1,9 @@
-import shutil
 import tkinter as tk
 from tkinter import filedialog
 
 from common.constants import ALLOWED_IMAGE_EXTENSIONS
-from common.utils import get_full_image_path, show_error_messagebox
+from common.utils import show_error_messagebox
+from models.record_model import Record
 from services.i18n_service import i18n
 from services.pages.form_service import FormService
 
@@ -13,26 +13,23 @@ from ..styles import entry_text_style, primary_button_style
 from .menu_page import MenuPage
 
 
-def save_form() -> None:
+def _on_save_button() -> None:
     """
     Guarda y valida la información del formulario.
     """
 
-    name = FormPage.name_var.get()
-    surname = FormPage.surname_var.get()
-    address = FormPage.address_var.get()
-    image_path = FormPage.image_path
-    if not (FormService.is_valid_record(name, surname, address, image_path)):
+    record = Record(
+        FormPage.name_var.get(),
+        FormPage.surname_var.get(),
+        FormPage.address_var.get(),
+        FormPage.image_path,
+    )
+
+    if not FormService.validate_record(record):
         return
 
-    # Save form
     try:
-        image_extension = (image_path.split(".")[-1]).lower()
-        image_filename = FormService.get_next_image_filename(image_extension)
-        full_image_path = get_full_image_path(image_filename)
-
-        FormService.append_record(str([name, surname, address, full_image_path, None]))
-        shutil.copy(image_path, full_image_path)
+        FormService.save_record(record)
     except Exception as e:
         show_error_messagebox(f"{i18n.get('form.save_error')}: {e}")
         return
@@ -62,7 +59,7 @@ class FormPage(Page):
         super().show()
 
     @classmethod
-    def set_entry_name(cls, entry_name: str) -> None:
+    def _set_entry_name(cls, entry_name: str) -> None:
         cls.set_text("", 2)
         cls.set_text(entry_name, font_size=22, fg="Black")
 
@@ -96,7 +93,7 @@ class FormPage(Page):
         save_button = tk.Button(
             cls.root,
             text=i18n.get("form.save"),
-            command=lambda: save_form(),
+            command=lambda: _on_save_button(),
             **primary_button_style,
         )
 
@@ -105,14 +102,14 @@ class FormPage(Page):
         cls.main_entry = name_entry
 
         # Name entry
-        cls.set_entry_name(i18n.get("form.name"))
+        cls._set_entry_name(i18n.get("form.name"))
         name_entry.bind("<Escape>", lambda event: cls.root.focus_set())
         name_entry.bind("<Down>", lambda event: surname_entry.focus_set())
         name_entry.bind("<Return>", lambda event: surname_entry.focus_set())
         name_entry.pack()
 
         # Surname entry
-        cls.set_entry_name(i18n.get("form.surname"))
+        cls._set_entry_name(i18n.get("form.surname"))
         surname_entry.bind("<Escape>", lambda event: cls.root.focus_set())
         surname_entry.bind("<Up>", lambda event: name_entry.focus_set())
         surname_entry.bind("<Down>", lambda event: address_entry.focus_set())
@@ -120,7 +117,7 @@ class FormPage(Page):
         surname_entry.pack()
 
         # Address entry
-        cls.set_entry_name(i18n.get("form.address"))
+        cls._set_entry_name(i18n.get("form.address"))
         address_entry.bind("<Escape>", lambda event: cls.root.focus_set())
         address_entry.bind("<Up>", lambda event: surname_entry.focus_set())
         address_entry.pack()
@@ -141,7 +138,7 @@ class FormPage(Page):
             image_entry.insert(0, cls.image_path.split("/")[-1])
             image_entry.config(state="readonly")
 
-        cls.set_entry_name(i18n.get("form.image"))
+        cls._set_entry_name(i18n.get("form.image"))
         image_entry.bind("<Button-1>", lambda event: on_click())
         image_entry.bind("<Escape>", lambda event: cls.root.focus_set())
         image_entry.bind("<Up>", lambda event: address_entry.focus_set())

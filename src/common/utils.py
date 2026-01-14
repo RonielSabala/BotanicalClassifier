@@ -8,7 +8,7 @@ def is_valid_path(path: str) -> bool:
     return isinstance(path, str) and os.path.exists(path)
 
 
-def get_full_image_path(path: str) -> str:
+def get_local_image_path(path: str) -> str:
     """
     Devuelve la ruta completa en la carpeta de imágenes.
     """

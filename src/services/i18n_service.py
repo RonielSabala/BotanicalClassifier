@@ -33,8 +33,8 @@ class I18nService:
         if not is_valid_path(lang_path):
             raise FileNotFoundError(f"Translation file not found: {lang_path}")
 
-        with open(lang_path, "r", encoding="utf-8") as lang_file:
-            lang_json = json.load(lang_file)
+        with open(lang_path, "r", encoding="utf-8") as f:
+            lang_json = json.load(f)
 
         self._current = lang
         self._catalogs[lang] = {str(k): str(v) for k, v in lang_json.items()}

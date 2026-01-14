@@ -26,15 +26,15 @@ class MenuPage(Page):
 
     @classmethod
     def config_pages(cls) -> None:
-        from .form.form_page import FormPage
+        from .form_page import FormPage
 
         FormPage.prev_page = cls
 
     @classmethod
     def load(cls) -> None:
         from .about_page import AboutPage
-        from .form.form_page import FormPage
-        from .records.records_page import RecordsPage
+        from .form_page import FormPage
+        from .records_page import RecordsPage
 
         # - Header elements:
 

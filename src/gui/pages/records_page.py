@@ -1,9 +1,11 @@
 import tkinter as tk
 from tkinter import Frame, font, messagebox
-from typing import Optional, Sequence
+from typing import Optional
 
 from common.utils import is_valid_path
 from gui.assets.images import EMPTY_IMAGE, get_resized_image
+from models.prediction_model import Prediction
+from models.record_model import Record
 from services.i18n_service import i18n
 from services.pages.records_service import RecordsService
 
@@ -26,39 +28,39 @@ MAX_ROW_INDEX_PER_PAGE = 3
 LEFT_NAV_ARROW_BUTTON_TEXT = ">"
 RIGHT_NAV_ARROW_BUTTON_TEXT = "<"
 ADD_RECORD_BUTTON_EMOJI = "✚"
-DELETE_BUTTON_EMOJI = "✘"
-DEFAULT_CLASSIFIED_RECORD_VALUE = "N/A"
+DELETE_RECORDS_BUTTON_EMOJI = "✘"
 HIGHEST_FLOWER_PROBABILITY_EMOJI = "✔"
 FAILED_FLOWER_PROBABILITY_EMOJI = "✗"
-EMPTY_CELL_VALUE = " "
+UNCLASSIFIED_RECORD_VALUE = "N/A"
 
 
 class RecordsPage(Page):
     prev_page = MenuPage
-    column_buttons: list[tk.Button] = []
+
+    # Records variables
+    _all_records: list[tuple[int, Record]]
+    _filtered_records: list[tuple[int, Optional[Record]]]
+    _filter_var: tk.StringVar = tk.StringVar()
+    _last_filter: tuple[Optional[str], Optional[str]] = None, None
+
+    # Columns variables
     _column_names: tuple[str, ...]
-
-    records: list[Sequence]
-    _all_records: list[Sequence]
-
+    _column_buttons: list[tk.Button] = []
+    _filter_column_name: str = i18n.get("records.owner_column")
     _max_column_index: int = -1
     _flower_column_index: int = -1
 
-    page_index: int = -1
-    max_page_index: int = -1
-
-    left_nav_arrow: tk.Button
-    right_nav_arrow: tk.Button
-
-    filter_var: tk.StringVar = tk.StringVar()
-    last_filter: tuple[Optional[str], Optional[str]] = None, None
-    filter_column: str = i18n.get("records.owner_column")
+    # Navigation variables
+    _page_index: int = -1
+    _max_page_index: int = -1
+    _left_nav_arrow: tk.Button
+    _right_nav_arrow: tk.Button
 
     @classmethod
     def close(cls) -> None:
         cls.main_entry = None
-        cls.last_filter = None, None
-        cls.filter_var.set("")
+        cls._last_filter = None, None
+        cls._filter_var.set("")
 
     @classmethod
     def config_pages(cls) -> None:
@@ -66,71 +68,61 @@ class RecordsPage(Page):
 
     @classmethod
     def _update_column_names(cls) -> None:
-        flower_column = i18n.get("records.flower_column")
+        flower_column_name = i18n.get("records.flower_column")
         cls._column_names = (
-            EMPTY_CELL_VALUE,
+            "",  # Record index column
             i18n.get("records.owner_column"),
             i18n.get("records.surname_column"),
             i18n.get("records.address_column"),
-            flower_column,
+            flower_column_name,
             i18n.get("records.prediction_column"),
         )
 
         cls._max_column_index = len(cls._column_names) - 1
-        cls._flower_column_index = cls._column_names.index(flower_column)
+        cls._flower_column_index = cls._column_names.index(flower_column_name)
 
     @classmethod
     def _fill_records(cls) -> None:
-        cls._all_records = [
-            [f"{i}."] + record
-            for i, record in enumerate(RecordsService.get_all_records(), start=1)
-        ]
+        cls._all_records = list(enumerate(RecordsService.get_all_records(), start=1))
 
     @classmethod
-    def _append_missing_records(cls, count: int) -> None:
-        if count < 1:
+    def _filter_records(cls) -> None:
+        if cls._last_filter[0] is None:
+            cls._filtered_records = cls._all_records.copy()  # type: ignore
             return
 
-        missing_records = [
-            [EMPTY_CELL_VALUE] * (cls._max_column_index + 1) for _ in range(count)
+        text_to_filter = cls._filter_var.get().lower()
+        filter_column_index = cls._column_names.index(cls._filter_column_name)
+        cls._filtered_records = [
+            (i, record)
+            for i, record in cls._all_records
+            if text_to_filter
+            in str(record.get_property_by_index(filter_column_index)).lower()
         ]
-
-        cls.records.extend(missing_records)
 
     @classmethod
     def _update_records(cls) -> None:
-        # Get records
-        if cls.last_filter[0] is None:
-            filtered_records = cls._all_records.copy()
-        else:
-            text_to_filter = cls.filter_var.get().lower()
-            filter_column_index = cls._column_names.index(cls.filter_column)
-            filtered_records = [
-                record
-                for record in cls._all_records
-                if len(record) == 0
-                or text_to_filter in str(record[filter_column_index]).lower()
-            ]
-
-        if not filtered_records:
-            cls.records = []
-            cls.page_index = 0
-            cls.max_page_index = 0
+        cls._filter_records()
+        max_record_index = len(cls._filtered_records) - 1
+        if max_record_index == -1:
+            cls._page_index = 0
+            cls._max_page_index = 0
             return
 
-        max_record_index = len(filtered_records) - 1
         last_page_index, last_page_records_count = divmod(
             max_record_index, MAX_ROW_INDEX_PER_PAGE
         )
 
-        cls.records = filtered_records
-        cls.page_index = 1
-        cls.max_page_index = last_page_index + 1
+        cls._page_index = 1
+        cls._max_page_index = last_page_index + 1
+        if max_record_index < MAX_ROW_INDEX_PER_PAGE:
+            return
 
-        if max_record_index >= MAX_ROW_INDEX_PER_PAGE:
-            cls._append_missing_records(
-                MAX_ROW_INDEX_PER_PAGE - last_page_records_count
-            )
+        missing_records = [(-1, None)] * (
+            MAX_ROW_INDEX_PER_PAGE - last_page_records_count
+        )
+
+        cls._filtered_records.extend(missing_records)
 
     @classmethod
     def _update_table(cls) -> None:
@@ -157,11 +149,11 @@ class RecordsPage(Page):
         en la tabla.
         """
 
-        if cls.page_index == 1:
-            cls.right_nav_arrow.config(state=tk.DISABLED)
+        if cls._page_index == 1:
+            cls._right_nav_arrow.config(state=tk.DISABLED)
             return
 
-        cls.page_index -= 1
+        cls._page_index -= 1
         cls._update_table()
 
     @classmethod
@@ -171,15 +163,15 @@ class RecordsPage(Page):
         en la tabla.
         """
 
-        if cls.page_index == cls.max_page_index:
-            cls.left_nav_arrow.config(state=tk.DISABLED)
+        if cls._page_index == cls._max_page_index:
+            cls._left_nav_arrow.config(state=tk.DISABLED)
             return
 
-        cls.page_index += 1
+        cls._page_index += 1
         cls._update_table()
 
     @classmethod
-    def _delete(cls) -> None:
+    def _on_delete_click(cls) -> None:
         """
         Elimina todos los registros guardados.
         """
@@ -199,19 +191,19 @@ class RecordsPage(Page):
         MenuPage.show()
 
     @classmethod
-    def _update_filter_column(cls, filter_column: str) -> None:
+    def _on_column_name_click(cls, filter_column: str) -> None:
         """
         Cambia la categoría a buscar.
         """
 
-        prev_filter_column = cls.filter_column
+        prev_filter_column = cls._filter_column_name
         if filter_column == prev_filter_column:
             return
 
-        cls.filter_column = filter_column
+        cls._filter_column_name = filter_column
 
         # Update column buttons
-        for col_button in cls.column_buttons:
+        for col_button in cls._column_buttons:
             button_text = col_button["text"]
             if button_text not in (prev_filter_column, filter_column):
                 continue
@@ -226,49 +218,49 @@ class RecordsPage(Page):
             )
 
     @classmethod
-    def _filter_records(cls) -> None:
+    def _on_filter(cls) -> None:
         """
         Busca los registros según el texto
         introducido en el campo de texto según
         la categoría seleccionada.
         """
 
-        current_filter = cls.filter_var.get(), cls.filter_column
-        if current_filter == cls.last_filter:
+        current_filter = cls._filter_var.get(), cls._filter_column_name
+        if current_filter == cls._last_filter:
             return
 
-        prev_records = cls.records.copy()
-        cls.last_filter = current_filter
+        prev_records = cls._filtered_records.copy()
+        cls._last_filter = current_filter
         cls._update_records()
-        if cls.records == prev_records:
+        if cls._filtered_records == prev_records:
             return
 
         cls._update_table()
 
     @classmethod
     def _classify_record(cls, record_index: int) -> None:
-        prev_page_index = cls.page_index
+        prev_page_index = cls._page_index
 
-        RecordsService.insert_record_prediction(record_index)
+        RecordsService.set_record_prediction(record_index)
         cls._fill_records()
         cls._update_records()
 
-        cls.page_index = prev_page_index
+        cls._page_index = prev_page_index
         cls._update_table()
 
     @classmethod
-    def _get_prediction_button(cls, root: Frame, record_index: int) -> Frame:
+    def _get_classification_button(cls, root: Frame, record_index: int) -> Frame:
         bg_color = "white"
         grid = Frame(root, bg=bg_color)
         grid.rowconfigure(0, weight=1)
         tk.Label(
             grid,
-            text=DEFAULT_CLASSIFIED_RECORD_VALUE,
+            text=UNCLASSIFIED_RECORD_VALUE,
             font=("Arial", 13),
             bg=bg_color,
         ).grid(row=0, column=0, pady=5)
 
-        # Create classification button
+        # Create button
         button = tk.Button(
             grid,
             text=i18n.get("records.classify_button"),
@@ -291,74 +283,67 @@ class RecordsPage(Page):
         return grid
 
     @classmethod
-    def _get_prediction_grid(
-        cls, root: Frame, predictions: list[tuple[str, float]]
-    ) -> Frame:
+    def _insert_prediction_cell_element(
+        cls, root: Frame, row: int, column: int, cell_value: str
+    ) -> None:
+        fg_color = "Black" if row == 0 else f"Gray{50 + 8 * row}"
+        bg_color = "GoldenRod1" if row == 0 else "White"
+
+        tk.Label(
+            root, text=cell_value, font=("Arial", 10), fg=fg_color, bg=bg_color
+        ).grid(row=row, column=column, sticky="nsew")
+
+    @classmethod
+    def _get_prediction_grid(cls, root: Frame, predictions: list[Prediction]) -> Frame:
         grid = Frame(root)
         prediction_column_names = (
             i18n.get("records.prediction_tag_column"),
             i18n.get("records.prediction_probability_column"),
         )
 
-        # Add column names
-        for i, column_name in enumerate(prediction_column_names):
-            label_font = "Arial", 12 if i == 0 else 10, "bold"
-            fg_color = "White" if i == 0 else "GoldenRod1"
+        # Insert columns names
+        for col, column_name in enumerate(prediction_column_names):
+            fg_color = "White" if col == 0 else "GoldenRod1"
+            font_size = 12 if col == 0 else 10
+            label_font = "Arial", font_size, "bold"
+
             tk.Label(
                 grid, text=column_name, font=label_font, fg=fg_color, bg="Gray15"
-            ).grid(row=0, column=i, sticky="nsew", padx=0)
+            ).grid(row=0, column=col, sticky="nsew", padx=0)
 
-        sorted_predictions = sorted(
-            predictions, key=lambda probability: probability[1], reverse=True
-        )
+        # Insert predictions
+        for row, prediction in enumerate(predictions):
+            tag_name = prediction.tag_name.capitalize()
+            probability = f"{prediction.probability:.2%} " + (
+                HIGHEST_FLOWER_PROBABILITY_EMOJI
+                if row == 0
+                else FAILED_FLOWER_PROBABILITY_EMOJI
+            )
 
-        # Add predictions
-        label_font = "Arial", 10
-        for i, prediction in enumerate(sorted_predictions):
-            for j, data in enumerate(prediction):
-                if isinstance(data, str):
-                    data = data.capitalize()
-                else:
-                    data = f"{data:.2%} " + (
-                        HIGHEST_FLOWER_PROBABILITY_EMOJI
-                        if i == 0
-                        else FAILED_FLOWER_PROBABILITY_EMOJI
-                    )
-
-                fg_color = "Black" if i == 0 else f"Gray{60 + 8 * i}"
-                bg_color = "GoldenRod1" if i == 0 else "White"
-                tk.Label(
-                    grid, text=data, font=label_font, fg=fg_color, bg=bg_color
-                ).grid(row=i + 1, column=j, sticky="nsew")
+            cls._insert_prediction_cell_element(grid, row + 1, 0, tag_name)
+            cls._insert_prediction_cell_element(grid, row + 1, 1, probability)
 
         return grid
 
     @classmethod
-    def _get_cell_colors(cls, row: int, col: int, cell_value: str) -> tuple[str, str]:
-        fg, bg = "Black", cls.bg_color
+    def _get_cell_colors(cls, row: int, col: int) -> tuple[str, str]:
+        fg_color, bg_color = "Black", cls.bg_color
         if col == 0:
-            return fg, bg
+            return fg_color, bg_color
 
-        # Column names colors
         if row == 0:
-            fg, bg = "white", "Dodgerblue4"
+            # Column colors
+            fg_color, bg_color = "white", "Dodgerblue4"
+        else:
+            # Row colors
+            bg_color = "Gray96" if row % 2 else "Gray92"
 
-        # Records colors
-        elif col < cls._max_column_index and cell_value != EMPTY_CELL_VALUE:
-            bg = "Gray96" if row % 2 else "Gray92"
-
-        return fg, bg
+        return fg_color, bg_color
 
     @classmethod
     def _get_cell_element(
-        cls,
-        root: Frame,
-        row: int,
-        col: int,
-        cell_value: str,
-        bg_color: str,
-        row_data: list[str],
-    ) -> tuple[Frame | tk.Label | tk.Button, bool]:
+        cls, root: Frame, row: int, col: int, cell_value: str
+    ) -> tk.Label | tk.Button:
         # Flower image
         if row > 0 and col == cls._flower_column_index:
             image = (
@@ -369,25 +354,10 @@ class RecordsPage(Page):
 
             cell_image = tk.Label(root, image=image)
             cell_image.image = image  # type: ignore
-            return cell_image, True
-
-        # Predict button
-        if cell_value is None:
-            record_index = int(row_data[0][:-1])
-            button = cls._get_prediction_button(root, record_index - 1)
-            button.grid(row=row + 1, column=col, padx=0, pady=1)
-            return button, False
-
-        # Predictions grid
-        if row > 0 and col == cls._max_column_index and cell_value != EMPTY_CELL_VALUE:
-            grid = cls._get_prediction_grid(root, cell_value)  # type: ignore
-            grid.config(bg=bg_color)
-            grid.grid(row=row + 1, column=col)
-            return grid, False
-
-        element_font = "Arial", 16, "bold"
+            return cell_image
 
         # Label
+        element_font = "Arial", 16, "bold"
         if row > 0 or col in (0, cls._flower_column_index, cls._max_column_index):
             element = tk.Label(root)
             if row > 0:
@@ -398,7 +368,7 @@ class RecordsPage(Page):
         # Button
         else:
             # Underline filter column
-            if cell_value == cls.filter_column:
+            if cell_value == cls._filter_column_name:
                 element_font += ("underline",)
 
             element = tk.Button(
@@ -407,50 +377,81 @@ class RecordsPage(Page):
                 activeforeground="Black",
                 activebackground="DodgerBlue4",
                 cursor="hand2",
-                command=lambda value=cell_value: cls._update_filter_column(value),
+                command=lambda value=cell_value: cls._on_column_name_click(value),
             )
 
-            cls.column_buttons.append(element)
+            cls._column_buttons.append(element)
 
         element.config(text=cell_value, font=element_font, relief="flat")
-
         if col not in (0, 1):
-            return element, True
+            return element
 
         # Configure item anchor
         element_anchor = "center" if row == 0 else ("e" if col == 0 else "w")
         element.config(anchor=element_anchor, padx=15)
-        return element, True
+        return element
 
     @classmethod
     def _fill_records_grid(cls, grid: Frame) -> None:
-        cls.column_buttons = []
-        start_index = max(0, MAX_ROW_INDEX_PER_PAGE * (cls.page_index - 1))
-        end_index = min(start_index + MAX_ROW_INDEX_PER_PAGE, len(cls.records) - 1)
+        cls._column_buttons = []
+        first_record_index = max(0, MAX_ROW_INDEX_PER_PAGE * (cls._page_index - 1))
+        last_record_index = min(
+            first_record_index + MAX_ROW_INDEX_PER_PAGE, len(cls._filtered_records) - 1
+        )
 
-        for row, record_index in enumerate(range(start_index - 1, end_index + 1)):
+        record_indices = range(first_record_index - 1, last_record_index + 1)
+        for row, record_index in enumerate(record_indices):
             if row == MAX_ROW_INDEX_PER_PAGE + 1:
                 break
 
             if row == 0:
                 row_data = cls._column_names
             else:
-                row_data = cls.records[record_index]
+                record_position, record = cls._filtered_records[record_index]
 
-            for col, cell_value in enumerate(row_data):
-                fg_color, bg_color = cls._get_cell_colors(row, col, cell_value)
-                cell_element, needs_config = cls._get_cell_element(
-                    grid,
-                    row,
-                    col,
-                    cell_value,
-                    bg_color,
-                    row_data,  # type: ignore
-                )
+                # Insert empty row
+                if record is None:
+                    for col in range(cls._max_column_index + 1):
+                        tk.Label(grid, text="", bg=cls.bg_color).grid(
+                            row=row + 1, column=col, sticky="nsew", pady=1
+                        )
 
-                if not needs_config:
                     continue
 
+                row_data = (
+                    f"{record_position}.",
+                    record.name,
+                    record.surname,
+                    record.address,
+                    record.image_path,
+                    record.predictions,
+                )
+
+            for col, cell_value in enumerate(row_data):
+                # Insert classification button
+                if cell_value is None:
+                    button = cls._get_classification_button(grid, record_position - 1)
+                    button.grid(row=row + 1, column=col, padx=0, pady=1)
+                    continue
+
+                # Insert predictions grid
+                if isinstance(cell_value, list):
+                    sorted_predictions = sorted(
+                        cell_value,
+                        key=lambda prediction: prediction.probability,
+                        reverse=True,
+                    )
+
+                    predictions_grid = cls._get_prediction_grid(
+                        grid, sorted_predictions
+                    )
+
+                    predictions_grid.config(bg=cls.bg_color)
+                    predictions_grid.grid(row=row + 1, column=col)
+                    continue
+
+                fg_color, bg_color = cls._get_cell_colors(row, col)
+                cell_element = cls._get_cell_element(grid, row, col, cell_value)
                 cell_element.config(fg=fg_color, bg=bg_color)  # type: ignore
                 cell_element.grid(row=row + 1, column=col, sticky="nsew", pady=1)
 
@@ -469,18 +470,18 @@ class RecordsPage(Page):
         navigation_grid = cls.get_grid_from_root()
 
         search_entry = tk.Entry(
-            records_grid, textvariable=cls.filter_var, **entry_text_style
+            records_grid, textvariable=cls._filter_var, **entry_text_style
         )
 
         search_button = tk.Button(
             records_grid,
             text=i18n.get("records.search"),
             font=("Arial", 13),
-            command=lambda: cls._filter_records(),
+            command=lambda: cls._on_filter(),
             cursor="hand2",
         )
 
-        cls.left_nav_arrow = tk.Button(
+        cls._left_nav_arrow = tk.Button(
             navigation_grid,
             text=LEFT_NAV_ARROW_BUTTON_TEXT,
             command=cls._load_next_page,
@@ -488,7 +489,7 @@ class RecordsPage(Page):
             **navigation_arrow_style,
         )
 
-        cls.right_nav_arrow = tk.Button(
+        cls._right_nav_arrow = tk.Button(
             navigation_grid,
             text=RIGHT_NAV_ARROW_BUTTON_TEXT,
             command=cls._load_prev_page,
@@ -499,7 +500,7 @@ class RecordsPage(Page):
         page_number_label = tk.Label(
             navigation_grid,
             text=i18n.get("records.page_index_label").format(
-                page_index=cls.page_index, max_page_index=cls.max_page_index
+                page_index=cls._page_index, max_page_index=cls._max_page_index
             ),
             fg="Black",
             bg=cls.bg_color,
@@ -518,19 +519,19 @@ class RecordsPage(Page):
         )
 
         delete_button_text = (
-            DELETE_BUTTON_EMOJI + " " + i18n.get("records.delete_records")
+            DELETE_RECORDS_BUTTON_EMOJI + " " + i18n.get("records.delete_records")
         )
 
         delete_button = tk.Button(
             cls.root,
             text=delete_button_text,
-            command=cls._delete,
+            command=cls._on_delete_click,
             **delete_button_style,  # type: ignore
         )
 
         # - Elements configuration:
 
-        if cls.last_filter[0] is not None:
+        if cls._last_filter[0] is not None:
             cls.main_entry = search_entry
 
         records_grid.pack(fill="both", padx=20, pady=0)
@@ -544,20 +545,20 @@ class RecordsPage(Page):
         search_button.grid(row=0, column=4, sticky="w")
 
         page_number_label.grid(row=0, column=1, sticky="nsew", padx=0, pady=5)
-        cls.left_nav_arrow.grid(row=0, column=2, sticky="nsew", padx=0, pady=5)
-        cls.right_nav_arrow.grid(row=0, column=0, sticky="nsew", padx=0, pady=5)
+        cls._left_nav_arrow.grid(row=0, column=2, sticky="nsew", padx=0, pady=5)
+        cls._right_nav_arrow.grid(row=0, column=0, sticky="nsew", padx=0, pady=5)
 
         # Left arrow state config
-        if cls.page_index >= cls.max_page_index:
-            cls.left_nav_arrow.config(state=tk.DISABLED)
+        if cls._page_index >= cls._max_page_index:
+            cls._left_nav_arrow.config(state=tk.DISABLED)
         else:
-            cls.left_nav_arrow.config(cursor="hand2")
+            cls._left_nav_arrow.config(cursor="hand2")
 
         # Right arrow state config
-        if cls.page_index <= 1:
-            cls.right_nav_arrow.config(state=tk.DISABLED)
+        if cls._page_index <= 1:
+            cls._right_nav_arrow.config(state=tk.DISABLED)
         else:
-            cls.right_nav_arrow.config(cursor="hand2")
+            cls._right_nav_arrow.config(cursor="hand2")
 
         cls.set_text("", 0, pady=1)
         add_record_button.pack(pady=0)

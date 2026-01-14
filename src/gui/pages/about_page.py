@@ -172,8 +172,8 @@ class AboutPage(Page):
 
 def _get_page_content(path: str) -> str:
     path = path.format(lang=i18n.current_language)
-    with open(path, "r", encoding="utf-8") as file:
-        return file.read()
+    with open(path, "r", encoding="utf-8") as f:
+        return f.read()
 
 
 class FaqPage(Page):

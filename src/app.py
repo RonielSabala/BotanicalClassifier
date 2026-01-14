@@ -13,7 +13,7 @@ from gui.pages.menu_page import MenuPage
 if not is_valid_path(_LOCAL_DIR):
     os.mkdir(_LOCAL_DIR)
     os.mkdir(LOCAL_IMAGES_DIR)
-    with open(LOCAL_RECORDS_PATH, "w") as file:
+    with open(LOCAL_RECORDS_PATH, "w") as f:
         pass
 
 # Show menu page

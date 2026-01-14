@@ -6,6 +6,8 @@ from azure.cognitiveservices.vision.customvision.prediction import (
 from dotenv import load_dotenv
 from msrest.authentication import ApiKeyCredentials
 
+from models.prediction_model import Prediction
+
 load_dotenv()
 key = os.getenv("KEY")
 endpoint = os.getenv("ENDPOINT")
@@ -16,14 +18,15 @@ credentials = ApiKeyCredentials(in_headers={"Prediction-key": key})  # type: ign
 client = CustomVisionPredictionClient(endpoint, credentials)
 
 
-def get_flower_prediction(flower_image_path: str) -> list[tuple[str, float]]:
+def get_flower_prediction(flower_image_path: str) -> list[Prediction]:
     """
     Devuelve la predicción del modelo a una imagen.
     """
 
     with open(flower_image_path, "rb") as image:
         results = client.classify_image(project_id, published_name, image.read())
-        return [
-            (prediction.tag_name, prediction.probability)
-            for prediction in results.predictions  # type: ignore
-        ]
+
+    return [
+        Prediction(str(prediction.tag_name), float(prediction.probability))
+        for prediction in results.predictions  # type: ignore
+    ]
