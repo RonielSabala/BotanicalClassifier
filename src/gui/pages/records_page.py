@@ -6,6 +6,7 @@ from common.utils import is_valid_path
 from gui.assets.images import EMPTY_IMAGE, get_resized_image
 from models.prediction_model import Prediction
 from models.record_model import Record
+from models.search_filter_model import SearchFilter
 from services.i18n_service import i18n
 from services.pages.records_service import RecordsService
 
@@ -41,7 +42,7 @@ class RecordsPage(Page):
     _all_records: list[tuple[int, Record]]
     _filtered_records: list[tuple[int, Optional[Record]]]
     _filter_var: tk.StringVar = tk.StringVar()
-    _last_filter: tuple[Optional[str], Optional[str]] = None, None
+    _last_filter: SearchFilter = SearchFilter()
 
     # Columns variables
     _column_names: tuple[str, ...]
@@ -59,7 +60,7 @@ class RecordsPage(Page):
     @classmethod
     def close(cls) -> None:
         cls.main_entry = None
-        cls._last_filter = None, None
+        cls._last_filter.reset()
         cls._filter_var.set("")
 
     @classmethod
@@ -87,7 +88,7 @@ class RecordsPage(Page):
 
     @classmethod
     def _filter_records(cls) -> None:
-        if cls._last_filter[0] is None:
+        if cls._last_filter.search_text is None:
             cls._filtered_records = cls._all_records.copy()  # type: ignore
             return
 
@@ -225,7 +226,7 @@ class RecordsPage(Page):
         la categoría seleccionada.
         """
 
-        current_filter = cls._filter_var.get(), cls._filter_column_name
+        current_filter = SearchFilter(cls._filter_var.get(), cls._filter_column_name)
         if current_filter == cls._last_filter:
             return
 
@@ -531,7 +532,7 @@ class RecordsPage(Page):
 
         # - Elements configuration:
 
-        if cls._last_filter[0] is not None:
+        if cls._last_filter.search_text is not None:
             cls.main_entry = search_entry
 
         records_grid.pack(fill="both", padx=20, pady=0)
