@@ -42,19 +42,25 @@ class MenuPage(Page):
         )
 
         page_header = i18n.get("menu.header")
-        cls.set_text_at(page_header, 9, (0.5, 0.01), anchor="center", fg=FG_COLOR)
+        cls.set_text_at(
+            page_header,
+            font_size=9,
+            coordinates=(0.5, 0.01),
+            anchor="center",
+            fg=FG_COLOR,
+        )
 
         page_title = i18n.get("menu.title")
         page_description = i18n.get("menu_description")
-        cls.set_text(page_title, 35, pady=10, fg=FG_COLOR)
-        cls.set_text(page_description, 12, pady=25, fg=FG_COLOR)
-        cls.set_text("_" * 70, 10, pady=0, fg=FG_COLOR)
+        cls.set_text(page_title, font_size=35, pady=10, fg=FG_COLOR)
+        cls.set_text(page_description, font_size=12, pady=25, fg=FG_COLOR)
+        cls.set_text("_" * 70, font_size=10, pady=0, fg=FG_COLOR)
 
         page_question = i18n.get("menu.survey_question")
         page_instructions = i18n.get("menu.survey_instructions")
-        cls.set_text(page_question, 15, pady=25, fg=FG_COLOR)
-        cls.set_text(page_instructions, 13, pady=3, fg=FG_COLOR)
-        cls.set_text("", 13, pady=15)
+        cls.set_text(page_question, font_size=15, pady=25, fg=FG_COLOR)
+        cls.set_text(page_instructions, font_size=13, pady=3, fg=FG_COLOR)
+        cls.set_text("", font_size=13, pady=15)
 
         # - Page elements:
 
@@ -105,8 +111,8 @@ class MenuPage(Page):
         records_button.place(relx=rel_x, rely=rel_y, anchor="center")
         cls.set_text_at(
             records_button_label,
-            14,
-            (rel_x - 0.01, rel_y + 0.06),
+            font_size=14,
+            coordinates=(rel_x - 0.01, rel_y + 0.06),
             anchor="center",
             fg="black",
         )
@@ -117,8 +123,8 @@ class MenuPage(Page):
         about_button.place(relx=rel_x, rely=rel_y, anchor="center")
         cls.set_text_at(
             about_button_label,
-            14,
-            (rel_x, rel_y + 0.06),
+            font_size=14,
+            coordinates=(rel_x, rel_y + 0.06),
             anchor="center",
             fg="black",
         )
@@ -129,8 +135,8 @@ class MenuPage(Page):
         exit_button.place(relx=rel_x, rely=rel_y, anchor="center")
         cls.set_text_at(
             EXIT_BUTTON_LABEL,
-            25,
-            (rel_x, rel_y + 0.04),
+            font_size=25,
+            coordinates=(rel_x, rel_y + 0.04),
             anchor="center",
             fg=exit_button.cget("fg"),
         )

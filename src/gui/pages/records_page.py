@@ -462,8 +462,8 @@ class RecordsPage(Page):
         # Header elements
         page_title = i18n.get("records.title")
         tk.Label(cls.root, image=APP_ICON_IMAGE, bg=cls.bg_color).pack(padx=20, pady=15)
-        cls.set_text(page_title, 32, pady=0, fg="#091518")
-        cls.set_text("", 0, pady=2)
+        cls.set_text(page_title, font_size=32, pady=0, fg="#091518")
+        cls.set_text("", font_size=0, pady=2)
         cls.set_return_btn()
 
         # - Page elements:
@@ -563,7 +563,7 @@ class RecordsPage(Page):
         else:
             cls._right_nav_arrow.config(cursor="hand2")
 
-        cls.set_text("", 0, pady=1)
+        cls.set_text("", font_size=0, pady=1)
         add_record_button.pack(pady=0)
         delete_button.pack(pady=12)
 

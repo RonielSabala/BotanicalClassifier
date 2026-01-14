@@ -133,7 +133,7 @@ class Page:
 
     @classmethod
     def set_text(
-        cls, text: str, font_size: int, pady: int = 10, fg: str = "cornsilk2"
+        cls, text: str, *, font_size: int, pady: int = 10, fg: str = "cornsilk2"
     ) -> None:
         """
         Coloca un texto en la pagina.
@@ -152,6 +152,7 @@ class Page:
     def set_text_at(
         cls,
         text: str,
+        *,
         font_size: int = 10,
         coordinates: tuple[float, float] = (0.5, 0.5),
         anchor: str = "se",
@@ -173,10 +174,16 @@ class Page:
 
     @classmethod
     def set_footer(cls) -> None:
-        cls.set_text_at(get_app_rights(), 9, (0.5, 0.98), anchor="center", fg="black")
+        cls.set_text_at(
+            get_app_rights(),
+            font_size=9,
+            coordinates=(0.5, 0.98),
+            anchor="center",
+            fg="black",
+        )
 
     @classmethod
-    def set_return_btn(cls, fg: str = "Black") -> None:
+    def set_return_btn(cls) -> None:
         """
         Coloca un botón de retorno para ir a la pagina
         anterior. Si se presiona ESC dicho botón es
@@ -192,7 +199,7 @@ class Page:
 
         button = tk.Button(
             cls.root,
-            fg=fg,
+            fg="Black",
             command=lambda: on_escape(None),
             activebackground="Gray78",
             **return_button_style,
@@ -202,7 +209,7 @@ class Page:
             cls.root,
             text=i18n.get("app.return_button"),
             font=("Arial", 12),
-            fg=fg,
+            fg="Black",
             bg=cls.bg_color,
         )
 

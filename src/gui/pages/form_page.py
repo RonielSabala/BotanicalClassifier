@@ -77,7 +77,7 @@ class FormPage(Page):
 
     @classmethod
     def _set_entry_name(cls, entry_name: str) -> None:
-        cls.set_text("", 2)
+        cls.set_text("", font_size=2)
         cls.set_text(entry_name, font_size=22, fg="Black")
 
     @classmethod
@@ -85,7 +85,7 @@ class FormPage(Page):
         # Header elements
         page_title = i18n.get("form.title")
         tk.Label(cls.root, image=APP_ICON_IMAGE, bg=cls.bg_color).pack(padx=10, pady=15)
-        cls.set_text(page_title, 35, pady=15, fg="#091518")
+        cls.set_text(page_title, font_size=35, pady=15, fg="#091518")
         cls.set_return_btn()
 
         # - Page elements:
