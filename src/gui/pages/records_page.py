@@ -405,44 +405,42 @@ class RecordsPage(Page):
             if row == MAX_ROW_INDEX_PER_PAGE + 1:
                 break
 
+            # Get row cells
+            insert_empty_row = False
             if row == 0:
-                row_data = cls._column_names
+                row_cells = cls._column_names
             else:
                 record_position, record = cls._filtered_records[record_index]
-
-                # Insert empty row
                 if record is None:
-                    for col in range(cls._max_column_index + 1):
-                        empty_cell = tk.Label(grid, bg=cls.bg_color)
-
-                        # Attach image
-                        if col == cls._flower_column_index:
-                            empty_cell.config(image=EMPTY_IMAGE)
-                            empty_cell.image = EMPTY_IMAGE  # type: ignore
-
-                        empty_cell.grid(row=row + 1, column=col, sticky="nsew", pady=1)
-
-                    continue
-
-                row_data = (
-                    f"{record_position}.",
-                    record.name,
-                    record.surname,
-                    record.address,
-                    record.image_path,
-                    record.predictions,
-                )
+                    insert_empty_row = True
+                    row_cells = tuple(None for _ in range(cls._max_column_index + 1))
+                else:
+                    row_cells = (
+                        f"{record_position}.",
+                        record.name,
+                        record.surname,
+                        record.address,
+                        record.image_path,
+                        record.predictions,
+                    )
 
             # Insert row
-            for col, cell_value in enumerate(row_data):
+            for col, cell_value in enumerate(row_cells):
+                # Insert empty cell
+                if insert_empty_row:
+                    cell_element = tk.Label(grid, bg=cls.bg_color)
+                    if col == cls._flower_column_index:
+                        cell_element.config(image=EMPTY_IMAGE)
+                        cell_element.image = EMPTY_IMAGE  # type: ignore
+
                 # Insert classification button
-                if cell_value is None:
+                elif cell_value is None:
                     button = cls._get_classification_button(grid, record_position - 1)
                     button.grid(row=row + 1, column=col, padx=0, pady=1)
                     continue
 
                 # Insert predictions grid
-                if isinstance(cell_value, list):
+                elif isinstance(cell_value, list):
                     sorted_predictions = sorted(
                         cell_value,
                         key=lambda prediction: prediction.probability,
@@ -457,9 +455,12 @@ class RecordsPage(Page):
                     predictions_grid.grid(row=row + 1, column=col)
                     continue
 
-                fg_color, bg_color = cls._get_cell_colors(row, col)
-                cell_element = cls._get_cell_element(grid, row, col, cell_value)
-                cell_element.config(fg=fg_color, bg=bg_color)  # type: ignore
+                # Insert button/label
+                else:
+                    fg_color, bg_color = cls._get_cell_colors(row, col)
+                    cell_element = cls._get_cell_element(grid, row, col, cell_value)
+                    cell_element.config(fg=fg_color, bg=bg_color)  # type: ignore
+
                 cell_element.grid(row=row + 1, column=col, sticky="nsew", pady=1)
 
     @classmethod
