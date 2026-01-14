@@ -1,32 +1,33 @@
-import os
-
 from azure.cognitiveservices.vision.customvision.prediction import (
     CustomVisionPredictionClient,
 )
-from dotenv import load_dotenv
 from msrest.authentication import ApiKeyCredentials
 
+from common.config import (
+    CUSTOM_VISION_ENDPOINT,
+    CUSTOM_VISION_KEY,
+    CUSTOM_VISION_PROJECT_ID,
+    CUSTOM_VISION_PUBLISHED_NAME,
+)
 from models.prediction_model import Prediction
 
-load_dotenv()
-key = os.getenv("KEY")
-endpoint = os.getenv("ENDPOINT")
-project_id = os.getenv("PROJECT_ID")
-published_name = os.getenv("PUBLISHED_ITERATION_NAME")
-
-credentials = ApiKeyCredentials(in_headers={"Prediction-key": key})  # type: ignore
-client = CustomVisionPredictionClient(endpoint, credentials)
+_credentials = ApiKeyCredentials(in_headers={"Prediction-key": CUSTOM_VISION_KEY})  # type: ignore
+_client = CustomVisionPredictionClient(CUSTOM_VISION_ENDPOINT, _credentials)
 
 
-def get_flower_prediction(flower_image_path: str) -> list[Prediction]:
-    """
-    Devuelve la predicción del modelo a una imagen.
-    """
+class PredictorService:
+    @staticmethod
+    def get_flower_prediction(flower_image_path: str) -> list[Prediction]:
+        """
+        Devuelve la predicción del modelo a una imagen.
+        """
 
-    with open(flower_image_path, "rb") as image:
-        results = client.classify_image(project_id, published_name, image.read())
+        with open(flower_image_path, "rb") as image:
+            results = _client.classify_image(
+                CUSTOM_VISION_PROJECT_ID, CUSTOM_VISION_PUBLISHED_NAME, image.read()
+            )
 
-    return [
-        Prediction(str(prediction.tag_name), float(prediction.probability))
-        for prediction in results.predictions  # type: ignore
-    ]
+        return [
+            Prediction(str(prediction.tag_name), float(prediction.probability))
+            for prediction in results.predictions  # type: ignore
+        ]

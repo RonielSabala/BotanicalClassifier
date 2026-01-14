@@ -49,13 +49,13 @@ Computer-vision desktop application that classifies five flower types: **roses**
 
 ### `.env` configuration
 
-Create a `.env` file at `src/services/.env` with the keys shown below.
+Create a `.env` file at `src/common/.env` with the keys shown below.
 
 ```env
-KEY='your-prediction-key'
-ENDPOINT='your-prediction-endpoint'
-PROJECT_ID='your-project-id'
-PUBLISHED_ITERATION_NAME='your-published-iteration-name'
+CUSTOM_VISION_KEY='your-prediction-key'
+CUSTOM_VISION_ENDPOINT='your-prediction-endpoint'
+CUSTOM_VISION_PROJECT_ID='your-project-id'
+CUSTOM_VISION_PUBLISHED_NAME='your-published-iteration-name'
 ```
 
 ### Create a virtual environment

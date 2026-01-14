@@ -4,7 +4,7 @@ from common.paths import LOCAL_IMAGES_DIR, LOCAL_RECORDS_PATH
 from common.utils import get_local_image_path
 from models.record_model import Record
 
-from .predictor_service import get_flower_prediction
+from .predictor_service import PredictorService
 
 
 class RecordsService:
@@ -46,7 +46,7 @@ class RecordsService:
 
         # Set prediction
         record = Record.from_str(records_str[record_index])
-        record.predictions = get_flower_prediction(record.image_path)
+        record.predictions = PredictorService.get_flower_prediction(record.image_path)
 
         # Update records
         records_str[record_index] = f"{record}\n"
