@@ -32,15 +32,22 @@ class AboutPage(Page):
     prev_page = MenuPage
 
     @classmethod
-    def _get_link_separator(cls, frame: Frame, font_size: int) -> tk.Label:
-        return tk.Label(
-            frame,
+    def _set_link_separator(
+        cls,
+        *,
+        row: int,
+        column: int,
+        root: Frame,
+        font_size: int,
+    ) -> None:
+        tk.Label(
+            root,
             text=LINKS_SEPARATION_TEXT,
             font=("Arial", font_size),
             fg="Gray20",
             bg=cls.bg_color,
             padx=0,
-        )
+        ).grid(row=row, column=column, sticky="ns")
 
     @classmethod
     def load(cls) -> None:
@@ -136,8 +143,7 @@ class AboutPage(Page):
 
         # Header
         shield.grid(row=0, column=0, sticky="nse")
-        header_separator = cls._get_link_separator(header_grid, 25)
-        header_separator.grid(row=0, column=1, sticky="ns")
+        cls._set_link_separator(row=0, column=1, root=header_grid, font_size=25)
         icon.grid(row=0, column=2, sticky="nsw")
         title.grid(row=1, columnspan=3, sticky="nsew")
         subtitle.grid(row=2, columnspan=3, sticky="nsew", pady=6)
@@ -160,12 +166,10 @@ class AboutPage(Page):
         # - Links:
 
         terms_button.grid(row=0, column=0, sticky="nse")
-        terms_separator = cls._get_link_separator(links_grid, 16)
-        terms_separator.grid(row=0, column=1, sticky="ns")
+        cls._set_link_separator(row=0, column=1, root=links_grid, font_size=16)
 
         policies_button.grid(row=0, column=2, sticky="ns")
-        policies_separator = cls._get_link_separator(links_grid, 16)
-        policies_separator.grid(row=0, column=3, sticky="ns")
+        cls._set_link_separator(row=0, column=3, root=links_grid, font_size=16)
 
         faq_button.grid(row=0, column=4, sticky="nsw")
         cls.set_footer()

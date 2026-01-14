@@ -1,5 +1,4 @@
 import tkinter as tk
-from tkinter import font
 
 from services.i18n_service import i18n
 
@@ -98,7 +97,6 @@ class MenuPage(Page):
 
         # - Elements configuration:
 
-        # Form button
         form_button.pack(pady=0)
 
         # Records button
@@ -127,10 +125,7 @@ class MenuPage(Page):
 
         # Exit button
         rel_x, rel_y = 0.92, 0.94
-        exit_button.config(
-            font=font.Font(family="Arial", size=18, underline=True), width=3
-        )
-
+        exit_button.config(font=("Arial", 18, "underline"), width=3)
         exit_button.place(relx=rel_x, rely=rel_y, anchor="center")
         cls.set_text_at(
             EXIT_BUTTON_LABEL,

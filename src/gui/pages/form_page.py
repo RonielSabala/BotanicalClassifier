@@ -22,7 +22,7 @@ class FormPage(Page):
     image_path = ""
 
     @classmethod
-    def _on_image_select_click(cls, image_entry: tk.Entry) -> None:
+    def _on_image_select(cls, image_entry: tk.Entry) -> None:
         user_image = filedialog.askopenfilename(
             title=i18n.get("form.utils.attach_image"),
             filetypes=[(i18n.get("form.image_files"), ALLOWED_IMAGE_EXTENSIONS)],
@@ -91,6 +91,7 @@ class FormPage(Page):
         # - Page elements:
 
         name_entry = tk.Entry(cls.root, textvariable=cls.name_var, **entry_text_style)
+
         surname_entry = tk.Entry(
             cls.root, textvariable=cls.surname_var, **entry_text_style
         )
@@ -139,18 +140,13 @@ class FormPage(Page):
         address_entry.bind("<Up>", lambda event: surname_entry.focus_set())
         address_entry.pack()
 
-        # - Image entry:
-
+        # Image entry
         cls._set_entry_name(i18n.get("form.image"))
-        image_entry.bind(
-            "<Button-1>", lambda event: cls._on_image_select_click(image_entry)
-        )
+        image_entry.bind("<Button-1>", lambda event: cls._on_image_select(image_entry))
         image_entry.bind("<Escape>", lambda event: cls.root.focus_set())
         image_entry.bind("<Up>", lambda event: address_entry.focus_set())
         image_entry.bind("<Return>", lambda event: save_button.invoke())
         image_entry.pack(padx=10, pady=10)
 
-        # Save button
         save_button.pack(pady=40)
-
         cls.set_footer()

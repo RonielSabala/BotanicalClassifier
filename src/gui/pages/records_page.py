@@ -428,6 +428,7 @@ class RecordsPage(Page):
                     record.predictions,
                 )
 
+            # Insert row
             for col, cell_value in enumerate(row_data):
                 # Insert classification button
                 if cell_value is None:
@@ -469,7 +470,6 @@ class RecordsPage(Page):
 
         records_grid = cls.get_grid_from_root()
         navigation_grid = cls.get_grid_from_root()
-
         search_entry = tk.Entry(
             records_grid, textvariable=cls._filter_var, **entry_text_style
         )
@@ -498,11 +498,13 @@ class RecordsPage(Page):
             **navigation_arrow_style,
         )
 
+        page_number_text = i18n.get("records.page_index_label").format(
+            page_index=cls._page_index, max_page_index=cls._max_page_index
+        )
+
         page_number_label = tk.Label(
             navigation_grid,
-            text=i18n.get("records.page_index_label").format(
-                page_index=cls._page_index, max_page_index=cls._max_page_index
-            ),
+            text=page_number_text,
             fg="Black",
             bg=cls.bg_color,
             font=("Arial", 14),
