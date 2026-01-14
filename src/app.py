@@ -1,20 +1,15 @@
-import os
-
 from common.paths import (
-    _LOCAL_DIR,
     LOCAL_IMAGES_DIR,
     LOCAL_RECORDS_PATH,
+    LOCAL_RESOURCES_DIR,
 )
-from common.utils import is_valid_path
 from gui import page
 from gui.pages.menu_page import MenuPage
 
 # Create local storage
-if not is_valid_path(_LOCAL_DIR):
-    os.mkdir(_LOCAL_DIR)
-    os.mkdir(LOCAL_IMAGES_DIR)
-    with open(LOCAL_RECORDS_PATH, "w") as f:
-        pass
+LOCAL_RESOURCES_DIR.mkdir(parents=True, exist_ok=True)
+LOCAL_IMAGES_DIR.mkdir(parents=True, exist_ok=True)
+LOCAL_RECORDS_PATH.touch(exist_ok=True)
 
 # Show menu page
 MenuPage.show()

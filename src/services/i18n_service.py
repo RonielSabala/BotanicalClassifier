@@ -29,7 +29,7 @@ class I18nService:
         self.set_language(self.default)
 
     def set_language(self, lang: Language) -> None:
-        lang_path = f"{I18N_DIR}/{lang.value}.json"
+        lang_path = I18N_DIR / f"{lang.value}.json"
         if not is_valid_path(lang_path):
             raise FileNotFoundError(f"Translation file not found: {lang_path}")
 

@@ -10,6 +10,7 @@ from common.config import (
     CUSTOM_VISION_PUBLISHED_NAME,
 )
 from models.prediction_model import Prediction
+from models.record_model import Record
 
 _credentials = ApiKeyCredentials(in_headers={"Prediction-key": CUSTOM_VISION_KEY})  # type: ignore
 _client = CustomVisionPredictionClient(CUSTOM_VISION_ENDPOINT, _credentials)
@@ -17,17 +18,20 @@ _client = CustomVisionPredictionClient(CUSTOM_VISION_ENDPOINT, _credentials)
 
 class PredictorService:
     @staticmethod
-    def get_flower_prediction(flower_image_path: str) -> list[Prediction]:
+    def set_flower_prediction(record: Record) -> None:
         """
         Devuelve la predicción del modelo a una imagen.
         """
 
-        with open(flower_image_path, "rb") as image:
+        if record.predictions is not None:
+            return
+
+        with open(record.image_path, "rb") as image:
             results = _client.classify_image(
                 CUSTOM_VISION_PROJECT_ID, CUSTOM_VISION_PUBLISHED_NAME, image.read()
             )
 
-        return [
+        record.predictions = [
             Prediction(str(prediction.tag_name), float(prediction.probability))
             for prediction in results.predictions  # type: ignore
         ]

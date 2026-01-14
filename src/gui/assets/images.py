@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from PIL import Image, ImageTk
 
 from common.constants import BASE_IMAGE_COLOR, BASE_IMAGE_MODE, BASE_IMAGE_SIZE_PIXELS
@@ -9,11 +11,11 @@ from common.paths import (
 )
 
 
-def get_image_from_path(image_path: str):
+def get_image_from_path(image_path: Path):
     return ImageTk.PhotoImage(Image.open(image_path))
 
 
-def get_resized_image(image_path: str):
+def get_resized_image(image_path: str | Path):
     image = Image.open(image_path).convert(BASE_IMAGE_MODE)
     base_image = Image.new(
         BASE_IMAGE_MODE,

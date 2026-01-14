@@ -1,12 +1,12 @@
-import os
 import shutil
+from pathlib import Path
 
 from common.constants import LOCAL_IMAGES_PREFIX
 from common.paths import (
     LOCAL_IMAGES_DIR,
     LOCAL_RECORDS_PATH,
 )
-from common.utils import get_local_image_path, is_valid_path, show_error_messagebox
+from common.utils import is_valid_path, show_error_messagebox
 from models.record_model import Record
 
 from .i18n_service import i18n
@@ -15,7 +15,10 @@ from .i18n_service import i18n
 class FormService:
     @staticmethod
     def _get_next_image_filename(img_extension: str) -> str:
-        images_count = len(os.listdir(LOCAL_IMAGES_DIR))
+        images_count = 0
+        for _ in LOCAL_IMAGES_DIR.iterdir():
+            images_count += 1
+
         return f"{LOCAL_IMAGES_PREFIX}_{images_count}.{img_extension}"
 
     @classmethod
@@ -25,18 +28,14 @@ class FormService:
         """
 
         # Get next image filename
-        image_path = record.image_path
-        image_extension = (image_path.split(".")[-1]).lower()
-        image_filename = cls._get_next_image_filename(image_extension)
+        user_image_path = Path(record.image_path)
+        image_filename = cls._get_next_image_filename(user_image_path.suffix)
+        record.image_path = str(LOCAL_IMAGES_DIR / image_filename)
 
-        # Get local image path
-        local_image_path = get_local_image_path(image_filename)
-        record.image_path = local_image_path
+        # Copy image to local path
+        shutil.copy(user_image_path, record.image_path)
 
-        # Copy image to the local path
-        shutil.copy(image_path, local_image_path)
-
-        # Save record
+        # Insert record
         with open(LOCAL_RECORDS_PATH, "a") as f:
             f.write(f"{record}\n")
 
@@ -91,5 +90,5 @@ class FormService:
             and cls._validate_entry(
                 record.address, i18n.get("form.utils.enter_address")
             )
-            and FormService._validate_image_path(record.image_path)
+            and cls._validate_image_path(str(record.image_path))
         )

@@ -1,7 +1,4 @@
-import os
-
 from common.paths import LOCAL_IMAGES_DIR, LOCAL_RECORDS_PATH
-from common.utils import get_local_image_path
 from models.record_model import Record
 
 from .predictor_service import PredictorService
@@ -24,8 +21,8 @@ class RecordsService:
             f.write("")
 
         # Delete record images
-        for image_path in os.listdir(LOCAL_IMAGES_DIR):
-            os.unlink(get_local_image_path(image_path))
+        for image_path in LOCAL_IMAGES_DIR.iterdir():
+            image_path.unlink()
 
     @staticmethod
     def set_record_prediction(record_index: int) -> None:
@@ -46,7 +43,7 @@ class RecordsService:
 
         # Set prediction
         record = Record.from_str(records_str[record_index])
-        record.predictions = PredictorService.get_flower_prediction(record.image_path)
+        PredictorService.set_flower_prediction(record)
 
         # Update records
         records_str[record_index] = f"{record}\n"
