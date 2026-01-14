@@ -93,7 +93,7 @@ class RecordsPage(Page):
             return
 
         text_to_filter = cls._filter_var.get().lower()
-        filter_column_index = cls._column_names.index(cls._filter_column_name)
+        filter_column_index = cls._column_names.index(cls._filter_column_name) - 1
         cls._filtered_records = [
             (i, record)
             for i, record in cls._all_records

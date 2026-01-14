@@ -24,4 +24,4 @@ class Record:
         if index == 2:
             return self.address
 
-        raise ValueError("index ({index}) is not a valid to get the record property.")
+        raise ValueError(f"index ({index}) is not a valid to get the record property.")
