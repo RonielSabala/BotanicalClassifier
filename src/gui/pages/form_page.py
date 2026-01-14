@@ -4,39 +4,13 @@ from tkinter import filedialog
 from common.constants import ALLOWED_IMAGE_EXTENSIONS
 from common.utils import show_error_messagebox
 from models.record_model import Record
+from services.form_service import FormService
 from services.i18n_service import i18n
-from services.pages.form_service import FormService
 
 from ..assets.images import APP_ICON_IMAGE
 from ..page import Page
 from ..styles import entry_text_style, primary_button_style
 from .menu_page import MenuPage
-
-
-def _on_save_button() -> None:
-    """
-    Guarda y valida la información del formulario.
-    """
-
-    record = Record(
-        FormPage.name_var.get(),
-        FormPage.surname_var.get(),
-        FormPage.address_var.get(),
-        FormPage.image_path,
-    )
-
-    if not FormService.validate_record(record):
-        return
-
-    try:
-        FormService.save_record(record)
-    except Exception as e:
-        show_error_messagebox(f"{i18n.get('form.save_error')}: {e}")
-        return
-
-    # Show previous page
-    if FormPage.prev_page is not None:
-        FormPage.prev_page.show()
 
 
 class FormPage(Page):
@@ -46,6 +20,49 @@ class FormPage(Page):
     address_var = tk.StringVar()
     _image_var = tk.StringVar()
     image_path = ""
+
+    @classmethod
+    def _on_image_select_click(cls, image_entry: tk.Entry) -> None:
+        user_image = filedialog.askopenfilename(
+            title=i18n.get("form.utils.attach_image"),
+            filetypes=[(i18n.get("form.image_files"), ALLOWED_IMAGE_EXTENSIONS)],
+        )
+
+        cls.image_path = user_image
+        if not user_image:
+            return
+
+        image_entry.config(state="normal")
+        image_entry.delete(0, tk.END)
+        image_entry.insert(0, user_image.split("/")[-1])
+        image_entry.config(state="readonly")
+
+    @classmethod
+    def _on_save_button(cls) -> None:
+        """
+        Guarda y valida la información del formulario.
+        """
+
+        record = Record(
+            cls.name_var.get(),
+            cls.surname_var.get(),
+            cls.address_var.get(),
+            cls.image_path,
+        )
+
+        if not FormService.validate_record(record):
+            return
+
+        try:
+            FormService.save_record(record)
+        except Exception as e:
+            show_error_messagebox(f"{i18n.get('form.save_error')}: {e}")
+            return
+
+        # Show previous page
+        prev_page = cls.prev_page
+        if prev_page is not None:
+            prev_page.show()
 
     @classmethod
     def show(cls) -> None:
@@ -93,7 +110,7 @@ class FormPage(Page):
         save_button = tk.Button(
             cls.root,
             text=i18n.get("form.save"),
-            command=lambda: _on_save_button(),
+            command=lambda: cls._on_save_button(),
             **primary_button_style,
         )
 
@@ -124,22 +141,10 @@ class FormPage(Page):
 
         # - Image entry:
 
-        def on_click() -> None:
-            cls.image_path = filedialog.askopenfilename(
-                title=i18n.get("form.utils.attach_image"),
-                filetypes=[(i18n.get("form.image_files"), ALLOWED_IMAGE_EXTENSIONS)],
-            )
-
-            if not cls.image_path:
-                return
-
-            image_entry.config(state="normal")
-            image_entry.delete(0, tk.END)
-            image_entry.insert(0, cls.image_path.split("/")[-1])
-            image_entry.config(state="readonly")
-
         cls._set_entry_name(i18n.get("form.image"))
-        image_entry.bind("<Button-1>", lambda event: on_click())
+        image_entry.bind(
+            "<Button-1>", lambda event: cls._on_image_select_click(image_entry)
+        )
         image_entry.bind("<Escape>", lambda event: cls.root.focus_set())
         image_entry.bind("<Up>", lambda event: address_entry.focus_set())
         image_entry.bind("<Return>", lambda event: save_button.invoke())

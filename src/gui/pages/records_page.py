@@ -8,7 +8,7 @@ from models.prediction_model import Prediction
 from models.record_model import Record
 from models.search_filter_model import SearchFilter
 from services.i18n_service import i18n
-from services.pages.records_service import RecordsService
+from services.records_service import RecordsService
 
 from ..assets.images import APP_ICON_IMAGE
 from ..page import Page

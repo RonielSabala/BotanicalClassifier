@@ -9,7 +9,7 @@ from common.paths import (
 from common.utils import get_local_image_path, is_valid_path, show_error_messagebox
 from models.record_model import Record
 
-from ..i18n_service import i18n
+from .i18n_service import i18n
 
 
 class FormService:

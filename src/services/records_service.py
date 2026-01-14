@@ -4,7 +4,7 @@ from common.paths import LOCAL_IMAGES_DIR, LOCAL_RECORDS_PATH
 from common.utils import get_local_image_path
 from models.record_model import Record
 
-from ..predictor_service import get_flower_prediction
+from .predictor_service import get_flower_prediction
 
 
 class RecordsService:
