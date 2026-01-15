@@ -12,7 +12,12 @@ from common.constants import (
 from common.paths import APP_ICON_IMAGE_PATH
 from services.i18n_service import i18n
 
-from .styles.app import footer_style, return_button_label_style, return_button_style
+from .styles.app import (
+    empty_separator_style,
+    footer_style,
+    return_button_label_style,
+    return_button_style,
+)
 from .tk_events import EventType
 
 # App root
@@ -135,8 +140,8 @@ class Page:
         cls,
         *,
         text: str,
-        pady: int = 10,
-        fg: str = "cornsilk2",
+        pady: int,
+        fg: str,
         font: tuple[str, int],
     ) -> None:
         """
@@ -157,8 +162,8 @@ class Page:
         cls,
         *,
         text: str,
-        coords: tuple[float, float] = (0.5, 0.5),
-        anchor: str = "se",
+        coords: tuple[float, float],
+        anchor: str,
         fg: str,
         font: tuple[str, int],
     ) -> None:
@@ -183,7 +188,7 @@ class Page:
         Coloca un texto en la pagina.
         """
 
-        cls.set_text(text="", pady=pady, fg="black", font=("arial", 0))
+        tk.Label(cls.root, pady=pady, bg=cls.bg_color, **empty_separator_style).pack()
 
     @classmethod
     def set_footer(cls) -> None:

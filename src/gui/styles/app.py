@@ -1,3 +1,9 @@
+empty_separator_style = {
+    "text": "",
+    "fg": "black",
+    "font": ("arial", 0),
+}
+
 _generic_button_style = {
     "bd": 0,
     "padx": 5,

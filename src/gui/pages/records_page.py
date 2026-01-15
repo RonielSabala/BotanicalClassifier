@@ -27,6 +27,7 @@ from ..styles.records_page import (
     navigation_arrow_style,
     odd_row_cells_style,
     page_number_style,
+    page_title_style,
     search_button_style,
 )
 from ..tk_events import EventType
@@ -469,9 +470,8 @@ class RecordsPage(Page):
         bg_color = cls.bg_color
 
         # Header elements
-        page_title = i18n.get("records.title")
         tk.Label(cls.root, image=APP_ICON_IMAGE, bg=bg_color).pack(padx=20, pady=15)
-        cls.set_text(text=page_title, pady=0, fg="#091518", font=("Arial", 32))
+        cls.set_text(text=i18n.get("records.title"), **page_title_style)
         cls.set_empty_separator(pady=2)
         cls.set_return_btn()
 

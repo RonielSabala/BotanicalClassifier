@@ -15,6 +15,7 @@ from services.i18n_service import i18n
 from ..assets.images import APP_ICON_IMAGE, COUNTRY_SHIELD_IMAGE
 from ..page import Page
 from ..styles.about_page import (
+    about_pages_title_style,
     emoji_style,
     header_separator_style,
     label_info_style,
@@ -207,13 +208,7 @@ class FaqPage(Page):
         # Header
         cls.set_return_btn()
         cls.set_empty_separator(pady=35)
-        cls.set_text(
-            text=i18n.get("about.faq.title"),
-            pady=0,
-            fg="#091518",
-            font=("Arial", 30),
-        )
-
+        cls.set_text(text=i18n.get("about.faq.title"), **about_pages_title_style)
         cls.set_empty_separator(pady=25)
 
         # Content
@@ -236,13 +231,7 @@ class PoliciesPage(Page):
         # Header
         cls.set_return_btn()
         cls.set_empty_separator(pady=35)
-        cls.set_text(
-            text=i18n.get("about.policies.title"),
-            pady=0,
-            fg="#091518",
-            font=("Arial", 30),
-        )
-
+        cls.set_text(text=i18n.get("about.policies.title"), **about_pages_title_style)
         cls.set_empty_separator(pady=0)
 
         # Content
@@ -265,13 +254,7 @@ class TermsPage(Page):
         # Header
         cls.set_return_btn()
         cls.set_empty_separator(pady=35)
-        cls.set_text(
-            text=i18n.get("about.terms.title"),
-            pady=0,
-            fg="#091518",
-            font=("Arial", 30),
-        )
-
+        cls.set_text(text=i18n.get("about.terms.title"), **about_pages_title_style)
         cls.set_empty_separator(pady=0)
 
         # Content

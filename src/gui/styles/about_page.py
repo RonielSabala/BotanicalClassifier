@@ -39,3 +39,9 @@ header_separator_style = {
     "fg": "Gray20",
     "font": ("Arial", 25),
 }
+
+about_pages_title_style = {
+    "pady": 0,
+    "fg": "#091518",
+    "font": ("Arial", 30),
+}

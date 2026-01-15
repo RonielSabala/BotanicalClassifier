@@ -42,8 +42,7 @@ class FormService:
         """
 
         is_valid = True
-        enter_entry = i18n.get("form.utils.enter_entry")
-        error_msg = f"{enter_entry} {name_on_error}"
+        error_msg = f"{i18n.get('form.utils.enter_entry')} {name_on_error}"
         if not entry_name:
             is_valid = False
 

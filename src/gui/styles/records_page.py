@@ -1,5 +1,11 @@
 from .app import _generic_button_style, primary_button_style
 
+page_title_style = {
+    "pady": 0,
+    "fg": "#091518",
+    "font": ("Arial", 32),
+}
+
 default_cell_style = {
     "fg": "Black",
 }

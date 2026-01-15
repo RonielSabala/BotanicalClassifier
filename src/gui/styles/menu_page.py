@@ -1,7 +1,33 @@
-header_text_style = {
+page_header_style = {
     "coords": (0.5, 0.01),
     "anchor": "center",
     "font": ("Arial", 9),
+}
+
+page_title_style = {
+    "pady": 10,
+    "font": ("Arial", 35),
+}
+
+page_description_style = {
+    "pady": 25,
+    "font": ("Arial", 12),
+}
+
+page_description_separator_style = {
+    "text": "_" * 70,
+    "pady": 0,
+    "font": ("Arial", 10),
+}
+
+page_question_style = {
+    "pady": 25,
+    "font": ("Arial", 15),
+}
+
+page_instructions_style = {
+    "pady": 3,
+    "font": ("Arial", 13),
 }
 
 _button_style = {

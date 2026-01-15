@@ -10,7 +10,12 @@ from ..styles.menu_page import (
     about_button_text_style,
     exit_button_style,
     exit_button_text_style,
-    header_text_style,
+    page_description_separator_style,
+    page_description_style,
+    page_header_style,
+    page_instructions_style,
+    page_question_style,
+    page_title_style,
     records_button_style,
     records_button_text_style,
 )
@@ -44,19 +49,18 @@ class MenuPage(Page):
         # - Header elements:
 
         tk.Label(cls.root, image=APP_BANNER_IMAGE, bg=bg_color).pack(padx=10, pady=5)
-        page_header = i18n.get("menu.header")
-        cls.set_text_at(text=page_header, fg=fg_color, **header_text_style)
+        cls.set_text_at(text=i18n.get("menu.header"), fg=fg_color, **page_header_style)
 
         page_title = i18n.get("menu.title")
         page_description = i18n.get("menu_description")
-        cls.set_text(text=page_title, pady=10, fg=fg_color, font=("Arial", 35))
-        cls.set_text(text=page_description, pady=25, fg=fg_color, font=("Arial", 12))
-        cls.set_text(text="_" * 70, pady=0, fg=fg_color, font=("Arial", 10))
+        cls.set_text(text=page_title, fg=fg_color, **page_title_style)
+        cls.set_text(text=page_description, fg=fg_color, **page_description_style)
+        cls.set_text(fg=fg_color, **page_description_separator_style)
 
         page_question = i18n.get("menu.survey_question")
         page_instructions = i18n.get("menu.survey_instructions")
-        cls.set_text(text=page_question, pady=25, fg=fg_color, font=("Arial", 15))
-        cls.set_text(text=page_instructions, pady=3, fg=fg_color, font=("Arial", 13))
+        cls.set_text(text=page_question, fg=fg_color, **page_question_style)
+        cls.set_text(text=page_instructions, fg=fg_color, **page_instructions_style)
         cls.set_empty_separator(pady=20)
 
         # - Page elements:
@@ -99,20 +103,18 @@ class MenuPage(Page):
 
         # Records button
         rel_x, rel_y = 0.5, 0.74
-        records_button_label = i18n.get("menu.records_button")
         records_button.place(relx=rel_x, rely=rel_y, anchor="center")
         cls.set_text_at(
-            text=records_button_label,
+            text=i18n.get("menu.records_button"),
             coords=(rel_x - 0.01, rel_y + 0.06),
             **records_button_text_style,
         )
 
         # About button
         rel_x, rel_y = 0.1, 0.9
-        about_button_label = i18n.get("menu.about_button")
         about_button.place(relx=rel_x, rely=rel_y, anchor="center")
         cls.set_text_at(
-            text=about_button_label,
+            text=i18n.get("menu.about_button"),
             coords=(rel_x, rel_y + 0.06),
             **about_button_text_style,
         )

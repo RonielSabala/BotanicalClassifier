@@ -10,7 +10,7 @@ from services.i18n_service import i18n
 from ..assets.images import APP_ICON_IMAGE
 from ..page import Page
 from ..styles.app import entry_text_style, primary_button_style
-from ..styles.form import select_entry_style
+from ..styles.form_page import entry_name_style, page_title_style, select_entry_style
 from ..tk_events import EventType
 from .menu_page import MenuPage
 
@@ -80,20 +80,13 @@ class FormPage(Page):
     @classmethod
     def _set_entry_name(cls, entry_name: str) -> None:
         cls.set_empty_separator(pady=2)
-        cls.set_text(text=entry_name, fg="Black", font=("Arial", 22))
+        cls.set_text(text=entry_name, **entry_name_style)
 
     @classmethod
     def load(cls) -> None:
         # Header elements
-        page_title = i18n.get("form.title")
         tk.Label(cls.root, image=APP_ICON_IMAGE, bg=cls.bg_color).pack(padx=10, pady=15)
-        cls.set_text(
-            text=page_title,
-            pady=15,
-            fg="#091518",
-            font=("Arial", 35),
-        )
-
+        cls.set_text(text=i18n.get("form.title"), **page_title_style)
         cls.set_return_btn()
 
         # - Page elements:
