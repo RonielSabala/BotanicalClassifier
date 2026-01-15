@@ -461,7 +461,7 @@ class RecordsPage(Page):
                     }
 
                     cell_element = cls._get_cell_element(grid, row, col, cell_value)
-                    cell_element.config(**cell_styles)  # type: ignore
+                    cell_element.config(**cell_styles)
 
                 cell_element.grid(row=row + 1, column=col, pady=1, sticky="nsew")
 
@@ -524,7 +524,7 @@ class RecordsPage(Page):
             cls.root,
             text=add_record_text,
             command=FormPage.show,
-            **add_button_style,  # type: ignore
+            **add_button_style,
         )
 
         delete_text = (
@@ -535,7 +535,7 @@ class RecordsPage(Page):
             cls.root,
             text=delete_text,
             command=cls._on_delete_click,
-            **delete_button_style,  # type: ignore
+            **delete_button_style,
         )
 
         # - Elements configuration:

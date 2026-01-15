@@ -206,7 +206,9 @@ class Page:
             return
 
         def _on_escape(event) -> None:
-            cls.prev_page.show()  # type: ignore
+            if cls.prev_page is not None:
+                cls.prev_page.show()
+
             cls.close()
 
         bg_color = cls.bg_color
