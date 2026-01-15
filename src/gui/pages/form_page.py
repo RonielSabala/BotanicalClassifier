@@ -138,14 +138,12 @@ class FormPage(Page):
         cls._set_entry_name(i18n.get("form.address"))
         address_entry.bind("<Escape>", lambda event: cls.root.focus_set())
         address_entry.bind("<Up>", lambda event: surname_entry.focus_set())
+        address_entry.bind("<Return>", lambda event: cls._on_image_select(image_entry))
         address_entry.pack()
 
         # Image entry
         cls._set_entry_name(i18n.get("form.image"))
         image_entry.bind("<Button-1>", lambda event: cls._on_image_select(image_entry))
-        image_entry.bind("<Escape>", lambda event: cls.root.focus_set())
-        image_entry.bind("<Up>", lambda event: address_entry.focus_set())
-        image_entry.bind("<Return>", lambda event: save_button.invoke())
         image_entry.pack(padx=10, pady=10)
 
         save_button.pack(pady=40)
