@@ -206,9 +206,15 @@ class FaqPage(Page):
     def load(cls) -> None:
         # Header
         cls.set_return_btn()
-        cls.set_text("", font_size=0, pady=35)
-        cls.set_text(i18n.get("about.faq.title"), font_size=30, pady=0, fg="#091518")
-        cls.set_text("", font_size=0, pady=25)
+        cls.set_text(text="", pady=35, font=("Arial", 0))
+        cls.set_text(
+            text=i18n.get("about.faq.title"),
+            pady=0,
+            fg="#091518",
+            font=("Arial", 30),
+        )
+
+        cls.set_text(text="", pady=25, font=("Arial", 0))
 
         # Content
         scrollable_text = scrolledtext.ScrolledText(
@@ -219,7 +225,7 @@ class FaqPage(Page):
         scrollable_text.config(state=tk.NORMAL, font=("Arial", 13), relief="flat")
         scrollable_text.insert(tk.END, AboutService.get_page_content(FAQ_PATH))
         scrollable_text.config(state=tk.DISABLED)
-        cls.set_text("", font_size=0, pady=35)
+        cls.set_text(text="", pady=35, font=("Arial", 0))
 
 
 class PoliciesPage(Page):
@@ -229,12 +235,15 @@ class PoliciesPage(Page):
     def load(cls) -> None:
         # Header
         cls.set_return_btn()
-        cls.set_text("", font_size=0, pady=35)
+        cls.set_text(text="", pady=35, font=("Arial", 0))
         cls.set_text(
-            i18n.get("about.policies.title"), font_size=30, pady=0, fg="#091518"
+            text=i18n.get("about.policies.title"),
+            pady=0,
+            fg="#091518",
+            font=("Arial", 30),
         )
 
-        cls.set_text("", font_size=0, pady=0)
+        cls.set_text(text="", pady=0, font=("Arial", 0))
 
         # Content
         scrollable_text = scrolledtext.ScrolledText(
@@ -245,7 +254,7 @@ class PoliciesPage(Page):
         scrollable_text.config(state=tk.NORMAL, font=("Arial", 10), bg="Gray95")
         scrollable_text.insert(tk.END, AboutService.get_page_content(POLICIES_PATH))
         scrollable_text.config(state=tk.DISABLED)
-        cls.set_text("", font_size=0, pady=30)
+        cls.set_text(text="", pady=30, font=("Arial", 0))
 
 
 class TermsPage(Page):
@@ -255,9 +264,15 @@ class TermsPage(Page):
     def load(cls) -> None:
         # Header
         cls.set_return_btn()
-        cls.set_text("", font_size=0, pady=35)
-        cls.set_text(i18n.get("about.terms.title"), font_size=30, pady=0, fg="#091518")
-        cls.set_text("", font_size=0, pady=0)
+        cls.set_text(text="", pady=35, font=("Arial", 0))
+        cls.set_text(
+            text=i18n.get("about.terms.title"),
+            pady=0,
+            fg="#091518",
+            font=("Arial", 30),
+        )
+
+        cls.set_text(text="", pady=0, font=("Arial", 0))
 
         # Content
         scrollable_text = scrolledtext.ScrolledText(
@@ -268,4 +283,4 @@ class TermsPage(Page):
         scrollable_text.config(state=tk.NORMAL, font=("Arial", 10), bg="Gray95")
         scrollable_text.insert(tk.END, AboutService.get_page_content(TERMS_PATH))
         scrollable_text.config(state=tk.DISABLED)
-        cls.set_text("", font_size=0, pady=30)
+        cls.set_text(text="", pady=30, font=("Arial", 0))

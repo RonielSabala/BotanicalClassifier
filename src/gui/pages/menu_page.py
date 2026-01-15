@@ -49,15 +49,15 @@ class MenuPage(Page):
 
         page_title = i18n.get("menu.title")
         page_description = i18n.get("menu_description")
-        cls.set_text(page_title, font_size=35, pady=10, fg=fg_color)
-        cls.set_text(page_description, font_size=12, pady=25, fg=fg_color)
-        cls.set_text("_" * 70, font_size=10, pady=0, fg=fg_color)
+        cls.set_text(text=page_title, pady=10, fg=fg_color, font=("Arial", 35))
+        cls.set_text(text=page_description, pady=25, fg=fg_color, font=("Arial", 12))
+        cls.set_text(text="_" * 70, pady=0, fg=fg_color, font=("Arial", 10))
 
         page_question = i18n.get("menu.survey_question")
         page_instructions = i18n.get("menu.survey_instructions")
-        cls.set_text(page_question, font_size=15, pady=25, fg=fg_color)
-        cls.set_text(page_instructions, font_size=13, pady=3, fg=fg_color)
-        cls.set_text("", font_size=13, pady=15)
+        cls.set_text(text=page_question, pady=25, fg=fg_color, font=("Arial", 15))
+        cls.set_text(text=page_instructions, pady=3, fg=fg_color, font=("Arial", 13))
+        cls.set_text(text="", pady=15, font=("Arial", 13))
 
         # - Page elements:
 

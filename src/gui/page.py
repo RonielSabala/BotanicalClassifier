@@ -132,7 +132,12 @@ class Page:
 
     @classmethod
     def set_text(
-        cls, text: str, *, pady: int = 10, fg: str = "cornsilk2", font_size: int
+        cls,
+        *,
+        text: str,
+        pady: int = 10,
+        fg: str = "cornsilk2",
+        font: tuple[str, int],
     ) -> None:
         """
         Coloca un texto en la pagina.
@@ -144,7 +149,7 @@ class Page:
             pady=pady,
             fg=fg,
             bg=cls.bg_color,
-            font=("Arial", font_size),
+            font=font,
         ).pack()
 
     @classmethod
