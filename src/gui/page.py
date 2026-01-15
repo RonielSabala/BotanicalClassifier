@@ -9,12 +9,10 @@ from common.constants import (
     WINDOW_HEIGHT,
     WINDOW_WIDTH,
 )
-from common.paths import (
-    APP_ICON_IMAGE_PATH,
-)
+from common.paths import APP_ICON_IMAGE_PATH
 from services.i18n_service import i18n
 
-from .styles import return_button_style
+from .styles.app import footer_style, return_button_label_style, return_button_style
 
 # App root
 APP_ROOT = tk.Tk()
@@ -133,7 +131,7 @@ class Page:
 
     @classmethod
     def set_text(
-        cls, text: str, *, font_size: int, pady: int = 10, fg: str = "cornsilk2"
+        cls, text: str, *, pady: int = 10, fg: str = "cornsilk2", font_size: int
     ) -> None:
         """
         Coloca un texto en la pagina.
@@ -142,10 +140,10 @@ class Page:
         tk.Label(
             cls.root,
             text=text,
-            font=("Arial", font_size),
-            bg=cls.bg_color,
-            fg=fg,
             pady=pady,
+            fg=fg,
+            bg=cls.bg_color,
+            font=("Arial", font_size),
         ).pack()
 
     @classmethod
@@ -153,10 +151,10 @@ class Page:
         cls,
         text: str,
         *,
-        font_size: int = 10,
         coordinates: tuple[float, float] = (0.5, 0.5),
         anchor: str = "se",
         fg: str = "white",
+        font_size: int = 10,
     ) -> None:
         """
         Coloca un texto con coordenadas relativas en la pagina.
@@ -165,22 +163,16 @@ class Page:
         text_label = tk.Label(
             cls.root,
             text=text,
-            font=("Arial", font_size),
-            bg=cls.bg_color,
             fg=fg,
+            bg=cls.bg_color,
+            font=("Arial", font_size),
         )
 
         text_label.place(relx=coordinates[0], rely=coordinates[1], anchor=anchor)  # type: ignore
 
     @classmethod
     def set_footer(cls) -> None:
-        cls.set_text_at(
-            get_app_rights(),
-            font_size=9,
-            coordinates=(0.5, 0.98),
-            anchor="center",
-            fg="black",
-        )
+        cls.set_text_at(get_app_rights(), **footer_style)
 
     @classmethod
     def set_return_btn(cls) -> None:
@@ -193,29 +185,24 @@ class Page:
         if cls.prev_page is None:
             return
 
-        def on_escape(event) -> None:
+        def _on_escape(event) -> None:
             cls.prev_page.show()  # type: ignore
             cls.close()
 
         button = tk.Button(
-            cls.root,
-            fg="Black",
-            command=lambda: on_escape(None),
-            activebackground="Gray78",
-            **return_button_style,
+            cls.root, command=lambda: _on_escape(None), **return_button_style
         )
 
         button_label = tk.Label(
             cls.root,
             text=i18n.get("app.return_button"),
-            font=("Arial", 12),
-            fg="Black",
             bg=cls.bg_color,
+            **return_button_label_style,
         )
 
         button.place(relx=0.05, rely=0.05, anchor="nw")
         button_label.place(relx=0.048, rely=0.13, anchor="nw")
-        cls.root.bind("<Escape>", on_escape)
+        cls.root.bind("<Escape>", _on_escape)
 
 
 def destroy_all_pages():

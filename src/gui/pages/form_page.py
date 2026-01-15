@@ -9,7 +9,8 @@ from services.i18n_service import i18n
 
 from ..assets.images import APP_ICON_IMAGE
 from ..page import Page
-from ..styles import entry_text_style, primary_button_style
+from ..styles.app import entry_text_style, primary_button_style
+from ..styles.form import select_entry_style
 from .menu_page import MenuPage
 
 
@@ -103,9 +104,7 @@ class FormPage(Page):
         image_entry = tk.Entry(
             cls.root,
             textvariable=cls._image_var,
-            cursor="hand2",
-            state="readonly",
-            **entry_text_style,
+            **select_entry_style,
         )
 
         save_button = tk.Button(

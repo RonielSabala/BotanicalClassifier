@@ -12,12 +12,18 @@ from services.records_service import RecordsService
 
 from ..assets.images import APP_ICON_IMAGE
 from ..page import Page
-from ..styles import (
-    add_button_style,
-    delete_button_style,
+from ..styles.app import (
     entry_text_style,
+)
+from ..styles.records_page import (
+    add_button_style,
+    classification_button_style,
+    classification_label_style,
+    column_name_button_style,
+    delete_button_style,
     navigation_arrow_style,
-    primary_button_style,
+    page_number_style,
+    search_button_style,
 )
 from .form_page import FormPage
 from .menu_page import MenuPage
@@ -32,7 +38,6 @@ ADD_RECORD_BUTTON_EMOJI = "✚"
 DELETE_RECORDS_BUTTON_EMOJI = "✘"
 HIGHEST_FLOWER_PROBABILITY_EMOJI = "✔"
 FAILED_FLOWER_PROBABILITY_EMOJI = "✗"
-UNCLASSIFIED_RECORD_VALUE = "N/A"
 
 
 class RecordsPage(Page):
@@ -212,8 +217,8 @@ class RecordsPage(Page):
 
             col_button.config(
                 font=font.Font(
-                    family="Arial",
                     size=16,
+                    family="Arial",
                     weight="bold",
                     underline=button_text == filter_column,
                 )
@@ -252,45 +257,30 @@ class RecordsPage(Page):
 
     @classmethod
     def _get_classification_button(cls, root: Frame, record_id: int) -> Frame:
-        bg_color = "white"
-        grid = Frame(root, bg=bg_color)
-        grid.rowconfigure(0, weight=1)
-        tk.Label(
-            grid,
-            text=UNCLASSIFIED_RECORD_VALUE,
-            font=("Arial", 13),
-            bg=bg_color,
-        ).grid(row=0, column=0, pady=5)
-
-        # Create button
-        button = tk.Button(
-            grid,
+        frame = Frame(root, bg="white")
+        frame.rowconfigure(0, weight=1)
+        tk.Label(frame, **classification_label_style).grid(row=0, column=0, pady=5)
+        tk.Button(
+            frame,
             text=i18n.get("records.classify_button"),
             command=lambda record_id=record_id: cls._classify_record(record_id),
-            **primary_button_style,
-        )
+            **classification_button_style,
+        ).grid(row=2, column=0)
 
-        # Button config
-        button.config(
-            font=("Arial", 16, "bold"),
-            fg="Black",
-            bg=bg_color,
-            activebackground=bg_color,
-            activeforeground="VioletRed3",
-        )
-
-        button.grid(row=2, column=0)
-        return grid
+        return frame
 
     @classmethod
     def _insert_prediction_cell_element(
         cls, root: Frame, row: int, column: int, cell_value: str
     ) -> None:
-        fg_color = "Black" if row == 0 else f"Gray{50 + 8 * row}"
-        bg_color = "GoldenRod1" if row == 0 else "White"
-
+        fg = "Black" if row == 0 else f"Gray{50 + 8 * row}"
+        bg = "GoldenRod1" if row == 0 else "White"
         tk.Label(
-            root, text=cell_value, font=("Arial", 10), fg=fg_color, bg=bg_color
+            root,
+            text=cell_value,
+            fg=fg,
+            bg=bg,
+            font=("Arial", 10),
         ).grid(row=row, column=column, sticky="nsew")
 
     @classmethod
@@ -303,13 +293,15 @@ class RecordsPage(Page):
 
         # Insert columns names
         for col, column_name in enumerate(prediction_column_names):
-            fg_color = "White" if col == 0 else "GoldenRod1"
-            font_size = 12 if col == 0 else 10
-            label_font = "Arial", font_size, "bold"
-
+            fg = "White" if col == 0 else "GoldenRod1"
+            font = "Arial", (12 if col == 0 else 10), "bold"
             tk.Label(
-                grid, text=column_name, font=label_font, fg=fg_color, bg="Gray15"
-            ).grid(row=0, column=col, sticky="nsew", padx=0)
+                grid,
+                text=column_name,
+                fg=fg,
+                bg="Gray15",
+                font=font,
+            ).grid(row=0, column=col, padx=0, sticky="nsew")
 
         # Insert predictions
         for row, prediction in enumerate(predictions):
@@ -327,18 +319,18 @@ class RecordsPage(Page):
 
     @classmethod
     def _get_cell_colors(cls, row: int, col: int) -> tuple[str, str]:
-        fg_color, bg_color = "Black", cls.bg_color
+        fg, bg = "Black", cls.bg_color
         if col == 0:
-            return fg_color, bg_color
+            return fg, bg
 
         if row == 0:
             # Column colors
-            fg_color, bg_color = "white", "Dodgerblue4"
+            fg, bg = "white", "Dodgerblue4"
         else:
             # Row colors
-            bg_color = "Gray96" if row % 2 else "Gray92"
+            bg = "Gray96" if row % 2 else "Gray92"
 
-        return fg_color, bg_color
+        return fg, bg
 
     @classmethod
     def _get_cell_element(
@@ -373,16 +365,13 @@ class RecordsPage(Page):
 
             element = tk.Button(
                 root,
-                border=0,
-                activeforeground="Black",
-                activebackground="DodgerBlue4",
-                cursor="hand2",
                 command=lambda value=cell_value: cls._on_column_name_click(value),
+                **column_name_button_style,
             )
 
             cls._column_buttons.append(element)
 
-        element.config(text=cell_value, font=element_font, relief="flat")
+        element.config(text=cell_value, relief="flat", font=element_font)
         if col not in (0, 1):
             return element
 
@@ -461,7 +450,7 @@ class RecordsPage(Page):
                     cell_element = cls._get_cell_element(grid, row, col, cell_value)
                     cell_element.config(fg=fg_color, bg=bg_color)  # type: ignore
 
-                cell_element.grid(row=row + 1, column=col, sticky="nsew", pady=1)
+                cell_element.grid(row=row + 1, column=col, pady=1, sticky="nsew")
 
     @classmethod
     def load(cls) -> None:
@@ -483,16 +472,14 @@ class RecordsPage(Page):
         search_button = tk.Button(
             records_grid,
             text=i18n.get("records.search"),
-            font=("Arial", 13),
             command=lambda: cls._on_filter(),
-            cursor="hand2",
+            **search_button_style,
         )
 
         cls._left_nav_arrow = tk.Button(
             navigation_grid,
             text=LEFT_NAV_ARROW_BUTTON_TEXT,
             command=cls._load_next_page,
-            font=("Arial", 24),
             **navigation_arrow_style,
         )
 
@@ -500,7 +487,6 @@ class RecordsPage(Page):
             navigation_grid,
             text=RIGHT_NAV_ARROW_BUTTON_TEXT,
             command=cls._load_prev_page,
-            font=("Arial", 24),
             **navigation_arrow_style,
         )
 
@@ -511,29 +497,25 @@ class RecordsPage(Page):
         page_number_label = tk.Label(
             navigation_grid,
             text=page_number_text,
-            fg="Black",
             bg=cls.bg_color,
-            font=("Arial", 14),
+            **page_number_style,
         )
 
-        add_record_button_text = (
-            ADD_RECORD_BUTTON_EMOJI + " " + i18n.get("records.add_record")
-        )
-
+        add_record_text = ADD_RECORD_BUTTON_EMOJI + " " + i18n.get("records.add_record")
         add_record_button = tk.Button(
             cls.root,
-            text=add_record_button_text,
+            text=add_record_text,
             command=FormPage.show,
             **add_button_style,  # type: ignore
         )
 
-        delete_button_text = (
+        delete_text = (
             DELETE_RECORDS_BUTTON_EMOJI + " " + i18n.get("records.delete_records")
         )
 
         delete_button = tk.Button(
             cls.root,
-            text=delete_button_text,
+            text=delete_text,
             command=cls._on_delete_click,
             **delete_button_style,  # type: ignore
         )
@@ -547,15 +529,15 @@ class RecordsPage(Page):
         navigation_grid.pack(fill="none", padx=35, pady=0)
 
         search_entry.config(width=30)
-        search_entry.grid(row=0, column=1, columnspan=3, sticky="nsew", padx=0, pady=10)
+        search_entry.grid(row=0, column=1, columnspan=3, padx=0, pady=10, sticky="nsew")
         search_entry.bind("<Escape>", lambda event: cls.root.focus_set())
         search_entry.bind("<Return>", lambda event: search_button.invoke())
 
         search_button.grid(row=0, column=4, sticky="w")
 
-        page_number_label.grid(row=0, column=1, sticky="nsew", padx=0, pady=5)
-        cls._left_nav_arrow.grid(row=0, column=2, sticky="nsew", padx=0, pady=5)
-        cls._right_nav_arrow.grid(row=0, column=0, sticky="nsew", padx=0, pady=5)
+        page_number_label.grid(row=0, column=1, padx=0, pady=5, sticky="nsew")
+        cls._left_nav_arrow.grid(row=0, column=2, padx=0, pady=5, sticky="nsew")
+        cls._right_nav_arrow.grid(row=0, column=0, padx=0, pady=5, sticky="nsew")
 
         # Left arrow state config
         if cls._page_index >= cls._max_page_index:

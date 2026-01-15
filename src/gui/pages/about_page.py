@@ -13,11 +13,11 @@ from services.i18n_service import i18n
 
 from ..assets.images import APP_ICON_IMAGE, COUNTRY_SHIELD_IMAGE
 from ..page import Page
-from ..styles import (
-    list_emoji_style,
-    list_info_style,
-    list_link_style,
-    list_title_style,
+from ..styles.about_page import (
+    emoji_style,
+    label_info_style,
+    label_style,
+    link_style,
 )
 from .menu_page import MenuPage
 
@@ -78,43 +78,43 @@ class AboutPage(Page):
         title = tk.Label(
             header_grid,
             text=i18n.get("about.title"),
-            font=("Arial", 30),
             bg=bg_color,
+            font=("Arial", 30),
         )
 
         subtitle = tk.Label(
             header_grid,
             text=ABOUT_SUBTITLE,
-            font=("Arial", 15),
             bg=bg_color,
+            font=("Arial", 15),
         )
 
         # - Page content:
 
-        address_emoji = tk.Label(content_grid, text=ADDRESS_EMOJI, **list_emoji_style)
+        address_emoji = tk.Label(content_grid, text=ADDRESS_EMOJI, **emoji_style)
         address_label = tk.Label(
-            content_grid, text=i18n.get("about.address"), **list_title_style
+            content_grid, text=i18n.get("about.address"), **label_style
         )
 
         address_info = tk.Label(
             content_grid,
             text=f"{ABOUT_ADDRESS_INFO}\n{i18n.get('about.address_country')}",
-            **list_info_style,
+            **label_info_style,
         )
 
-        phone_emoji = tk.Label(content_grid, text=PHONE_EMOJI, **list_emoji_style)
+        phone_emoji = tk.Label(content_grid, text=PHONE_EMOJI, **emoji_style)
         phone_label = tk.Label(
-            content_grid, text=i18n.get("about.phone"), **list_title_style
+            content_grid, text=i18n.get("about.phone"), **label_style
         )
 
-        phone_info = tk.Label(content_grid, text=ABOUT_PHONE_INFO, **list_info_style)
+        phone_info = tk.Label(content_grid, text=ABOUT_PHONE_INFO, **label_info_style)
 
-        email_emoji = tk.Label(content_grid, text=EMAIL_EMOJI, **list_emoji_style)
+        email_emoji = tk.Label(content_grid, text=EMAIL_EMOJI, **emoji_style)
         email_label = tk.Label(
-            content_grid, text=i18n.get("about.email"), **list_title_style
+            content_grid, text=i18n.get("about.email"), **label_style
         )
 
-        email_info = tk.Label(content_grid, text=ABOUT_EMAIL_INFO, **list_info_style)
+        email_info = tk.Label(content_grid, text=ABOUT_EMAIL_INFO, **label_info_style)
 
         # - Page links:
 
@@ -122,21 +122,21 @@ class AboutPage(Page):
             links_grid,
             text=i18n.get("about.terms.title"),
             command=TermsPage.show,
-            **list_link_style,
+            **link_style,
         )
 
         policies_button = tk.Button(
             links_grid,
             text=i18n.get("about.policies.title"),
             command=PoliciesPage.show,
-            **list_link_style,
+            **link_style,
         )
 
         faq_button = tk.Button(
             links_grid,
             text=i18n.get("about.faq.title"),
             command=FaqPage.show,
-            **list_link_style,
+            **link_style,
         )
 
         # - Elements configuration:
@@ -146,7 +146,7 @@ class AboutPage(Page):
         cls._set_link_separator(row=0, column=1, root=header_grid, font_size=25)
         icon.grid(row=0, column=2, sticky="nsw")
         title.grid(row=1, columnspan=3, sticky="nsew")
-        subtitle.grid(row=2, columnspan=3, sticky="nsew", pady=6)
+        subtitle.grid(row=2, columnspan=3, pady=6, sticky="nsew")
 
         # Address
         address_emoji.grid(row=0, column=0, sticky="nsew")

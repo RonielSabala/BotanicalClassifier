@@ -52,10 +52,7 @@ class RecordsService:
         Elimina todos los formularios e imágenes.
         """
 
-        # Clean records
         LOCAL_RECORDS_PATH.write_text("{}")
-
-        # Delete images
         for image_file in LOCAL_IMAGES_DIR.iterdir():
             image_file.unlink()
 
@@ -65,8 +62,6 @@ class RecordsService:
             data = cls._get_records_json()
 
         data[str(record.record_id)] = asdict(record)
-
-        # Update data
         with open(LOCAL_RECORDS_PATH, "w") as f:
             json.dump(data, f, indent=2)
 
