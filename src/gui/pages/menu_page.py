@@ -7,14 +7,13 @@ from ..page import APP_ROOT, Page, destroy_all_pages
 from ..styles.app import primary_button_style
 from ..styles.menu_page import (
     about_button_style,
+    about_button_text_style,
     exit_button_style,
+    exit_button_text_style,
+    header_text_style,
     records_button_style,
+    records_button_text_style,
 )
-
-# GUI defaults
-RECORDS_BUTTON_TEXT = "📝"
-ABOUT_BUTTON_TEXT = "❀"
-EXIT_BUTTON_LABEL = "⥱"
 
 
 class MenuPage(Page):
@@ -46,13 +45,7 @@ class MenuPage(Page):
 
         tk.Label(cls.root, image=APP_BANNER_IMAGE, bg=bg_color).pack(padx=10, pady=5)
         page_header = i18n.get("menu.header")
-        cls.set_text_at(
-            page_header,
-            font_size=9,
-            coordinates=(0.5, 0.01),
-            anchor="center",
-            fg=fg_color,
-        )
+        cls.set_text_at(text=page_header, fg=fg_color, **header_text_style)
 
         page_title = i18n.get("menu.title")
         page_description = i18n.get("menu_description")
@@ -77,7 +70,6 @@ class MenuPage(Page):
 
         records_button = tk.Button(
             cls.root,
-            text=RECORDS_BUTTON_TEXT,
             command=RecordsPage.show,
             bg=bg_color,
             activebackground=bg_color,
@@ -86,7 +78,6 @@ class MenuPage(Page):
 
         about_button = tk.Button(
             cls.root,
-            text=ABOUT_BUTTON_TEXT,
             command=AboutPage.show,
             bg=bg_color,
             activebackground=bg_color,
@@ -111,11 +102,9 @@ class MenuPage(Page):
         records_button_label = i18n.get("menu.records_button")
         records_button.place(relx=rel_x, rely=rel_y, anchor="center")
         cls.set_text_at(
-            records_button_label,
-            coordinates=(rel_x - 0.01, rel_y + 0.06),
-            anchor="center",
-            fg="black",
-            font_size=14,
+            text=records_button_label,
+            coords=(rel_x - 0.01, rel_y + 0.06),
+            **records_button_text_style,
         )
 
         # About button
@@ -123,11 +112,9 @@ class MenuPage(Page):
         about_button_label = i18n.get("menu.about_button")
         about_button.place(relx=rel_x, rely=rel_y, anchor="center")
         cls.set_text_at(
-            about_button_label,
-            coordinates=(rel_x, rel_y + 0.06),
-            anchor="center",
-            fg="black",
-            font_size=14,
+            text=about_button_label,
+            coords=(rel_x, rel_y + 0.06),
+            **about_button_text_style,
         )
 
         # Exit button
@@ -135,11 +122,9 @@ class MenuPage(Page):
         exit_button.config(font=("Arial", 18, "underline"), width=3)
         exit_button.place(relx=rel_x, rely=rel_y, anchor="center")
         cls.set_text_at(
-            EXIT_BUTTON_LABEL,
-            coordinates=(rel_x, rel_y + 0.04),
-            anchor="center",
+            coords=(rel_x, rel_y + 0.04),
             fg=exit_button.cget("fg"),
-            font_size=25,
+            **exit_button_text_style,
         )
 
         cls.set_footer()

@@ -44,8 +44,8 @@ entry_text_style = {
 }
 
 footer_style = {
-    "coordinates": (0.5, 0.98),
+    "coords": (0.5, 0.98),
     "anchor": "center",
     "fg": "black",
-    "font_size": 9,
+    "font": ("Arial", 9),
 }

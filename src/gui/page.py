@@ -150,30 +150,31 @@ class Page:
     @classmethod
     def set_text_at(
         cls,
-        text: str,
         *,
-        coordinates: tuple[float, float] = (0.5, 0.5),
+        text: str,
+        coords: tuple[float, float] = (0.5, 0.5),
         anchor: str = "se",
-        fg: str = "white",
-        font_size: int = 10,
+        fg: str,
+        font: tuple[str, int],
     ) -> None:
         """
         Coloca un texto con coordenadas relativas en la pagina.
         """
 
-        text_label = tk.Label(
+        label = tk.Label(
             cls.root,
             text=text,
             fg=fg,
             bg=cls.bg_color,
-            font=("Arial", font_size),
+            font=font,
         )
 
-        text_label.place(relx=coordinates[0], rely=coordinates[1], anchor=anchor)  # type: ignore
+        x, y = coords
+        label.place(relx=x, rely=y, anchor=anchor)  # type: ignore
 
     @classmethod
     def set_footer(cls) -> None:
-        cls.set_text_at(get_app_rights(), **footer_style)
+        cls.set_text_at(text=get_app_rights(), **footer_style)
 
     @classmethod
     def set_return_btn(cls) -> None:
