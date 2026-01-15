@@ -54,12 +54,12 @@ class RecordsPage(Page):
     _column_names: tuple[str, ...]
     _column_buttons: list[tk.Button] = []
     _filter_column_name: str = i18n.get("records.owner_column")
-    _max_column_index: int = -1
-    _flower_column_index: int = -1
+    _max_column_index: int = 5
+    _flower_column_index: int = 4
 
     # Navigation variables
-    _page_index: int = -1
-    _max_page_index: int = -1
+    _page_index: int = 0
+    _max_page_index: int = 0
     _left_nav_arrow: tk.Button
     _right_nav_arrow: tk.Button
 
@@ -75,18 +75,14 @@ class RecordsPage(Page):
 
     @classmethod
     def _update_column_names(cls) -> None:
-        flower_column_name = i18n.get("records.flower_column")
         cls._column_names = (
             "",  # Record index column
             i18n.get("records.owner_column"),
             i18n.get("records.surname_column"),
             i18n.get("records.address_column"),
-            flower_column_name,
+            i18n.get("records.flower_column"),
             i18n.get("records.prediction_column"),
         )
-
-        cls._max_column_index = len(cls._column_names) - 1
-        cls._flower_column_index = cls._column_names.index(flower_column_name)
 
     @classmethod
     def _fill_records(cls) -> None:
