@@ -2,8 +2,6 @@ _button_style = {
     "width": 2,
     "border": 0,
     "cursor": "hand2",
-    "bg": "White",
-    "activebackground": "White",
     "font": ("Arial", 50),
 }
 

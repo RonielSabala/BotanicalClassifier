@@ -21,7 +21,6 @@ return_button_style = {
     "relief": "flat",
     "cursor": "hand2",
     "fg": "Black",
-    "bg": "White",
     "activebackground": "Gray78",
     "font": ("Arial", 25),
 }

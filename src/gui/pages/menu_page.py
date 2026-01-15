@@ -15,7 +15,6 @@ from ..styles.menu_page import (
 RECORDS_BUTTON_TEXT = "📝"
 ABOUT_BUTTON_TEXT = "❀"
 EXIT_BUTTON_LABEL = "⥱"
-FG_COLOR = "#091518"
 
 
 class MenuPage(Page):
@@ -40,31 +39,31 @@ class MenuPage(Page):
         from .form_page import FormPage
         from .records_page import RecordsPage
 
+        bg_color = cls.bg_color
+        fg_color = "#091518"
+
         # - Header elements:
 
-        tk.Label(cls.root, image=APP_BANNER_IMAGE, bg=cls.bg_color).pack(
-            padx=10, pady=5
-        )
-
+        tk.Label(cls.root, image=APP_BANNER_IMAGE, bg=bg_color).pack(padx=10, pady=5)
         page_header = i18n.get("menu.header")
         cls.set_text_at(
             page_header,
             font_size=9,
             coordinates=(0.5, 0.01),
             anchor="center",
-            fg=FG_COLOR,
+            fg=fg_color,
         )
 
         page_title = i18n.get("menu.title")
         page_description = i18n.get("menu_description")
-        cls.set_text(page_title, font_size=35, pady=10, fg=FG_COLOR)
-        cls.set_text(page_description, font_size=12, pady=25, fg=FG_COLOR)
-        cls.set_text("_" * 70, font_size=10, pady=0, fg=FG_COLOR)
+        cls.set_text(page_title, font_size=35, pady=10, fg=fg_color)
+        cls.set_text(page_description, font_size=12, pady=25, fg=fg_color)
+        cls.set_text("_" * 70, font_size=10, pady=0, fg=fg_color)
 
         page_question = i18n.get("menu.survey_question")
         page_instructions = i18n.get("menu.survey_instructions")
-        cls.set_text(page_question, font_size=15, pady=25, fg=FG_COLOR)
-        cls.set_text(page_instructions, font_size=13, pady=3, fg=FG_COLOR)
+        cls.set_text(page_question, font_size=15, pady=25, fg=fg_color)
+        cls.set_text(page_instructions, font_size=13, pady=3, fg=fg_color)
         cls.set_text("", font_size=13, pady=15)
 
         # - Page elements:
@@ -80,6 +79,8 @@ class MenuPage(Page):
             cls.root,
             text=RECORDS_BUTTON_TEXT,
             command=RecordsPage.show,
+            bg=bg_color,
+            activebackground=bg_color,
             **records_button_style,
         )
 
@@ -87,6 +88,8 @@ class MenuPage(Page):
             cls.root,
             text=ABOUT_BUTTON_TEXT,
             command=AboutPage.show,
+            bg=bg_color,
+            activebackground=bg_color,
             **about_button_style,
         )
 
@@ -94,6 +97,8 @@ class MenuPage(Page):
             cls.root,
             text=i18n.get("menu.exit_button"),
             command=destroy_all_pages,
+            bg=bg_color,
+            activebackground=bg_color,
             **exit_button_style,
         )
 

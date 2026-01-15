@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import Frame, scrolledtext
+from typing import Any
 
 from common.constants import (
     ABOUT_ADDRESS_INFO,
@@ -15,8 +16,10 @@ from ..assets.images import APP_ICON_IMAGE, COUNTRY_SHIELD_IMAGE
 from ..page import Page
 from ..styles.about_page import (
     emoji_style,
+    header_separator_style,
     label_info_style,
     label_style,
+    link_separator_style,
     link_style,
 )
 from .menu_page import MenuPage
@@ -33,20 +36,14 @@ class AboutPage(Page):
 
     @classmethod
     def _set_link_separator(
-        cls,
-        *,
-        row: int,
-        column: int,
-        root: Frame,
-        font_size: int,
+        cls, *, root: Frame, row: int, column: int, styles: dict[str, Any]
     ) -> None:
         tk.Label(
             root,
             text=LINKS_SEPARATION_TEXT,
-            font=("Arial", font_size),
-            fg="Gray20",
-            bg=cls.bg_color,
             padx=0,
+            bg=cls.bg_color,
+            **styles,
         ).grid(row=row, column=column, sticky="ns")
 
     @classmethod
@@ -91,30 +88,44 @@ class AboutPage(Page):
 
         # - Page content:
 
-        address_emoji = tk.Label(content_grid, text=ADDRESS_EMOJI, **emoji_style)
+        address_emoji = tk.Label(
+            content_grid, text=ADDRESS_EMOJI, bg=bg_color, **emoji_style
+        )
+
         address_label = tk.Label(
-            content_grid, text=i18n.get("about.address"), **label_style
+            content_grid, text=i18n.get("about.address"), bg=bg_color, **label_style
         )
 
         address_info = tk.Label(
             content_grid,
             text=f"{ABOUT_ADDRESS_INFO}\n{i18n.get('about.address_country')}",
+            bg=bg_color,
             **label_info_style,
         )
 
-        phone_emoji = tk.Label(content_grid, text=PHONE_EMOJI, **emoji_style)
+        phone_emoji = tk.Label(
+            content_grid, text=PHONE_EMOJI, bg=bg_color, **emoji_style
+        )
+
         phone_label = tk.Label(
-            content_grid, text=i18n.get("about.phone"), **label_style
+            content_grid, text=i18n.get("about.phone"), bg=bg_color, **label_style
         )
 
-        phone_info = tk.Label(content_grid, text=ABOUT_PHONE_INFO, **label_info_style)
+        phone_info = tk.Label(
+            content_grid, text=ABOUT_PHONE_INFO, bg=bg_color, **label_info_style
+        )
 
-        email_emoji = tk.Label(content_grid, text=EMAIL_EMOJI, **emoji_style)
+        email_emoji = tk.Label(
+            content_grid, text=EMAIL_EMOJI, bg=bg_color, **emoji_style
+        )
+
         email_label = tk.Label(
-            content_grid, text=i18n.get("about.email"), **label_style
+            content_grid, text=i18n.get("about.email"), bg=bg_color, **label_style
         )
 
-        email_info = tk.Label(content_grid, text=ABOUT_EMAIL_INFO, **label_info_style)
+        email_info = tk.Label(
+            content_grid, text=ABOUT_EMAIL_INFO, bg=bg_color, **label_info_style
+        )
 
         # - Page links:
 
@@ -122,6 +133,8 @@ class AboutPage(Page):
             links_grid,
             text=i18n.get("about.terms.title"),
             command=TermsPage.show,
+            bg=bg_color,
+            activebackground=bg_color,
             **link_style,
         )
 
@@ -129,6 +142,8 @@ class AboutPage(Page):
             links_grid,
             text=i18n.get("about.policies.title"),
             command=PoliciesPage.show,
+            bg=bg_color,
+            activebackground=bg_color,
             **link_style,
         )
 
@@ -136,6 +151,8 @@ class AboutPage(Page):
             links_grid,
             text=i18n.get("about.faq.title"),
             command=FaqPage.show,
+            bg=bg_color,
+            activebackground=bg_color,
             **link_style,
         )
 
@@ -143,7 +160,10 @@ class AboutPage(Page):
 
         # Header
         shield.grid(row=0, column=0, sticky="nse")
-        cls._set_link_separator(row=0, column=1, root=header_grid, font_size=25)
+        cls._set_link_separator(
+            root=header_grid, row=0, column=1, styles=header_separator_style
+        )
+
         icon.grid(row=0, column=2, sticky="nsw")
         title.grid(row=1, columnspan=3, sticky="nsew")
         subtitle.grid(row=2, columnspan=3, pady=6, sticky="nsew")
@@ -166,10 +186,14 @@ class AboutPage(Page):
         # - Links:
 
         terms_button.grid(row=0, column=0, sticky="nse")
-        cls._set_link_separator(row=0, column=1, root=links_grid, font_size=16)
+        cls._set_link_separator(
+            root=links_grid, row=0, column=1, styles=link_separator_style
+        )
 
         policies_button.grid(row=0, column=2, sticky="ns")
-        cls._set_link_separator(row=0, column=3, root=links_grid, font_size=16)
+        cls._set_link_separator(
+            root=links_grid, row=0, column=3, styles=link_separator_style
+        )
 
         faq_button.grid(row=0, column=4, sticky="nsw")
         cls.set_footer()

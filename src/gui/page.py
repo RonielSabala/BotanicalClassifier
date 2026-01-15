@@ -190,14 +190,18 @@ class Page:
             cls.prev_page.show()  # type: ignore
             cls.close()
 
+        bg_color = cls.bg_color
         button = tk.Button(
-            cls.root, command=lambda: _on_escape(None), **return_button_style
+            cls.root,
+            command=lambda: _on_escape(None),
+            bg=bg_color,
+            **return_button_style,
         )
 
         button_label = tk.Label(
             cls.root,
             text=i18n.get("app.return_button"),
-            bg=cls.bg_color,
+            bg=bg_color,
             **return_button_label_style,
         )
 

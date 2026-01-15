@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import Frame, font, messagebox
-from typing import Optional
+from typing import Any, Optional
 
 from common.utils import is_valid_path
 from gui.assets.images import EMPTY_IMAGE, get_resized_image
@@ -20,8 +20,12 @@ from ..styles.records_page import (
     classification_button_style,
     classification_label_style,
     column_name_button_style,
+    column_name_cell_style,
+    default_cell_style,
     delete_button_style,
+    even_row_cells_style,
     navigation_arrow_style,
+    odd_row_cells_style,
     page_number_style,
     search_button_style,
 )
@@ -254,14 +258,24 @@ class RecordsPage(Page):
 
     @classmethod
     def _get_classification_button(cls, root: Frame, record_id: int) -> Frame:
-        frame = Frame(root, bg="white")
+        bg_color = cls.bg_color
+        frame = Frame(root, bg=bg_color)
         frame.rowconfigure(0, weight=1)
-        tk.Label(frame, **classification_label_style).grid(row=0, column=0, pady=5)
+        tk.Label(frame, bg=bg_color, **classification_label_style).grid(
+            row=0, column=0, pady=5
+        )
+
+        button_style = {
+            **classification_button_style,
+            "bg": bg_color,
+            "activebackground": bg_color,
+        }
+
         tk.Button(
             frame,
             text=i18n.get("records.classify_button"),
             command=lambda record_id=record_id: cls._classify_record(record_id),
-            **classification_button_style,
+            **button_style,
         ).grid(row=2, column=0)
 
         return frame
@@ -282,7 +296,7 @@ class RecordsPage(Page):
 
     @classmethod
     def _get_prediction_grid(cls, root: Frame, predictions: list[Prediction]) -> Frame:
-        grid = Frame(root)
+        grid = Frame(root, bg=cls.bg_color)
         prediction_column_names = (
             i18n.get("records.prediction_tag_column"),
             i18n.get("records.prediction_probability_column"),
@@ -315,19 +329,17 @@ class RecordsPage(Page):
         return grid
 
     @classmethod
-    def _get_cell_colors(cls, row: int, col: int) -> tuple[str, str]:
-        fg, bg = "Black", cls.bg_color
+    def _get_cell_style(cls, row: int, col: int) -> dict[str, Any]:
         if col == 0:
-            return fg, bg
+            return default_cell_style
 
         if row == 0:
-            # Column colors
-            fg, bg = "white", "Dodgerblue4"
-        else:
-            # Row colors
-            bg = "Gray96" if row % 2 else "Gray92"
+            return column_name_cell_style
 
-        return fg, bg
+        if row % 2:
+            return odd_row_cells_style
+
+        return even_row_cells_style
 
     @classmethod
     def _get_cell_element(
@@ -380,6 +392,7 @@ class RecordsPage(Page):
     @classmethod
     def _fill_records_grid(cls, grid: Frame) -> None:
         cls._column_buttons = []
+        bg_color = cls.bg_color
         first_record_index = max(0, MAX_ROW_INDEX_PER_PAGE * (cls._page_index - 1))
         last_record_index = min(
             first_record_index + MAX_ROW_INDEX_PER_PAGE, len(cls._filtered_records) - 1
@@ -414,7 +427,7 @@ class RecordsPage(Page):
             for col, cell_value in enumerate(row_cells):
                 # Insert empty cell
                 if insert_empty_row:
-                    cell_element = tk.Label(grid, bg=cls.bg_color)
+                    cell_element = tk.Label(grid, bg=bg_color)
                     if col == cls._flower_column_index:
                         cell_element.config(image=EMPTY_IMAGE)
                         cell_element.image = EMPTY_IMAGE  # type: ignore
@@ -433,27 +446,31 @@ class RecordsPage(Page):
                         reverse=True,
                     )
 
-                    predictions_grid = cls._get_prediction_grid(
-                        grid, sorted_predictions
+                    cls._get_prediction_grid(grid, sorted_predictions).grid(
+                        row=row + 1, column=col
                     )
 
-                    predictions_grid.config(bg=cls.bg_color)
-                    predictions_grid.grid(row=row + 1, column=col)
                     continue
 
                 # Insert button/label
                 else:
-                    fg_color, bg_color = cls._get_cell_colors(row, col)
+                    cell_styles = {
+                        "bg": bg_color,
+                        **cls._get_cell_style(row, col),
+                    }
+
                     cell_element = cls._get_cell_element(grid, row, col, cell_value)
-                    cell_element.config(fg=fg_color, bg=bg_color)  # type: ignore
+                    cell_element.config(**cell_styles)  # type: ignore
 
                 cell_element.grid(row=row + 1, column=col, pady=1, sticky="nsew")
 
     @classmethod
     def load(cls) -> None:
+        bg_color = cls.bg_color
+
         # Header elements
         page_title = i18n.get("records.title")
-        tk.Label(cls.root, image=APP_ICON_IMAGE, bg=cls.bg_color).pack(padx=20, pady=15)
+        tk.Label(cls.root, image=APP_ICON_IMAGE, bg=bg_color).pack(padx=20, pady=15)
         cls.set_text(page_title, font_size=32, pady=0, fg="#091518")
         cls.set_text("", font_size=0, pady=2)
         cls.set_return_btn()
@@ -477,6 +494,8 @@ class RecordsPage(Page):
             navigation_grid,
             text=LEFT_NAV_ARROW_BUTTON_TEXT,
             command=cls._load_next_page,
+            bg=bg_color,
+            activebackground=bg_color,
             **navigation_arrow_style,
         )
 
@@ -484,6 +503,8 @@ class RecordsPage(Page):
             navigation_grid,
             text=RIGHT_NAV_ARROW_BUTTON_TEXT,
             command=cls._load_prev_page,
+            bg=bg_color,
+            activebackground=bg_color,
             **navigation_arrow_style,
         )
 
@@ -494,7 +515,7 @@ class RecordsPage(Page):
         page_number_label = tk.Label(
             navigation_grid,
             text=page_number_text,
-            bg=cls.bg_color,
+            bg=bg_color,
             **page_number_style,
         )
 
