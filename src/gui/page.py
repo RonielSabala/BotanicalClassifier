@@ -37,7 +37,7 @@ APP_FRAME.grid_columnconfigure(0, weight=1)
 
 def get_app_rights() -> str:
     rights = i18n.get("app.rights")
-    return f"{COMPANY_NAME}\n{COPYRIGHT_SYMBOL}{CURRENT_YEAR} {rights}."
+    return f"{COMPANY_NAME}\n{COPYRIGHT_SYMBOL}{CURRENT_YEAR} {rights}"
 
 
 class Page:
@@ -176,6 +176,14 @@ class Page:
 
         x, y = coords
         label.place(relx=x, rely=y, anchor=anchor)  # type: ignore
+
+    @classmethod
+    def set_empty_separator(cls, *, pady: int) -> None:
+        """
+        Coloca un texto en la pagina.
+        """
+
+        cls.set_text(text="", pady=pady, fg="black", font=("arial", 0))
 
     @classmethod
     def set_footer(cls) -> None:

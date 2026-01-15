@@ -57,7 +57,7 @@ class MenuPage(Page):
         page_instructions = i18n.get("menu.survey_instructions")
         cls.set_text(text=page_question, pady=25, fg=fg_color, font=("Arial", 15))
         cls.set_text(text=page_instructions, pady=3, fg=fg_color, font=("Arial", 13))
-        cls.set_text(text="", pady=15, font=("Arial", 13))
+        cls.set_empty_separator(pady=20)
 
         # - Page elements:
 

@@ -79,7 +79,7 @@ class FormPage(Page):
 
     @classmethod
     def _set_entry_name(cls, entry_name: str) -> None:
-        cls.set_text(text="", font=("Arial", 2))
+        cls.set_empty_separator(pady=2)
         cls.set_text(text=entry_name, fg="Black", font=("Arial", 22))
 
     @classmethod

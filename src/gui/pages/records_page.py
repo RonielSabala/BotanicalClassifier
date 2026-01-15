@@ -472,7 +472,7 @@ class RecordsPage(Page):
         page_title = i18n.get("records.title")
         tk.Label(cls.root, image=APP_ICON_IMAGE, bg=bg_color).pack(padx=20, pady=15)
         cls.set_text(text=page_title, pady=0, fg="#091518", font=("Arial", 32))
-        cls.set_text(text="", pady=2, font=("Arial", 0))
+        cls.set_empty_separator(pady=2)
         cls.set_return_btn()
 
         # - Page elements:
@@ -569,7 +569,7 @@ class RecordsPage(Page):
         else:
             cls._right_nav_arrow.config(cursor="hand2")
 
-        cls.set_text(text="", pady=1, font=("Arial", 0))
+        cls.set_empty_separator(pady=1)
         add_record_button.pack(pady=0)
         delete_button.pack(pady=12)
 
