@@ -25,6 +25,7 @@ from ..styles.records_page import (
     page_number_style,
     search_button_style,
 )
+from ..tk_events import EventType
 from .form_page import FormPage
 from .menu_page import MenuPage
 
@@ -530,8 +531,8 @@ class RecordsPage(Page):
 
         search_entry.config(width=30)
         search_entry.grid(row=0, column=1, columnspan=3, padx=0, pady=10, sticky="nsew")
-        search_entry.bind("<Escape>", lambda event: cls.root.focus_set())
-        search_entry.bind("<Return>", lambda event: search_button.invoke())
+        search_entry.bind(EventType.ESCAPE, lambda event: cls.root.focus_set())
+        search_entry.bind(EventType.RETURN, lambda event: search_button.invoke())
 
         search_button.grid(row=0, column=4, sticky="w")
 

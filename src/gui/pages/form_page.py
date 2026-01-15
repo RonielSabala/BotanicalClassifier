@@ -11,6 +11,7 @@ from ..assets.images import APP_ICON_IMAGE
 from ..page import Page
 from ..styles.app import entry_text_style, primary_button_style
 from ..styles.form import select_entry_style
+from ..tk_events import EventType
 from .menu_page import MenuPage
 
 
@@ -120,30 +121,36 @@ class FormPage(Page):
 
         # Name entry
         cls._set_entry_name(i18n.get("form.name"))
-        name_entry.bind("<Escape>", lambda event: cls.root.focus_set())
-        name_entry.bind("<Down>", lambda event: surname_entry.focus_set())
-        name_entry.bind("<Return>", lambda event: surname_entry.focus_set())
+        name_entry.bind(EventType.ESCAPE, lambda event: cls.root.focus_set())
+        name_entry.bind(EventType.ARROW_DOWN, lambda event: surname_entry.focus_set())
+        name_entry.bind(EventType.RETURN, lambda event: surname_entry.focus_set())
         name_entry.pack()
 
         # Surname entry
         cls._set_entry_name(i18n.get("form.surname"))
-        surname_entry.bind("<Escape>", lambda event: cls.root.focus_set())
-        surname_entry.bind("<Up>", lambda event: name_entry.focus_set())
-        surname_entry.bind("<Down>", lambda event: address_entry.focus_set())
-        surname_entry.bind("<Return>", lambda event: address_entry.focus_set())
+        surname_entry.bind(EventType.ESCAPE, lambda event: cls.root.focus_set())
+        surname_entry.bind(EventType.ARROW_UP, lambda event: name_entry.focus_set())
+        surname_entry.bind(
+            EventType.ARROW_DOWN, lambda event: address_entry.focus_set()
+        )
+        surname_entry.bind(EventType.RETURN, lambda event: address_entry.focus_set())
         surname_entry.pack()
 
         # Address entry
         cls._set_entry_name(i18n.get("form.address"))
-        address_entry.bind("<Escape>", lambda event: cls.root.focus_set())
-        address_entry.bind("<Up>", lambda event: surname_entry.focus_set())
-        address_entry.bind("<Return>", lambda event: cls._on_image_select(image_entry))
+        address_entry.bind(EventType.ESCAPE, lambda event: cls.root.focus_set())
+        address_entry.bind(EventType.ARROW_UP, lambda event: surname_entry.focus_set())
+        address_entry.bind(
+            EventType.RETURN, lambda event: cls._on_image_select(image_entry)
+        )
         address_entry.pack()
 
         # Image entry
         cls._set_entry_name(i18n.get("form.image"))
-        image_entry.bind("<Button-1>", lambda event: cls._on_image_select(image_entry))
-        image_entry.pack(padx=10, pady=10)
+        image_entry.bind(
+            EventType.LEFT_CLICK, lambda event: cls._on_image_select(image_entry)
+        )
 
+        image_entry.pack(padx=10, pady=10)
         save_button.pack(pady=40)
         cls.set_footer()

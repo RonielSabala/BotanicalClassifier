@@ -13,6 +13,7 @@ from common.paths import APP_ICON_IMAGE_PATH
 from services.i18n_service import i18n
 
 from .styles.app import footer_style, return_button_label_style, return_button_style
+from .tk_events import EventType
 
 # App root
 APP_ROOT = tk.Tk()
@@ -202,7 +203,7 @@ class Page:
 
         button.place(relx=0.05, rely=0.05, anchor="nw")
         button_label.place(relx=0.048, rely=0.13, anchor="nw")
-        cls.root.bind("<Escape>", _on_escape)
+        cls.root.bind(EventType.ESCAPE, _on_escape)
 
 
 def destroy_all_pages():
