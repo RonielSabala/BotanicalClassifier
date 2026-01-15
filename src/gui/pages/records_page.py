@@ -39,8 +39,8 @@ class RecordsPage(Page):
     prev_page = MenuPage
 
     # Records variables
-    _all_records: list[tuple[int, Record]]
-    _filtered_records: list[tuple[int, Optional[Record]]]
+    _all_records: list[Record]
+    _filtered_records: list[Optional[Record]]
     _filter_var: tk.StringVar = tk.StringVar()
     _last_filter: SearchFilter = SearchFilter()
 
@@ -84,7 +84,7 @@ class RecordsPage(Page):
 
     @classmethod
     def _fill_records(cls) -> None:
-        cls._all_records = list(enumerate(RecordsService.get_all_records(), start=1))
+        cls._all_records = list(RecordsService.load_all_records())
 
     @classmethod
     def _filter_records(cls) -> None:
@@ -94,12 +94,16 @@ class RecordsPage(Page):
 
         text_to_filter = cls._filter_var.get().lower()
         filter_column_index = cls._column_names.index(cls._filter_column_name) - 1
-        cls._filtered_records = [
-            (i, record)
-            for i, record in cls._all_records
-            if text_to_filter
-            in str(record.get_property_by_index(filter_column_index)).lower()
-        ]
+        cls._filtered_records = []
+        for record in cls._all_records:
+            record_property = RecordsService.get_record_property_by_index(
+                record, filter_column_index
+            )
+
+            if text_to_filter not in record_property.lower():
+                continue
+
+            cls._filtered_records.append(record)
 
     @classmethod
     def _update_records(cls) -> None:
@@ -119,10 +123,7 @@ class RecordsPage(Page):
         if max_record_index < MAX_ROW_INDEX_PER_PAGE:
             return
 
-        missing_records = [(-1, None)] * (
-            MAX_ROW_INDEX_PER_PAGE - last_page_records_count
-        )
-
+        missing_records = [None] * (MAX_ROW_INDEX_PER_PAGE - last_page_records_count)
         cls._filtered_records.extend(missing_records)
 
     @classmethod
@@ -239,10 +240,10 @@ class RecordsPage(Page):
         cls._update_table()
 
     @classmethod
-    def _classify_record(cls, record_index: int) -> None:
+    def _classify_record(cls, record_id: int) -> None:
         prev_page_index = cls._page_index
 
-        RecordsService.set_record_prediction(record_index)
+        RecordsService.set_record_prediction(record_id)
         cls._fill_records()
         cls._update_records()
 
@@ -250,7 +251,7 @@ class RecordsPage(Page):
         cls._update_table()
 
     @classmethod
-    def _get_classification_button(cls, root: Frame, record_index: int) -> Frame:
+    def _get_classification_button(cls, root: Frame, record_id: int) -> Frame:
         bg_color = "white"
         grid = Frame(root, bg=bg_color)
         grid.rowconfigure(0, weight=1)
@@ -265,9 +266,7 @@ class RecordsPage(Page):
         button = tk.Button(
             grid,
             text=i18n.get("records.classify_button"),
-            command=lambda record_index=record_index: cls._classify_record(
-                record_index
-            ),
+            command=lambda record_id=record_id: cls._classify_record(record_id),
             **primary_button_style,
         )
 
@@ -410,13 +409,14 @@ class RecordsPage(Page):
             if row == 0:
                 row_cells = cls._column_names
             else:
-                record_position, record = cls._filtered_records[record_index]
+                record = cls._filtered_records[record_index]
+                record_id = record.record_id if isinstance(record, Record) else -1
                 if record is None:
                     insert_empty_row = True
                     row_cells = tuple(None for _ in range(cls._max_column_index + 1))
                 else:
                     row_cells = (
-                        f"{record_position}.",
+                        f"{record_id + 1}.",
                         record.name,
                         record.surname,
                         record.address,
@@ -435,7 +435,7 @@ class RecordsPage(Page):
 
                 # Insert classification button
                 elif cell_value is None:
-                    button = cls._get_classification_button(grid, record_position - 1)
+                    button = cls._get_classification_button(grid, record_id)
                     button.grid(row=row + 1, column=col, padx=0, pady=1)
                     continue
 

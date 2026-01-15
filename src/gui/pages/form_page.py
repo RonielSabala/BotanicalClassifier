@@ -54,7 +54,7 @@ class FormPage(Page):
             return
 
         try:
-            FormService.save_record(record)
+            FormService.save_form(record)
         except Exception as e:
             show_error_messagebox(f"{i18n.get('form.save_error')}: {e}")
             return

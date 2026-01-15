@@ -4,40 +4,35 @@ from pathlib import Path
 from common.constants import LOCAL_IMAGES_PREFIX
 from common.paths import (
     LOCAL_IMAGES_DIR,
-    LOCAL_RECORDS_PATH,
 )
 from common.utils import is_valid_path, show_error_messagebox
 from models.record_model import Record
+from services.records_service import RecordsService
 
 from .i18n_service import i18n
 
 
 class FormService:
-    @staticmethod
-    def _get_next_image_filename(img_extension: str) -> str:
-        images_count = 0
-        for _ in LOCAL_IMAGES_DIR.iterdir():
-            images_count += 1
-
-        return f"{LOCAL_IMAGES_PREFIX}_{images_count}.{img_extension}"
-
     @classmethod
-    def save_record(cls, record: Record) -> None:
+    def save_form(cls, record: Record) -> None:
         """
         Guarda un registro en el archivo formularios.
         """
 
-        # Get next image filename
+        # - Update record id and image path:
+
+        record_id = RecordsService.get_next_record_id()
         user_image_path = Path(record.image_path)
-        image_filename = cls._get_next_image_filename(user_image_path.suffix)
-        record.image_path = str(LOCAL_IMAGES_DIR / image_filename)
+        image_extension = user_image_path.suffix.lower()
+        image_filename = f"{LOCAL_IMAGES_PREFIX}_{record_id}{image_extension}"
+        image_path = str(LOCAL_IMAGES_DIR / image_filename)
 
-        # Copy image to local path
-        shutil.copy(user_image_path, record.image_path)
+        record.record_id = record_id
+        record.image_path = image_path
 
-        # Insert record
-        with open(LOCAL_RECORDS_PATH, "a") as f:
-            f.write(f"{record}\n")
+        # Save record and image
+        RecordsService.insert_record(record)
+        shutil.copy(user_image_path, image_path)
 
     @staticmethod
     def _validate_entry(entry_name: str, name_on_error: str) -> bool:
@@ -90,5 +85,5 @@ class FormService:
             and cls._validate_entry(
                 record.address, i18n.get("form.utils.enter_address")
             )
-            and cls._validate_image_path(str(record.image_path))
+            and cls._validate_image_path(record.image_path)
         )
