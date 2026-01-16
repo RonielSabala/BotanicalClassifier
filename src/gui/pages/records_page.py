@@ -2,8 +2,8 @@ import tkinter as tk
 from tkinter import Frame, messagebox
 from typing import Any, Optional
 
-from common.utils import is_valid_path
-from gui.assets.images import EMPTY_IMAGE, get_resized_image
+from common.utils import get_resized_image, is_valid_path
+from gui.assets.images import EMPTY_IMAGE
 from models.prediction_model import Prediction
 from models.record_model import Record
 from models.search_filter_model import SearchFilter
