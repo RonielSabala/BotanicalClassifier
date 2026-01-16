@@ -12,31 +12,8 @@ from services.records_service import RecordsService
 
 from ..assets.images import APP_ICON_IMAGE
 from ..page import Page
-from ..styles.app import (
-    entry_text_style,
-)
-from ..styles.records_page import (
-    add_button_style,
-    classification_button_style,
-    classification_label_style,
-    column_filter_font,
-    column_name_button_style,
-    column_name_cell_style,
-    column_name_font,
-    default_cell_font,
-    default_cell_style,
-    default_prediction_cell_style,
-    delete_button_style,
-    even_row_cells_style,
-    highest_prediction_cell_style,
-    navigation_arrow_style,
-    odd_row_cells_style,
-    page_number_style,
-    page_title_style,
-    probability_column_cell_style,
-    search_button_style,
-    tag_column_cell_style,
-)
+from ..styles import app as app_styles
+from ..styles import records_page as page_styles
 from ..tk_events import EventType
 from .form_page import FormPage
 from .menu_page import MenuPage
@@ -222,9 +199,9 @@ class RecordsPage(Page):
         for col_button in cls._column_buttons:
             button_text = col_button["text"]
             if button_text == filter_column:
-                col_button.config(font=column_filter_font)
+                col_button.config(font=page_styles.column_filter_font)
             elif button_text == prev_filter_column:
-                col_button.config(font=column_name_font)
+                col_button.config(font=page_styles.column_font)
 
     @classmethod
     def _on_filter(cls) -> None:
@@ -262,12 +239,12 @@ class RecordsPage(Page):
         bg_color = cls.bg_color
         frame = Frame(root, bg=bg_color)
         frame.rowconfigure(0, weight=1)
-        tk.Label(frame, bg=bg_color, **classification_label_style).grid(
+        tk.Label(frame, bg=bg_color, **page_styles.classification_label).grid(
             row=0, column=0, pady=5
         )
 
         button_style = {
-            **classification_button_style,
+            **page_styles.classify_button,
             "bg": bg_color,
             "activebackground": bg_color,
         }
@@ -286,7 +263,7 @@ class RecordsPage(Page):
         cls, root: Frame, row: int, col: int, cell_value: str
     ) -> None:
         cell_style = (
-            highest_prediction_cell_style if row == 1 else default_prediction_cell_style
+            page_styles.top_prediction_cell if row == 1 else page_styles.prediction_cell
         )
 
         tk.Label(root, text=cell_value, **cell_style).grid(
@@ -301,14 +278,14 @@ class RecordsPage(Page):
         tk.Label(
             grid,
             text=i18n.get("records.prediction_tag_column"),
-            **tag_column_cell_style,
+            **page_styles.tag_column_cell,
         ).grid(row=0, column=0, padx=0, sticky="nsew")
 
         # Insert probability cell
         tk.Label(
             grid,
             text=i18n.get("records.prediction_probability_column"),
-            **probability_column_cell_style,
+            **page_styles.probability_column_cell,
         ).grid(row=0, column=1, padx=0, sticky="nsew")
 
         # Insert predictions
@@ -328,15 +305,13 @@ class RecordsPage(Page):
     @classmethod
     def _get_cell_style(cls, row: int, col: int) -> dict[str, Any]:
         if col == 0:
-            return default_cell_style
-
+            return page_styles.cell
         if row == 0:
-            return column_name_cell_style
-
+            return page_styles.column_cell
         if row % 2:
-            return odd_row_cells_style
+            return page_styles.odd_row_cell
 
-        return even_row_cells_style
+        return page_styles.even_row_cell
 
     @classmethod
     def _get_cell_element(
@@ -355,11 +330,11 @@ class RecordsPage(Page):
             return cell_image
 
         # Label
-        element_font = column_name_font
+        element_font = page_styles.column_font
         if row > 0 or col in (0, cls._flower_column_index, cls._max_column_index):
             element = tk.Label(root)
             if row > 0:
-                element_font = default_cell_font
+                element_font = page_styles.cell_font
                 if col > 0:
                     element.config(cursor="xterm")
 
@@ -367,12 +342,12 @@ class RecordsPage(Page):
         else:
             # Underline filter column
             if cell_value == cls._filter_column_name:
-                element_font = column_filter_font
+                element_font = page_styles.column_filter_font
 
             element = tk.Button(
                 root,
                 command=lambda value=cell_value: cls._on_column_name_click(value),
-                **column_name_button_style,
+                **page_styles.column_button,
             )
 
             cls._column_buttons.append(element)
@@ -451,11 +426,7 @@ class RecordsPage(Page):
 
                 # Insert button/label
                 else:
-                    cell_styles = {
-                        "bg": bg_color,
-                        **cls._get_cell_style(row, col),
-                    }
-
+                    cell_styles = {"bg": bg_color, **cls._get_cell_style(row, col)}
                     cell_element = cls._get_cell_element(grid, row, col, cell_value)
                     cell_element.config(**cell_styles)
 
@@ -467,7 +438,7 @@ class RecordsPage(Page):
 
         # Header elements
         tk.Label(cls.root, image=APP_ICON_IMAGE, bg=bg_color).pack(padx=20, pady=15)
-        cls.set_text(text=i18n.get("records.title"), **page_title_style)
+        cls.set_text(text=i18n.get("records.title"), **page_styles.title)
         cls.set_empty_separator(pady=2)
         cls.set_return_btn()
 
@@ -476,14 +447,14 @@ class RecordsPage(Page):
         records_grid = cls.get_grid_from_root()
         navigation_grid = cls.get_grid_from_root()
         search_entry = tk.Entry(
-            records_grid, textvariable=cls._filter_var, **entry_text_style
+            records_grid, textvariable=cls._filter_var, **app_styles.text_entry
         )
 
         search_button = tk.Button(
             records_grid,
             text=i18n.get("records.search"),
             command=lambda: cls._on_filter(),
-            **search_button_style,
+            **page_styles.search_button,
         )
 
         cls._left_nav_arrow = tk.Button(
@@ -492,7 +463,7 @@ class RecordsPage(Page):
             command=cls._load_next_page,
             bg=bg_color,
             activebackground=bg_color,
-            **navigation_arrow_style,
+            **page_styles.navigation_arrow,
         )
 
         cls._right_nav_arrow = tk.Button(
@@ -501,7 +472,7 @@ class RecordsPage(Page):
             command=cls._load_prev_page,
             bg=bg_color,
             activebackground=bg_color,
-            **navigation_arrow_style,
+            **page_styles.navigation_arrow,
         )
 
         page_number_text = i18n.get("records.page_index_label").format(
@@ -512,7 +483,7 @@ class RecordsPage(Page):
             navigation_grid,
             text=page_number_text,
             bg=bg_color,
-            **page_number_style,
+            **page_styles.page_indexation,
         )
 
         add_record_text = ADD_RECORD_BUTTON_EMOJI + " " + i18n.get("records.add_record")
@@ -520,7 +491,7 @@ class RecordsPage(Page):
             cls.root,
             text=add_record_text,
             command=FormPage.show,
-            **add_button_style,
+            **page_styles.add_button,
         )
 
         delete_text = (
@@ -531,7 +502,7 @@ class RecordsPage(Page):
             cls.root,
             text=delete_text,
             command=cls._on_delete_click,
-            **delete_button_style,
+            **page_styles.delete_all_button,
         )
 
         # - Elements configuration:
@@ -546,7 +517,6 @@ class RecordsPage(Page):
         search_entry.grid(row=0, column=1, columnspan=3, padx=0, pady=10, sticky="nsew")
         search_entry.bind(EventType.ESCAPE, lambda event: cls.root.focus_set())
         search_entry.bind(EventType.RETURN, lambda event: search_button.invoke())
-
         search_button.grid(row=0, column=4, sticky="w")
 
         page_number_label.grid(row=0, column=1, padx=0, pady=5, sticky="nsew")

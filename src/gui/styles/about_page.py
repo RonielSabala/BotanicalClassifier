@@ -1,14 +1,14 @@
 import tkinter as tk
 
-page_title_font = ("Arial", 30)
-page_subtitle_font = ("Arial", 15)
+title_font = ("Arial", 30)
+subtitle_font = ("Arial", 15)
 
-emoji_style = {
+emoji = {
     "fg": "DodgerBlue4",
     "font": ("Arial", 32),
 }
 
-label_style = {
+label = {
     "padx": 7,
     "pady": 10,
     "anchor": "w",
@@ -16,14 +16,14 @@ label_style = {
     "font": ("Arial", 16, "bold"),
 }
 
-label_info_style = {
+label_info = {
     "width": 0,
     "border": 0,
     "justify": "left",
     "font": ("Arial", 12),
 }
 
-link_style = {
+link = {
     "padx": 0,
     "pady": 0,
     "width": 0,
@@ -35,36 +35,36 @@ link_style = {
     "font": ("Arial", 13),
 }
 
-link_separator_style = {
+link_separator = {
     "fg": "Gray20",
     "font": ("Arial", 16),
 }
 
-header_separator_style = {
+header_separator = {
     "fg": "Gray20",
     "font": ("Arial", 25),
 }
 
-about_pages_title_style = {
+inner_pages_title = {
     "pady": 0,
     "fg": "#091518",
-    "font": page_title_font,
+    "font": title_font,
 }
 
-_scrollable_text_style = {
+_scrollable_text = {
     "width": 50,
     "height": 12,
     "wrap": tk.WORD,
 }
 
-default_scrollable_text_style = {
-    **_scrollable_text_style,
+default_scrollable_text = {
+    **_scrollable_text,
     "bg": "Gray95",
     "font": ("Arial", 10),
 }
 
-faq_scrollable_text_style = {
-    **_scrollable_text_style,
+faq_scrollable_text = {
+    **_scrollable_text,
     "relief": "flat",
     "font": ("Arial", 13),
 }

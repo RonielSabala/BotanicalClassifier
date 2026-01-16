@@ -1,19 +1,19 @@
-from .app import entry_text_style
+from .app import text_entry
 
-page_title_style = {
+title = {
     "pady": 15,
     "fg": "#091518",
     "font": ("Arial", 35),
 }
 
-entry_name_style = {
+name_entry = {
     "pady": 10,
     "fg": "Black",
     "font": ("Arial", 22),
 }
 
-select_entry_style = {
-    **entry_text_style,
+select_entry = {
+    **text_entry,
     "cursor": "hand2",
     "state": "readonly",
 }

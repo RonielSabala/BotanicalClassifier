@@ -14,19 +14,7 @@ from services.i18n_service import i18n
 
 from ..assets.images import APP_ICON_IMAGE, COUNTRY_SHIELD_IMAGE
 from ..page import Page
-from ..styles.about_page import (
-    about_pages_title_style,
-    default_scrollable_text_style,
-    emoji_style,
-    faq_scrollable_text_style,
-    header_separator_style,
-    label_info_style,
-    label_style,
-    link_separator_style,
-    link_style,
-    page_subtitle_font,
-    page_title_font,
-)
+from ..styles import about_page as page_styles
 from .menu_page import MenuPage
 
 # GUI defaults
@@ -81,55 +69,70 @@ class AboutPage(Page):
             header_grid,
             text=i18n.get("about.title"),
             bg=bg_color,
-            font=page_title_font,
+            font=page_styles.title_font,
         )
 
         subtitle = tk.Label(
             header_grid,
             text=ABOUT_SUBTITLE,
             bg=bg_color,
-            font=page_subtitle_font,
+            font=page_styles.subtitle_font,
         )
 
         # - Page content:
 
         address_emoji = tk.Label(
-            content_grid, text=ADDRESS_EMOJI, bg=bg_color, **emoji_style
+            content_grid, text=ADDRESS_EMOJI, bg=bg_color, **page_styles.emoji
         )
 
         address_label = tk.Label(
-            content_grid, text=i18n.get("about.address"), bg=bg_color, **label_style
+            content_grid,
+            text=i18n.get("about.address"),
+            bg=bg_color,
+            **page_styles.label,
         )
 
         address_info = tk.Label(
             content_grid,
             text=f"{ABOUT_ADDRESS_INFO}\n{i18n.get('about.address_country')}",
             bg=bg_color,
-            **label_info_style,
+            **page_styles.label_info,
         )
 
         phone_emoji = tk.Label(
-            content_grid, text=PHONE_EMOJI, bg=bg_color, **emoji_style
+            content_grid, text=PHONE_EMOJI, bg=bg_color, **page_styles.emoji
         )
 
         phone_label = tk.Label(
-            content_grid, text=i18n.get("about.phone"), bg=bg_color, **label_style
+            content_grid,
+            text=i18n.get("about.phone"),
+            bg=bg_color,
+            **page_styles.label,
         )
 
         phone_info = tk.Label(
-            content_grid, text=ABOUT_PHONE_INFO, bg=bg_color, **label_info_style
+            content_grid,
+            text=ABOUT_PHONE_INFO,
+            bg=bg_color,
+            **page_styles.label_info,
         )
 
         email_emoji = tk.Label(
-            content_grid, text=EMAIL_EMOJI, bg=bg_color, **emoji_style
+            content_grid, text=EMAIL_EMOJI, bg=bg_color, **page_styles.emoji
         )
 
         email_label = tk.Label(
-            content_grid, text=i18n.get("about.email"), bg=bg_color, **label_style
+            content_grid,
+            text=i18n.get("about.email"),
+            bg=bg_color,
+            **page_styles.label,
         )
 
         email_info = tk.Label(
-            content_grid, text=ABOUT_EMAIL_INFO, bg=bg_color, **label_info_style
+            content_grid,
+            text=ABOUT_EMAIL_INFO,
+            bg=bg_color,
+            **page_styles.label_info,
         )
 
         # - Page links:
@@ -140,7 +143,7 @@ class AboutPage(Page):
             command=TermsPage.show,
             bg=bg_color,
             activebackground=bg_color,
-            **link_style,
+            **page_styles.link,
         )
 
         policies_button = tk.Button(
@@ -149,7 +152,7 @@ class AboutPage(Page):
             command=PoliciesPage.show,
             bg=bg_color,
             activebackground=bg_color,
-            **link_style,
+            **page_styles.link,
         )
 
         faq_button = tk.Button(
@@ -158,7 +161,7 @@ class AboutPage(Page):
             command=FaqPage.show,
             bg=bg_color,
             activebackground=bg_color,
-            **link_style,
+            **page_styles.link,
         )
 
         # - Elements configuration:
@@ -166,7 +169,7 @@ class AboutPage(Page):
         # Header
         shield.grid(row=0, column=0, sticky="nse")
         cls._set_link_separator(
-            root=header_grid, row=0, column=1, styles=header_separator_style
+            root=header_grid, row=0, column=1, styles=page_styles.header_separator
         )
 
         icon.grid(row=0, column=2, sticky="nsw")
@@ -192,12 +195,12 @@ class AboutPage(Page):
 
         terms_button.grid(row=0, column=0, sticky="nse")
         cls._set_link_separator(
-            root=links_grid, row=0, column=1, styles=link_separator_style
+            root=links_grid, row=0, column=1, styles=page_styles.link_separator
         )
 
         policies_button.grid(row=0, column=2, sticky="ns")
         cls._set_link_separator(
-            root=links_grid, row=0, column=3, styles=link_separator_style
+            root=links_grid, row=0, column=3, styles=page_styles.link_separator
         )
 
         faq_button.grid(row=0, column=4, sticky="nsw")
@@ -212,14 +215,13 @@ class FaqPage(Page):
         # Header
         cls.set_return_btn()
         cls.set_empty_separator(pady=35)
-        cls.set_text(text=i18n.get("about.faq.title"), **about_pages_title_style)
+        cls.set_text(text=i18n.get("about.faq.title"), **page_styles.inner_pages_title)
         cls.set_empty_separator(pady=25)
 
         # Content
         scrollable_text = scrolledtext.ScrolledText(
-            cls.root, **faq_scrollable_text_style
+            cls.root, **page_styles.faq_scrollable_text
         )
-
         scrollable_text.pack(padx=85, pady=0, fill=tk.BOTH, expand=True)
         scrollable_text.insert(tk.END, AboutService.get_page_content(FAQ_PATH))
         scrollable_text.config(state=tk.DISABLED)
@@ -234,12 +236,14 @@ class PoliciesPage(Page):
         # Header
         cls.set_return_btn()
         cls.set_empty_separator(pady=35)
-        cls.set_text(text=i18n.get("about.policies.title"), **about_pages_title_style)
+        cls.set_text(
+            text=i18n.get("about.policies.title"), **page_styles.inner_pages_title
+        )
         cls.set_empty_separator(pady=0)
 
         # Content
         scrollable_text = scrolledtext.ScrolledText(
-            cls.root, **default_scrollable_text_style
+            cls.root, **page_styles.default_scrollable_text
         )
         scrollable_text.pack(padx=85, pady=0, fill=tk.BOTH, expand=True)
         scrollable_text.insert(tk.END, AboutService.get_page_content(POLICIES_PATH))
@@ -255,12 +259,14 @@ class TermsPage(Page):
         # Header
         cls.set_return_btn()
         cls.set_empty_separator(pady=35)
-        cls.set_text(text=i18n.get("about.terms.title"), **about_pages_title_style)
+        cls.set_text(
+            text=i18n.get("about.terms.title"), **page_styles.inner_pages_title
+        )
         cls.set_empty_separator(pady=0)
 
         # Content
         scrollable_text = scrolledtext.ScrolledText(
-            cls.root, **default_scrollable_text_style
+            cls.root, **page_styles.default_scrollable_text
         )
         scrollable_text.pack(padx=85, pady=0, fill=tk.BOTH, expand=True)
         scrollable_text.insert(tk.END, AboutService.get_page_content(POLICIES_PATH))

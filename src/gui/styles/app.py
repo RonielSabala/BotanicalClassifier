@@ -1,10 +1,10 @@
-empty_separator_style = {
+empty_separator = {
     "text": "",
     "fg": "black",
     "font": ("arial", 0),
 }
 
-_generic_button_style = {
+_generic_button = {
     "bd": 0,
     "padx": 5,
     "pady": 2,
@@ -15,12 +15,12 @@ _generic_button_style = {
     "font": ("Arial", 16, "bold"),
 }
 
-return_button_label_style = {
+return_button_label = {
     "fg": "Black",
     "font": ("Arial", 12),
 }
 
-return_button_style = {
+return_button = {
     "text": "↵",
     "width": 2,
     "border": 0,
@@ -31,8 +31,8 @@ return_button_style = {
     "font": ("Arial", 25),
 }
 
-primary_button_style = {
-    **_generic_button_style,
+primary_button = {
+    **_generic_button,
     "fg": "black",
     "bg": "goldenrod1",
     "activeforeground": "black",
@@ -40,7 +40,7 @@ primary_button_style = {
     "font": ("Arial", 26, "bold"),
 }
 
-entry_text_style = {
+text_entry = {
     "width": 22,
     "fg": "black",
     "bg": "White",
@@ -49,7 +49,7 @@ entry_text_style = {
     "font": ("Arial", 18),
 }
 
-footer_style = {
+footer = {
     "coords": (0.5, 0.98),
     "anchor": "center",
     "fg": "black",

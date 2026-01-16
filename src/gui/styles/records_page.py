@@ -1,94 +1,94 @@
-from .app import _generic_button_style, primary_button_style
+from .app import _generic_button, primary_button
 
-page_title_style = {
+title = {
     "pady": 0,
     "fg": "#091518",
     "font": ("Arial", 32),
 }
 
-default_cell_font = "Segoe UI Emoji", 13
-default_cell_style = {
+cell_font = "Segoe UI Emoji", 13
+cell = {
     "fg": "Black",
 }
 
-column_name_font = ("Arial", 16, "bold")
-column_filter_font = column_name_font + ("underline",)
-column_name_cell_style = {
+column_font = ("Arial", 16, "bold")
+column_filter_font = column_font + ("underline",)
+column_cell = {
     "fg": "white",
     "bg": "Dodgerblue4",
 }
 
-column_name_button_style = {
+column_button = {
     "border": 0,
     "cursor": "hand2",
     "activeforeground": "Black",
     "activebackground": "DodgerBlue4",
 }
 
-even_row_cells_style = {
+even_row_cell = {
     "fg": "Black",
     "bg": "Gray92",
 }
 
-odd_row_cells_style = {
+odd_row_cell = {
     "fg": "Black",
     "bg": "Gray96",
 }
 
-classification_label_style = {
+classification_label = {
     "text": "N/A",
     "font": ("Arial", 13),
 }
 
-classification_button_style = {
-    **primary_button_style,
+classify_button = {
+    **primary_button,
     "fg": "Black",
     "activeforeground": "VioletRed3",
-    "font": column_name_font,
+    "font": column_font,
 }
 
-default_prediction_cell_style = {
+prediction_cell = {
     "fg": "Gray60",
     "bg": "White",
     "font": ("Arial", 10),
 }
 
-highest_prediction_cell_style = {
+top_prediction_cell = {
     "fg": "Black",
     "bg": "GoldenRod1",
     "font": ("Arial", 10),
 }
 
-tag_column_cell_style = {
+tag_column_cell = {
     "fg": "White",
     "bg": "Gray15",
     "font": ("Arial", 12, "bold"),
 }
 
-probability_column_cell_style = {
+probability_column_cell = {
     "fg": "GoldenRod1",
     "bg": "Gray15",
     "font": ("Arial", 10, "bold"),
 }
 
-add_button_style = {
-    **_generic_button_style,
+add_button = {
+    **_generic_button,
     "bg": "SpringGreen4",
     "activebackground": "Dark Green",
 }
 
-delete_button_style = {
-    **_generic_button_style,
+delete_all_button = {
+    **_generic_button,
     "bg": "#b22222",
     "activebackground": "#8b0000",
 }
 
-search_button_style = {
+search_button = {
     "cursor": "hand2",
     "font": ("Arial", 13),
 }
 
-navigation_arrow_style = {
+navigation_arrow = {
     "border": 0,
     "relief": "sunken",
     "fg": "Black",
@@ -96,7 +96,7 @@ navigation_arrow_style = {
     "font": ("Arial", 24),
 }
 
-page_number_style = {
+page_indexation = {
     "fg": "Black",
     "font": ("Arial", 14),
 }

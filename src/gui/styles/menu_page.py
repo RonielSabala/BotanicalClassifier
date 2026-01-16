@@ -1,70 +1,70 @@
-page_header_style = {
+header = {
     "coords": (0.5, 0.01),
     "anchor": "center",
     "font": ("Arial", 9),
 }
 
-page_title_style = {
+title = {
     "pady": 10,
     "font": ("Arial", 35),
 }
 
-page_description_style = {
+description = {
     "pady": 25,
     "font": ("Arial", 12),
 }
 
-page_description_separator_style = {
+description_separator = {
     "text": "_" * 70,
     "pady": 0,
     "font": ("Arial", 10),
 }
 
-page_question_style = {
+question = {
     "pady": 25,
     "font": ("Arial", 15),
 }
 
-page_instructions_style = {
+instructions = {
     "pady": 3,
     "font": ("Arial", 13),
 }
 
-_button_style = {
+_button = {
     "width": 2,
     "border": 0,
     "cursor": "hand2",
     "font": ("Arial", 50),
 }
 
-records_button_style = {
-    **_button_style,
+records_button = {
+    **_button,
     "text": "📝",
     "fg": "ivory4",
     "activeforeground": "Gray20",
 }
 
-records_button_text_style = {
+records_button_text = {
     "anchor": "center",
     "fg": "black",
     "font": ("Arial", 14),
 }
 
-about_button_style = {
-    **_button_style,
+about_button = {
+    **_button,
     "text": "❀",
     "fg": "springGreen4",
     "activeforeground": "violetred4",
 }
 
-about_button_text_style = {
+about_button_text = {
     "anchor": "center",
     "fg": "black",
     "font": ("Arial", 14),
 }
 
-exit_button_style = {
-    **_button_style,
+exit_button = {
+    **_button,
     "width": 3,
     "relief": "sunken",
     "fg": "Red3",
@@ -72,7 +72,7 @@ exit_button_style = {
     "font": ("Arial", 18, "underline"),
 }
 
-exit_button_text_style = {
+exit_button_text = {
     "text": "⥱",
     "anchor": "center",
     "font": ("Arial", 25),

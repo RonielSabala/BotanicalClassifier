@@ -12,12 +12,7 @@ from common.constants import (
 from common.paths import APP_ICON_IMAGE_PATH
 from services.i18n_service import i18n
 
-from .styles.app import (
-    empty_separator_style,
-    footer_style,
-    return_button_label_style,
-    return_button_style,
-)
+from .styles import app as app_styles
 from .tk_events import EventType
 
 # App root
@@ -188,11 +183,13 @@ class Page:
         Coloca un texto en la pagina.
         """
 
-        tk.Label(cls.root, pady=pady, bg=cls.bg_color, **empty_separator_style).pack()
+        tk.Label(
+            cls.root, pady=pady, bg=cls.bg_color, **app_styles.empty_separator
+        ).pack()
 
     @classmethod
     def set_footer(cls) -> None:
-        cls.set_text_at(text=get_app_rights(), **footer_style)
+        cls.set_text_at(text=get_app_rights(), **app_styles.footer)
 
     @classmethod
     def set_return_btn(cls) -> None:
@@ -216,14 +213,14 @@ class Page:
             cls.root,
             command=lambda: _on_escape(None),
             bg=bg_color,
-            **return_button_style,
+            **app_styles.return_button,
         )
 
         button_label = tk.Label(
             cls.root,
             text=i18n.get("app.return_button"),
             bg=bg_color,
-            **return_button_label_style,
+            **app_styles.return_button_label,
         )
 
         button.place(relx=0.05, rely=0.05, anchor="nw")

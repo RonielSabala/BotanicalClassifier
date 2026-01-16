@@ -9,8 +9,8 @@ from services.i18n_service import i18n
 
 from ..assets.images import APP_ICON_IMAGE
 from ..page import Page
-from ..styles.app import entry_text_style, primary_button_style
-from ..styles.form_page import entry_name_style, page_title_style, select_entry_style
+from ..styles import app as app_styles
+from ..styles import form_page as page_styles
 from ..tk_events import EventType
 from .menu_page import MenuPage
 
@@ -80,38 +80,40 @@ class FormPage(Page):
     @classmethod
     def _set_entry_name(cls, entry_name: str) -> None:
         cls.set_empty_separator(pady=2)
-        cls.set_text(text=entry_name, **entry_name_style)
+        cls.set_text(text=entry_name, **page_styles.name_entry)
 
     @classmethod
     def load(cls) -> None:
         # Header elements
         tk.Label(cls.root, image=APP_ICON_IMAGE, bg=cls.bg_color).pack(padx=10, pady=15)
-        cls.set_text(text=i18n.get("form.title"), **page_title_style)
+        cls.set_text(text=i18n.get("form.title"), **page_styles.title)
         cls.set_return_btn()
 
         # - Page elements:
 
-        name_entry = tk.Entry(cls.root, textvariable=cls.name_var, **entry_text_style)
+        name_entry = tk.Entry(
+            cls.root, textvariable=cls.name_var, **app_styles.text_entry
+        )
 
         surname_entry = tk.Entry(
-            cls.root, textvariable=cls.surname_var, **entry_text_style
+            cls.root, textvariable=cls.surname_var, **app_styles.text_entry
         )
 
         address_entry = tk.Entry(
-            cls.root, textvariable=cls.address_var, **entry_text_style
+            cls.root, textvariable=cls.address_var, **app_styles.text_entry
         )
 
         image_entry = tk.Entry(
             cls.root,
             textvariable=cls._image_var,
-            **select_entry_style,
+            **page_styles.select_entry,
         )
 
         save_button = tk.Button(
             cls.root,
             text=i18n.get("form.save"),
             command=lambda: cls._on_save_button(),
-            **primary_button_style,
+            **app_styles.primary_button,
         )
 
         # - Elements configuration:
@@ -149,7 +151,6 @@ class FormPage(Page):
         image_entry.bind(
             EventType.LEFT_CLICK, lambda event: cls._on_image_select(image_entry)
         )
-
         image_entry.pack(padx=10, pady=10)
         save_button.pack(pady=40)
         cls.set_footer()
