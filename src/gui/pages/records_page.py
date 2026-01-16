@@ -237,26 +237,28 @@ class RecordsPage(Page):
     @classmethod
     def _get_classification_button(cls, root: Frame, record_id: int) -> Frame:
         bg_color = cls.bg_color
-        frame = Frame(root, bg=bg_color)
-        frame.rowconfigure(0, weight=1)
-        tk.Label(frame, bg=bg_color, **page_styles.classification_label).grid(
+        grid = cls.get_grid(root)
+        grid.rowconfigure(0, weight=1)
+
+        # Insert label
+        tk.Label(grid, bg=bg_color, **page_styles.classification_label).grid(
             row=0, column=0, pady=5
         )
 
-        button_style = {
-            **page_styles.classify_button,
-            "bg": bg_color,
-            "activebackground": bg_color,
-        }
+        button_style = page_styles.classify_button.copy()
+        button_style.pop("bg")
+        button_style.pop("activebackground")
 
-        tk.Button(
-            frame,
+        # Insert button
+        button = cls.get_button(grid)
+        button.config(
             text=i18n.get("records.classify_button"),
             command=lambda record_id=record_id: cls._classify_record(record_id),
             **button_style,
-        ).grid(row=2, column=0)
+        )
+        button.grid(row=2, column=0)
 
-        return frame
+        return grid
 
     @classmethod
     def _insert_prediction_cell(
@@ -344,8 +346,8 @@ class RecordsPage(Page):
             if cell_value == cls._filter_column_name:
                 element_font = page_styles.column_filter_font
 
-            element = tk.Button(
-                root,
+            element = cls.get_button(root)
+            element.config(
                 command=lambda value=cell_value: cls._on_column_name_click(value),
                 **page_styles.column_button,
             )
@@ -444,36 +446,14 @@ class RecordsPage(Page):
 
         # - Page elements:
 
-        records_grid = cls.get_grid_from_root()
-        navigation_grid = cls.get_grid_from_root()
-        search_entry = tk.Entry(
-            records_grid, textvariable=cls._filter_var, **app_styles.text_entry
-        )
+        records_grid = cls.get_grid()
+        navigation_grid = cls.get_grid()
 
-        search_button = tk.Button(
-            records_grid,
-            text=i18n.get("records.search"),
-            command=lambda: cls._on_filter(),
-            **page_styles.search_button,
-        )
+        search_entry = cls.get_entry(records_grid)
+        search_button = cls.get_button(records_grid)
 
-        cls._left_nav_arrow = tk.Button(
-            navigation_grid,
-            text=LEFT_NAV_ARROW_BUTTON_TEXT,
-            command=cls._load_next_page,
-            bg=bg_color,
-            activebackground=bg_color,
-            **page_styles.navigation_arrow,
-        )
-
-        cls._right_nav_arrow = tk.Button(
-            navigation_grid,
-            text=RIGHT_NAV_ARROW_BUTTON_TEXT,
-            command=cls._load_prev_page,
-            bg=bg_color,
-            activebackground=bg_color,
-            **page_styles.navigation_arrow,
-        )
+        cls._left_nav_arrow = cls.get_button(navigation_grid)
+        cls._right_nav_arrow = cls.get_button(navigation_grid)
 
         page_number_text = i18n.get("records.page_index_label").format(
             page_index=cls._page_index, max_page_index=cls._max_page_index
@@ -486,57 +466,76 @@ class RecordsPage(Page):
             **page_styles.page_indexation,
         )
 
-        add_record_text = ADD_RECORD_BUTTON_EMOJI + " " + i18n.get("records.add_record")
-        add_record_button = tk.Button(
-            cls.root,
-            text=add_record_text,
-            command=FormPage.show,
-            **page_styles.add_button,
-        )
-
-        delete_text = (
-            DELETE_RECORDS_BUTTON_EMOJI + " " + i18n.get("records.delete_records")
-        )
-
-        delete_button = tk.Button(
-            cls.root,
-            text=delete_text,
-            command=cls._on_delete_click,
-            **page_styles.delete_all_button,
-        )
+        add_record_button = cls.get_button()
+        delete_button = cls.get_button()
 
         # - Elements configuration:
 
         if cls._last_filter.search_text is not None:
             cls.main_entry = search_entry
 
+        # Grids
         records_grid.pack(fill="both", padx=20, pady=0)
         navigation_grid.pack(fill="none", padx=35, pady=0)
 
+        # Search entry
+        search_entry.config(textvariable=cls._filter_var, **app_styles.text_entry)
         search_entry.config(width=30)
         search_entry.grid(row=0, column=1, columnspan=3, padx=0, pady=10, sticky="nsew")
         search_entry.bind(EventType.ESCAPE, lambda event: cls.root.focus_set())
         search_entry.bind(EventType.RETURN, lambda event: search_button.invoke())
+
+        # Search button
+        search_button.config(
+            text=i18n.get("records.search"),
+            command=lambda: cls._on_filter(),
+            **page_styles.search_button,
+        )
         search_button.grid(row=0, column=4, sticky="w")
 
+        # Navigation elements
         page_number_label.grid(row=0, column=1, padx=0, pady=5, sticky="nsew")
         cls._left_nav_arrow.grid(row=0, column=2, padx=0, pady=5, sticky="nsew")
         cls._right_nav_arrow.grid(row=0, column=0, padx=0, pady=5, sticky="nsew")
 
-        # Left arrow state config
+        # Left arrow config
+        cls._left_nav_arrow.config(
+            text=LEFT_NAV_ARROW_BUTTON_TEXT,
+            command=cls._load_next_page,
+            **page_styles.navigation_arrow,
+        )
         if cls._page_index >= cls._max_page_index:
             cls._left_nav_arrow.config(state=tk.DISABLED)
         else:
             cls._left_nav_arrow.config(cursor="hand2")
 
-        # Right arrow state config
+        # Right arrow config
+        cls._right_nav_arrow.config(
+            text=RIGHT_NAV_ARROW_BUTTON_TEXT,
+            command=cls._load_prev_page,
+            **page_styles.navigation_arrow,
+        )
         if cls._page_index <= 1:
             cls._right_nav_arrow.config(state=tk.DISABLED)
         else:
             cls._right_nav_arrow.config(cursor="hand2")
 
         cls.set_empty_separator(pady=1)
+
+        # Add record button
+        add_record_button.config(
+            text=ADD_RECORD_BUTTON_EMOJI + " " + i18n.get("records.add_record"),
+            command=FormPage.show,
+            **page_styles.add_button,
+        )
         add_record_button.pack(pady=0)
+
+        # Delete records button
+        delete_button.config(
+            text=DELETE_RECORDS_BUTTON_EMOJI + " " + i18n.get("records.delete_records"),
+            command=cls._on_delete_click,
+            **page_styles.delete_all_button,
+        )
         delete_button.pack(pady=12)
 
         cls.set_footer()

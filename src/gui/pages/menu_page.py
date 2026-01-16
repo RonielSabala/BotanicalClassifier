@@ -50,46 +50,29 @@ class MenuPage(Page):
         cls.set_text(text=page_instructions, fg=fg_color, **page_styles.instructions)
         cls.set_empty_separator(pady=20)
 
-        # - Page elements:
+        # Page buttons
+        form_button = cls.get_button()
+        records_button = cls.get_button()
+        about_button = cls.get_button()
+        exit_button = cls.get_button()
 
-        form_button = tk.Button(
-            cls.root,
+        # - Elements configuration:
+
+        # Form button
+        form_button.config(
             text=i18n.get("menu.form_button"),
             command=FormPage.show,
             **app_styles.primary_button,
         )
-
-        records_button = tk.Button(
-            cls.root,
-            command=RecordsPage.show,
-            bg=bg_color,
-            activebackground=bg_color,
-            **page_styles.records_button,
-        )
-
-        about_button = tk.Button(
-            cls.root,
-            command=AboutPage.show,
-            bg=bg_color,
-            activebackground=bg_color,
-            **page_styles.about_button,
-        )
-
-        exit_button = tk.Button(
-            cls.root,
-            text=i18n.get("menu.exit_button"),
-            command=destroy_all_pages,
-            bg=bg_color,
-            activebackground=bg_color,
-            **page_styles.exit_button,
-        )
-
-        # - Elements configuration:
-
         form_button.pack(pady=0)
 
         # Records button
         rel_x, rel_y = 0.5, 0.74
+        records_button.config(
+            command=RecordsPage.show,
+            activebackground=bg_color,
+            **page_styles.records_button,
+        )
         records_button.place(relx=rel_x, rely=rel_y, anchor="center")
         cls.set_text_at(
             text=i18n.get("menu.records_button"),
@@ -99,6 +82,11 @@ class MenuPage(Page):
 
         # About button
         rel_x, rel_y = 0.1, 0.9
+        about_button.config(
+            command=AboutPage.show,
+            activebackground=bg_color,
+            **page_styles.about_button,
+        )
         about_button.place(relx=rel_x, rely=rel_y, anchor="center")
         cls.set_text_at(
             text=i18n.get("menu.about_button"),
@@ -108,6 +96,12 @@ class MenuPage(Page):
 
         # Exit button
         rel_x, rel_y = 0.92, 0.94
+        exit_button.config(
+            text=i18n.get("menu.exit_button"),
+            command=destroy_all_pages,
+            activebackground=bg_color,
+            **page_styles.exit_button,
+        )
         exit_button.place(relx=rel_x, rely=rel_y, anchor="center")
         cls.set_text_at(
             coords=(rel_x, rel_y + 0.04),

@@ -43,7 +43,6 @@ primary_button = {
 text_entry = {
     "width": 22,
     "fg": "black",
-    "bg": "White",
     "selectforeground": "Black",
     "selectbackground": "GoldenRod1",
     "font": ("Arial", 18),

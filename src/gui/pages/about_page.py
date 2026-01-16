@@ -45,18 +45,18 @@ class AboutPage(Page):
 
         # - Grids creation:
 
-        header_grid = cls.get_grid_from_root()
+        header_grid = cls.get_grid()
         header_grid.pack(fill="none", padx=85, pady=40)
         header_grid.grid_rowconfigure(0, pad=45)
         header_grid.grid_columnconfigure(1, pad=0)
 
-        content_grid = cls.get_grid_from_root()
+        content_grid = cls.get_grid()
         content_grid.pack(fill="none", expand=True, padx=85, pady=35)
         content_grid.grid_columnconfigure(0, weight=1)
         content_grid.grid_rowconfigure(1, pad=50)
         content_grid.grid_columnconfigure(1, pad=40)
 
-        links_grid = cls.get_grid_from_root()
+        links_grid = cls.get_grid()
         links_grid.pack(fill="y", padx=0, pady=100)
 
         # - Header elements:
@@ -135,34 +135,10 @@ class AboutPage(Page):
             **page_styles.label_info,
         )
 
-        # - Page links:
-
-        terms_button = tk.Button(
-            links_grid,
-            text=i18n.get("about.terms.title"),
-            command=TermsPage.show,
-            bg=bg_color,
-            activebackground=bg_color,
-            **page_styles.link,
-        )
-
-        policies_button = tk.Button(
-            links_grid,
-            text=i18n.get("about.policies.title"),
-            command=PoliciesPage.show,
-            bg=bg_color,
-            activebackground=bg_color,
-            **page_styles.link,
-        )
-
-        faq_button = tk.Button(
-            links_grid,
-            text=i18n.get("about.faq.title"),
-            command=FaqPage.show,
-            bg=bg_color,
-            activebackground=bg_color,
-            **page_styles.link,
-        )
+        # Page links
+        terms_link = cls.get_button(links_grid)
+        policies_link = cls.get_button(links_grid)
+        faq_link = cls.get_button(links_grid)
 
         # - Elements configuration:
 
@@ -171,7 +147,6 @@ class AboutPage(Page):
         cls._set_link_separator(
             root=header_grid, row=0, column=1, styles=page_styles.header_separator
         )
-
         icon.grid(row=0, column=2, sticky="nsw")
         title.grid(row=1, columnspan=3, sticky="nsew")
         subtitle.grid(row=2, columnspan=3, pady=6, sticky="nsew")
@@ -193,17 +168,39 @@ class AboutPage(Page):
 
         # - Links:
 
-        terms_button.grid(row=0, column=0, sticky="nse")
+        # Terms link
+        terms_link.config(
+            text=i18n.get("about.terms.title"),
+            command=TermsPage.show,
+            activebackground=bg_color,
+            **page_styles.link,
+        )
+        terms_link.grid(row=0, column=0, sticky="nse")
         cls._set_link_separator(
             root=links_grid, row=0, column=1, styles=page_styles.link_separator
         )
 
-        policies_button.grid(row=0, column=2, sticky="ns")
+        # Policies link
+        policies_link.config(
+            text=i18n.get("about.policies.title"),
+            command=PoliciesPage.show,
+            activebackground=bg_color,
+            **page_styles.link,
+        )
+        policies_link.grid(row=0, column=2, sticky="ns")
         cls._set_link_separator(
             root=links_grid, row=0, column=3, styles=page_styles.link_separator
         )
 
-        faq_button.grid(row=0, column=4, sticky="nsw")
+        # FAQ link
+        faq_link.config(
+            text=i18n.get("about.faq.title"),
+            command=FaqPage.show,
+            activebackground=bg_color,
+            **page_styles.link,
+        )
+        faq_link.grid(row=0, column=4, sticky="nsw")
+
         cls.set_footer()
 
 

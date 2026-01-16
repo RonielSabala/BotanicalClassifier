@@ -89,32 +89,12 @@ class FormPage(Page):
         cls.set_text(text=i18n.get("form.title"), **page_styles.title)
         cls.set_return_btn()
 
-        # - Page elements:
-
-        name_entry = tk.Entry(
-            cls.root, textvariable=cls.name_var, **app_styles.text_entry
-        )
-
-        surname_entry = tk.Entry(
-            cls.root, textvariable=cls.surname_var, **app_styles.text_entry
-        )
-
-        address_entry = tk.Entry(
-            cls.root, textvariable=cls.address_var, **app_styles.text_entry
-        )
-
-        image_entry = tk.Entry(
-            cls.root,
-            textvariable=cls._image_var,
-            **page_styles.select_entry,
-        )
-
-        save_button = tk.Button(
-            cls.root,
-            text=i18n.get("form.save"),
-            command=lambda: cls._on_save_button(),
-            **app_styles.primary_button,
-        )
+        # Page elements
+        name_entry = cls.get_entry()
+        surname_entry = cls.get_entry()
+        address_entry = cls.get_entry()
+        image_entry = cls.get_entry()
+        save_button = cls.get_button()
 
         # - Elements configuration:
 
@@ -122,6 +102,7 @@ class FormPage(Page):
 
         # Name entry
         cls._set_entry_name(i18n.get("form.name"))
+        name_entry.config(textvariable=cls.name_var, **app_styles.text_entry)
         name_entry.bind(EventType.ESCAPE, lambda event: cls.root.focus_set())
         name_entry.bind(EventType.ARROW_DOWN, lambda event: surname_entry.focus_set())
         name_entry.bind(EventType.RETURN, lambda event: surname_entry.focus_set())
@@ -129,6 +110,7 @@ class FormPage(Page):
 
         # Surname entry
         cls._set_entry_name(i18n.get("form.surname"))
+        surname_entry.config(textvariable=cls.surname_var, **app_styles.text_entry)
         surname_entry.bind(EventType.ESCAPE, lambda event: cls.root.focus_set())
         surname_entry.bind(EventType.ARROW_UP, lambda event: name_entry.focus_set())
         surname_entry.bind(
@@ -139,6 +121,7 @@ class FormPage(Page):
 
         # Address entry
         cls._set_entry_name(i18n.get("form.address"))
+        address_entry.config(textvariable=cls.address_var, **app_styles.text_entry)
         address_entry.bind(EventType.ESCAPE, lambda event: cls.root.focus_set())
         address_entry.bind(EventType.ARROW_UP, lambda event: surname_entry.focus_set())
         address_entry.bind(
@@ -148,9 +131,18 @@ class FormPage(Page):
 
         # Image entry
         cls._set_entry_name(i18n.get("form.image"))
+        image_entry.config(textvariable=cls._image_var, **page_styles.select_entry)
         image_entry.bind(
             EventType.LEFT_CLICK, lambda event: cls._on_image_select(image_entry)
         )
         image_entry.pack(padx=10, pady=10)
+
+        # Save button
+        save_button.config(
+            text=i18n.get("form.save"),
+            command=lambda: cls._on_save_button(),
+            **app_styles.primary_button,
+        )
         save_button.pack(pady=40)
+
         cls.set_footer()

@@ -127,8 +127,32 @@ class Page:
     # - Utils:
 
     @classmethod
-    def get_grid_from_root(cls) -> Frame:
-        return Frame(cls.root, bg=cls.bg_color)
+    def get_label(cls, root: Optional[Frame] = None) -> tk.Label:
+        if root is None:
+            root = cls.root
+
+        return tk.Label(root, bg=cls.bg_color)
+
+    @classmethod
+    def get_button(cls, root: Optional[Frame] = None) -> tk.Button:
+        if root is None:
+            root = cls.root
+
+        return tk.Button(root, bg=cls.bg_color, activebackground=cls.bg_color)
+
+    @classmethod
+    def get_entry(cls, root: Optional[Frame] = None) -> tk.Entry:
+        if root is None:
+            root = cls.root
+
+        return tk.Entry(root, bg=cls.bg_color)
+
+    @classmethod
+    def get_grid(cls, root: Optional[Frame] = None) -> Frame:
+        if root is None:
+            root = cls.root
+
+        return Frame(root, bg=cls.bg_color)
 
     @classmethod
     def set_text(
@@ -208,18 +232,12 @@ class Page:
 
             cls.close()
 
-        bg_color = cls.bg_color
-        button = tk.Button(
-            cls.root,
-            command=lambda: _on_escape(None),
-            bg=bg_color,
-            **app_styles.return_button,
-        )
+        button = cls.get_button()
+        button_label = cls.get_label()
 
-        button_label = tk.Label(
-            cls.root,
+        button.config(command=lambda: _on_escape(None), **app_styles.return_button)
+        button_label.config(
             text=i18n.get("app.return_button"),
-            bg=bg_color,
             **app_styles.return_button_label,
         )
 
