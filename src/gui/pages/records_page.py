@@ -24,15 +24,15 @@ from ..styles.records_page import (
     default_cell_style,
     delete_button_style,
     even_row_cells_style,
+    highest_prediction_cell_style,
     navigation_arrow_style,
     odd_row_cells_style,
     page_number_style,
     page_title_style,
     prediction_cell_style,
-    prediction_column_name_cell_style,
-    prediction_probability_cell_style,
-    prediction_tag_cell_style,
+    probability_column_cell_style,
     search_button_style,
+    tag_column_cell_style,
 )
 from ..tk_events import EventType
 from .form_page import FormPage
@@ -289,8 +289,8 @@ class RecordsPage(Page):
     def _insert_prediction_cell(
         cls, root: Frame, row: int, column: int, cell_value: str
     ) -> None:
-        if row == 0:
-            cell_style = prediction_column_name_cell_style
+        if row == 1:
+            cell_style = highest_prediction_cell_style
         else:
             cell_style = prediction_cell_style
             cell_style["fg"] = cell_style["fg"].format(gray_tone=50 + 8 * row)
@@ -307,14 +307,14 @@ class RecordsPage(Page):
         tk.Label(
             grid,
             text=i18n.get("records.prediction_tag_column"),
-            **prediction_tag_cell_style,
+            **tag_column_cell_style,
         ).grid(row=0, column=0, padx=0, sticky="nsew")
 
         # Insert probability cell
         tk.Label(
             grid,
             text=i18n.get("records.prediction_probability_column"),
-            **prediction_probability_cell_style,
+            **probability_column_cell_style,
         ).grid(row=0, column=1, padx=0, sticky="nsew")
 
         # Insert predictions
