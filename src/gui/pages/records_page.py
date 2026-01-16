@@ -25,6 +25,7 @@ from ..styles.records_page import (
     column_name_font,
     default_cell_font,
     default_cell_style,
+    default_prediction_cell_style,
     delete_button_style,
     even_row_cells_style,
     highest_prediction_cell_style,
@@ -32,7 +33,6 @@ from ..styles.records_page import (
     odd_row_cells_style,
     page_number_style,
     page_title_style,
-    prediction_cell_style,
     probability_column_cell_style,
     search_button_style,
     tag_column_cell_style,
@@ -283,16 +283,14 @@ class RecordsPage(Page):
 
     @classmethod
     def _insert_prediction_cell(
-        cls, root: Frame, row: int, column: int, cell_value: str
+        cls, root: Frame, row: int, col: int, cell_value: str
     ) -> None:
-        if row == 1:
-            cell_style = highest_prediction_cell_style
-        else:
-            cell_style = prediction_cell_style
-            cell_style["fg"] = cell_style["fg"].format(gray_tone=50 + 8 * row)
+        cell_style = (
+            highest_prediction_cell_style if row == 1 else default_prediction_cell_style
+        )
 
         tk.Label(root, text=cell_value, **cell_style).grid(
-            row=row, column=column, sticky="nsew"
+            row=row, column=col, sticky="nsew"
         )
 
     @classmethod

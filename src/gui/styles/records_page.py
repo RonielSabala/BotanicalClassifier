@@ -47,8 +47,8 @@ classification_button_style = {
     "font": column_name_font,
 }
 
-prediction_cell_style = {
-    "fg": "Gray{gray_tone}",
+default_prediction_cell_style = {
+    "fg": "Gray60",
     "bg": "White",
     "font": ("Arial", 10),
 }
