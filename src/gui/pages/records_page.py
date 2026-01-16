@@ -236,14 +236,13 @@ class RecordsPage(Page):
 
     @classmethod
     def _get_classification_button(cls, root: Frame, record_id: int) -> Frame:
-        bg_color = cls.bg_color
         grid = cls.get_grid(root)
         grid.rowconfigure(0, weight=1)
 
         # Insert label
-        tk.Label(grid, bg=bg_color, **page_styles.classification_label).grid(
-            row=0, column=0, pady=5
-        )
+        label = cls.get_label(grid)
+        label.config(**page_styles.classification_label)
+        label.grid(row=0, column=0, pady=5)
 
         button_style = page_styles.classify_button.copy()
         button_style.pop("bg")
@@ -274,7 +273,7 @@ class RecordsPage(Page):
 
     @classmethod
     def _get_prediction_grid(cls, root: Frame, predictions: list[Prediction]) -> Frame:
-        grid = Frame(root, bg=cls.bg_color)
+        grid = cls.get_grid(root)
 
         # Insert tag cell
         tk.Label(
@@ -321,15 +320,13 @@ class RecordsPage(Page):
     ) -> tk.Label | tk.Button:
         # Flower image
         if row > 0 and col == cls._flower_column_index:
-            image = (
+            cell_image = (
                 get_resized_image(cell_value)
                 if is_valid_path(cell_value)
                 else EMPTY_IMAGE
             )
 
-            cell_image = tk.Label(root, image=image)
-            cell_image.image = image  # type: ignore
-            return cell_image
+            return cls.get_label(root, image=cell_image)
 
         # Label
         element_font = page_styles.column_font
@@ -366,7 +363,6 @@ class RecordsPage(Page):
     @classmethod
     def _fill_records_grid(cls, grid: Frame) -> None:
         cls._column_buttons = []
-        bg_color = cls.bg_color
         first_record_index = max(0, MAX_ROW_INDEX_PER_PAGE * (cls._page_index - 1))
         last_record_index = min(
             first_record_index + MAX_ROW_INDEX_PER_PAGE, len(cls._filtered_records) - 1
@@ -401,10 +397,10 @@ class RecordsPage(Page):
             for col, cell_value in enumerate(row_cells):
                 # Insert empty cell
                 if insert_empty_row:
-                    cell_element = tk.Label(grid, bg=bg_color)
                     if col == cls._flower_column_index:
-                        cell_element.config(image=EMPTY_IMAGE)
-                        cell_element.image = EMPTY_IMAGE  # type: ignore
+                        cell_element = cls.get_label(grid, EMPTY_IMAGE)
+                    else:
+                        cell_element = cls.get_label(grid)
 
                 # Insert classification button
                 elif cell_value is None:
@@ -428,7 +424,7 @@ class RecordsPage(Page):
 
                 # Insert button/label
                 else:
-                    cell_styles = {"bg": bg_color, **cls._get_cell_style(row, col)}
+                    cell_styles = {"bg": cls.bg_color, **cls._get_cell_style(row, col)}
                     cell_element = cls._get_cell_element(grid, row, col, cell_value)
                     cell_element.config(**cell_styles)
 
@@ -436,10 +432,8 @@ class RecordsPage(Page):
 
     @classmethod
     def load(cls) -> None:
-        bg_color = cls.bg_color
-
         # Header elements
-        tk.Label(cls.root, image=APP_ICON_IMAGE, bg=bg_color).pack(padx=20, pady=15)
+        cls.get_label(image=APP_ICON_IMAGE).pack(padx=20, pady=15)
         cls.set_text(text=i18n.get("records.title"), **page_styles.title)
         cls.set_empty_separator(pady=2)
         cls.set_return_btn()
@@ -452,19 +446,9 @@ class RecordsPage(Page):
         search_entry = cls.get_entry(records_grid)
         search_button = cls.get_button(records_grid)
 
+        page_indexation = cls.get_label(navigation_grid)
         cls._left_nav_arrow = cls.get_button(navigation_grid)
         cls._right_nav_arrow = cls.get_button(navigation_grid)
-
-        page_number_text = i18n.get("records.page_index_label").format(
-            page_index=cls._page_index, max_page_index=cls._max_page_index
-        )
-
-        page_number_label = tk.Label(
-            navigation_grid,
-            text=page_number_text,
-            bg=bg_color,
-            **page_styles.page_indexation,
-        )
 
         add_record_button = cls.get_button()
         delete_button = cls.get_button()
@@ -493,12 +477,15 @@ class RecordsPage(Page):
         )
         search_button.grid(row=0, column=4, sticky="w")
 
-        # Navigation elements
-        page_number_label.grid(row=0, column=1, padx=0, pady=5, sticky="nsew")
-        cls._left_nav_arrow.grid(row=0, column=2, padx=0, pady=5, sticky="nsew")
-        cls._right_nav_arrow.grid(row=0, column=0, padx=0, pady=5, sticky="nsew")
+        # Page indexation
+        page_indexation_text = i18n.get("records.page_indexation").format(
+            page_index=cls._page_index, max_page_index=cls._max_page_index
+        )
+        page_indexation.config(text=page_indexation_text, **page_styles.page_indexation)
+        page_indexation.grid(row=0, column=1, padx=0, pady=5, sticky="nsew")
 
         # Left arrow config
+        cls._left_nav_arrow.grid(row=0, column=2, padx=0, pady=5, sticky="nsew")
         cls._left_nav_arrow.config(
             text=LEFT_NAV_ARROW_BUTTON_TEXT,
             command=cls._load_next_page,
@@ -510,6 +497,7 @@ class RecordsPage(Page):
             cls._left_nav_arrow.config(cursor="hand2")
 
         # Right arrow config
+        cls._right_nav_arrow.grid(row=0, column=0, padx=0, pady=5, sticky="nsew")
         cls._right_nav_arrow.config(
             text=RIGHT_NAV_ARROW_BUTTON_TEXT,
             command=cls._load_prev_page,

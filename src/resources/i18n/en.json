@@ -42,7 +42,7 @@
 
   "records.title": "Records",
   "records.search": "Search",
-  "records.page_index_label": "page {page_index} of {max_page_index}",
+  "records.page_indexation": "page {page_index} of {max_page_index}",
   "records.add_record": "Add",
   "records.delete_records": "Delete (ALL)",
   "records.delete_dialog_title": "Confirmation",

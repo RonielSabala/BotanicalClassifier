@@ -2,6 +2,8 @@ import tkinter as tk
 from tkinter import Frame, PhotoImage
 from typing import Optional
 
+from PIL import ImageTk
+
 from common.constants import (
     COMPANY_NAME,
     COPYRIGHT_SYMBOL,
@@ -127,11 +129,18 @@ class Page:
     # - Utils:
 
     @classmethod
-    def get_label(cls, root: Optional[Frame] = None) -> tk.Label:
+    def get_label(
+        cls, root: Optional[Frame] = None, image: Optional[ImageTk.PhotoImage] = None
+    ) -> tk.Label:
         if root is None:
             root = cls.root
 
-        return tk.Label(root, bg=cls.bg_color)
+        if image is None:
+            return tk.Label(root, bg=cls.bg_color)
+
+        label = tk.Label(root, bg=cls.bg_color, image=image)
+        label.image = image  # type: ignore
+        return label
 
     @classmethod
     def get_button(cls, root: Optional[Frame] = None) -> tk.Button:
@@ -167,14 +176,9 @@ class Page:
         Coloca un texto en la pagina.
         """
 
-        tk.Label(
-            cls.root,
-            text=text,
-            pady=pady,
-            fg=fg,
-            bg=cls.bg_color,
-            font=font,
-        ).pack()
+        label = cls.get_label()
+        label.config(text=text, pady=pady, fg=fg, font=font)
+        label.pack()
 
     @classmethod
     def set_text_at(
@@ -190,15 +194,9 @@ class Page:
         Coloca un texto con coordenadas relativas en la pagina.
         """
 
-        label = tk.Label(
-            cls.root,
-            text=text,
-            fg=fg,
-            bg=cls.bg_color,
-            font=font,
-        )
-
         x, y = coords
+        label = cls.get_label()
+        label.config(text=text, fg=fg, font=font)
         label.place(relx=x, rely=y, anchor=anchor)  # type: ignore
 
     @classmethod
@@ -207,9 +205,9 @@ class Page:
         Coloca un texto en la pagina.
         """
 
-        tk.Label(
-            cls.root, pady=pady, bg=cls.bg_color, **app_styles.empty_separator
-        ).pack()
+        label = cls.get_label()
+        label.config(pady=pady, **app_styles.empty_separator)
+        label.pack()
 
     @classmethod
     def set_footer(cls) -> None:

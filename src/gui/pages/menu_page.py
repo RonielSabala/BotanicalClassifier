@@ -1,5 +1,3 @@
-import tkinter as tk
-
 from services.i18n_service import i18n
 
 from ..assets.images import APP_BANNER_IMAGE
@@ -30,12 +28,11 @@ class MenuPage(Page):
         from .form_page import FormPage
         from .records_page import RecordsPage
 
-        bg_color = cls.bg_color
         fg_color = "#091518"
 
         # - Header elements:
 
-        tk.Label(cls.root, image=APP_BANNER_IMAGE, bg=bg_color).pack(padx=10, pady=5)
+        cls.get_label(image=APP_BANNER_IMAGE).pack(padx=10, pady=5)
         cls.set_text_at(text=i18n.get("menu.header"), fg=fg_color, **page_styles.header)
 
         page_title = i18n.get("menu.title")
@@ -70,7 +67,6 @@ class MenuPage(Page):
         rel_x, rel_y = 0.5, 0.74
         records_button.config(
             command=RecordsPage.show,
-            activebackground=bg_color,
             **page_styles.records_button,
         )
         records_button.place(relx=rel_x, rely=rel_y, anchor="center")
@@ -84,7 +80,6 @@ class MenuPage(Page):
         rel_x, rel_y = 0.1, 0.9
         about_button.config(
             command=AboutPage.show,
-            activebackground=bg_color,
             **page_styles.about_button,
         )
         about_button.place(relx=rel_x, rely=rel_y, anchor="center")
@@ -99,7 +94,6 @@ class MenuPage(Page):
         exit_button.config(
             text=i18n.get("menu.exit_button"),
             command=destroy_all_pages,
-            activebackground=bg_color,
             **page_styles.exit_button,
         )
         exit_button.place(relx=rel_x, rely=rel_y, anchor="center")

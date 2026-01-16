@@ -85,7 +85,7 @@ class FormPage(Page):
     @classmethod
     def load(cls) -> None:
         # Header elements
-        tk.Label(cls.root, image=APP_ICON_IMAGE, bg=cls.bg_color).pack(padx=10, pady=15)
+        cls.get_label(image=APP_ICON_IMAGE).pack(padx=10, pady=15)
         cls.set_text(text=i18n.get("form.title"), **page_styles.title)
         cls.set_return_btn()
 

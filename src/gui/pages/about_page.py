@@ -31,19 +31,13 @@ class AboutPage(Page):
     def _set_link_separator(
         cls, *, root: Frame, row: int, column: int, styles: dict[str, Any]
     ) -> None:
-        tk.Label(
-            root,
-            text=LINKS_SEPARATION_TEXT,
-            padx=0,
-            bg=cls.bg_color,
-            **styles,
-        ).grid(row=row, column=column, sticky="ns")
+        label = cls.get_label(root)
+        label.config(text=LINKS_SEPARATION_TEXT, padx=0, **styles)
+        label.grid(row=row, column=column, sticky="ns")
 
     @classmethod
     def load(cls) -> None:
-        bg_color = cls.bg_color
-
-        # - Grids creation:
+        # - Grids:
 
         header_grid = cls.get_grid()
         header_grid.pack(fill="none", padx=85, pady=40)
@@ -59,81 +53,26 @@ class AboutPage(Page):
         links_grid = cls.get_grid()
         links_grid.pack(fill="y", padx=0, pady=100)
 
-        # - Header elements:
-
+        # Header elements
         cls.set_return_btn()
-        shield = tk.Label(header_grid, image=COUNTRY_SHIELD_IMAGE, bg=bg_color)
-        icon = tk.Label(header_grid, image=APP_ICON_IMAGE, bg=bg_color)
-
-        title = tk.Label(
-            header_grid,
-            text=i18n.get("about.title"),
-            bg=bg_color,
-            font=page_styles.title_font,
-        )
-
-        subtitle = tk.Label(
-            header_grid,
-            text=ABOUT_SUBTITLE,
-            bg=bg_color,
-            font=page_styles.subtitle_font,
-        )
+        shield_image = cls.get_label(header_grid, COUNTRY_SHIELD_IMAGE)
+        icon_image = cls.get_label(header_grid, APP_ICON_IMAGE)
+        title = cls.get_label(header_grid)
+        subtitle = cls.get_label(header_grid)
 
         # - Page content:
 
-        address_emoji = tk.Label(
-            content_grid, text=ADDRESS_EMOJI, bg=bg_color, **page_styles.emoji
-        )
+        address_emoji = cls.get_label(content_grid)
+        address_label = cls.get_label(content_grid)
+        address_info = cls.get_label(content_grid)
 
-        address_label = tk.Label(
-            content_grid,
-            text=i18n.get("about.address"),
-            bg=bg_color,
-            **page_styles.label,
-        )
+        phone_emoji = cls.get_label(content_grid)
+        phone_label = cls.get_label(content_grid)
+        phone_info = cls.get_label(content_grid)
 
-        address_info = tk.Label(
-            content_grid,
-            text=f"{ABOUT_ADDRESS_INFO}\n{i18n.get('about.address_country')}",
-            bg=bg_color,
-            **page_styles.label_info,
-        )
-
-        phone_emoji = tk.Label(
-            content_grid, text=PHONE_EMOJI, bg=bg_color, **page_styles.emoji
-        )
-
-        phone_label = tk.Label(
-            content_grid,
-            text=i18n.get("about.phone"),
-            bg=bg_color,
-            **page_styles.label,
-        )
-
-        phone_info = tk.Label(
-            content_grid,
-            text=ABOUT_PHONE_INFO,
-            bg=bg_color,
-            **page_styles.label_info,
-        )
-
-        email_emoji = tk.Label(
-            content_grid, text=EMAIL_EMOJI, bg=bg_color, **page_styles.emoji
-        )
-
-        email_label = tk.Label(
-            content_grid,
-            text=i18n.get("about.email"),
-            bg=bg_color,
-            **page_styles.label,
-        )
-
-        email_info = tk.Label(
-            content_grid,
-            text=ABOUT_EMAIL_INFO,
-            bg=bg_color,
-            **page_styles.label_info,
-        )
+        email_emoji = cls.get_label(content_grid)
+        email_label = cls.get_label(content_grid)
+        email_info = cls.get_label(content_grid)
 
         # Page links
         terms_link = cls.get_button(links_grid)
@@ -142,26 +81,44 @@ class AboutPage(Page):
 
         # - Elements configuration:
 
-        # Header
-        shield.grid(row=0, column=0, sticky="nse")
+        # - Header:
+
+        shield_image.grid(row=0, column=0, sticky="nse")
         cls._set_link_separator(
             root=header_grid, row=0, column=1, styles=page_styles.header_separator
         )
-        icon.grid(row=0, column=2, sticky="nsw")
+
+        icon_image.grid(row=0, column=2, sticky="nsw")
+
+        title.config(text=i18n.get("about.title"), font=page_styles.title_font)
         title.grid(row=1, columnspan=3, sticky="nsew")
+
+        subtitle.config(text=ABOUT_SUBTITLE, font=page_styles.subtitle_font)
         subtitle.grid(row=2, columnspan=3, pady=6, sticky="nsew")
 
         # Address
+        address_emoji.config(text=ADDRESS_EMOJI, **page_styles.emoji)
+        address_label.config(text=i18n.get("about.address"), **page_styles.label)
+        address_info.config(
+            text=f"{ABOUT_ADDRESS_INFO}\n{i18n.get('about.address_country')}",
+            **page_styles.label_info,
+        )
         address_emoji.grid(row=0, column=0, sticky="nsew")
         address_label.grid(row=0, column=1, sticky="nsew")
         address_info.grid(row=0, column=2, sticky="nsew")
 
         # Phone
+        phone_emoji.config(text=PHONE_EMOJI, **page_styles.emoji)
+        phone_label.config(text=i18n.get("about.phone"), **page_styles.label)
+        phone_info.config(text=ABOUT_PHONE_INFO, **page_styles.label_info)
         phone_emoji.grid(row=1, column=0, sticky="nsew")
         phone_label.grid(row=1, column=1, sticky="nsew")
         phone_info.grid(row=1, column=2, sticky="nsw")
 
         # Email
+        email_emoji.config(text=EMAIL_EMOJI, **page_styles.emoji)
+        email_label.config(text=i18n.get("about.email"), **page_styles.label)
+        email_info.config(text=ABOUT_EMAIL_INFO, **page_styles.label_info)
         email_emoji.grid(row=2, column=0, sticky="nse")
         email_label.grid(row=2, column=1, sticky="nsew")
         email_info.grid(row=2, column=2, sticky="nsw")
@@ -172,7 +129,6 @@ class AboutPage(Page):
         terms_link.config(
             text=i18n.get("about.terms.title"),
             command=TermsPage.show,
-            activebackground=bg_color,
             **page_styles.link,
         )
         terms_link.grid(row=0, column=0, sticky="nse")
@@ -184,7 +140,6 @@ class AboutPage(Page):
         policies_link.config(
             text=i18n.get("about.policies.title"),
             command=PoliciesPage.show,
-            activebackground=bg_color,
             **page_styles.link,
         )
         policies_link.grid(row=0, column=2, sticky="ns")
@@ -196,7 +151,6 @@ class AboutPage(Page):
         faq_link.config(
             text=i18n.get("about.faq.title"),
             command=FaqPage.show,
-            activebackground=bg_color,
             **page_styles.link,
         )
         faq_link.grid(row=0, column=4, sticky="nsw")
