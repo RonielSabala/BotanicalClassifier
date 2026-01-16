@@ -1,3 +1,5 @@
+import tkinter as tk
+
 emoji_style = {
     "fg": "DodgerBlue4",
     "font": ("Arial", 32),
@@ -44,4 +46,22 @@ about_pages_title_style = {
     "pady": 0,
     "fg": "#091518",
     "font": ("Arial", 30),
+}
+
+_scrollable_text_style = {
+    "width": 50,
+    "height": 12,
+    "wrap": tk.WORD,
+}
+
+default_scrollable_text_style = {
+    **_scrollable_text_style,
+    "bg": "Gray95",
+    "font": ("Arial", 10),
+}
+
+faq_scrollable_text_style = {
+    **_scrollable_text_style,
+    "relief": "flat",
+    "font": ("Arial", 13),
 }

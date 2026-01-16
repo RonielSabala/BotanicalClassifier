@@ -8,7 +8,7 @@ from common.constants import (
     ABOUT_PHONE_INFO,
     ABOUT_SUBTITLE,
 )
-from common.paths import FAQ_PATH, POLICIES_PATH, TERMS_PATH
+from common.paths import FAQ_PATH, POLICIES_PATH
 from services.about_service import AboutService
 from services.i18n_service import i18n
 
@@ -16,7 +16,9 @@ from ..assets.images import APP_ICON_IMAGE, COUNTRY_SHIELD_IMAGE
 from ..page import Page
 from ..styles.about_page import (
     about_pages_title_style,
+    default_scrollable_text_style,
     emoji_style,
+    faq_scrollable_text_style,
     header_separator_style,
     label_info_style,
     label_style,
@@ -213,11 +215,10 @@ class FaqPage(Page):
 
         # Content
         scrollable_text = scrolledtext.ScrolledText(
-            cls.root, wrap=tk.WORD, width=50, height=12
+            cls.root, **faq_scrollable_text_style
         )
 
         scrollable_text.pack(padx=85, pady=0, fill=tk.BOTH, expand=True)
-        scrollable_text.config(state=tk.NORMAL, font=("Arial", 13), relief="flat")
         scrollable_text.insert(tk.END, AboutService.get_page_content(FAQ_PATH))
         scrollable_text.config(state=tk.DISABLED)
         cls.set_empty_separator(pady=35)
@@ -236,11 +237,9 @@ class PoliciesPage(Page):
 
         # Content
         scrollable_text = scrolledtext.ScrolledText(
-            cls.root, wrap=tk.WORD, width=50, height=12
+            cls.root, **default_scrollable_text_style
         )
-
         scrollable_text.pack(padx=85, pady=0, fill=tk.BOTH, expand=True)
-        scrollable_text.config(state=tk.NORMAL, font=("Arial", 10), bg="Gray95")
         scrollable_text.insert(tk.END, AboutService.get_page_content(POLICIES_PATH))
         scrollable_text.config(state=tk.DISABLED)
         cls.set_empty_separator(pady=30)
@@ -259,11 +258,9 @@ class TermsPage(Page):
 
         # Content
         scrollable_text = scrolledtext.ScrolledText(
-            cls.root, wrap=tk.WORD, width=50, height=12
+            cls.root, **default_scrollable_text_style
         )
-
         scrollable_text.pack(padx=85, pady=0, fill=tk.BOTH, expand=True)
-        scrollable_text.config(state=tk.NORMAL, font=("Arial", 10), bg="Gray95")
-        scrollable_text.insert(tk.END, AboutService.get_page_content(TERMS_PATH))
+        scrollable_text.insert(tk.END, AboutService.get_page_content(POLICIES_PATH))
         scrollable_text.config(state=tk.DISABLED)
         cls.set_empty_separator(pady=30)
