@@ -28,6 +28,10 @@ from ..styles.records_page import (
     odd_row_cells_style,
     page_number_style,
     page_title_style,
+    prediction_cell_style,
+    prediction_column_name_cell_style,
+    prediction_probability_cell_style,
+    prediction_tag_cell_style,
     search_button_style,
 )
 from ..tk_events import EventType
@@ -282,38 +286,36 @@ class RecordsPage(Page):
         return frame
 
     @classmethod
-    def _insert_prediction_cell_element(
+    def _insert_prediction_cell(
         cls, root: Frame, row: int, column: int, cell_value: str
     ) -> None:
-        fg = "Black" if row == 0 else f"Gray{50 + 8 * row}"
-        bg = "GoldenRod1" if row == 0 else "White"
-        tk.Label(
-            root,
-            text=cell_value,
-            fg=fg,
-            bg=bg,
-            font=("Arial", 10),
-        ).grid(row=row, column=column, sticky="nsew")
+        if row == 0:
+            cell_style = prediction_column_name_cell_style
+        else:
+            cell_style = prediction_cell_style
+            cell_style["fg"] = cell_style["fg"].format(gray_tone=50 + 8 * row)
+
+        tk.Label(root, text=cell_value, **cell_style).grid(
+            row=row, column=column, sticky="nsew"
+        )
 
     @classmethod
     def _get_prediction_grid(cls, root: Frame, predictions: list[Prediction]) -> Frame:
         grid = Frame(root, bg=cls.bg_color)
-        prediction_column_names = (
-            i18n.get("records.prediction_tag_column"),
-            i18n.get("records.prediction_probability_column"),
-        )
 
-        # Insert columns names
-        for col, column_name in enumerate(prediction_column_names):
-            fg = "White" if col == 0 else "GoldenRod1"
-            font = "Arial", (12 if col == 0 else 10), "bold"
-            tk.Label(
-                grid,
-                text=column_name,
-                fg=fg,
-                bg="Gray15",
-                font=font,
-            ).grid(row=0, column=col, padx=0, sticky="nsew")
+        # Insert tag cell
+        tk.Label(
+            grid,
+            text=i18n.get("records.prediction_tag_column"),
+            **prediction_tag_cell_style,
+        ).grid(row=0, column=0, padx=0, sticky="nsew")
+
+        # Insert probability cell
+        tk.Label(
+            grid,
+            text=i18n.get("records.prediction_probability_column"),
+            **prediction_probability_cell_style,
+        ).grid(row=0, column=1, padx=0, sticky="nsew")
 
         # Insert predictions
         for row, prediction in enumerate(predictions):
@@ -324,8 +326,8 @@ class RecordsPage(Page):
                 else FAILED_FLOWER_PROBABILITY_EMOJI
             )
 
-            cls._insert_prediction_cell_element(grid, row + 1, 0, tag_name)
-            cls._insert_prediction_cell_element(grid, row + 1, 1, probability)
+            cls._insert_prediction_cell(grid, row + 1, 0, tag_name)
+            cls._insert_prediction_cell(grid, row + 1, 1, probability)
 
         return grid
 

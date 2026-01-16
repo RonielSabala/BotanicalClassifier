@@ -44,6 +44,30 @@ classification_button_style = {
     "font": ("Arial", 16, "bold"),
 }
 
+prediction_cell_style = {
+    "fg": "Gray{gray_tone}",
+    "bg": "White",
+    "font": ("Arial", 10),
+}
+
+prediction_column_name_cell_style = {
+    "fg": "Black",
+    "bg": "GoldenRod1",
+    "font": ("Arial", 10),
+}
+
+prediction_tag_cell_style = {
+    "fg": "White",
+    "bg": "Gray15",
+    "font": ("Arial", 12, "bold"),
+}
+
+prediction_probability_cell_style = {
+    "fg": "GoldenRod1",
+    "bg": "Gray15",
+    "font": ("Arial", 10, "bold"),
+}
+
 add_button_style = {
     **_generic_button_style,
     "bg": "SpringGreen4",
