@@ -24,6 +24,8 @@ from ..styles.about_page import (
     label_style,
     link_separator_style,
     link_style,
+    page_subtitle_font,
+    page_title_font,
 )
 from .menu_page import MenuPage
 
@@ -79,14 +81,14 @@ class AboutPage(Page):
             header_grid,
             text=i18n.get("about.title"),
             bg=bg_color,
-            font=("Arial", 30),
+            font=page_title_font,
         )
 
         subtitle = tk.Label(
             header_grid,
             text=ABOUT_SUBTITLE,
             bg=bg_color,
-            font=("Arial", 15),
+            font=page_subtitle_font,
         )
 
         # - Page content:

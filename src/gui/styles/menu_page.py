@@ -65,9 +65,11 @@ about_button_text_style = {
 
 exit_button_style = {
     **_button_style,
+    "width": 3,
     "relief": "sunken",
     "fg": "Red3",
     "activeforeground": "black",
+    "font": ("Arial", 18, "underline"),
 }
 
 exit_button_text_style = {

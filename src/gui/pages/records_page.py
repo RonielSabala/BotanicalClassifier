@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import Frame, font, messagebox
+from tkinter import Frame, messagebox
 from typing import Any, Optional
 
 from common.utils import is_valid_path
@@ -19,8 +19,11 @@ from ..styles.records_page import (
     add_button_style,
     classification_button_style,
     classification_label_style,
+    column_filter_font,
     column_name_button_style,
     column_name_cell_style,
+    column_name_font,
+    default_cell_font,
     default_cell_style,
     delete_button_style,
     even_row_cells_style,
@@ -215,20 +218,13 @@ class RecordsPage(Page):
 
         cls._filter_column_name = filter_column
 
-        # Update column buttons
+        # Update buttons font
         for col_button in cls._column_buttons:
             button_text = col_button["text"]
-            if button_text not in (prev_filter_column, filter_column):
-                continue
-
-            col_button.config(
-                font=font.Font(
-                    size=16,
-                    family="Arial",
-                    weight="bold",
-                    underline=button_text == filter_column,
-                )
-            )
+            if button_text == filter_column:
+                col_button.config(font=column_filter_font)
+            elif button_text == prev_filter_column:
+                col_button.config(font=column_name_font)
 
     @classmethod
     def _on_filter(cls) -> None:
@@ -361,11 +357,11 @@ class RecordsPage(Page):
             return cell_image
 
         # Label
-        element_font = "Arial", 16, "bold"
+        element_font = column_name_font
         if row > 0 or col in (0, cls._flower_column_index, cls._max_column_index):
             element = tk.Label(root)
             if row > 0:
-                element_font = "Segoe UI Emoji", 13
+                element_font = default_cell_font
                 if col > 0:
                     element.config(cursor="xterm")
 
@@ -373,7 +369,7 @@ class RecordsPage(Page):
         else:
             # Underline filter column
             if cell_value == cls._filter_column_name:
-                element_font += ("underline",)
+                element_font = column_filter_font
 
             element = tk.Button(
                 root,

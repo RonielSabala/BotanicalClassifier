@@ -6,10 +6,13 @@ page_title_style = {
     "font": ("Arial", 32),
 }
 
+default_cell_font = "Segoe UI Emoji", 13
 default_cell_style = {
     "fg": "Black",
 }
 
+column_name_font = ("Arial", 16, "bold")
+column_filter_font = column_name_font + ("underline",)
 column_name_cell_style = {
     "fg": "white",
     "bg": "Dodgerblue4",
@@ -41,7 +44,7 @@ classification_button_style = {
     **primary_button_style,
     "fg": "Black",
     "activeforeground": "VioletRed3",
-    "font": ("Arial", 16, "bold"),
+    "font": column_name_font,
 }
 
 prediction_cell_style = {

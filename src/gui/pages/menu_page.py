@@ -121,7 +121,6 @@ class MenuPage(Page):
 
         # Exit button
         rel_x, rel_y = 0.92, 0.94
-        exit_button.config(font=("Arial", 18, "underline"), width=3)
         exit_button.place(relx=rel_x, rely=rel_y, anchor="center")
         cls.set_text_at(
             coords=(rel_x, rel_y + 0.04),
