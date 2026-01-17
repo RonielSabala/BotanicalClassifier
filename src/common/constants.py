@@ -4,7 +4,6 @@ utilities.
 """
 
 from dataclasses import dataclass
-from datetime import date
 from typing import Final
 
 # GUI
@@ -20,7 +19,6 @@ ALLOWED_IMAGE_EXTENSIONS_STR: Final[str] = "*.png;*.jpg;*.jpeg"
 
 # Copyright / Organization
 COPYRIGHT_SYMBOL: Final[str] = "©"
-CURRENT_YEAR: Final[int] = date.today().year
 COMPANY_NAME: Final[str] = "Jardín Botánico Nacional"
 
 # About / Contact
