@@ -1,3 +1,7 @@
+"""
+Form-level validations and persistence helpers.
+"""
+
 import shutil
 from pathlib import Path
 
@@ -15,33 +19,46 @@ from .i18n_service import i18n
 class FormService:
     @classmethod
     def save_form(cls, record: Record) -> None:
-        # - Update record id and image path:
+        """
+        Persist the given record and copy the user's image
+        into the local images directory.
+        """
 
+        # Determine next id
         record_id = RecordsService.next_record_id()
+
+        # Normalize user-provided image path
         user_image_path = Path(record.image_path)
+
+        # Safe extension
         image_extension = user_image_path.suffix.lower()
         image_filename = f"{IMAGE_FILENAME_PREFIX}_{record_id}{image_extension}"
-        image_path = str(LOCAL_IMAGES_DIR / image_filename)
+        dest_path = LOCAL_IMAGES_DIR / image_filename
 
         record.record_id = record_id
-        record.image_path = image_path
+        record.image_path = str(dest_path)
 
-        # Save record and image
+        # Save image and persist record
+        shutil.copy(user_image_path, dest_path)
         RecordsService.insert_record(record)
-        shutil.copy(user_image_path, image_path)
 
     @staticmethod
-    def _validate_entry(entry_name: str, name_on_error: str) -> bool:
+    def _validate_text_entry(entry_value: str, name_on_error: str) -> bool:
+        """
+        Validate a text entry (name/surname/address). On failure,
+        shows a localized error dialog and returns False.
+        """
+
         is_valid = True
         error_msg = f"{i18n.get('form.utils.enter_entry')} {name_on_error}"
-        if not entry_name:
+        if not entry_value:
             is_valid = False
 
-        elif len(entry_name) < 5:
+        elif len(entry_value) < 5:
             is_valid = False
             error_msg += " " + i18n.get("form.utils.minimum_char_requirement")
 
-        elif len(entry_name) > 50:
+        elif len(entry_value) > 50:
             is_valid = False
             error_msg += " " + i18n.get("form.utils.maximum_char_requirement")
 
@@ -52,6 +69,12 @@ class FormService:
 
     @staticmethod
     def _validate_image_path(image_path: str) -> bool:
+        """
+        If the UI placeholder text is still present, treat
+        as unselected, otherwise, check filesystem existence.
+        On failure, show localized error and return False.
+        """
+
         error_msg = None
         if image_path == i18n.get("form.utils.attach_image"):
             error_msg = i18n.get("form.utils.unselected_image_error")
@@ -67,13 +90,22 @@ class FormService:
 
     @classmethod
     def validate_record(cls, record: Record) -> bool:
+        """
+        Validate `record` and returns True if all validations
+        pass, False otherwise and shows dialogs.
+        """
+
         return (
-            cls._validate_entry(record.name, i18n.get("form.utils.enter_name"))
-            and cls._validate_entry(
+            cls._validate_text_entry(record.name, i18n.get("form.utils.enter_name"))
+            and cls._validate_text_entry(
                 record.surname, i18n.get("form.utils.enter_surname")
             )
-            and cls._validate_entry(
+            and cls._validate_text_entry(
                 record.address, i18n.get("form.utils.enter_address")
             )
             and cls._validate_image_path(record.image_path)
         )
+
+
+# Public API
+__all__ = ("FormService",)
