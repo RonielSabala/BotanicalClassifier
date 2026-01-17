@@ -1,3 +1,7 @@
+"""
+Service to load localized static content.
+"""
+
 from pathlib import Path
 from typing import Callable
 
@@ -8,30 +12,44 @@ from .i18n_service import i18n
 
 class AboutService:
     @staticmethod
-    def _get_page_content(path_getter: Callable[[str], Path]) -> str:
-        with open(path_getter(i18n.current_language), "r", encoding="utf-8") as f:
+    def _load_page(path_getter: Callable[[str], Path]) -> str:
+        """
+        Load and return the content for the page determined by
+        `path_getter`.
+
+        * Parameters:
+            - path_getter: Callable that receives a language code
+            and returns a Path to the content file.
+        """
+
+        lang_code = i18n.current_language
+        with open(path_getter(lang_code), "r", encoding="utf-8") as f:
             return f.read()
 
     @classmethod
     def get_faq(cls) -> str:
         """
-        Return the FAQ text file.
+        Return FAQ content for the current language.
         """
 
-        return cls._get_page_content(faq_path)
+        return cls._load_page(faq_path)
 
     @classmethod
     def get_terms(cls) -> str:
         """
-        Return the Terms text file.
+        Return Terms content for the current language.
         """
 
-        return cls._get_page_content(terms_path)
+        return cls._load_page(terms_path)
 
     @classmethod
     def get_policies(cls) -> str:
         """
-        Return the Policies text file.
+        Return Policies content for the current language.
         """
 
-        return cls._get_page_content(policies_path)
+        return cls._load_page(policies_path)
+
+
+# Public API
+__all__ = ("AboutService",)
