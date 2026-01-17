@@ -84,7 +84,7 @@ class RecordsPage(Page):
 
     @classmethod
     def _reload_records(cls) -> None:
-        cls._all_records = list(RecordsService.load_all_records())
+        cls._all_records = list(RecordsService.iter_records())
 
     @classmethod
     def _filter_records(cls) -> None:

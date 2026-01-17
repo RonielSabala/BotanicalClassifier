@@ -17,7 +17,7 @@ class FormService:
     def save_form(cls, record: Record) -> None:
         # - Update record id and image path:
 
-        record_id = RecordsService.get_next_record_id()
+        record_id = RecordsService.next_record_id()
         user_image_path = Path(record.image_path)
         image_extension = user_image_path.suffix.lower()
         image_filename = f"{IMAGE_FILENAME_PREFIX}_{record_id}{image_extension}"

@@ -12,7 +12,7 @@ _RESOURCES_DIR: Final[Path] = _SRC_DIR / "resources"
 # Local storage
 LOCAL_RESOURCES_DIR: Final[Path] = _RESOURCES_DIR / "local"
 LOCAL_IMAGES_DIR: Final[Path] = LOCAL_RESOURCES_DIR / "images"
-LOCAL_RECORDS_PATH: Final[Path] = LOCAL_RESOURCES_DIR / "records.json"
+LOCAL_RECORDS_FILE: Final[Path] = LOCAL_RESOURCES_DIR / "records.json"
 
 # Images
 _IMAGES_DIR: Final[Path] = _RESOURCES_DIR / "images"
