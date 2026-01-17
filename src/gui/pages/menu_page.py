@@ -37,6 +37,7 @@ class MenuPage(Page):
         for page in Page.__subclasses__():
             page.reset()
 
+        APP_ROOT.title(i18n.get("window.title"))
         super().show()
 
     @classmethod

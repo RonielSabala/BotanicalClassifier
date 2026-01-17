@@ -204,6 +204,17 @@ class RecordsPage(Page):
                 col_button.config(font=page_styles.column_font)
 
     @classmethod
+    def _on_search_change(cls, *args) -> None:
+        current = cls._filter_var.get()
+        if current:
+            return
+
+        if not cls._last_filter.search_text:
+            return
+
+        cls._on_filter()
+
+    @classmethod
     def _on_filter(cls) -> None:
         """
         Busca los registros según el texto
@@ -473,7 +484,8 @@ class RecordsPage(Page):
         search_entry.config(width=30)
         search_entry.grid(row=0, column=1, columnspan=3, padx=0, pady=10, sticky="nsew")
         search_entry.bind(EventType.ESCAPE, lambda event: cls.root.focus_set())
-        search_entry.bind(EventType.RETURN, lambda event: search_button.invoke())
+        search_entry.bind(EventType.RETURN, lambda event: cls._on_filter())
+        cls._filter_var.trace_add("write", lambda *args: cls._on_search_change(args))
 
         # Search button
         search_button.config(
