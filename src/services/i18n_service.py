@@ -2,7 +2,7 @@ import json
 from dataclasses import dataclass, field
 from enum import Enum
 
-from common.paths import I18N_LANG_FILE
+from common.paths import i18n_file_path
 from common.utils import is_valid_path
 
 
@@ -29,11 +29,11 @@ class I18nService:
         self.set_language(self.default.value)
 
     def _add_language(self, lang: str) -> None:
-        lang_path = str(I18N_LANG_FILE).format(lang=lang)
-        if not is_valid_path(lang_path):
-            raise FileNotFoundError(f"Translation file not found: {lang_path}")
+        lang_file = i18n_file_path(lang)
+        if not is_valid_path(lang_file):
+            raise FileNotFoundError(f"Translation file not found: {lang_file}")
 
-        with open(lang_path, "r", encoding="utf-8") as f:
+        with open(lang_file, "r", encoding="utf-8") as f:
             lang_json = json.load(f)
 
         self._catalogs[lang] = {str(k): str(v) for k, v in lang_json.items()}

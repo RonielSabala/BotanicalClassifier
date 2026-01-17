@@ -3,7 +3,6 @@ from enum import Enum
 from typing import Any
 
 from common.constants import ABOUT
-from common.paths import FAQ_PATH, POLICIES_PATH, TERMS_PATH
 from services.about_service import AboutService
 from services.i18n_service import i18n
 
@@ -163,7 +162,7 @@ class FaqPage(Page):
         scrollable_text = cls.get_scrollable_text()
 
         # Elements configuration
-        scrollable_text.insert(tk.END, AboutService.get_page_content(FAQ_PATH))
+        scrollable_text.insert(tk.END, AboutService.get_faq())
         scrollable_text.config(state=tk.DISABLED, **page_styles.faq_scrollable_text)
 
         # - Elements widget configuration:
@@ -189,7 +188,7 @@ class PoliciesPage(Page):
         scrollable_text = cls.get_scrollable_text()
 
         # Elements configuration
-        scrollable_text.insert(tk.END, AboutService.get_page_content(POLICIES_PATH))
+        scrollable_text.insert(tk.END, AboutService.get_policies())
         scrollable_text.config(state=tk.DISABLED, **page_styles.default_scrollable_text)
 
         # - Elements widget configuration:
@@ -215,7 +214,7 @@ class TermsPage(Page):
         scrollable_text = cls.get_scrollable_text()
 
         # Elements configuration
-        scrollable_text.insert(tk.END, AboutService.get_page_content(TERMS_PATH))
+        scrollable_text.insert(tk.END, AboutService.get_terms())
         scrollable_text.config(state=tk.DISABLED, **page_styles.default_scrollable_text)
 
         # - Elements widget configuration:
