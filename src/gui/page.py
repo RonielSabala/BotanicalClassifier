@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import Frame, PhotoImage
+from tkinter import Entry, Frame, PhotoImage
 from typing import Optional
 
 from PIL import ImageTk
@@ -45,9 +45,10 @@ def get_app_rights() -> str:
 class Page:
     root: Frame
     prev_page: Optional[type["Page"]] = None
-    main_entry: Optional[tk.Entry] = None
-    bg_color: str = "White"
+    main_entry: Optional[Entry] = None
     is_loaded: bool = False
+    fg_color: str = app_styles.fg_color
+    bg_color: str = app_styles.bg_color
 
     # - Core methods:
 
@@ -113,7 +114,7 @@ class Page:
             return
 
         main_entry.focus_set()
-        if isinstance(main_entry, tk.Entry):
+        if isinstance(main_entry, Entry):
             main_entry.icursor(tk.END)
 
     @classmethod
@@ -136,10 +137,12 @@ class Page:
             root = cls.root
 
         if image is None:
-            return tk.Label(root, bg=cls.bg_color)
+            label = tk.Label(root)
+        else:
+            label = tk.Label(root, image=image)
+            label.image = image  # type: ignore
 
-        label = tk.Label(root, bg=cls.bg_color, image=image)
-        label.image = image  # type: ignore
+        label.config(fg=cls.fg_color, bg=cls.bg_color)
         return label
 
     @classmethod
@@ -147,14 +150,25 @@ class Page:
         if root is None:
             root = cls.root
 
-        return tk.Button(root, bg=cls.bg_color, activebackground=cls.bg_color)
+        return tk.Button(
+            root,
+            fg=cls.fg_color,
+            bg=cls.bg_color,
+            activeforeground=cls.fg_color,
+            activebackground=cls.bg_color,
+        )
 
     @classmethod
-    def get_entry(cls, root: Optional[Frame] = None) -> tk.Entry:
+    def get_entry(cls, root: Optional[Frame] = None) -> Entry:
         if root is None:
             root = cls.root
 
-        return tk.Entry(root, bg=cls.bg_color)
+        return Entry(
+            root,
+            fg=cls.fg_color,
+            bg=cls.bg_color,
+            selectforeground=cls.fg_color,
+        )
 
     @classmethod
     def get_grid(cls, root: Optional[Frame] = None) -> Frame:
@@ -169,12 +183,15 @@ class Page:
         *,
         text: str,
         pady: int,
-        fg: str,
         font: tuple[str, int],
+        fg: Optional[str] = None,
     ) -> None:
         """
         Coloca un texto en la pagina.
         """
+
+        if fg is None:
+            fg = cls.fg_color
 
         label = cls.get_label()
         label.config(text=text, pady=pady, fg=fg, font=font)
@@ -187,12 +204,15 @@ class Page:
         text: str,
         coords: tuple[float, float],
         anchor: str,
-        fg: str,
         font: tuple[str, int],
+        fg: Optional[str] = None,
     ) -> None:
         """
         Coloca un texto con coordenadas relativas en la pagina.
         """
+
+        if fg is None:
+            fg = cls.fg_color
 
         x, y = coords
         label = cls.get_label()

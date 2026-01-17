@@ -7,6 +7,8 @@ from ..styles import menu_page as page_styles
 
 
 class MenuPage(Page):
+    fg_color = page_styles.fg_color
+
     @classmethod
     def show(cls) -> None:
         cls.config_pages()
@@ -28,23 +30,21 @@ class MenuPage(Page):
         from .form_page import FormPage
         from .records_page import RecordsPage
 
-        fg_color = "#091518"
-
         # - Header elements:
 
         cls.get_label(image=APP_BANNER_IMAGE).pack(padx=10, pady=5)
-        cls.set_text_at(text=i18n.get("menu.header"), fg=fg_color, **page_styles.header)
+        cls.set_text_at(text=i18n.get("menu.header"), **page_styles.header)
 
         page_title = i18n.get("menu.title")
         page_description = i18n.get("menu_description")
-        cls.set_text(text=page_title, fg=fg_color, **page_styles.title)
-        cls.set_text(text=page_description, fg=fg_color, **page_styles.description)
-        cls.set_text(fg=fg_color, **page_styles.description_separator)
+        cls.set_text(text=page_title, **page_styles.title)
+        cls.set_text(text=page_description, **page_styles.description)
+        cls.set_text(**page_styles.description_separator)
 
         page_question = i18n.get("menu.survey_question")
         page_instructions = i18n.get("menu.survey_instructions")
-        cls.set_text(text=page_question, fg=fg_color, **page_styles.question)
-        cls.set_text(text=page_instructions, fg=fg_color, **page_styles.instructions)
+        cls.set_text(text=page_question, **page_styles.question)
+        cls.set_text(text=page_instructions, **page_styles.instructions)
         cls.set_empty_separator(pady=20)
 
         # Page buttons

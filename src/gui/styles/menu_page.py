@@ -1,3 +1,5 @@
+fg_color = "#091518"
+
 header = {
     "coords": (0.5, 0.01),
     "anchor": "center",
@@ -46,7 +48,6 @@ records_button = {
 
 records_button_text = {
     "anchor": "center",
-    "fg": "black",
     "font": ("Arial", 14),
 }
 
@@ -59,7 +60,6 @@ about_button = {
 
 about_button_text = {
     "anchor": "center",
-    "fg": "black",
     "font": ("Arial", 14),
 }
 
@@ -68,7 +68,6 @@ exit_button = {
     "width": 3,
     "relief": "sunken",
     "fg": "Red3",
-    "activeforeground": "black",
     "font": ("Arial", 18, "underline"),
 }
 

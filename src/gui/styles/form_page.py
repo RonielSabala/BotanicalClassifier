@@ -6,13 +6,12 @@ title = {
     "font": ("Arial", 35),
 }
 
-name_entry = {
+entry_label = {
     "pady": 10,
-    "fg": "Black",
     "font": ("Arial", 22),
 }
 
-select_entry = {
+image_entry = {
     **text_entry,
     "cursor": "hand2",
     "state": "readonly",

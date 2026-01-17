@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 from tkinter import messagebox
+from typing import Any
 
 from PIL import Image, ImageTk
 
@@ -42,3 +43,11 @@ def get_resized_image(image_path: str | Path) -> ImageTk.PhotoImage:
 
     base_image.paste(new_image, (x_pos, y_pos), new_image)
     return ImageTk.PhotoImage(base_image)
+
+
+def remove_styles(style: dict[str, Any], to_remove: tuple[str, ...]) -> None:
+    for style_to_remove in to_remove:
+        try:
+            style.pop(style_to_remove)
+        except KeyError:
+            raise KeyError(f"style ({style}) doesn't has the key '{style_to_remove}'")

@@ -1,7 +1,7 @@
 import tkinter as tk
 
-title_font = ("Arial", 30)
-subtitle_font = ("Arial", 15)
+title_font = "Arial", 30
+subtitle_font = "Arial", 15
 
 emoji = {
     "fg": "DodgerBlue4",

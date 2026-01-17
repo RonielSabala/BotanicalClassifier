@@ -195,7 +195,7 @@ class RecordsPage(Page):
 
         cls._filter_column_name = filter_column
 
-        # Update buttons font
+        # Update column buttons
         for col_button in cls._column_buttons:
             button_text = col_button["text"]
             if button_text == filter_column:
@@ -235,7 +235,7 @@ class RecordsPage(Page):
         cls._update_table()
 
     @classmethod
-    def _get_classification_button(cls, root: Frame, record_id: int) -> Frame:
+    def _get_classify_button(cls, root: Frame, record_id: int) -> Frame:
         grid = cls.get_grid(root)
         grid.rowconfigure(0, weight=1)
 
@@ -244,16 +244,12 @@ class RecordsPage(Page):
         label.config(**page_styles.classification_label)
         label.grid(row=0, column=0, pady=5)
 
-        button_style = page_styles.classify_button.copy()
-        button_style.pop("bg")
-        button_style.pop("activebackground")
-
         # Insert button
         button = cls.get_button(grid)
         button.config(
             text=i18n.get("records.classify_button"),
             command=lambda record_id=record_id: cls._classify_record(record_id),
-            **button_style,
+            **page_styles.classify_button,
         )
         button.grid(row=2, column=0)
 
@@ -267,27 +263,29 @@ class RecordsPage(Page):
             page_styles.top_prediction_cell if row == 1 else page_styles.prediction_cell
         )
 
-        tk.Label(root, text=cell_value, **cell_style).grid(
-            row=row, column=col, sticky="nsew"
-        )
+        label = cls.get_label(root)
+        label.config(text=cell_value, **cell_style)
+        label.grid(row=row, column=col, sticky="nsew")
 
     @classmethod
     def _get_prediction_grid(cls, root: Frame, predictions: list[Prediction]) -> Frame:
         grid = cls.get_grid(root)
 
         # Insert tag cell
-        tk.Label(
-            grid,
+        tag_label = cls.get_label(grid)
+        tag_label.config(
             text=i18n.get("records.prediction_tag_column"),
             **page_styles.tag_column_cell,
-        ).grid(row=0, column=0, padx=0, sticky="nsew")
+        )
+        tag_label.grid(row=0, column=0, padx=0, sticky="nsew")
 
         # Insert probability cell
-        tk.Label(
-            grid,
+        probability_label = cls.get_label(grid)
+        probability_label.config(
             text=i18n.get("records.prediction_probability_column"),
             **page_styles.probability_column_cell,
-        ).grid(row=0, column=1, padx=0, sticky="nsew")
+        )
+        probability_label.grid(row=0, column=1, padx=0, sticky="nsew")
 
         # Insert predictions
         for row, prediction in enumerate(predictions):
@@ -329,11 +327,11 @@ class RecordsPage(Page):
             return cls.get_label(root, image=cell_image)
 
         # Label
-        element_font = page_styles.column_font
+        font = page_styles.column_font
         if row > 0 or col in (0, cls._flower_column_index, cls._max_column_index):
-            element = tk.Label(root)
+            element = cls.get_label(root)
             if row > 0:
-                element_font = page_styles.cell_font
+                font = page_styles.cell_font
                 if col > 0:
                     element.config(cursor="xterm")
 
@@ -341,7 +339,7 @@ class RecordsPage(Page):
         else:
             # Underline filter column
             if cell_value == cls._filter_column_name:
-                element_font = page_styles.column_filter_font
+                font = page_styles.column_filter_font
 
             element = cls.get_button(root)
             element.config(
@@ -351,13 +349,22 @@ class RecordsPage(Page):
 
             cls._column_buttons.append(element)
 
-        element.config(text=cell_value, relief="flat", font=element_font)
-        if col not in (0, 1):
-            return element
+        element.config(text=cell_value, font=font, relief="flat")
 
-        # Configure item anchor
-        element_anchor = "center" if row == 0 else ("e" if col == 0 else "w")
-        element.config(anchor=element_anchor, padx=15)
+        # First two columns style
+        if col in (0, 1):
+            element_style = (
+                page_styles.first_column_cell_anchor
+                if row == 0
+                else (
+                    page_styles.index_column_anchor
+                    if col == 0
+                    else page_styles.uploaded_by_column_anchor
+                )
+            )
+
+            element.config(**element_style)
+
         return element
 
     @classmethod
@@ -404,7 +411,7 @@ class RecordsPage(Page):
 
                 # Insert classification button
                 elif cell_value is None:
-                    button = cls._get_classification_button(grid, record_id)
+                    button = cls._get_classify_button(grid, record_id)
                     button.grid(row=row + 1, column=col, padx=0, pady=1)
                     continue
 
@@ -424,9 +431,8 @@ class RecordsPage(Page):
 
                 # Insert button/label
                 else:
-                    cell_styles = {"bg": cls.bg_color, **cls._get_cell_style(row, col)}
                     cell_element = cls._get_cell_element(grid, row, col, cell_value)
-                    cell_element.config(**cell_styles)
+                    cell_element.config(**cls._get_cell_style(row, col))
 
                 cell_element.grid(row=row + 1, column=col, pady=1, sticky="nsew")
 

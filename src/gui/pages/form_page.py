@@ -80,7 +80,7 @@ class FormPage(Page):
     @classmethod
     def _set_entry_name(cls, entry_name: str) -> None:
         cls.set_empty_separator(pady=2)
-        cls.set_text(text=entry_name, **page_styles.name_entry)
+        cls.set_text(text=entry_name, **page_styles.entry_label)
 
     @classmethod
     def load(cls) -> None:
@@ -131,7 +131,7 @@ class FormPage(Page):
 
         # Image entry
         cls._set_entry_name(i18n.get("form.image"))
-        image_entry.config(textvariable=cls._image_var, **page_styles.select_entry)
+        image_entry.config(textvariable=cls._image_var, **page_styles.image_entry)
         image_entry.bind(
             EventType.LEFT_CLICK, lambda event: cls._on_image_select(image_entry)
         )
