@@ -19,10 +19,6 @@ _client = CustomVisionPredictionClient(CUSTOM_VISION_ENDPOINT, _credentials)
 class PredictorService:
     @staticmethod
     def set_flower_prediction(record: Record) -> None:
-        """
-        Devuelve la predicción del modelo a una imagen.
-        """
-
         if record.predictions is not None:
             return
 

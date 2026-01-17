@@ -15,10 +15,6 @@ from .i18n_service import i18n
 class FormService:
     @classmethod
     def save_form(cls, record: Record) -> None:
-        """
-        Guarda un registro en el archivo formularios.
-        """
-
         # - Update record id and image path:
 
         record_id = RecordsService.get_next_record_id()
@@ -36,11 +32,6 @@ class FormService:
 
     @staticmethod
     def _validate_entry(entry_name: str, name_on_error: str) -> bool:
-        """
-        Si el campo es válido devuelve True, de otro
-        modo False y muestra un error personalizado.
-        """
-
         is_valid = True
         error_msg = f"{i18n.get('form.utils.enter_entry')} {name_on_error}"
         if not entry_name:

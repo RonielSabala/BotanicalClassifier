@@ -60,47 +60,19 @@ class Page:
         cls.root.grid(row=0, column=0, sticky="nsew")
 
     @classmethod
-    def config_pages(cls) -> None:
-        """
-        Configura las relaciones entre las páginas
-        anteriores y posteriores de las páginas
-        involucradas en la página actual.
-        """
-        ...
+    def config_pages(cls) -> None: ...
 
     @classmethod
-    def load(cls) -> None:
-        """
-        Carga la pagina con todos sus elementos.
-        """
-
-        ...
+    def load(cls) -> None: ...
 
     @classmethod
-    def close(cls) -> None:
-        """
-        Esta función se llama cada vez que se pasa
-        de la pagina actual a una pagina anterior.
-        """
-
-        ...
+    def close(cls) -> None: ...
 
     @classmethod
-    def destroy(cls) -> None:
-        """
-        Cuando se va a cerrar la pagina principal
-        se llama a esta función para guardar información
-        relevante de la pagina en cuestión.
-        """
-
-        ...
+    def destroy(cls) -> None: ...
 
     @classmethod
     def show(cls) -> None:
-        """
-        Muestra la pagina.
-        """
-
         if not cls._is_loaded:
             cls.load()
             cls._is_loaded = True
@@ -119,10 +91,6 @@ class Page:
 
     @classmethod
     def reset(cls) -> None:
-        """
-        Restablece la página dejándola en blanco.
-        """
-
         cls._is_loaded = False
         cls.root.destroy()
         cls.root = Frame(APP_FRAME)
@@ -196,10 +164,6 @@ class Page:
         font: tuple[str, int],
         fg: Optional[str] = None,
     ) -> None:
-        """
-        Coloca un texto en la pagina.
-        """
-
         if fg is None:
             fg = cls.fg_color
 
@@ -217,10 +181,6 @@ class Page:
         font: tuple[str, int],
         fg: Optional[str] = None,
     ) -> None:
-        """
-        Coloca un texto con coordenadas relativas en la pagina.
-        """
-
         if fg is None:
             fg = cls.fg_color
 
@@ -231,10 +191,6 @@ class Page:
 
     @classmethod
     def set_empty_separator(cls, *, pady: int) -> None:
-        """
-        Coloca un texto en la pagina.
-        """
-
         label = cls.get_label()
         label.config(pady=pady, **app_styles.empty_separator)
         label.pack()
@@ -245,12 +201,6 @@ class Page:
 
     @classmethod
     def set_return_btn(cls) -> None:
-        """
-        Coloca un botón de retorno para ir a la pagina
-        anterior. Si se presiona ESC dicho botón es
-        activado.
-        """
-
         if cls.prev_page is None:
             return
 
@@ -276,9 +226,5 @@ class Page:
 
 
 def destroy_all_pages():
-    """
-    Cierra todas las páginas.
-    """
-
     for page in Page.__subclasses__():
         page.destroy()

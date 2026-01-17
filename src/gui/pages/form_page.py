@@ -41,10 +41,6 @@ class FormPage(Page):
 
     @classmethod
     def _on_save_button(cls) -> None:
-        """
-        Guarda y valida la información del formulario.
-        """
-
         record = Record(
             cls.name_var.get(),
             cls.surname_var.get(),

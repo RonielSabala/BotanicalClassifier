@@ -48,10 +48,6 @@ class RecordsService:
 
     @staticmethod
     def delete_all_records() -> None:
-        """
-        Elimina todos los formularios e imágenes.
-        """
-
         LOCAL_RECORDS_PATH.write_text("{}")
         for image_file in LOCAL_IMAGES_DIR.iterdir():
             image_file.unlink()
@@ -67,11 +63,6 @@ class RecordsService:
 
     @classmethod
     def set_record_prediction(cls, record_id: int) -> None:
-        """
-        Inserta en el registro de la línea especificada
-        la clasificación de la imagen que tiene dicho registro.
-        """
-
         data = cls._get_records_json()
         record = cls._load_record(record_id, data)
         PredictorService.set_flower_prediction(record)

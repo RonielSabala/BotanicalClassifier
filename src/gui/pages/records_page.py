@@ -18,7 +18,6 @@ from ..tk_enums import EventType, MouseType
 from .form_page import FormPage
 from .menu_page import MenuPage
 
-# Table defaults
 MAX_ROW_INDEX_PER_PAGE = 3
 
 # GUI defaults
@@ -119,10 +118,6 @@ class RecordsPage(Page):
 
     @classmethod
     def _update_table(cls) -> None:
-        """
-        Actualiza la tabla.
-        """
-
         cls.reset()
         super().show()
 
@@ -137,11 +132,6 @@ class RecordsPage(Page):
 
     @classmethod
     def _load_prev_page(cls) -> None:
-        """
-        Carga la pagina anterior de registros
-        en la tabla.
-        """
-
         if cls._page_index == 1:
             cls._right_nav_arrow.config(state=tk.DISABLED)
             return
@@ -151,11 +141,6 @@ class RecordsPage(Page):
 
     @classmethod
     def _load_next_page(cls) -> None:
-        """
-        Carga la pagina siguiente de registros
-        en la tabla.
-        """
-
         if cls._page_index == cls._max_page_index:
             cls._left_nav_arrow.config(state=tk.DISABLED)
             return
@@ -165,10 +150,6 @@ class RecordsPage(Page):
 
     @classmethod
     def _on_delete_click(cls) -> None:
-        """
-        Elimina todos los registros guardados.
-        """
-
         if not cls._all_records:
             return
 
@@ -185,10 +166,6 @@ class RecordsPage(Page):
 
     @classmethod
     def _on_column_name_click(cls, filter_column: str) -> None:
-        """
-        Cambia la categoría a buscar.
-        """
-
         prev_filter_column = cls._filter_column_name
         if filter_column == prev_filter_column:
             return
@@ -216,12 +193,6 @@ class RecordsPage(Page):
 
     @classmethod
     def _on_filter(cls) -> None:
-        """
-        Busca los registros según el texto
-        introducido en el campo de texto según
-        la categoría seleccionada.
-        """
-
         current_filter = SearchFilter(cls._filter_var.get(), cls._filter_column_name)
         if current_filter == cls._last_filter:
             return

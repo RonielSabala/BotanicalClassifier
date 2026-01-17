@@ -73,7 +73,6 @@ class MenuPage(Page):
         # - Elements configuration:
 
         # Combobox
-
         rel_x, rel_y = 0, 0
         combobox.config(textvariable=cls._lang_var, **page_styles.language)
         combobox.place(relx=rel_x + 0.005, rely=rel_y + 0.03)
