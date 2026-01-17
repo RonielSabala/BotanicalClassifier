@@ -1,9 +1,13 @@
+"""
+Path constants and helper functions for repository resources.
+All path objects are pathlib.Path instances.
+"""
+
 from pathlib import Path
 from typing import Final
 
-SRC_DIR: Final[Path] = Path(__file__).resolve().parent.parent
-
-_RESOURCES_DIR: Final[Path] = SRC_DIR / "resources"
+_SRC_DIR: Final[Path] = Path(__file__).resolve().parent.parent
+_RESOURCES_DIR: Final[Path] = _SRC_DIR / "resources"
 
 # Local storage
 LOCAL_RESOURCES_DIR: Final[Path] = _RESOURCES_DIR / "local"

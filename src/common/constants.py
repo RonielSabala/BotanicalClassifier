@@ -1,5 +1,6 @@
 """
-Application constants and defaults used by the GUI and image utilities.
+Application constants and defaults used by the GUI and image
+utilities.
 """
 
 from dataclasses import dataclass

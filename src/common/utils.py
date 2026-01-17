@@ -1,3 +1,7 @@
+"""
+Utility functions used by the GUI.
+"""
+
 from pathlib import Path
 from tkinter import messagebox
 from typing import Any, Iterable

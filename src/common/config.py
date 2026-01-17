@@ -1,3 +1,8 @@
+"""
+This module loads Azure Custom Vision API credentials from
+environment variables.
+"""
+
 import os
 
 from dotenv import load_dotenv
