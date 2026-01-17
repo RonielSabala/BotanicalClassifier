@@ -559,5 +559,5 @@ class RecordsPage(Page):
         add_record_button.pack(pady=0)
         delete_button.pack(pady=12)
 
-        cls.set_app_rights()
+        cls.set_copyright()
         cls._fill_records_grid(records_grid)

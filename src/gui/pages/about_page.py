@@ -156,7 +156,7 @@ class AboutPage(Page):
         )
         faq_link.grid(row=0, column=4, sticky="nsw")
 
-        cls.set_app_rights()
+        cls.set_copyright()
 
 
 class FaqPage(Page):

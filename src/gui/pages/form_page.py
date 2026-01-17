@@ -149,4 +149,4 @@ class FormPage(Page):
         # Save button
         save_button.pack(pady=40)
 
-        cls.set_app_rights()
+        cls.set_copyright()

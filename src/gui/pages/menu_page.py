@@ -3,7 +3,8 @@ import tkinter as tk
 from services.i18n_service import Language, i18n
 
 from ..assets.images import APP_BANNER_IMAGE
-from ..page import APP_ROOT, Page, set_app_title
+from ..main import ROOT, set_window_title
+from ..page import Page
 from ..styles import app as app_styles
 from ..styles import menu_page as page_styles
 from ..tk_enums import EventType
@@ -24,14 +25,10 @@ class MenuPage(Page):
         for page in Page.__subclasses__():
             page.reset()
 
-        set_app_title()
+        set_window_title()
         super().show()
 
     # - Overridden methods:
-
-    @classmethod
-    def destroy(cls) -> None:
-        APP_ROOT.destroy()
 
     @classmethod
     def show(cls) -> None:
@@ -73,7 +70,7 @@ class MenuPage(Page):
         )
         exit_button.config(
             text=i18n.get("menu.exit_button"),
-            command=Page.destroy_inner_pages,
+            command=ROOT.destroy,
             **page_styles.exit_button,
         )
 
@@ -133,4 +130,4 @@ class MenuPage(Page):
             **page_styles.exit_button_text,
         )
 
-        cls.set_app_rights()
+        cls.set_copyright()
