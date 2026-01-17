@@ -5,7 +5,7 @@ from common.constants import IMAGE_FILENAME_PREFIX
 from common.paths import (
     LOCAL_IMAGES_DIR,
 )
-from common.utils import is_valid_path, show_error_messagebox
+from common.utils import path_exists, show_error_messagebox
 from models.record_model import Record
 from services.records_service import RecordsService
 
@@ -56,7 +56,7 @@ class FormService:
         if image_path == i18n.get("form.utils.attach_image"):
             error_msg = i18n.get("form.utils.unselected_image_error")
 
-        elif not is_valid_path(image_path):
+        elif not path_exists(image_path):
             error_msg = i18n.get("form.utils.invalid_image_error")
 
         is_valid = error_msg is None

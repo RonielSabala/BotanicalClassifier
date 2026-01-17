@@ -3,7 +3,7 @@ from dataclasses import dataclass, field
 from enum import Enum
 
 from common.paths import i18n_file_path
-from common.utils import is_valid_path
+from common.utils import path_exists
 
 
 class Language(str, Enum):
@@ -30,7 +30,7 @@ class I18nService:
 
     def _add_language(self, lang: str) -> None:
         lang_file = i18n_file_path(lang)
-        if not is_valid_path(lang_file):
+        if not path_exists(lang_file):
             raise FileNotFoundError(f"Translation file not found: {lang_file}")
 
         with open(lang_file, "r", encoding="utf-8") as f:

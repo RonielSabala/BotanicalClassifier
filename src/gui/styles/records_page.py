@@ -1,6 +1,6 @@
 from typing import Any
 
-from common.utils import remove_styles
+from common.utils import remove_keys_from_mapping
 
 from ..tk_enums import MouseType
 from .app import _generic_button, primary_button
@@ -53,7 +53,7 @@ classify_button = {
     "activeforeground": "VioletRed3",
     "font": column_font,
 }
-remove_styles(classify_button, ("bg", "activebackground"))
+remove_keys_from_mapping(classify_button, ("bg", "activebackground"))
 
 top_prediction_cell = {
     "bg": "GoldenRod1",

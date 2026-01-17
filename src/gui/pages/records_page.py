@@ -4,7 +4,7 @@ from enum import Enum
 from tkinter import messagebox
 from typing import Any, Optional
 
-from common.utils import get_resized_image, is_valid_path
+from common.utils import load_resized_image_tk, path_exists
 from gui.assets.images import EMPTY_IMAGE
 from models.prediction_model import Prediction
 from models.record_model import Record
@@ -309,8 +309,8 @@ class RecordsPage(Page):
         # Flower image
         if row > 0 and col == TableIndices.FLOWER_COLUMN_INDEX:
             cell_image = (
-                get_resized_image(cell_value)
-                if is_valid_path(cell_value)
+                load_resized_image_tk(cell_value)
+                if path_exists(cell_value)
                 else EMPTY_IMAGE
             )
 

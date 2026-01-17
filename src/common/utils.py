@@ -1,26 +1,40 @@
-import os
 from pathlib import Path
 from tkinter import messagebox
-from typing import Any
+from typing import Any, Iterable
 
 from PIL import Image, ImageTk
 
 from .constants import IMAGE_BG_RGBA, IMAGE_MODE, IMAGE_SIZE_PX
 
 
-def is_valid_path(path: str | Path) -> bool:
-    return os.path.exists(path)
+def path_exists(path: str | Path) -> bool:
+    return Path(path).exists()
 
 
 def show_error_messagebox(error_message: str) -> None:
+    """
+    Show an error messagebox with a standard title.
+    """
+
     messagebox.showerror("Error", error_message)
 
 
-def get_image_from_path(image_path: Path) -> ImageTk.PhotoImage:
-    return ImageTk.PhotoImage(Image.open(image_path))
+def load_image_tk(image_path: Path) -> ImageTk.PhotoImage:
+    """
+    Load an image from disk and return a Tk-compatible
+    PhotoImage.
+    """
+
+    img = Image.open(image_path).convert(IMAGE_MODE)
+    return ImageTk.PhotoImage(img)
 
 
-def get_resized_image(image_path: str | Path) -> ImageTk.PhotoImage:
+def load_resized_image_tk(image_path: str | Path) -> ImageTk.PhotoImage:
+    """
+    Load an image from `image_path`, resize it to fit
+    inside a square preserving aspect ratio.
+    """
+
     image = Image.open(image_path).convert(IMAGE_MODE)
     base_image = Image.new(
         IMAGE_MODE,
@@ -45,9 +59,13 @@ def get_resized_image(image_path: str | Path) -> ImageTk.PhotoImage:
     return ImageTk.PhotoImage(base_image)
 
 
-def remove_styles(style: dict[str, Any], to_remove: tuple[str, ...]) -> None:
-    for style_to_remove in to_remove:
+def remove_keys_from_mapping(style: dict[str, Any], to_remove: Iterable[str]) -> None:
+    """
+    Remove keys from a mapping in-place.
+    """
+
+    for key in to_remove:
         try:
-            style.pop(style_to_remove)
+            style.pop(key)
         except KeyError:
-            raise KeyError(f"style ({style}) doesn't has the key '{style_to_remove}'")
+            raise KeyError(f"style ({style}) doesn't has the key '{key}'")
