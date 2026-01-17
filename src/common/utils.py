@@ -5,7 +5,7 @@ from typing import Any
 
 from PIL import Image, ImageTk
 
-from .constants import BASE_IMAGE_COLOR, BASE_IMAGE_MODE, BASE_IMAGE_SIZE_PIXELS
+from .constants import IMAGE_BG_RGBA, IMAGE_MODE, IMAGE_SIZE_PX
 
 
 def is_valid_path(path: str | Path) -> bool:
@@ -21,25 +21,25 @@ def get_image_from_path(image_path: Path) -> ImageTk.PhotoImage:
 
 
 def get_resized_image(image_path: str | Path) -> ImageTk.PhotoImage:
-    image = Image.open(image_path).convert(BASE_IMAGE_MODE)
+    image = Image.open(image_path).convert(IMAGE_MODE)
     base_image = Image.new(
-        BASE_IMAGE_MODE,
-        (BASE_IMAGE_SIZE_PIXELS, BASE_IMAGE_SIZE_PIXELS),
-        BASE_IMAGE_COLOR,  # type: ignore
+        IMAGE_MODE,
+        (IMAGE_SIZE_PX, IMAGE_SIZE_PX),
+        IMAGE_BG_RGBA,  # type: ignore
     )
 
     image_width, image_height = image.size
     ratio = min(
-        BASE_IMAGE_SIZE_PIXELS / image_width,
-        BASE_IMAGE_SIZE_PIXELS / image_height,
+        IMAGE_SIZE_PX / image_width,
+        IMAGE_SIZE_PX / image_height,
     )
 
     new_width = int(image_width * ratio)
     new_height = int(image_height * ratio)
     new_image = image.resize((new_width, new_height))
 
-    x_pos = (BASE_IMAGE_SIZE_PIXELS - new_width) // 2
-    y_pos = (BASE_IMAGE_SIZE_PIXELS - new_height) // 2
+    x_pos = (IMAGE_SIZE_PX - new_width) // 2
+    y_pos = (IMAGE_SIZE_PX - new_height) // 2
 
     base_image.paste(new_image, (x_pos, y_pos), new_image)
     return ImageTk.PhotoImage(base_image)

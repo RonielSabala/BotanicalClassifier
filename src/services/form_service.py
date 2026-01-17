@@ -1,7 +1,7 @@
 import shutil
 from pathlib import Path
 
-from common.constants import LOCAL_IMAGES_PREFIX
+from common.constants import IMAGE_FILENAME_PREFIX
 from common.paths import (
     LOCAL_IMAGES_DIR,
 )
@@ -20,7 +20,7 @@ class FormService:
         record_id = RecordsService.get_next_record_id()
         user_image_path = Path(record.image_path)
         image_extension = user_image_path.suffix.lower()
-        image_filename = f"{LOCAL_IMAGES_PREFIX}_{record_id}{image_extension}"
+        image_filename = f"{IMAGE_FILENAME_PREFIX}_{record_id}{image_extension}"
         image_path = str(LOCAL_IMAGES_DIR / image_filename)
 
         record.record_id = record_id

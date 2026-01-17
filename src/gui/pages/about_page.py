@@ -2,12 +2,7 @@ import tkinter as tk
 from enum import Enum
 from typing import Any
 
-from common.constants import (
-    ABOUT_ADDRESS_INFO,
-    ABOUT_EMAIL_INFO,
-    ABOUT_PHONE_INFO,
-    ABOUT_SUBTITLE,
-)
+from common.constants import ABOUT
 from common.paths import FAQ_PATH, POLICIES_PATH, TERMS_PATH
 from services.about_service import AboutService
 from services.i18n_service import i18n
@@ -79,22 +74,22 @@ class AboutPage(Page):
         content_grid.grid_columnconfigure(1, pad=40)
 
         title.config(text=i18n.get("about.title"), **page_styles.title)
-        subtitle.config(text=ABOUT_SUBTITLE, font=page_styles.subtitle_font)
+        subtitle.config(text=ABOUT.subtitle, font=page_styles.subtitle_font)
 
         address_emoji.config(text=PageSymbols.ADDRESS, **page_styles.emoji)
         address_label.config(text=i18n.get("about.address"), **page_styles.label)
         address_info.config(
-            text=f"{ABOUT_ADDRESS_INFO}\n{i18n.get('about.address_country')}",
+            text=f"{ABOUT.address}\n{i18n.get('about.address_country')}",
             **page_styles.label_info,
         )
 
         phone_emoji.config(text=PageSymbols.PHONE, **page_styles.emoji)
         phone_label.config(text=i18n.get("about.phone"), **page_styles.label)
-        phone_info.config(text=ABOUT_PHONE_INFO, **page_styles.label_info)
+        phone_info.config(text=ABOUT.address, **page_styles.label_info)
 
         email_emoji.config(text=PageSymbols.EMAIL, **page_styles.emoji)
         email_label.config(text=i18n.get("about.email"), **page_styles.label)
-        email_info.config(text=ABOUT_EMAIL_INFO, **page_styles.label_info)
+        email_info.config(text=ABOUT.email, **page_styles.label_info)
 
         terms_link.config(
             text=i18n.get("about.terms.title"),

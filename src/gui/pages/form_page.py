@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import filedialog
 
-from common.constants import ALLOWED_IMAGE_EXTENSIONS
+from common.constants import ALLOWED_IMAGE_EXTENSIONS_STR
 from common.utils import show_error_messagebox
 from models.record_model import Record
 from services.form_service import FormService
@@ -34,7 +34,7 @@ class FormPage(Page):
     def _on_image_select(cls, image_entry: tk.Entry) -> None:
         user_image = filedialog.askopenfilename(
             title=i18n.get("form.utils.attach_image"),
-            filetypes=[(i18n.get("form.image_files"), ALLOWED_IMAGE_EXTENSIONS)],
+            filetypes=[(i18n.get("form.image_files"), ALLOWED_IMAGE_EXTENSIONS_STR)],
         )
 
         cls.image_path = user_image
