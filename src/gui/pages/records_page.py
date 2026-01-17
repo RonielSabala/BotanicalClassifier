@@ -440,7 +440,7 @@ class RecordsPage(Page):
     def load(cls) -> None:
         # Header elements
         cls.get_label(image=APP_ICON_IMAGE).pack(padx=20, pady=15)
-        cls.set_text(text=i18n.get("records.title"), **page_styles.title)
+        cls.set_text(text=i18n.get("records.title"), **app_styles.page_title)
         cls.set_empty_separator(pady=2)
         cls.set_return_btn()
 

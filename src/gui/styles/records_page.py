@@ -4,12 +4,6 @@ from common.utils import remove_styles
 
 from .app import _generic_button, primary_button
 
-title = {
-    "pady": 0,
-    "fg": "#091518",
-    "font": ("Arial", 32),
-}
-
 cell = {}
 cell_font = "Segoe UI Emoji", 13
 

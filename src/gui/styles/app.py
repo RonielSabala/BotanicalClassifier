@@ -3,6 +3,12 @@ from typing import Any
 fg_color = "Black"
 bg_color = "White"
 
+page_title = {
+    "pady": 0,
+    "fg": "#091518",
+    "font": ("Arial", 35),
+}
+
 empty_separator = {
     "text": "",
     "font": ("arial", 0),

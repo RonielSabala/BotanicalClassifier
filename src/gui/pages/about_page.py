@@ -90,7 +90,7 @@ class AboutPage(Page):
 
         icon_image.grid(row=0, column=2, sticky="nsw")
 
-        title.config(text=i18n.get("about.title"), font=page_styles.title_font)
+        title.config(text=i18n.get("about.title"), **page_styles.title)
         title.grid(row=1, columnspan=3, sticky="nsew")
 
         subtitle.config(text=ABOUT_SUBTITLE, font=page_styles.subtitle_font)
@@ -166,7 +166,7 @@ class FaqPage(Page):
         # Header
         cls.set_return_btn()
         cls.set_empty_separator(pady=35)
-        cls.set_text(text=i18n.get("about.faq.title"), **page_styles.inner_pages_title)
+        cls.set_text(text=i18n.get("about.faq.title"), **page_styles.title)
         cls.set_empty_separator(pady=25)
 
         # Content
@@ -187,9 +187,7 @@ class PoliciesPage(Page):
         # Header
         cls.set_return_btn()
         cls.set_empty_separator(pady=35)
-        cls.set_text(
-            text=i18n.get("about.policies.title"), **page_styles.inner_pages_title
-        )
+        cls.set_text(text=i18n.get("about.policies.title"), **page_styles.title)
         cls.set_empty_separator(pady=0)
 
         # Content
@@ -210,9 +208,7 @@ class TermsPage(Page):
         # Header
         cls.set_return_btn()
         cls.set_empty_separator(pady=35)
-        cls.set_text(
-            text=i18n.get("about.terms.title"), **page_styles.inner_pages_title
-        )
+        cls.set_text(text=i18n.get("about.terms.title"), **page_styles.title)
         cls.set_empty_separator(pady=0)
 
         # Content

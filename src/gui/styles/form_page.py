@@ -1,9 +1,8 @@
-from .app import text_entry
+from .app import page_title, text_entry
 
 title = {
+    **page_title,
     "pady": 15,
-    "fg": "#091518",
-    "font": ("Arial", 35),
 }
 
 entry_label = {

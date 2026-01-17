@@ -7,8 +7,6 @@ from ..styles import menu_page as page_styles
 
 
 class MenuPage(Page):
-    fg_color = page_styles.fg_color
-
     @classmethod
     def show(cls) -> None:
         cls.config_pages()

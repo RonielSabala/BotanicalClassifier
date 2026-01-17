@@ -1,4 +1,4 @@
-fg_color = "#091518"
+from .app import page_title
 
 header = {
     "coords": (0.5, 0.01),
@@ -7,8 +7,8 @@ header = {
 }
 
 title = {
+    **page_title,
     "pady": 10,
-    "font": ("Arial", 35),
 }
 
 description = {

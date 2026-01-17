@@ -1,6 +1,12 @@
 import tkinter as tk
 
-title_font = "Arial", 30
+from .app import page_title
+
+title = {
+    **page_title,
+    "font": ("Arial", 30),
+}
+
 subtitle_font = "Arial", 15
 
 emoji = {
@@ -43,12 +49,6 @@ link_separator = {
 header_separator = {
     "fg": "Gray20",
     "font": ("Arial", 25),
-}
-
-inner_pages_title = {
-    "pady": 0,
-    "fg": "#091518",
-    "font": title_font,
 }
 
 _scrollable_text = {
