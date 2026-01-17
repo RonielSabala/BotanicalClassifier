@@ -189,7 +189,7 @@ class Page(ABC):
 
     @classmethod
     def set_copyright(cls) -> None:
-        cls.set_text_at(text=get_copyright(), **app_styles.footer)
+        cls.set_text_at(text=get_copyright(), **app_styles.copyright_text)
 
     @classmethod
     def set_empty_separator(cls, *, pady: int) -> None:

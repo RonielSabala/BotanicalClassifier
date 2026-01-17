@@ -54,7 +54,7 @@ text_entry = {
     "font": ("Arial", 18),
 }
 
-footer = {
+copyright_text = {
     "coords": (0.5, 0.98),
     "anchor": "center",
     "font": ("Arial", 9),

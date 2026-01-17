@@ -11,9 +11,9 @@ LOCAL_RESOURCES_DIR.mkdir(parents=True, exist_ok=True)
 LOCAL_IMAGES_DIR.mkdir(parents=True, exist_ok=True)
 LOCAL_RECORDS_PATH.touch(exist_ok=True)
 
-# Config app
 app.set_window_title()
 
-# Show menu page
+# Show menu page at the beginning
 MenuPage.show()
+
 app.ROOT.mainloop()
