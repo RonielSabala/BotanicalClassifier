@@ -1,6 +1,6 @@
 import tkinter as tk
 from abc import ABC, abstractmethod
-from tkinter import ttk
+from tkinter import scrolledtext, ttk
 from typing import Optional
 
 from PIL import ImageTk
@@ -153,12 +153,20 @@ class Page(ABC):
         return tk.Frame(root, bg=cls.bg_color)
 
     @classmethod
-    def get_combobox(cls, *, values: tuple[str, ...]) -> tk.Entry:
+    def get_combobox(cls, *, values: tuple[str, ...]) -> ttk.Combobox:
         return ttk.Combobox(
             cls.root,
             values=values,
             background=cls.bg_color,
             foreground=cls.fg_color,
+        )
+
+    @classmethod
+    def get_scrollable_text(cls) -> scrolledtext.ScrolledText:
+        return scrolledtext.ScrolledText(
+            cls.root,
+            fg=cls.fg_color,
+            bg=cls.bg_color,
         )
 
     @classmethod

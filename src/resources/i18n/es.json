@@ -6,9 +6,9 @@
 
   "menu.title": "Flor Survey",
   "menu.header": "Presidencia de la República: www.presidencia.gob.do",
-  "menu_description": "Estamos realizando una investigación a nivel nacional para calcular\nla cantidad de flores de cada tipo que tienen las personas\nen sus hogares.",
-  "menu.survey_question": "¿Te gustaría participar?",
-  "menu.survey_instructions": "Solo tienes que completar la siguiente encuesta:",
+  "menu.description": "Estamos realizando una investigación a nivel nacional para calcular\nla cantidad de flores de cada tipo que tienen las personas\nen sus hogares.",
+  "menu.question": "¿Te gustaría participar?",
+  "menu.instructions": "Solo tienes que completar la siguiente encuesta:",
   "menu.form_button": "Llenar encuesta",
   "menu.records_button": "Registros",
   "menu.about_button": "Sobre\nnosotros",

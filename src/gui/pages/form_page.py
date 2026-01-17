@@ -21,6 +21,15 @@ class FormPage(Page):
     _image_var = tk.StringVar()
     image_path = ""
 
+    # - Utils:
+
+    @classmethod
+    def _set_entry_name(cls, entry_name: str) -> None:
+        cls.set_empty_separator(pady=2)
+        cls.set_text(text=entry_name, **page_styles.entry_label)
+
+    # - on_verb methods:
+
     @classmethod
     def _on_image_select(cls, image_entry: tk.Entry) -> None:
         user_image = filedialog.askopenfilename(
@@ -55,34 +64,22 @@ class FormPage(Page):
             show_error_messagebox(f"{i18n.get('form.save_error')}: {e}")
             return
 
-        # Show previous page
-        prev_page = cls.prev_page
-        if prev_page is not None:
-            prev_page.show()
+        if cls.prev_page is not None:
+            cls.prev_page.show()
+
+    # - Overridden methods:
 
     @classmethod
     def show(cls) -> None:
-        # Reset variables
         cls.name_var.set("")
         cls.surname_var.set("")
         cls.address_var.set("")
         cls._image_var.set(i18n.get("form.utils.attach_image"))
         cls.image_path = cls._image_var.get()
-
         super().show()
 
     @classmethod
-    def _set_entry_name(cls, entry_name: str) -> None:
-        cls.set_empty_separator(pady=2)
-        cls.set_text(text=entry_name, **page_styles.entry_label)
-
-    @classmethod
     def load(cls) -> None:
-        # Header elements
-        cls.set_return_button()
-        cls.get_label(image=APP_ICON_IMAGE).pack(padx=10, pady=15)
-        cls.set_text(text=i18n.get("form.title"), **page_styles.title)
-
         # Page elements
         name_entry = cls.get_entry()
         surname_entry = cls.get_entry()
@@ -90,53 +87,66 @@ class FormPage(Page):
         image_entry = cls.get_entry()
         save_button = cls.get_button()
 
-        # - Elements configuration:
-
+        # Elements configuration
         cls.main_entry = name_entry
-
-        # Name entry
-        cls._set_entry_name(i18n.get("form.name"))
         name_entry.config(textvariable=cls.name_var, **app_styles.text_entry)
+        surname_entry.config(textvariable=cls.surname_var, **app_styles.text_entry)
+        address_entry.config(textvariable=cls.address_var, **app_styles.text_entry)
+        image_entry.config(textvariable=cls._image_var, **page_styles.image_entry)
+        save_button.config(
+            text=i18n.get("form.save"),
+            command=cls._on_save_button,
+            **app_styles.primary_button,
+        )
+
+        # Elements bindings configuration:
+
         name_entry.bind(EventType.ESCAPE, lambda event: cls.root.focus_set())
         name_entry.bind(EventType.ARROW_DOWN, lambda event: surname_entry.focus_set())
         name_entry.bind(EventType.RETURN, lambda event: surname_entry.focus_set())
-        name_entry.pack()
 
-        # Surname entry
-        cls._set_entry_name(i18n.get("form.surname"))
-        surname_entry.config(textvariable=cls.surname_var, **app_styles.text_entry)
         surname_entry.bind(EventType.ESCAPE, lambda event: cls.root.focus_set())
         surname_entry.bind(EventType.ARROW_UP, lambda event: name_entry.focus_set())
         surname_entry.bind(
             EventType.ARROW_DOWN, lambda event: address_entry.focus_set()
         )
         surname_entry.bind(EventType.RETURN, lambda event: address_entry.focus_set())
-        surname_entry.pack()
 
-        # Address entry
-        cls._set_entry_name(i18n.get("form.address"))
-        address_entry.config(textvariable=cls.address_var, **app_styles.text_entry)
         address_entry.bind(EventType.ESCAPE, lambda event: cls.root.focus_set())
         address_entry.bind(EventType.ARROW_UP, lambda event: surname_entry.focus_set())
         address_entry.bind(
             EventType.RETURN, lambda event: cls._on_image_select(image_entry)
         )
-        address_entry.pack()
 
-        # Image entry
-        cls._set_entry_name(i18n.get("form.image"))
-        image_entry.config(textvariable=cls._image_var, **page_styles.image_entry)
         image_entry.bind(
             EventType.LEFT_CLICK, lambda event: cls._on_image_select(image_entry)
         )
+
+        # - Elements widget arrangement:
+
+        cls.set_return_button()
+
+        # Header
+        cls.get_label(image=APP_ICON_IMAGE).pack(padx=10, pady=15)
+        cls.set_text(text=i18n.get("form.title"), **page_styles.title)
+
+        # Name field
+        cls._set_entry_name(i18n.get("form.name"))
+        name_entry.pack()
+
+        # Surname field
+        cls._set_entry_name(i18n.get("form.surname"))
+        surname_entry.pack()
+
+        # Address field
+        cls._set_entry_name(i18n.get("form.address"))
+        address_entry.pack()
+
+        # Image field
+        cls._set_entry_name(i18n.get("form.image"))
         image_entry.pack(padx=10, pady=10)
 
         # Save button
-        save_button.config(
-            text=i18n.get("form.save"),
-            command=lambda: cls._on_save_button(),
-            **app_styles.primary_button,
-        )
         save_button.pack(pady=40)
 
         cls.set_app_rights()

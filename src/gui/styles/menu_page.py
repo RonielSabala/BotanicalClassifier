@@ -47,7 +47,7 @@ instructions = {
 _button = {
     "width": 2,
     "border": 0,
-    "cursor": MouseType.HAND,
+    "cursor": MouseType.CAN_CLICK,
     "font": ("Arial", 50),
 }
 

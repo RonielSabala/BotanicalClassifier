@@ -21,7 +21,7 @@ _generic_button = {
     "padx": 5,
     "pady": 2,
     "relief": "flat",
-    "cursor": MouseType.HAND,
+    "cursor": MouseType.CAN_CLICK,
     "font": ("Arial", 16, "bold"),
 }
 
@@ -36,7 +36,7 @@ return_button = {
     "border": 0,
     "anchor": "s",
     "relief": "flat",
-    "cursor": MouseType.HAND,
+    "cursor": MouseType.CAN_CLICK,
     "activebackground": "Gray78",
     "font": ("Arial", 25),
 }

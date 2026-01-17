@@ -2,7 +2,10 @@ from enum import Enum
 
 
 class MouseType(str, Enum):
-    HAND = "hand2"
+    DEFAULT = "arrow"
+    CAN_CLICK = "hand2"
+    CANT_CLICK = "no"
+    READ_TEXT = "xterm"
 
 
 class EventType(str, Enum):

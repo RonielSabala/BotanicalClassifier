@@ -6,9 +6,9 @@
 
   "menu.title": "Flower Survey",
   "menu.header": "Presidency of the Republic: www.presidencia.gob.do",
-  "menu_description": "We are conducting a nationwide study to estimate\nthe number of each type of flower that people\nkeep in their households.",
-  "menu.survey_question": "Would you like to participate?",
-  "menu.survey_instructions": "You only need to complete the following survey:",
+  "menu.description": "We are conducting a nationwide study to estimate\nthe number of each type of flower that people\nkeep in their households.",
+  "menu.question": "Would you like to participate?",
+  "menu.instructions": "You only need to complete the following survey:",
   "menu.form_button": "Take survey",
   "menu.records_button": "Records",
   "menu.about_button": "About\nus",

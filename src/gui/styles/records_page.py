@@ -5,7 +5,6 @@ from common.utils import remove_styles
 from ..tk_enums import MouseType
 from .app import _generic_button, primary_button
 
-cell = {}
 cell_font = "Segoe UI Emoji", 13
 
 even_row_cell = {
@@ -21,12 +20,12 @@ first_column_cell_anchor = {
     "anchor": "center",
 }
 
-index_column_anchor = {
+index_cell_column_anchor = {
     "padx": 15,
     "anchor": "e",
 }
 
-uploaded_by_column_anchor = {
+uploaded_by_cell_column_anchor = {
     "padx": 15,
     "anchor": "w",
 }
@@ -40,11 +39,11 @@ column_cell = {
 
 column_button = {
     "border": 0,
-    "cursor": MouseType.HAND,
+    "cursor": MouseType.CAN_CLICK,
     "activebackground": "DodgerBlue4",
 }
 
-classification_label = {
+empty_prediction_cell_label = {
     "text": "N/A",
     "font": ("Arial", 13),
 }
@@ -56,13 +55,13 @@ classify_button = {
 }
 remove_styles(classify_button, ("bg", "activebackground"))
 
-prediction_cell = {
-    "fg": "Gray60",
+top_prediction_cell = {
+    "bg": "GoldenRod1",
     "font": ("Arial", 10),
 }
 
-top_prediction_cell = {
-    "bg": "GoldenRod1",
+failed_prediction_cell = {
+    "fg": "Gray60",
     "font": ("Arial", 10),
 }
 
@@ -95,7 +94,7 @@ delete_all_button = {
 }
 
 search_button = {
-    "cursor": MouseType.HAND,
+    "cursor": MouseType.CAN_CLICK,
     "bg": "gray90",
     "activebackground": "gray80",
     "font": ("Arial", 13),

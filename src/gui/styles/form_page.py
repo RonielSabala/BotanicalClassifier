@@ -13,6 +13,6 @@ entry_label = {
 
 image_entry = {
     **text_entry,
-    "cursor": MouseType.HAND,
+    "cursor": MouseType.CAN_CLICK,
     "state": "readonly",
 }
