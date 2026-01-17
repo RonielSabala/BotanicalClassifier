@@ -1,24 +1,25 @@
 {
   "cSpell.words": [
-    "shutil",
-    "dotenv",
-    "msrest",
-    "tkinter",
+    "activebackground",
+    "activeforeground",
     "cognitiveservices",
+    "columnspan",
+    "cornsilk",
     "customvision",
+    "Dodgerblue",
+    "dotenv",
+    "fieldbackground",
+    "msrest",
+    "nsew",
     "padx",
     "pady",
     "relx",
-    "nsew",
-    "columnspan",
-    "textvariable",
-    "activebackground",
-    "activeforeground",
+    "Segoe",
     "selectbackground",
     "selectforeground",
-    "cornsilk",
-    "violetred",
-    "Dodgerblue",
-    "Segoe"
+    "shutil",
+    "textvariable",
+    "tkinter",
+    "violetred"
   ]
 }

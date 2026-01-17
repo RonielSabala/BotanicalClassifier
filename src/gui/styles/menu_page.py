@@ -7,6 +7,17 @@ header = {
     "font": ("Arial", 9),
 }
 
+language = {
+    "width": 8,
+    "state": "readonly",
+    "font": ("Arial", 11),
+}
+
+language_label = {
+    "anchor": "nw",
+    "font": ("Arial", 13),
+}
+
 title = {
     **page_title,
     "pady": 10,

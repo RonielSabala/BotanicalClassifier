@@ -1,12 +1,17 @@
-from services.i18n_service import i18n
+import tkinter as tk
+
+from services.i18n_service import Language, i18n
 
 from ..assets.images import APP_BANNER_IMAGE
 from ..page import APP_ROOT, Page, destroy_all_pages
 from ..styles import app as app_styles
 from ..styles import menu_page as page_styles
+from ..tk_enums import EventType
 
 
 class MenuPage(Page):
+    _lang_var = tk.StringVar(value=i18n.default)
+
     @classmethod
     def show(cls) -> None:
         cls.config_pages()
@@ -23,12 +28,24 @@ class MenuPage(Page):
         FormPage.prev_page = cls
 
     @classmethod
+    def _on_language_select(cls) -> None:
+        lang = cls._lang_var.get()
+        if lang == i18n.current_language:
+            return
+
+        i18n.set_language(lang)
+        for page in Page.__subclasses__():
+            page.reset()
+
+        super().show()
+
+    @classmethod
     def load(cls) -> None:
         from .about_page import AboutPage
         from .form_page import FormPage
         from .records_page import RecordsPage
 
-        # - Header elements:
+        # - Page elements:
 
         cls.get_label(image=APP_BANNER_IMAGE).pack(padx=10, pady=5)
         cls.set_text_at(text=i18n.get("menu.header"), **page_styles.header)
@@ -45,13 +62,28 @@ class MenuPage(Page):
         cls.set_text(text=page_instructions, **page_styles.instructions)
         cls.set_empty_separator(pady=20)
 
-        # Page buttons
+        # Clickable elements
+        combobox = cls.get_combobox(values=Language.all_languages())
         form_button = cls.get_button()
         records_button = cls.get_button()
         about_button = cls.get_button()
         exit_button = cls.get_button()
 
         # - Elements configuration:
+
+        # Combobox
+
+        rel_x, rel_y = 0, 0
+        combobox.config(textvariable=cls._lang_var, **page_styles.language)
+        combobox.place(relx=rel_x + 0.005, rely=rel_y + 0.03)
+        combobox.bind(
+            EventType.DROP_DOWN_CLICK, lambda event: cls._on_language_select()
+        )
+        cls.set_text_at(
+            text=i18n.get("app.language"),
+            coords=(rel_x, rel_y),
+            **page_styles.language_label,
+        )
 
         # Form button
         form_button.config(

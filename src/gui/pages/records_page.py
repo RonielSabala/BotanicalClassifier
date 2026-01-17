@@ -42,7 +42,7 @@ class RecordsPage(Page):
     # Columns variables
     _column_names: tuple[str, ...]
     _column_buttons: list[tk.Button] = []
-    _filter_column_name: str = i18n.get("records.owner_column")
+    _filter_column_name: str
     _max_column_index: int = 5
     _flower_column_index: int = 4
 
@@ -123,12 +123,12 @@ class RecordsPage(Page):
         Actualiza la tabla.
         """
 
-        cls.is_loaded = False
         cls.reset()
         super().show()
 
     @classmethod
     def show(cls) -> None:
+        cls._filter_column_name: str = i18n.get("records.owner_column")
         cls.config_pages()
         cls._update_column_names()
         cls._fill_records()

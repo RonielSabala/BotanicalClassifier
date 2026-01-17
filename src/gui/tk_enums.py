@@ -11,3 +11,4 @@ class EventType(str, Enum):
     ESCAPE = "<Escape>"
     RETURN = "<Return>"
     LEFT_CLICK = "<Button-1>"
+    DROP_DOWN_CLICK = "<<ComboboxSelected>>"

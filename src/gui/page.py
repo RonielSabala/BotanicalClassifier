@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import Entry, Frame, PhotoImage
+from tkinter import Entry, Frame, PhotoImage, ttk
 from typing import Optional
 
 from PIL import ImageTk
@@ -46,7 +46,7 @@ class Page:
     root: Frame
     prev_page: Optional[type["Page"]] = None
     main_entry: Optional[Entry] = None
-    is_loaded: bool = False
+    _is_loaded: bool = False
     fg_color: str = app_styles.fg_color
     bg_color: str = app_styles.bg_color
 
@@ -101,9 +101,9 @@ class Page:
         Muestra la pagina.
         """
 
-        if not cls.is_loaded:
+        if not cls._is_loaded:
             cls.load()
-            cls.is_loaded = True
+            cls._is_loaded = True
 
         cls.root.tkraise()
         cls.root.focus_set()
@@ -123,6 +123,7 @@ class Page:
         Restablece la página dejándola en blanco.
         """
 
+        cls._is_loaded = False
         cls.root.destroy()
         cls.root = Frame(APP_FRAME)
         cls.root.grid(row=0, column=0, sticky="nsew")
@@ -176,6 +177,15 @@ class Page:
             root = cls.root
 
         return Frame(root, bg=cls.bg_color)
+
+    @classmethod
+    def get_combobox(cls, *, values: tuple[str, ...]) -> Entry:
+        return ttk.Combobox(
+            cls.root,
+            values=values,
+            background=cls.bg_color,
+            foreground=cls.fg_color,
+        )
 
     @classmethod
     def set_text(
@@ -259,8 +269,9 @@ class Page:
             **app_styles.return_button_label,
         )
 
-        button.place(relx=0.05, rely=0.05)
-        button_label.place(relx=0.048, rely=0.13)
+        rel_x, rel_y = 0.045, 0.03
+        button.place(relx=rel_x, rely=rel_y)
+        button_label.place(relx=rel_x, rely=rel_y + 0.07)
         cls.root.bind(EventType.ESCAPE, _on_escape)
 
 

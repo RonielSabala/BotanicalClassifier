@@ -34,7 +34,7 @@ return_button = {
     "text": "↵",
     "width": 2,
     "border": 0,
-    "anchor": "nw",
+    "anchor": "s",
     "relief": "flat",
     "cursor": MouseType.HAND,
     "activebackground": "Gray78",
