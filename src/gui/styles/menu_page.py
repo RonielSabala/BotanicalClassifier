@@ -1,3 +1,4 @@
+from ..tk_enums import MouseType
 from .app import page_title
 
 header = {
@@ -35,7 +36,7 @@ instructions = {
 _button = {
     "width": 2,
     "border": 0,
-    "cursor": "hand2",
+    "cursor": MouseType.HAND,
     "font": ("Arial", 50),
 }
 

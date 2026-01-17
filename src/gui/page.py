@@ -15,7 +15,7 @@ from common.paths import APP_ICON_IMAGE_PATH
 from services.i18n_service import i18n
 
 from .styles import app as app_styles
-from .tk_events import EventType
+from .tk_enums import EventType
 
 # App root
 APP_ROOT = tk.Tk()
@@ -259,8 +259,8 @@ class Page:
             **app_styles.return_button_label,
         )
 
-        button.place(relx=0.05, rely=0.05, anchor="nw")
-        button_label.place(relx=0.048, rely=0.13, anchor="nw")
+        button.place(relx=0.05, rely=0.05)
+        button_label.place(relx=0.048, rely=0.13)
         cls.root.bind(EventType.ESCAPE, _on_escape)
 
 

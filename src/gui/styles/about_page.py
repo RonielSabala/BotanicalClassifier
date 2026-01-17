@@ -1,5 +1,6 @@
 import tkinter as tk
 
+from ..tk_enums import MouseType
 from .app import page_title
 
 title = {
@@ -35,7 +36,7 @@ link = {
     "width": 0,
     "border": 0,
     "relief": "sunken",
-    "cursor": "hand2",
+    "cursor": MouseType.HAND,
     "fg": "SpringGreen4",
     "activeforeground": "violetred3",
     "font": ("Arial", 13),

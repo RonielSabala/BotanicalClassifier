@@ -11,7 +11,7 @@ from ..assets.images import APP_ICON_IMAGE
 from ..page import Page
 from ..styles import app as app_styles
 from ..styles import form_page as page_styles
-from ..tk_events import EventType
+from ..tk_enums import EventType
 from .menu_page import MenuPage
 
 

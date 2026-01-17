@@ -1,3 +1,4 @@
+from ..tk_enums import MouseType
 from .app import page_title, text_entry
 
 title = {
@@ -12,6 +13,6 @@ entry_label = {
 
 image_entry = {
     **text_entry,
-    "cursor": "hand2",
+    "cursor": MouseType.HAND,
     "state": "readonly",
 }

@@ -1,5 +1,7 @@
 from typing import Any
 
+from ..tk_enums import MouseType
+
 fg_color = "Black"
 bg_color = "White"
 
@@ -19,11 +21,12 @@ _generic_button = {
     "padx": 5,
     "pady": 2,
     "relief": "flat",
-    "cursor": "hand2",
+    "cursor": MouseType.HAND,
     "font": ("Arial", 16, "bold"),
 }
 
 return_button_label: dict[str, Any] = {
+    "anchor": "nw",
     "font": ("Arial", 12),
 }
 
@@ -31,8 +34,9 @@ return_button = {
     "text": "↵",
     "width": 2,
     "border": 0,
+    "anchor": "nw",
     "relief": "flat",
-    "cursor": "hand2",
+    "cursor": MouseType.HAND,
     "activebackground": "Gray78",
     "font": ("Arial", 25),
 }

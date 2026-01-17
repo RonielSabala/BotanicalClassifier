@@ -2,6 +2,7 @@ from typing import Any
 
 from common.utils import remove_styles
 
+from ..tk_enums import MouseType
 from .app import _generic_button, primary_button
 
 cell = {}
@@ -39,7 +40,7 @@ column_cell = {
 
 column_button = {
     "border": 0,
-    "cursor": "hand2",
+    "cursor": MouseType.HAND,
     "activebackground": "DodgerBlue4",
 }
 
@@ -94,7 +95,7 @@ delete_all_button = {
 }
 
 search_button = {
-    "cursor": "hand2",
+    "cursor": MouseType.HAND,
     "bg": "gray90",
     "activebackground": "gray80",
     "font": ("Arial", 13),

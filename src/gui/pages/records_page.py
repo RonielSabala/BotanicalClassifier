@@ -14,7 +14,7 @@ from ..assets.images import APP_ICON_IMAGE
 from ..page import Page
 from ..styles import app as app_styles
 from ..styles import records_page as page_styles
-from ..tk_events import EventType
+from ..tk_enums import EventType, MouseType
 from .form_page import FormPage
 from .menu_page import MenuPage
 
@@ -500,7 +500,7 @@ class RecordsPage(Page):
         if cls._page_index >= cls._max_page_index:
             cls._left_nav_arrow.config(state=tk.DISABLED)
         else:
-            cls._left_nav_arrow.config(cursor="hand2")
+            cls._left_nav_arrow.config(cursor=MouseType.HAND)
 
         # Right arrow config
         cls._right_nav_arrow.grid(row=0, column=0, padx=0, pady=5, sticky="nsew")
@@ -512,7 +512,7 @@ class RecordsPage(Page):
         if cls._page_index <= 1:
             cls._right_nav_arrow.config(state=tk.DISABLED)
         else:
-            cls._right_nav_arrow.config(cursor="hand2")
+            cls._right_nav_arrow.config(cursor=MouseType.HAND)
 
         cls.set_empty_separator(pady=1)
 
