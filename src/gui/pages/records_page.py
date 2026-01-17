@@ -1,4 +1,5 @@
 import tkinter as tk
+from enum import Enum
 from tkinter import Frame, messagebox
 from typing import Any, Optional
 
@@ -18,15 +19,20 @@ from ..tk_enums import EventType, MouseType
 from .form_page import FormPage
 from .menu_page import MenuPage
 
-MAX_ROW_INDEX_PER_PAGE = 3
 
-# GUI defaults
-LEFT_NAV_ARROW_BUTTON_TEXT = ">"
-RIGHT_NAV_ARROW_BUTTON_TEXT = "<"
-ADD_RECORD_BUTTON_EMOJI = "✚"
-DELETE_RECORDS_BUTTON_EMOJI = "✘"
-HIGHEST_FLOWER_PROBABILITY_EMOJI = "✔"
-FAILED_FLOWER_PROBABILITY_EMOJI = "✗"
+class TableIndices(int, Enum):
+    MAX_COLUMN_INDEX = 5
+    FLOWER_COLUMN_INDEX = 4
+    MAX_ROW_INDEX_PER_PAGE = 3
+
+
+class TableSymbols(str, Enum):
+    LEFT_ARROW = ">"
+    RIGHT_ARROW = "<"
+    ADD_RECORD = "✚"
+    DELETE_RECORDS = "✘"
+    HIGHEST_FLOWER_PROBABILITY = "✔"
+    FAILED_FLOWER_PROBABILITY = "✗"
 
 
 class RecordsPage(Page):
@@ -42,8 +48,6 @@ class RecordsPage(Page):
     _column_names: tuple[str, ...]
     _column_buttons: list[tk.Button] = []
     _filter_column_name: str
-    _max_column_index: int = 5
-    _flower_column_index: int = 4
 
     # Navigation variables
     _page_index: int = 0
@@ -54,12 +58,13 @@ class RecordsPage(Page):
     @classmethod
     def close(cls) -> None:
         cls.main_entry = None
-        cls._last_filter.reset()
         cls._filter_var.set("")
+        cls._last_filter.reset()
 
     @classmethod
-    def config_pages(cls) -> None:
-        FormPage.prev_page = cls
+    def _update_table(cls) -> None:
+        cls.reset()
+        super().show()
 
     @classmethod
     def _update_column_names(cls) -> None:
@@ -104,27 +109,21 @@ class RecordsPage(Page):
             cls._max_page_index = 0
             return
 
-        last_page_index, last_page_records_count = divmod(
-            max_record_index, MAX_ROW_INDEX_PER_PAGE
-        )
+        max_row = TableIndices.MAX_ROW_INDEX_PER_PAGE
+        last_page_index, last_page_records_count = divmod(max_record_index, max_row)
 
         cls._page_index = 1
         cls._max_page_index = last_page_index + 1
-        if max_record_index < MAX_ROW_INDEX_PER_PAGE:
+        if max_record_index < max_row:
             return
 
-        missing_records = [None] * (MAX_ROW_INDEX_PER_PAGE - last_page_records_count)
+        missing_records = [None] * (max_row - last_page_records_count)
         cls._filtered_records.extend(missing_records)
 
     @classmethod
-    def _update_table(cls) -> None:
-        cls.reset()
-        super().show()
-
-    @classmethod
     def show(cls) -> None:
+        FormPage.prev_page = cls
         cls._filter_column_name: str = i18n.get("records.owner_column")
-        cls.config_pages()
         cls._update_column_names()
         cls._fill_records()
         cls._update_records()
@@ -273,9 +272,9 @@ class RecordsPage(Page):
         for row, prediction in enumerate(predictions):
             tag_name = prediction.tag_name.capitalize()
             probability = f"{prediction.probability:.2%} " + (
-                HIGHEST_FLOWER_PROBABILITY_EMOJI
+                TableSymbols.HIGHEST_FLOWER_PROBABILITY
                 if row == 0
-                else FAILED_FLOWER_PROBABILITY_EMOJI
+                else TableSymbols.FAILED_FLOWER_PROBABILITY
             )
 
             cls._insert_prediction_cell(grid, row + 1, 0, tag_name)
@@ -299,7 +298,7 @@ class RecordsPage(Page):
         cls, root: Frame, row: int, col: int, cell_value: str
     ) -> tk.Label | tk.Button:
         # Flower image
-        if row > 0 and col == cls._flower_column_index:
+        if row > 0 and col == TableIndices.FLOWER_COLUMN_INDEX:
             cell_image = (
                 get_resized_image(cell_value)
                 if is_valid_path(cell_value)
@@ -310,7 +309,11 @@ class RecordsPage(Page):
 
         # Label
         font = page_styles.column_font
-        if row > 0 or col in (0, cls._flower_column_index, cls._max_column_index):
+        if row > 0 or col in (
+            0,
+            TableIndices.FLOWER_COLUMN_INDEX,
+            TableIndices.MAX_COLUMN_INDEX,
+        ):
             element = cls.get_label(root)
             if row > 0:
                 font = page_styles.cell_font
@@ -352,14 +355,16 @@ class RecordsPage(Page):
     @classmethod
     def _fill_records_grid(cls, grid: Frame) -> None:
         cls._column_buttons = []
-        first_record_index = max(0, MAX_ROW_INDEX_PER_PAGE * (cls._page_index - 1))
+        max_row = TableIndices.MAX_ROW_INDEX_PER_PAGE
+        first_record_index = max(0, max_row * (cls._page_index - 1))
         last_record_index = min(
-            first_record_index + MAX_ROW_INDEX_PER_PAGE, len(cls._filtered_records) - 1
+            first_record_index + max_row,
+            len(cls._filtered_records) - 1,
         )
 
         record_indices = range(first_record_index - 1, last_record_index + 1)
         for row, record_index in enumerate(record_indices):
-            if row == MAX_ROW_INDEX_PER_PAGE + 1:
+            if row == max_row + 1:
                 break
 
             # Get row cells
@@ -371,7 +376,9 @@ class RecordsPage(Page):
                 record_id = record.record_id if isinstance(record, Record) else -1
                 if record is None:
                     insert_empty_row = True
-                    row_cells = tuple(None for _ in range(cls._max_column_index + 1))
+                    row_cells = tuple(
+                        None for _ in range(TableIndices.MAX_COLUMN_INDEX + 1)
+                    )
                 else:
                     row_cells = (
                         f"{record_id + 1}.",
@@ -386,7 +393,7 @@ class RecordsPage(Page):
             for col, cell_value in enumerate(row_cells):
                 # Insert empty cell
                 if insert_empty_row:
-                    if col == cls._flower_column_index:
+                    if col == TableIndices.FLOWER_COLUMN_INDEX:
                         cell_element = cls.get_label(grid, EMPTY_IMAGE)
                     else:
                         cell_element = cls.get_label(grid)
@@ -421,10 +428,10 @@ class RecordsPage(Page):
     @classmethod
     def load(cls) -> None:
         # Header elements
+        cls.set_return_button()
         cls.get_label(image=APP_ICON_IMAGE).pack(padx=20, pady=15)
         cls.set_text(text=i18n.get("records.title"), **app_styles.page_title)
         cls.set_empty_separator(pady=2)
-        cls.set_return_btn()
 
         # - Page elements:
 
@@ -476,7 +483,7 @@ class RecordsPage(Page):
         # Left arrow config
         cls._left_nav_arrow.grid(row=0, column=2, padx=0, pady=5, sticky="nsew")
         cls._left_nav_arrow.config(
-            text=LEFT_NAV_ARROW_BUTTON_TEXT,
+            text=TableSymbols.LEFT_ARROW,
             command=cls._load_next_page,
             **page_styles.navigation_arrow,
         )
@@ -488,7 +495,7 @@ class RecordsPage(Page):
         # Right arrow config
         cls._right_nav_arrow.grid(row=0, column=0, padx=0, pady=5, sticky="nsew")
         cls._right_nav_arrow.config(
-            text=RIGHT_NAV_ARROW_BUTTON_TEXT,
+            text=TableSymbols.RIGHT_ARROW,
             command=cls._load_prev_page,
             **page_styles.navigation_arrow,
         )
@@ -501,7 +508,7 @@ class RecordsPage(Page):
 
         # Add record button
         add_record_button.config(
-            text=ADD_RECORD_BUTTON_EMOJI + " " + i18n.get("records.add_record"),
+            text=TableSymbols.ADD_RECORD + " " + i18n.get("records.add_record"),
             command=FormPage.show,
             **page_styles.add_button,
         )
@@ -509,11 +516,11 @@ class RecordsPage(Page):
 
         # Delete records button
         delete_button.config(
-            text=DELETE_RECORDS_BUTTON_EMOJI + " " + i18n.get("records.delete_records"),
+            text=TableSymbols.DELETE_RECORDS + " " + i18n.get("records.delete_records"),
             command=cls._on_delete_click,
             **page_styles.delete_all_button,
         )
         delete_button.pack(pady=12)
 
-        cls.set_footer()
         cls._fill_records_grid(records_grid)
+        cls.set_app_rights()

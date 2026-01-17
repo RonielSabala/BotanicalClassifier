@@ -3,7 +3,7 @@ import tkinter as tk
 from services.i18n_service import Language, i18n
 
 from ..assets.images import APP_BANNER_IMAGE
-from ..page import APP_ROOT, Page, destroy_all_pages
+from ..page import APP_ROOT, Page, set_app_title
 from ..styles import app as app_styles
 from ..styles import menu_page as page_styles
 from ..tk_enums import EventType
@@ -14,18 +14,14 @@ class MenuPage(Page):
 
     @classmethod
     def show(cls) -> None:
-        cls.config_pages()
+        from .form_page import FormPage
+
+        FormPage.prev_page = cls
         super().show()
 
     @classmethod
     def destroy(cls) -> None:
         APP_ROOT.destroy()
-
-    @classmethod
-    def config_pages(cls) -> None:
-        from .form_page import FormPage
-
-        FormPage.prev_page = cls
 
     @classmethod
     def _on_language_select(cls) -> None:
@@ -37,7 +33,7 @@ class MenuPage(Page):
         for page in Page.__subclasses__():
             page.reset()
 
-        APP_ROOT.title(i18n.get("window.title"))
+        set_app_title()
         super().show()
 
     @classmethod
@@ -123,7 +119,7 @@ class MenuPage(Page):
         rel_x, rel_y = 0.92, 0.94
         exit_button.config(
             text=i18n.get("menu.exit_button"),
-            command=destroy_all_pages,
+            command=Page.destroy_inner_pages,
             **page_styles.exit_button,
         )
         exit_button.place(relx=rel_x, rely=rel_y, anchor="center")
@@ -133,4 +129,4 @@ class MenuPage(Page):
             **page_styles.exit_button_text,
         )
 
-        cls.set_footer()
+        cls.set_app_rights()

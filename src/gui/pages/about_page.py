@@ -54,7 +54,7 @@ class AboutPage(Page):
         links_grid.pack(fill="y", padx=0, pady=100)
 
         # Header elements
-        cls.set_return_btn()
+        cls.set_return_button()
         shield_image = cls.get_label(header_grid, COUNTRY_SHIELD_IMAGE)
         icon_image = cls.get_label(header_grid, APP_ICON_IMAGE)
         title = cls.get_label(header_grid)
@@ -155,7 +155,7 @@ class AboutPage(Page):
         )
         faq_link.grid(row=0, column=4, sticky="nsw")
 
-        cls.set_footer()
+        cls.set_app_rights()
 
 
 class FaqPage(Page):
@@ -164,7 +164,7 @@ class FaqPage(Page):
     @classmethod
     def load(cls) -> None:
         # Header
-        cls.set_return_btn()
+        cls.set_return_button()
         cls.set_empty_separator(pady=35)
         cls.set_text(text=i18n.get("about.faq.title"), **page_styles.title)
         cls.set_empty_separator(pady=25)
@@ -185,7 +185,7 @@ class PoliciesPage(Page):
     @classmethod
     def load(cls) -> None:
         # Header
-        cls.set_return_btn()
+        cls.set_return_button()
         cls.set_empty_separator(pady=35)
         cls.set_text(text=i18n.get("about.policies.title"), **page_styles.title)
         cls.set_empty_separator(pady=0)
@@ -206,7 +206,7 @@ class TermsPage(Page):
     @classmethod
     def load(cls) -> None:
         # Header
-        cls.set_return_btn()
+        cls.set_return_button()
         cls.set_empty_separator(pady=35)
         cls.set_text(text=i18n.get("about.terms.title"), **page_styles.title)
         cls.set_empty_separator(pady=0)

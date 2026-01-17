@@ -1,5 +1,6 @@
 import tkinter as tk
-from tkinter import Entry, Frame, PhotoImage, ttk
+from abc import ABC, abstractmethod
+from tkinter import ttk
 from typing import Optional
 
 from PIL import ImageTk
@@ -25,16 +26,19 @@ _WINDOW_PADX = int(APP_ROOT.winfo_screenwidth() / 2 + WINDOW_WIDTH / 2 - WINDOW_
 _WINDOW_PADY = int(
     APP_ROOT.winfo_screenheight() / 2 + WINDOW_HEIGHT / 2 - WINDOW_HEIGHT
 )
-APP_ROOT.title(i18n.get("window.title"))
-APP_ROOT.iconphoto(True, PhotoImage(file=APP_ICON_IMAGE_PATH))
+APP_ROOT.iconphoto(True, tk.PhotoImage(file=APP_ICON_IMAGE_PATH))
 APP_ROOT.geometry(f"{WINDOW_WIDTH}x{WINDOW_HEIGHT}+{_WINDOW_PADX}+{_WINDOW_PADY}")
 APP_ROOT.resizable(False, False)
 
 # App frame
-APP_FRAME = Frame(APP_ROOT)
+APP_FRAME = tk.Frame(APP_ROOT)
 APP_FRAME.pack(fill="both", expand=True)
 APP_FRAME.grid_rowconfigure(0, weight=1)
 APP_FRAME.grid_columnconfigure(0, weight=1)
+
+
+def set_app_title() -> None:
+    APP_ROOT.title(i18n.get("window.title"))
 
 
 def get_app_rights() -> str:
@@ -42,11 +46,11 @@ def get_app_rights() -> str:
     return f"{COMPANY_NAME}\n{COPYRIGHT_SYMBOL}{CURRENT_YEAR} {rights}"
 
 
-class Page:
-    root: Frame
-    prev_page: Optional[type["Page"]] = None
-    main_entry: Optional[Entry] = None
+class Page(ABC):
+    root: tk.Frame
     _is_loaded: bool = False
+    main_entry: Optional[tk.Entry] = None
+    prev_page: Optional[type["Page"]] = None
     fg_color: str = app_styles.fg_color
     bg_color: str = app_styles.bg_color
 
@@ -56,13 +60,11 @@ class Page:
         super().__init_subclass__(**kwargs)
 
         # Assign a frame to each subclass
-        cls.root = Frame(APP_FRAME)
+        cls.root = tk.Frame(APP_FRAME)
         cls.root.grid(row=0, column=0, sticky="nsew")
 
     @classmethod
-    def config_pages(cls) -> None: ...
-
-    @classmethod
+    @abstractmethod
     def load(cls) -> None: ...
 
     @classmethod
@@ -72,10 +74,17 @@ class Page:
     def destroy(cls) -> None: ...
 
     @classmethod
+    def reset(cls) -> None:
+        cls._is_loaded = False
+        cls.root.destroy()
+        cls.root = tk.Frame(APP_FRAME)
+        cls.root.grid(row=0, column=0, sticky="nsew")
+
+    @classmethod
     def show(cls) -> None:
         if not cls._is_loaded:
-            cls.load()
             cls._is_loaded = True
+            cls.load()
 
         cls.root.tkraise()
         cls.root.focus_set()
@@ -86,21 +95,18 @@ class Page:
             return
 
         main_entry.focus_set()
-        if isinstance(main_entry, Entry):
-            main_entry.icursor(tk.END)
-
-    @classmethod
-    def reset(cls) -> None:
-        cls._is_loaded = False
-        cls.root.destroy()
-        cls.root = Frame(APP_FRAME)
-        cls.root.grid(row=0, column=0, sticky="nsew")
+        main_entry.icursor(tk.END)
 
     # - Utils:
 
     @classmethod
+    def destroy_inner_pages(cls) -> None:
+        for page in cls.__subclasses__():
+            page.destroy()
+
+    @classmethod
     def get_label(
-        cls, root: Optional[Frame] = None, image: Optional[ImageTk.PhotoImage] = None
+        cls, root: Optional[tk.Frame] = None, image: Optional[ImageTk.PhotoImage] = None
     ) -> tk.Label:
         if root is None:
             root = cls.root
@@ -115,7 +121,7 @@ class Page:
         return label
 
     @classmethod
-    def get_button(cls, root: Optional[Frame] = None) -> tk.Button:
+    def get_button(cls, root: Optional[tk.Frame] = None) -> tk.Button:
         if root is None:
             root = cls.root
 
@@ -128,11 +134,11 @@ class Page:
         )
 
     @classmethod
-    def get_entry(cls, root: Optional[Frame] = None) -> Entry:
+    def get_entry(cls, root: Optional[tk.Frame] = None) -> tk.Entry:
         if root is None:
             root = cls.root
 
-        return Entry(
+        return tk.Entry(
             root,
             fg=cls.fg_color,
             bg=cls.bg_color,
@@ -140,14 +146,14 @@ class Page:
         )
 
     @classmethod
-    def get_grid(cls, root: Optional[Frame] = None) -> Frame:
+    def get_grid(cls, root: Optional[tk.Frame] = None) -> tk.Frame:
         if root is None:
             root = cls.root
 
-        return Frame(root, bg=cls.bg_color)
+        return tk.Frame(root, bg=cls.bg_color)
 
     @classmethod
-    def get_combobox(cls, *, values: tuple[str, ...]) -> Entry:
+    def get_combobox(cls, *, values: tuple[str, ...]) -> tk.Entry:
         return ttk.Combobox(
             cls.root,
             values=values,
@@ -190,24 +196,16 @@ class Page:
         label.place(relx=x, rely=y, anchor=anchor)  # type: ignore
 
     @classmethod
-    def set_empty_separator(cls, *, pady: int) -> None:
-        label = cls.get_label()
-        label.config(pady=pady, **app_styles.empty_separator)
-        label.pack()
-
-    @classmethod
-    def set_footer(cls) -> None:
+    def set_app_rights(cls) -> None:
         cls.set_text_at(text=get_app_rights(), **app_styles.footer)
 
     @classmethod
-    def set_return_btn(cls) -> None:
+    def set_return_button(cls) -> None:
         if cls.prev_page is None:
             return
 
         def _on_escape(event) -> None:
-            if cls.prev_page is not None:
-                cls.prev_page.show()
-
+            cls.prev_page.show()  # type: ignore
             cls.close()
 
         button = cls.get_button()
@@ -222,9 +220,11 @@ class Page:
         rel_x, rel_y = 0.045, 0.03
         button.place(relx=rel_x, rely=rel_y)
         button_label.place(relx=rel_x, rely=rel_y + 0.07)
+
         cls.root.bind(EventType.ESCAPE, _on_escape)
 
-
-def destroy_all_pages():
-    for page in Page.__subclasses__():
-        page.destroy()
+    @classmethod
+    def set_empty_separator(cls, *, pady: int) -> None:
+        label = cls.get_label()
+        label.config(pady=pady, **app_styles.empty_separator)
+        label.pack()

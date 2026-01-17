@@ -12,11 +12,9 @@ from ..page import Page
 from ..styles import app as app_styles
 from ..styles import form_page as page_styles
 from ..tk_enums import EventType
-from .menu_page import MenuPage
 
 
 class FormPage(Page):
-    prev_page = MenuPage
     name_var = tk.StringVar()
     surname_var = tk.StringVar()
     address_var = tk.StringVar()
@@ -81,9 +79,9 @@ class FormPage(Page):
     @classmethod
     def load(cls) -> None:
         # Header elements
+        cls.set_return_button()
         cls.get_label(image=APP_ICON_IMAGE).pack(padx=10, pady=15)
         cls.set_text(text=i18n.get("form.title"), **page_styles.title)
-        cls.set_return_btn()
 
         # Page elements
         name_entry = cls.get_entry()
@@ -141,4 +139,4 @@ class FormPage(Page):
         )
         save_button.pack(pady=40)
 
-        cls.set_footer()
+        cls.set_app_rights()
