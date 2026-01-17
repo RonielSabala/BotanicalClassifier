@@ -108,18 +108,6 @@ class RecordsService:
         PredictorService.set_flower_prediction(record)
         cls.insert_record(record, data)
 
-    @staticmethod
-    def get_record_property_by_index(record: Record, index: int) -> str:
-        """
-        Map `index` to `record` properties in order. Raises
-        IndexError when `index` is invalid.
-        """
 
-        if index == 0:
-            return record.name
-        if index == 1:
-            return record.surname
-        if index == 2:
-            return record.address
-
-        raise ValueError(f"index ({index}) is not valid for record properties.")
+# Public API
+__all__ = ("RecordsService",)

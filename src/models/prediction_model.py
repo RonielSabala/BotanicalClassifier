@@ -29,3 +29,7 @@ class TagPrediction:
 
     def __lt__(self, other: TagPrediction) -> bool:
         return self.probability < other.probability
+
+
+# Public API
+__all__ = ("TagPrediction",)

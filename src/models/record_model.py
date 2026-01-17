@@ -32,3 +32,22 @@ class Record:
     image_path: str
     predictions: Optional[list[TagPrediction]] = None
     record_id: int = -1
+
+    def get_property_by_index(self, index: int) -> str:
+        """
+        Map `index` to the instance properties in order. Raises
+        IndexError when `index` is invalid.
+        """
+
+        if index == 0:
+            return self.name
+        if index == 1:
+            return self.surname
+        if index == 2:
+            return self.address
+
+        raise ValueError(f"index ({index}) is not valid for record properties.")
+
+
+# Public API
+__all__ = ("Record",)

@@ -97,10 +97,7 @@ class RecordsPage(Page):
 
         cls._filtered_records = []
         for record in cls._all_records:
-            record_property = RecordsService.get_record_property_by_index(
-                record, filter_column_index
-            )
-
+            record_property = record.get_property_by_index(filter_column_index)
             if text_to_filter not in record_property.lower():
                 continue
 
