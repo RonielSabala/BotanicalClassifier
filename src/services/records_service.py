@@ -3,7 +3,7 @@ from dataclasses import asdict
 from typing import Any, Generator, Optional
 
 from common.paths import LOCAL_IMAGES_DIR, LOCAL_RECORDS_PATH
-from models.prediction_model import Prediction
+from models.prediction_model import TagPrediction
 from models.record_model import Record
 
 from .predictor_service import PredictorService
@@ -34,7 +34,7 @@ class RecordsService:
         # Reconstruct Prediction objects if they exist
         predictions = record_data.get("predictions")
         if predictions:
-            record_data["predictions"] = [Prediction(**pred) for pred in predictions]
+            record_data["predictions"] = [TagPrediction(**p) for p in predictions]
 
         return Record(**record_data)
 

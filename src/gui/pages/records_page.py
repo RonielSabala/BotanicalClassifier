@@ -6,7 +6,7 @@ from typing import Any, Optional
 
 from common.utils import load_resized_image_tk, path_exists
 from gui.assets.images import EMPTY_IMAGE
-from models.prediction_model import Prediction
+from models.prediction_model import TagPrediction
 from models.record_model import Record
 from services.i18n_service import i18n
 from services.records_service import RecordsService
@@ -256,7 +256,7 @@ class RecordsPage(Page):
 
     @classmethod
     def _get_classification_cell(
-        cls, root: tk.Frame, predictions: list[Prediction]
+        cls, root: tk.Frame, predictions: list[TagPrediction]
     ) -> tk.Frame:
         # Cell elements
         grid = cls.get_grid(root)
@@ -416,12 +416,7 @@ class RecordsPage(Page):
 
                 # Insert flower clarification cell
                 elif isinstance(cell_value, list):
-                    sorted_predictions = sorted(
-                        cell_value,
-                        key=lambda prediction: prediction.probability,
-                        reverse=True,
-                    )
-
+                    sorted_predictions = sorted(cell_value, reverse=True)
                     cell = cls._get_classification_cell(grid, sorted_predictions)
                     cell.grid(row=row + 1, column=col)
                     continue
