@@ -1,3 +1,8 @@
+"""
+Form page where the user enters personal data and selects
+an image.
+"""
+
 import tkinter as tk
 from tkinter import filedialog
 
@@ -18,20 +23,24 @@ class FormPage(Page):
     name_var = tk.StringVar()
     surname_var = tk.StringVar()
     address_var = tk.StringVar()
-    _image_var = tk.StringVar()
+    _image_path_var = tk.StringVar()
     image_path = ""
 
-    # - Utils:
+    # - UI Helpers:
 
     @classmethod
-    def _set_entry_name(cls, entry_name: str) -> None:
+    def _add_field_label(cls, text: str) -> None:
         cls.set_empty_separator(pady=2)
-        cls.set_text(text=entry_name, **page_styles.entry_label)
+        cls.set_text(text=text, **page_styles.entry_label)
 
-    # - on_verb methods:
+    # - Event handlers:
 
     @classmethod
     def _on_image_select(cls, image_entry: tk.Entry) -> None:
+        """
+        Open file dialog to select an image and update UI.
+        """
+
         user_image = filedialog.askopenfilename(
             title=i18n.get("form.utils.attach_image"),
             filetypes=[(i18n.get("form.image_files"), ALLOWED_IMAGE_EXTENSIONS_STR)],
@@ -41,6 +50,7 @@ class FormPage(Page):
         if not user_image:
             return
 
+        # Show only the filename to the user
         image_entry.config(state="normal")
         image_entry.delete(0, tk.END)
         image_entry.insert(0, user_image.split("/")[-1])
@@ -48,6 +58,11 @@ class FormPage(Page):
 
     @classmethod
     def _on_save_button(cls) -> None:
+        """
+        Validate form data, persist the record, and return to
+        the previous page.
+        """
+
         record = Record(
             cls.name_var.get(),
             cls.surname_var.get(),
@@ -61,7 +76,8 @@ class FormPage(Page):
         try:
             FormService.save_form(record)
         except Exception as e:
-            show_error_messagebox(f"{i18n.get('form.save_error')}: {e}")
+            save_error = i18n.get("form.save_error")
+            show_error_messagebox(f"{save_error}: {e}")
             return
 
         if cls.prev_page is not None:
@@ -71,58 +87,62 @@ class FormPage(Page):
 
     @classmethod
     def show(cls) -> None:
+        """
+        Reset form state every time the page is shown.
+        """
+
         cls.name_var.set("")
         cls.surname_var.set("")
         cls.address_var.set("")
-        cls._image_var.set(i18n.get("form.utils.attach_image"))
-        cls.image_path = cls._image_var.get()
+        cls._image_path_var.set(i18n.get("form.utils.attach_image"))
+        cls.image_path = cls._image_path_var.get()
         super().show()
 
     @classmethod
     def load(cls) -> None:
-        # Page elements
+        # Widgets
         name_entry = cls.get_entry()
         surname_entry = cls.get_entry()
         address_entry = cls.get_entry()
         image_entry = cls.get_entry()
         save_button = cls.get_button()
 
-        # Elements configuration
+        # - Configuration:
+
         cls.main_entry = name_entry
+
         name_entry.config(textvariable=cls.name_var, **app_styles.text_entry)
         surname_entry.config(textvariable=cls.surname_var, **app_styles.text_entry)
         address_entry.config(textvariable=cls.address_var, **app_styles.text_entry)
-        image_entry.config(textvariable=cls._image_var, **page_styles.image_entry)
+        image_entry.config(textvariable=cls._image_path_var, **page_styles.image_entry)
         save_button.config(
             text=i18n.get("form.save"),
             command=cls._on_save_button,
             **app_styles.primary_button,
         )
 
-        # Elements bindings configuration:
+        # Bindings:
 
-        name_entry.bind(EventType.ESCAPE, lambda event: cls.root.focus_set())
-        name_entry.bind(EventType.ARROW_DOWN, lambda event: surname_entry.focus_set())
-        name_entry.bind(EventType.RETURN, lambda event: surname_entry.focus_set())
+        name_entry.bind(EventType.ESCAPE, lambda _: cls.root.focus_set())
+        name_entry.bind(EventType.ARROW_DOWN, lambda _: surname_entry.focus_set())
+        name_entry.bind(EventType.RETURN, lambda _: surname_entry.focus_set())
 
-        surname_entry.bind(EventType.ESCAPE, lambda event: cls.root.focus_set())
-        surname_entry.bind(EventType.ARROW_UP, lambda event: name_entry.focus_set())
-        surname_entry.bind(
-            EventType.ARROW_DOWN, lambda event: address_entry.focus_set()
-        )
-        surname_entry.bind(EventType.RETURN, lambda event: address_entry.focus_set())
+        surname_entry.bind(EventType.ESCAPE, lambda _: cls.root.focus_set())
+        surname_entry.bind(EventType.ARROW_UP, lambda _: name_entry.focus_set())
+        surname_entry.bind(EventType.ARROW_DOWN, lambda _: address_entry.focus_set())
+        surname_entry.bind(EventType.RETURN, lambda _: address_entry.focus_set())
 
-        address_entry.bind(EventType.ESCAPE, lambda event: cls.root.focus_set())
-        address_entry.bind(EventType.ARROW_UP, lambda event: surname_entry.focus_set())
+        address_entry.bind(EventType.ESCAPE, lambda _: cls.root.focus_set())
+        address_entry.bind(EventType.ARROW_UP, lambda _: surname_entry.focus_set())
         address_entry.bind(
-            EventType.RETURN, lambda event: cls._on_image_select(image_entry)
+            EventType.RETURN, lambda _: cls._on_image_select(image_entry)
         )
 
         image_entry.bind(
-            EventType.LEFT_CLICK, lambda event: cls._on_image_select(image_entry)
+            EventType.LEFT_CLICK, lambda _: cls._on_image_select(image_entry)
         )
 
-        # - Elements widget arrangement:
+        # - Layout:
 
         cls.set_return_button()
 
@@ -131,19 +151,19 @@ class FormPage(Page):
         cls.set_text(text=i18n.get("form.title"), **page_styles.title)
 
         # Name field
-        cls._set_entry_name(i18n.get("form.name"))
+        cls._add_field_label(i18n.get("form.name"))
         name_entry.pack()
 
         # Surname field
-        cls._set_entry_name(i18n.get("form.surname"))
+        cls._add_field_label(i18n.get("form.surname"))
         surname_entry.pack()
 
         # Address field
-        cls._set_entry_name(i18n.get("form.address"))
+        cls._add_field_label(i18n.get("form.address"))
         address_entry.pack()
 
         # Image field
-        cls._set_entry_name(i18n.get("form.image"))
+        cls._add_field_label(i18n.get("form.image"))
         image_entry.pack(padx=10, pady=10)
 
         # Save button
