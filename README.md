@@ -1,6 +1,6 @@
 # BotanicalClassifier
 
-Desktop application that classifies five flower types using Azure AI Custom Vision: **roses**, **orchids**, **daisies**, **carnations**, and **sunflowers**. The app provides a friendly Tkinter GUI to collect survey responses, upload and store images locally, and real-time AI classification.
+Desktop application that classifies five flower types using Azure AI Custom Vision: **roses**, **orchids**, **daisies**, **carnations**, and **sunflowers**. The app provides a friendly Tkinter GUI to collect survey responses, upload and store images locally, and call Azure API for real-time AI classification.
 
 ---
 
@@ -20,8 +20,8 @@ Desktop application that classifies five flower types using Azure AI Custom Visi
 * [Model Evaluation & Metrics](#model-evaluation--metrics)
 * [Scalability & Extensibility](#scalability--extensibility)
 * [Limitations & Risks](#limitations--risks)
-* [Contributing](#contributing)
 * [Credits](#credits)
+* [Contributing](#contributing)
 * [License](#license)
 
 ---
@@ -34,7 +34,7 @@ The garden needs to homologate these photos and assign a flower type to each ima
 
 ---
 
-This repository contains the desktop application that implements that automation: image ingestion, local storage conventions, a GUI for survey management, and the Custom Vision integration for predictions.
+This repository contains the desktop application that implements the above automation: image ingestion, local storage conventions, a GUI for survey management, and the Custom Vision integration for predictions.
 
 ---
 
@@ -45,7 +45,6 @@ This repository contains the desktop application that implements that automation
   * Saving images locally for research purposes.
   * Sending images to **Azure Custom Vision** and displaying **real-time predictions** sorted by confidence.
   * Browsing/searching stored survey records, paginated view, and manual classification trigger.
-
 * **Local-first design**: images and records are stored locally.
 * **Internationalization (i18n)** with built-in English and Spanish language support.
 * **Modular design** that separates GUI, services, and models for easier maintenance.
@@ -157,7 +156,7 @@ All images follow the `flower_survey_xx.png` naming convention.
 
 1. For each class (`roses`, `orchids`, `daisies`, `carnations`, `sunflowers`) upload representative images from `dataset/` folders to corresponding tags.
 2. Remove duplicates, low-quality, or incorrectly-tagged images.
-3. Train: **Train** > **Quick Training**.
+3. Click **Train** > **Quick Training**.
 4. Publish the iteration with a descriptive **Published Name**.
 
 #### Get Credentials
@@ -263,18 +262,6 @@ The application is designed for growth:
 
 ---
 
-## Contributing
-
-Contributions are welcome. Suggested workflow:
-
-1. Fork the repository.
-2. Create a feature branch: `feature/my-change`.
-3. Commit, push, and open a pull request describing the change and reason.
-
-> Please, ensure your code follows the existing style and includes appropriate documentation.
-
----
-
 ## Credits
 
 ### Visual Design & Content
@@ -283,7 +270,7 @@ The application's visual identity and informational content are inspired by and 
 
 * **UI Design**: Layout and color scheme inspired by [jbn.gob.do](https://www.jbn.gob.do/).
 * **Branding Assets**: Logo, banner images, and iconography sourced from official website.
-* **About Content**: Terms, policies, and informational sections translated and adapted from official documentation (English/Spanish).
+* **About Content**: Terms, policies, and informational sections translated and adapted from official documentation.
 
 This is an educational project demonstrating Azure Custom Vision integration. All content from JBN is used respectfully for demonstration purposes.
 
@@ -296,6 +283,18 @@ This is an educational project demonstrating Azure Custom Vision integration. Al
 
 * **AI Service**: Azure Custom Vision
 * **Application Development**: Roniel Antonio Sabala Germán
+
+---
+
+## Contributing
+
+Contributions are welcome. Suggested workflow:
+
+1. Fork the repository.
+2. Create a feature branch: `feature/my-change`.
+3. Commit, push, and open a pull request describing the change and reason.
+
+> Please, ensure your code follows the existing style and includes appropriate documentation.
 
 ---
 
