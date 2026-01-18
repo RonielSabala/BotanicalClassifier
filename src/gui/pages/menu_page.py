@@ -1,3 +1,7 @@
+"""
+Main menu page of the application.
+"""
+
 import tkinter as tk
 
 from services.i18n_service import Language, i18n
@@ -11,17 +15,24 @@ from ..tk_enums import EventType
 
 
 class MenuPage(Page):
-    _lang_var = tk.StringVar(value=i18n.default)
+    _language_var = tk.StringVar(value=i18n.default)
 
-    # - on_verb methods:
+    # - Event handlers:
 
     @classmethod
     def _on_language_select(cls) -> None:
-        lang = cls._lang_var.get()
+        """
+        Handle language selection changes. Resets all pages
+        so they reload their UI with the new language.
+        """
+
+        lang = cls._language_var.get()
         if lang == i18n.current_language:
             return
 
         i18n.set_language(lang)
+
+        # Reset all pages
         for page in Page.__subclasses__():
             page.reset()
 
@@ -32,6 +43,7 @@ class MenuPage(Page):
 
     @classmethod
     def show(cls) -> None:
+        # Configure back-navigation for the form page
         from .form_page import FormPage
 
         FormPage.prev_page = cls
@@ -53,33 +65,37 @@ class MenuPage(Page):
         about_button = cls.get_button()
         exit_button = cls.get_button()
 
-        # Elements configuration
-        lang_combobox.config(textvariable=cls._lang_var, **page_styles.language)
+        # - Configuration:
+
+        lang_combobox.config(textvariable=cls._language_var, **page_styles.language)
         form_button.config(
             text=i18n.get("menu.form_button"),
             command=FormPage.show,
             **app_styles.primary_button,
         )
+
         records_button.config(
             command=RecordsPage.show,
             **page_styles.records_button,
         )
+
         about_button.config(
             command=AboutPage.show,
             **page_styles.about_button,
         )
+
         exit_button.config(
             text=i18n.get("menu.exit_button"),
             command=ROOT.destroy,
             **page_styles.exit_button,
         )
 
-        # Elements bindings configuration
+        # Bindings
         lang_combobox.bind(
             EventType.DROP_DOWN_CLICK, lambda event: cls._on_language_select()
         )
 
-        # - Elements widget arrangement:
+        # - Layout:
 
         # Header
         page_banner.pack(padx=10, pady=5)
@@ -91,43 +107,46 @@ class MenuPage(Page):
         cls.set_text(text=i18n.get("menu.instructions"), **page_styles.instructions)
         cls.set_empty_separator(pady=20)
 
-        # Language
-        rel_x, rel_y = 0, 0
-        lang_combobox.place(relx=rel_x + 0.005, rely=rel_y + 0.03)
+        # Language selector
         cls.set_text_at(
             text=i18n.get("app.language"),
-            coords=(rel_x, rel_y),
+            coords=(0, 0),
             **page_styles.language_label,
         )
+        lang_combobox.place(relx=0.005, rely=0.03)
 
         # Form button
         form_button.pack(pady=0)
 
         # Records button
-        rel_x, rel_y = 0.5, 0.74
-        records_button.place(relx=rel_x, rely=rel_y, anchor="center")
+        records_x, records_y = 0.5, 0.74
+        records_button.place(relx=records_x, rely=records_y, anchor="center")
         cls.set_text_at(
             text=i18n.get("menu.records_button"),
-            coords=(rel_x - 0.01, rel_y + 0.06),
+            coords=(records_x - 0.01, records_y + 0.06),
             **page_styles.records_button_text,
         )
 
         # About button
-        rel_x, rel_y = 0.1, 0.9
-        about_button.place(relx=rel_x, rely=rel_y, anchor="center")
+        about_x, about_y = 0.1, 0.9
+        about_button.place(relx=about_x, rely=about_y, anchor="center")
         cls.set_text_at(
             text=i18n.get("menu.about_button"),
-            coords=(rel_x, rel_y + 0.06),
+            coords=(about_x, about_y + 0.06),
             **page_styles.about_button_text,
         )
 
         # Exit button
-        rel_x, rel_y = 0.92, 0.94
-        exit_button.place(relx=rel_x, rely=rel_y, anchor="center")
+        exit_x, exit_y = 0.92, 0.94
+        exit_button.place(relx=exit_x, rely=exit_y, anchor="center")
         cls.set_text_at(
-            coords=(rel_x, rel_y + 0.04),
+            coords=(exit_x, exit_y + 0.04),
             fg=exit_button.cget("fg"),
             **page_styles.exit_button_text,
         )
 
         cls.set_copyright()
+
+
+# Public API
+__all__ = ("MenuPage",)

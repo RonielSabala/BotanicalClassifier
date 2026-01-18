@@ -257,20 +257,20 @@ class Page(ABC):
         button = cls.get_button()
         button_label = cls.get_label()
 
-        # Elements configuration
+        # Configuration
         button.config(command=lambda: _on_escape(None), **app_styles.return_button)
         button_label.config(
             text=i18n.get("app.return_button"),
             **app_styles.return_button_label,
         )
 
-        # Place elements
+        # Bindings
+        cls.root.bind(EventType.ESCAPE, _on_escape)
+
+        # Layout
         rel_x, rel_y = 0.045, 0.03
         button.place(relx=rel_x, rely=rel_y)
         button_label.place(relx=rel_x, rely=rel_y + 0.07)
-
-        # Bind escape event
-        cls.root.bind(EventType.ESCAPE, _on_escape)
 
     @classmethod
     def set_copyright(cls) -> None:
@@ -289,3 +289,6 @@ class Page(ABC):
         label = cls.get_label()
         label.config(pady=pady, **app_styles.empty_separator)
         label.pack()
+
+
+__all__ = ("Page",)
