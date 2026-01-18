@@ -363,10 +363,6 @@ class RecordsPage(Page):
 
     @classmethod
     def _render_records_grid(cls, grid: tk.Frame) -> None:
-        # Destroy previous grids
-        for widget in grid.winfo_children():
-            widget.destroy()
-
         cls._column_buttons = []
         max_row = TableLayout.ROWS_PER_PAGE
         flow_column_index = TableLayout.FLOWER_COLUMN - 1
@@ -482,7 +478,7 @@ class RecordsPage(Page):
 
         # - Configuration:
 
-        if cls._filter.is_active():
+        if cls._filter.text is not None:
             cls.main_entry = search_entry
 
         search_entry.config(textvariable=cls._filter_var, **app_styles.text_entry)
