@@ -38,6 +38,7 @@ class TableLayout(int, Enum):
     COLUMNS = 6
     ROWS_PER_PAGE = 3
     FLOWER_COLUMN = 5
+    SEARCH_ENTRY_COLUMNSPAN = 3
 
 
 @dataclass(slots=True)
@@ -54,14 +55,7 @@ class SearchFilter:
 
 
 class RecordsPage(Page):
-    """
-    Paginated records table with filtering and classification
-    actions.
-    """
-
     prev_page = MenuPage
-
-    # - State:
 
     _all_records: list[Record]
     _visible_records: list[Optional[Record]]
@@ -223,9 +217,9 @@ class RecordsPage(Page):
         return page_styles.even_row_cell
 
     @staticmethod
-    def _arrow_state(enabled: bool) -> dict[str, Any]:
-        state = tk.NORMAL if enabled else tk.DISABLED
-        cursor = MouseType.CAN_CLICK if enabled else MouseType.CANT_CLICK
+    def _get_arrow_state(enable: bool) -> dict[str, Any]:
+        state = tk.NORMAL if enable else tk.DISABLED
+        cursor = MouseType.CAN_CLICK if enable else MouseType.CANT_CLICK
         return {"state": state, "cursor": cursor}
 
     # - Grid rendering:
@@ -247,7 +241,7 @@ class RecordsPage(Page):
         )
 
         # Layout
-        label.grid(row=0, column=0, pady=5)
+        label.grid(row=0, column=0)
         button.grid(row=1, column=0)
         return grid
 
@@ -285,8 +279,8 @@ class RecordsPage(Page):
         )
 
         # Layout
-        tag_label.grid(row=0, column=0, padx=0, sticky="nsew")
-        probability_label.grid(row=0, column=1, padx=0, sticky="nsew")
+        tag_label.grid(row=0, column=0, sticky="nsew")
+        probability_label.grid(row=0, column=1, sticky="nsew")
 
         # Insert prediction elements
         for row, prediction in enumerate(predictions):
@@ -499,7 +493,7 @@ class RecordsPage(Page):
         cls._left_arrow.config(
             text=UISymbols.PREV_PAGE,
             command=cls._on_prev_page,
-            **cls._arrow_state(left_enabled),
+            **cls._get_arrow_state(left_enabled),
             **page_styles.navigation_arrow,
         )
 
@@ -507,7 +501,7 @@ class RecordsPage(Page):
         cls._right_arrow.config(
             text=UISymbols.NEXT_PAGE,
             command=cls._on_next_page,
-            **cls._arrow_state(right_enabled),
+            **cls._get_arrow_state(right_enabled),
             **page_styles.navigation_arrow,
         )
 
@@ -539,12 +533,15 @@ class RecordsPage(Page):
         records_grid.pack(fill="both", padx=20, pady=0)
         nav_grid.pack(fill="none", padx=35, pady=0)
 
-        search_entry.grid(row=0, column=1, columnspan=3, padx=0, pady=10, sticky="nsew")
-        search_button.grid(row=0, column=4, sticky="w")
+        columnspan = TableLayout.SEARCH_ENTRY_COLUMNSPAN.value
+        search_entry.grid(
+            row=0, column=1, columnspan=columnspan, pady=10, sticky="nsew"
+        )
+        search_button.grid(row=0, column=columnspan + 1, sticky="w")
 
-        cls._left_arrow.grid(row=0, column=0, padx=0, pady=5, sticky="nsew")
-        page_label.grid(row=0, column=1, padx=0, pady=5, sticky="nsew")
-        cls._right_arrow.grid(row=0, column=2, padx=0, pady=5, sticky="nsew")
+        cls._left_arrow.grid(row=0, column=0, pady=5, sticky="nsew")
+        page_label.grid(row=0, column=1, pady=5, sticky="nsew")
+        cls._right_arrow.grid(row=0, column=2, pady=5, sticky="nsew")
 
         cls.set_empty_separator(pady=1)
 

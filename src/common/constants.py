@@ -1,6 +1,5 @@
 """
-Application constants and defaults used by the GUI and image
-utilities.
+Application constants and defaults used by the GUI.
 """
 
 from dataclasses import dataclass
@@ -17,11 +16,11 @@ IMAGE_SIZE_PX: Final[int] = 128
 IMAGE_FILENAME_PREFIX: Final[str] = "flower_survey"
 ALLOWED_IMAGE_EXTENSIONS_STR: Final[str] = "*.png;*.jpg;*.jpeg"
 
-# Copyright / Organization
+# Copyright strings
 COPYRIGHT_SYMBOL: Final[str] = "©"
-COMPANY_NAME: Final[str] = "Jardín Botánico Nacional"
+ORGANIZATION_NAME: Final[str] = "Jardín Botánico Nacional"
 
-# About / Contact
+# About info
 ABOUT_SUBTITLE: Final[str] = "Dr. Rafael M. Moscoso"
 ABOUT_ADDRESS_INFO: Final[str] = (
     "Av. República de Colombia esq. Av. Los Próceres\n"

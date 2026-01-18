@@ -16,7 +16,7 @@ class Record:
     * Attributes:
         - name, surname, address: Person identification fields.
 
-        - image_path: Filesystem path to the image associated
+        - image_path: Path as an string to the image associated
         with this record.
 
         - predictions: List of TagPrediction objects, None when
@@ -35,8 +35,8 @@ class Record:
 
     def get_property_by_index(self, index: int) -> str:
         """
-        Map `index` to the instance properties in order. Raises
-        IndexError when `index` is invalid.
+        Map `index` to the instance properties (in order).
+        Raises `IndexError` when `index` is invalid.
         """
 
         if index == 0:

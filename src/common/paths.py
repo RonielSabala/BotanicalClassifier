@@ -1,6 +1,5 @@
 """
 Path constants and helper functions for repository resources.
-All path objects are pathlib.Path instances.
 """
 
 from pathlib import Path
@@ -34,7 +33,7 @@ def i18n_file_path(lang: str) -> Path:
 def _about_content_dir(lang: str) -> Path:
     """
     Return the directory path containing about content
-    for a given language code.
+    for the given language code.
     """
 
     return _RESOURCES_DIR / "content" / lang
@@ -42,8 +41,7 @@ def _about_content_dir(lang: str) -> Path:
 
 def faq_path(lang: str) -> Path:
     """
-    Return the FAQ text file path for a given
-    language.
+    Return the FAQ text file path for the given language.
     """
 
     return _about_content_dir(lang) / "faq.txt"
@@ -51,8 +49,7 @@ def faq_path(lang: str) -> Path:
 
 def terms_path(lang: str) -> Path:
     """
-    Return the Terms text file path for a given
-    language.
+    Return the Terms text file path for the given language.
     """
 
     return _about_content_dir(lang) / "terms.txt"
@@ -60,8 +57,7 @@ def terms_path(lang: str) -> Path:
 
 def policies_path(lang: str) -> Path:
     """
-    Return the Policies text file path for a given
-    language.
+    Return the Policies text file path for the given language.
     """
 
     return _about_content_dir(lang) / "policies.txt"

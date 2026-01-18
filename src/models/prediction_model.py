@@ -1,5 +1,5 @@
 """
-Model describing a single predicted tag from the classifier.
+Model describing a single predicted tag from the predictor.
 """
 
 from __future__ import annotations
@@ -13,8 +13,7 @@ class TagPrediction:
     * Attributes:
         - tag_name: Name of the predicted tag.
 
-        - probability: Confidence for the tag in the range
-        [0.0, 1.0].
+        - probability: Confidence for the tag in the range [0.0, 1.0].
     """
 
     tag_name: str

@@ -1,6 +1,6 @@
 """
-Records service that loads, saves and manages Record objects
-persisted as JSON plus image files.
+Service that loads, saves and manages Record objects persisted
+as JSON plus image files.
 """
 
 import json
@@ -24,8 +24,8 @@ class RecordsService:
         records file.
         """
 
-        # Empty file
         if LOCAL_RECORDS_FILE.stat().st_size == 0:
+            # Empty file
             return dict()
 
         with open(LOCAL_RECORDS_FILE, "r") as f:

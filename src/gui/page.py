@@ -2,8 +2,8 @@
 Abstract base Page class providing common widget factories and
 lifecycle helpers.
 
-Pages should subclass Page and implement the `load()` classmethod
-where they build their UI.
+Pages must subclass Page and implement the `load()` classmethod
+in which they build their UI.
 """
 
 from __future__ import annotations
@@ -23,14 +23,31 @@ from .tk_enums import EventType
 
 
 class Page(ABC):
-    # Each subclass will have its own frame stored here
+    """
+    * Class variables:
+        - root: The page root. Each subclass will have its own
+        frame stored here.
+
+        - _is_loaded: Whether or not the page is already
+        loaded.
+
+        - main_entry: Optional main entry widget for focus
+        management.
+
+        - prev_page: Optional reference to the previous page
+        class.
+
+        - fg_color: Every page widget will have this foreground
+        color.
+
+        - bg_color: Every page widget will have this background
+        color.
+    """
+
     root: tk.Frame
     _is_loaded: bool = False
 
-    # Optional main entry widget for focus management
     main_entry: Optional[tk.Entry] = None
-
-    # Optional reference to the previous page class
     prev_page: Optional[type[Page]] = None
 
     fg_color: str = app_styles.fg_color
@@ -47,7 +64,12 @@ class Page(ABC):
 
     @classmethod
     @abstractmethod
-    def load(cls) -> None: ...
+    def load(cls) -> None:
+        """
+        Load the page.
+        """
+
+        ...
 
     @classmethod
     def close(cls) -> None:
@@ -101,11 +123,8 @@ class Page(ABC):
     ) -> tk.Label:
         """
         Return a simple tk.Label widget with `root` as its
-        parent and `image` as the widget image.
-
-        - If `root` is not provided, uses class' root.
-        - if `image` is provided, keeps a reference on the
-        widget to prevent tkinter image garbage collection.
+        parent and `image` as the widget image. If `root`
+        is not provided, uses class' root.
         """
 
         if root is None:
@@ -184,8 +203,7 @@ class Page(ABC):
     @classmethod
     def get_scrollable_text(cls) -> scrolledtext.ScrolledText:
         """
-        Return a simple scrolledtext.ScrolledText widget with
-        the provided values.
+        Return a simple scrolledtext.ScrolledText widget.
         """
 
         return scrolledtext.ScrolledText(
@@ -242,14 +260,17 @@ class Page(ABC):
     def set_return_button(cls) -> None:
         """
         Add a small return/back button when `prev_page` is
-        configured.
+        provided.
         """
 
         if cls.prev_page is None:
             return
 
         def _on_escape(event) -> None:
-            # Show the previous page and close this page
+            """
+            Show the previous page and close this page
+            """
+
             cls.prev_page.show()  # type: ignore
             cls.close()
 

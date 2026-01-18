@@ -1,5 +1,5 @@
 """
-Form-level validations and persistence helpers.
+Service for form-level validations and persistence helpers.
 """
 
 import shutil
@@ -30,15 +30,16 @@ class FormService:
         # Normalize user-provided image path
         user_image_path = Path(record.image_path)
 
-        # Safe extension
+        # Safe image extension
         image_extension = user_image_path.suffix.lower()
         image_filename = f"{IMAGE_FILENAME_PREFIX}_{record_id}{image_extension}"
         dest_path = LOCAL_IMAGES_DIR / image_filename
 
+        # Update record to persist
         record.record_id = record_id
         record.image_path = str(dest_path)
 
-        # Save image and persist record
+        # Save data
         shutil.copy(user_image_path, dest_path)
         RecordsService.insert_record(record)
 
@@ -70,8 +71,10 @@ class FormService:
     @staticmethod
     def _validate_image_path(image_path: str) -> bool:
         """
-        If the UI placeholder text is still present, treat
-        as unselected, otherwise, check filesystem existence.
+        Validates the user image. If the UI placeholder text is
+        still present, treat as unselected, otherwise, check
+        filesystem existence.
+
         On failure, show localized error and return False.
         """
 
@@ -91,8 +94,8 @@ class FormService:
     @classmethod
     def validate_record(cls, record: Record) -> bool:
         """
-        Validate `record` and returns True if all validations
-        pass, False otherwise and shows dialogs.
+        Validate a given record and returns True if all
+        validations pass, False otherwise and shows dialogs.
         """
 
         return (

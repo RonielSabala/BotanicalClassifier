@@ -44,10 +44,11 @@ class MenuPage(Page):
 
     @classmethod
     def show(cls) -> None:
-        # Configure back-navigation for the form page
         from .form_page import FormPage
 
+        # Configure back-navigation for the form page
         FormPage.prev_page = cls
+
         super().show()
 
     @classmethod

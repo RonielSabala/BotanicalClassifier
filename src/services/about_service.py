@@ -23,7 +23,8 @@ class AboutService:
         """
 
         lang_code = i18n.current_language
-        with open(path_getter(lang_code), "r", encoding="utf-8") as f:
+        file_path = path_getter(lang_code)
+        with open(file_path, "r", encoding="utf-8") as f:
             return f.read()
 
     @classmethod

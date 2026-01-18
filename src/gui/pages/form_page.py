@@ -38,7 +38,7 @@ class FormPage(Page):
     @classmethod
     def _on_image_select(cls, image_entry: tk.Entry) -> None:
         """
-        Open file dialog to select an image and update UI.
+        Open a file dialog to select an image.
         """
 
         user_image = filedialog.askopenfilename(
@@ -50,7 +50,6 @@ class FormPage(Page):
         if not user_image:
             return
 
-        # Show only the filename to the user
         image_entry.config(state="normal")
         image_entry.delete(0, tk.END)
         image_entry.insert(0, user_image.split("/")[-1])
@@ -87,10 +86,7 @@ class FormPage(Page):
 
     @classmethod
     def show(cls) -> None:
-        """
-        Reset form state every time the page is shown.
-        """
-
+        # Reset form state every time the page is shown.
         cls.name_var.set("")
         cls.surname_var.set("")
         cls.address_var.set("")

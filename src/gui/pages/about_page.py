@@ -38,7 +38,7 @@ class AboutPage(Page):
         cls, *, root: tk.Frame, row: int, column: int, styles: dict[str, Any]
     ) -> None:
         label = cls.get_label(root)
-        label.config(text=UISymbols.LINKS_SEPARATION, padx=0, **styles)
+        label.config(text=UISymbols.LINKS_SEPARATION, **styles)
         label.grid(row=row, column=column, sticky="ns")
 
     # - Overridden methods:
@@ -122,7 +122,7 @@ class AboutPage(Page):
         # Grids
         header_grid.pack(fill="none", padx=85, pady=40)
         content_grid.pack(fill="none", expand=True, padx=85, pady=35)
-        links_grid.pack(fill="y", padx=0, pady=100)
+        links_grid.pack(fill="y", pady=100)
 
         # Header
         shield_image.grid(row=0, column=0, sticky="nse")
@@ -170,7 +170,6 @@ class _ScrollableTextPage(Page):
     title_key: str
     content_loader: Callable
 
-    # Page styles
     title_pad_y: int
     scrollable_text_pad_y: int
     scrollable_text_styles: dict[str, Any]

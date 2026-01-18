@@ -19,7 +19,7 @@ def path_exists(path: str | Path) -> bool:
 
 def show_error_messagebox(error_message: str) -> None:
     """
-    Show an error messagebox with a standard title.
+    Show an error messagebox.
     """
 
     messagebox.showerror("Error", error_message)
@@ -27,18 +27,18 @@ def show_error_messagebox(error_message: str) -> None:
 
 def load_image_tk(image_path: Path) -> ImageTk.PhotoImage:
     """
-    Load an image from disk and return a Tk-compatible
+    Load an image from `image_path` and return a Tk-compatible
     PhotoImage.
     """
 
-    img = Image.open(image_path).convert(IMAGE_MODE)
-    return ImageTk.PhotoImage(img)
+    image = Image.open(image_path).convert(IMAGE_MODE)
+    return ImageTk.PhotoImage(image)
 
 
 def load_resized_image_tk(image_path: str | Path) -> ImageTk.PhotoImage:
     """
-    Load an image from `image_path`, resize it to fit
-    inside a square preserving aspect ratio.
+    Load an image from `image_path` and resizes it to
+    fit inside a square preserving aspect ratio.
     """
 
     image = Image.open(image_path).convert(IMAGE_MODE)
@@ -79,12 +79,11 @@ def remove_keys_from_mapping(style: dict[str, Any], to_remove: Iterable[str]) ->
 
 def get_subclasses(obj: T) -> Generator[T, None, None]:
     """
-    Returns all the subclasses of `obj`.
+    Yield all the subclasses of `obj`.
     """
 
     subclasses = obj.__subclasses__()  # type: ignore
     yield from subclasses
-
     if not subclasses:
         return
 

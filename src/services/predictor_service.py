@@ -24,7 +24,7 @@ _CLIENT: Optional[CustomVisionPredictionClient] = None
 
 def _get_client() -> CustomVisionPredictionClient:
     """
-    Lazily create and return a CustomVisionPredictionClient.
+    Lazily create and return a `CustomVisionPredictionClient`.
     """
 
     global _CLIENT

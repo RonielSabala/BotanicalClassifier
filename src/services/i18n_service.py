@@ -1,6 +1,6 @@
 """
-i18n service that loads simple JSON translation catalogs
-per language code.
+Service that loads simple JSON translation catalogs per
+language code.
 """
 
 import json
@@ -39,8 +39,8 @@ class I18nService:
 
     def _add_language(self, lang: str) -> None:
         """
-        Load the language file to store it in the catalog.
-        Raises FileNotFoundError if the translation file
+        Load the language file and store it in the catalog.
+        Raises `FileNotFoundError` if the translation file
         does not exist.
         """
 
@@ -49,9 +49,9 @@ class I18nService:
             raise FileNotFoundError(f"Translation file not found: {lang_file}")
 
         with open(lang_file, "r", encoding="utf-8") as f:
-            lang_json = json.load(f)
+            lang_data = json.load(f)
 
-        self._catalogs[lang] = {str(k): str(v) for k, v in lang_json.items()}
+        self._catalogs[lang] = {str(k): str(v) for k, v in lang_data.items()}
 
     def set_language(self, lang: str) -> None:
         """
@@ -65,7 +65,7 @@ class I18nService:
     @property
     def current_language(self) -> str:
         """
-        Current language code.
+        The current language code.
         """
 
         return self._current
@@ -77,11 +77,7 @@ class I18nService:
         """
 
         catalog = self._catalogs[self._current]
-        value = catalog.get(key)
-        if value is None:
-            return key
-
-        return value
+        return catalog.get(key, key)
 
 
 # Global singleton
