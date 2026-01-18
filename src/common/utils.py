@@ -4,11 +4,13 @@ Utility functions used by the GUI.
 
 from pathlib import Path
 from tkinter import messagebox
-from typing import Any, Iterable
+from typing import Any, Generator, Iterable, TypeVar
 
 from PIL import Image, ImageTk
 
 from .constants import IMAGE_BG_RGBA, IMAGE_MODE, IMAGE_SIZE_PX
+
+T = TypeVar("T")
 
 
 def path_exists(path: str | Path) -> bool:
@@ -75,6 +77,21 @@ def remove_keys_from_mapping(style: dict[str, Any], to_remove: Iterable[str]) ->
             raise KeyError(f"style ({style}) doesn't has the key '{key}'")
 
 
+def get_subclasses(obj: T) -> Generator[T, None, None]:
+    """
+    Returns all the subclasses of `obj`.
+    """
+
+    subclasses = obj.__subclasses__()  # type: ignore
+    yield from subclasses
+
+    if not subclasses:
+        return
+
+    for subclass in subclasses:
+        yield from get_subclasses(subclass)
+
+
 # Public API
 __all__ = (
     "path_exists",
@@ -82,4 +99,5 @@ __all__ = (
     "load_image_tk",
     "load_resized_image_tk",
     "remove_keys_from_mapping",
+    "get_subclasses",
 )

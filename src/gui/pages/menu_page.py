@@ -4,6 +4,7 @@ Main menu page of the application.
 
 import tkinter as tk
 
+from common.utils import get_subclasses
 from services.i18n_service import Language, i18n
 
 from ..assets.images import APP_BANNER_IMAGE
@@ -33,7 +34,7 @@ class MenuPage(Page):
         i18n.set_language(lang)
 
         # Reset all pages
-        for page in Page.__subclasses__():
+        for page in get_subclasses(Page):
             page.reset()
 
         set_window_title()
@@ -55,7 +56,7 @@ class MenuPage(Page):
         from .form_page import FormPage
         from .records_page import RecordsPage
 
-        # - Page elements:
+        # - Widgets:
 
         page_banner = cls.get_label(image=APP_BANNER_IMAGE)
 
@@ -92,7 +93,7 @@ class MenuPage(Page):
 
         # Bindings
         lang_combobox.bind(
-            EventType.DROP_DOWN_CLICK, lambda event: cls._on_language_select()
+            EventType.DROP_DOWN_CLICK, lambda _: cls._on_language_select()
         )
 
         # - Layout:
