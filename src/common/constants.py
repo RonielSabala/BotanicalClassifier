@@ -13,7 +13,7 @@ WINDOW_HEIGHT: Final[int] = 900
 IMAGE_MODE: Final[str] = "RGBA"
 IMAGE_BG_RGBA: Final[tuple[int, int, int, int]] = 0, 0, 0, 0
 IMAGE_SIZE_PX: Final[int] = 128
-IMAGE_FILENAME_PREFIX: Final[str] = "flower_survey"
+IMAGE_FILENAME_PREFIX: Final[str] = "flower_survey_"
 ALLOWED_IMAGE_EXTENSIONS_STR: Final[str] = "*.png;*.jpg;*.jpeg"
 
 # Copyright strings

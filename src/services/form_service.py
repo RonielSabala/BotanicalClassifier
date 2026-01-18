@@ -18,6 +18,21 @@ from .i18n_service import i18n
 
 class FormService:
     @classmethod
+    def _get_image_dest(cls, user_image_path: Path, record_id: int) -> Path:
+        """
+        Return the final image destination using the `flower_survey_xx`
+        convention.
+        """
+
+        record_id += 1
+        flower_number = f"0{record_id}" if record_id < 10 else str(record_id)
+        image_extension = user_image_path.suffix.lower()
+
+        # Build path
+        image_filename = f"{IMAGE_FILENAME_PREFIX}{flower_number}{image_extension}"
+        return LOCAL_IMAGES_DIR / image_filename
+
+    @classmethod
     def save_form(cls, record: Record) -> None:
         """
         Persist the given record and copy the user's image
@@ -29,13 +44,9 @@ class FormService:
 
         # Normalize user-provided image path
         user_image_path = Path(record.image_path)
+        dest_path = cls._get_image_dest(user_image_path, record_id)
 
-        # Safe image extension
-        image_extension = user_image_path.suffix.lower()
-        image_filename = f"{IMAGE_FILENAME_PREFIX}_{record_id}{image_extension}"
-        dest_path = LOCAL_IMAGES_DIR / image_filename
-
-        # Update record to persist
+        # Update record
         record.record_id = record_id
         record.image_path = str(dest_path)
 
