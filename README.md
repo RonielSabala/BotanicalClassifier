@@ -2,8 +2,6 @@
 
 Computer-vision desktop application that classifies five flower types: **roses**, **orchids**, **daisies**, **carnations** and **sunflowers**. The application provides a simple Tkinter GUI to collect survey data, upload images, store images locally and call [Azure AI Custom Vision](https://www.customvision.ai/) for predictions.
 
-> For detailed design decisions, cost analysis, risks and screenshots, see `documentation.pdf`.
-
 ---
 
 ## Table of Contents
