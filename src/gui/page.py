@@ -1,3 +1,13 @@
+"""
+Abstract base Page class providing common widget factories and
+lifecycle helpers.
+
+Pages should subclass Page and implement the `load()` classmethod
+where they build their UI.
+"""
+
+from __future__ import annotations
+
 import tkinter as tk
 from abc import ABC, abstractmethod
 from tkinter import scrolledtext, ttk
@@ -13,10 +23,16 @@ from .tk_enums import EventType
 
 
 class Page(ABC):
+    # Each subclass will have its own frame stored here
     root: tk.Frame
     _is_loaded: bool = False
+
+    # Optional main entry widget for focus management
     main_entry: Optional[tk.Entry] = None
-    prev_page: Optional[type["Page"]] = None
+
+    # Optional reference to the previous page class
+    prev_page: Optional[type[Page]] = None
+
     fg_color: str = app_styles.fg_color
     bg_color: str = app_styles.bg_color
 
@@ -25,7 +41,7 @@ class Page(ABC):
     def __init_subclass__(cls, **kwargs) -> None:
         super().__init_subclass__(**kwargs)
 
-        # Assign a frame to each subclass
+        # Create a frame attached to the shared FRAME container
         cls.root = tk.Frame(FRAME)
         cls.root.grid(row=0, column=0, sticky="nsew")
 
@@ -34,10 +50,20 @@ class Page(ABC):
     def load(cls) -> None: ...
 
     @classmethod
-    def close(cls) -> None: ...
+    def close(cls) -> None:
+        """
+        Optional cleanup when leaving the page.
+        """
+
+        ...
 
     @classmethod
     def reset(cls) -> None:
+        """
+        Destroy and recreate the page frame so it will be
+        rebuilt next time shown.
+        """
+
         cls._is_loaded = False
         cls.root.destroy()
         cls.root = tk.Frame(FRAME)
@@ -45,6 +71,11 @@ class Page(ABC):
 
     @classmethod
     def show(cls) -> None:
+        """
+        Raise the page's frame and set focus on its main entry
+        if present.
+        """
+
         if not cls._is_loaded:
             cls._is_loaded = True
             cls.load()
@@ -60,12 +91,23 @@ class Page(ABC):
         main_entry.focus_set()
         main_entry.icursor(tk.END)
 
-    # - Getter utils:
+    # - Widget factories:
 
     @classmethod
     def get_label(
-        cls, root: Optional[tk.Frame] = None, image: Optional[ImageTk.PhotoImage] = None
+        cls,
+        root: Optional[tk.Frame] = None,
+        image: Optional[ImageTk.PhotoImage] = None,
     ) -> tk.Label:
+        """
+        Return a simple tk.Label widget with `root` as its
+        parent and `image` as the widget image.
+
+        - If `root` is not provided, uses class' root.
+        - if `image` is provided, keeps a reference on the
+        widget to prevent tkinter image garbage collection.
+        """
+
         if root is None:
             root = cls.root
 
@@ -80,6 +122,11 @@ class Page(ABC):
 
     @classmethod
     def get_button(cls, root: Optional[tk.Frame] = None) -> tk.Button:
+        """
+        Return a simple tk.Button widget with `root` as its
+        parent. If `root` is not provided, uses class' root.
+        """
+
         if root is None:
             root = cls.root
 
@@ -93,6 +140,11 @@ class Page(ABC):
 
     @classmethod
     def get_entry(cls, root: Optional[tk.Frame] = None) -> tk.Entry:
+        """
+        Return a simple tk.Entry widget with `root` as its
+        parent. If `root` is not provided, uses class' root.
+        """
+
         if root is None:
             root = cls.root
 
@@ -105,6 +157,11 @@ class Page(ABC):
 
     @classmethod
     def get_grid(cls, root: Optional[tk.Frame] = None) -> tk.Frame:
+        """
+        Return a simple tk.Frame widget with `root` as its
+        parent. If `root` is not provided, uses class' root.
+        """
+
         if root is None:
             root = cls.root
 
@@ -112,6 +169,11 @@ class Page(ABC):
 
     @classmethod
     def get_combobox(cls, *, values: tuple[str, ...]) -> ttk.Combobox:
+        """
+        Return a simple ttk.Combobox widget with the provided
+        values.
+        """
+
         return ttk.Combobox(
             cls.root,
             values=values,
@@ -121,13 +183,18 @@ class Page(ABC):
 
     @classmethod
     def get_scrollable_text(cls) -> scrolledtext.ScrolledText:
+        """
+        Return a simple scrolledtext.ScrolledText widget with
+        the provided values.
+        """
+
         return scrolledtext.ScrolledText(
             cls.root,
             fg=cls.fg_color,
             bg=cls.bg_color,
         )
 
-    # - Setter utils:
+    # - Helpers to place and configure widgets:
 
     @classmethod
     def set_text(
@@ -138,6 +205,10 @@ class Page(ABC):
         font: tuple[str, int],
         fg: Optional[str] = None,
     ) -> None:
+        """
+        Packs a new Label widget in the page.
+        """
+
         if fg is None:
             fg = cls.fg_color
 
@@ -155,6 +226,10 @@ class Page(ABC):
         font: tuple[str, int],
         fg: Optional[str] = None,
     ) -> None:
+        """
+        Places a new Label widget in the page.
+        """
+
         if fg is None:
             fg = cls.fg_color
 
@@ -165,34 +240,52 @@ class Page(ABC):
 
     @classmethod
     def set_return_button(cls) -> None:
+        """
+        Add a small return/back button when `prev_page` is
+        configured.
+        """
+
         if cls.prev_page is None:
             return
 
         def _on_escape(event) -> None:
+            # Show the previous page and close this page
             cls.prev_page.show()  # type: ignore
             cls.close()
 
+        # Button elements
         button = cls.get_button()
         button_label = cls.get_label()
 
+        # Elements configuration
         button.config(command=lambda: _on_escape(None), **app_styles.return_button)
         button_label.config(
             text=i18n.get("app.return_button"),
             **app_styles.return_button_label,
         )
 
+        # Place elements
         rel_x, rel_y = 0.045, 0.03
         button.place(relx=rel_x, rely=rel_y)
         button_label.place(relx=rel_x, rely=rel_y + 0.07)
 
+        # Bind escape event
         cls.root.bind(EventType.ESCAPE, _on_escape)
 
     @classmethod
     def set_copyright(cls) -> None:
+        """
+        Places the copyright text in the page.
+        """
+
         cls.set_text_at(text=get_copyright(), **app_styles.copyright_text)
 
     @classmethod
     def set_empty_separator(cls, *, pady: int) -> None:
+        """
+        Packs an empty separator in the page.
+        """
+
         label = cls.get_label()
         label.config(pady=pady, **app_styles.empty_separator)
         label.pack()

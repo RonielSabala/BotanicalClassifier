@@ -1,7 +1,15 @@
+"""
+Simple enums for Tkinter-related constants.
+"""
+
 from enum import Enum
 
 
 class MouseType(str, Enum):
+    """
+    Common mouse cursor types used in the UI.
+    """
+
     DEFAULT = "arrow"
     CAN_CLICK = "hand2"
     CANT_CLICK = "no"
@@ -9,6 +17,10 @@ class MouseType(str, Enum):
 
 
 class EventType(str, Enum):
+    """
+    Common Tkinter event strings used for widget bindings.
+    """
+
     ARROW_UP = "<Up>"
     ARROW_DOWN = "<Down>"
     ESCAPE = "<Escape>"
