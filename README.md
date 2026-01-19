@@ -1,6 +1,6 @@
 # BotanicalClassifier
 
-Desktop application that classifies five flower types using Azure AI Custom Vision: **roses**, **orchids**, **daisies**, **carnations**, and **sunflowers**. The app provides a friendly Tkinter GUI to collect survey responses, upload and store images locally, and call Azure API for real-time AI classification.
+Desktop application that classifies five flower types using an Azure Custom Vision model: **roses**, **orchids**, **daisies**, **carnations**, and **sunflowers**. The app provides a friendly Tkinter GUI to collect survey responses, upload and store images locally, and request real-time predictions from Azure Custom Vision.
 
 ---
 
@@ -8,19 +8,19 @@ Desktop application that classifies five flower types using Azure AI Custom Visi
 
 * [Use case & motivation](#use-case--motivation)
 * [Features](#features)
-* [Architecture Overview](#architecture-overview)
+* [Architecture overview](#architecture-overview)
 * [Installation](#installation)
   * [Requirements](#requirements)
-  * [Azure Custom Vision Setup](#azure-custom-vision-setup)
+  * [Azure Custom Vision setup](#azure-custom-vision-setup)
   * [`.env` configuration](#env-configuration)
-  * [Virtual Environment Setup](#virtual-environment-setup)
-  * [Install Dependencies](#install-dependencies)
-  * [Run Locally](#run-locally)
-  * [Update After Changes (Optional)](#update-after-changes-optional)
-* [Model Evaluation & Metrics](#model-evaluation--metrics)
-* [Scalability & Extensibility](#scalability--extensibility)
-* [Limitations & Risks](#limitations--risks)
-* [Credits](#credits)
+  * [Virtual environment setup](#virtual-environment-setup)
+  * [Install dependencies](#install-dependencies)
+  * [Run locally](#run-locally)
+  * [Update after changes (optional)](#update-after-changes-optional)
+* [Model evaluation & metrics](#model-evaluation--metrics)
+* [Scalability & extensibility](#scalability--extensibility)
+* [Limitations & risks](#limitations--risks)
+* [Attribution & credits](#attribution--credits)
 * [Contributing](#contributing)
 * [License](#license)
 
@@ -32,9 +32,7 @@ The Jardín Botánico Nacional is conducting a nationwide research project to es
 
 The garden needs to homologate these photos and assign a flower type to each image. The target classes are: **roses**, **orchids**, **daisies**, **carnations**, and **sunflowers**. Manual labeling at scale is time-consuming and staff resources are limited, so they require an automated solution to speed up classification and reduce human workload.
 
----
-
-This repository contains the desktop application that implements the above automation: image ingestion, local storage conventions, a GUI for survey management, and the Custom Vision integration for predictions.
+This repository implements a desktop application that supports that workflow: image ingestion, local storage, a survey GUI, and an integration with Azure Custom Vision to obtain and display model predictions.
 
 ---
 
@@ -42,20 +40,19 @@ This repository contains the desktop application that implements the above autom
 
 * Lightweight desktop GUI with Tkinter for:
   * Filling a short survey (name, surname, address) and attaching a flower image.
-  * Saving images locally for research purposes.
-  * Sending images to **Azure Custom Vision** and displaying **real-time predictions** sorted by confidence.
+  * Saving images and structured records locally for research and audit.
+  * Sending images to **Azure Custom Vision** and showing sorted predictions by confidence.
   * Browsing/searching stored survey records, paginated view, and manual classification trigger.
-* **Local-first design**: images and records are stored locally.
-* **Internationalization (i18n)** with built-in English and Spanish language support.
-* **Modular design** that separates GUI, services, and models for easier maintenance.
+* **Local-first design**: images and JSON records are stored locally.
+* **Internationalization (i18n)**: English and Spanish language support.
 
 ---
 
-## Architecture Overview
+## Architecture overview
 
-The application follows a layered architecture that separates concerns between presentation, business logic, and data management. Each module is designed with clear responsibilities to ensure maintainability and scalability.
+The project follows a layered design that separates concerns between presentation, business logic, models, and common utilities. Each module is designed with clear responsibilities to ensure maintainability and scalability.
 
-### High-Level Structure
+### High-level structure
 
 ```md
 BotanicalClassifier/
@@ -71,9 +68,9 @@ BotanicalClassifier/
 └── README.md
 ```
 
-### Layer Responsibilities
+### Layer responsibilities
 
-#### Presentation Layer (`gui/`)
+#### Presentation layer (`gui/`)
 
 User interface built with Tkinter, organized into three main components:
 
@@ -81,7 +78,7 @@ User interface built with Tkinter, organized into three main components:
 * **pages/**: Application screens.
 * **styles/**: Style definitions of all UI components.
 
-#### Business Logic (`services/`)
+#### Business logic (`services/`)
 
 Handles core application functionality:
 
@@ -91,7 +88,7 @@ Handles core application functionality:
 * **form_service**: Validation logic for the survey form.
 * **about_service**: Dynamic content loader for About sections.
 
-#### Data Layer (`models/`)
+#### Data layer (`models/`)
 
 Data models representing core domain entities:
 
@@ -116,9 +113,9 @@ Static and dynamic content assets:
 * **images/**: Static images.
 * **local/**: Local storage directory for user survey data.
 
-### Dataset Organization
+### Dataset organization
 
-Training images are organized by category with **55+ unique** samples each:
+Training images are organized by class:
 
 ```md
 dataset/
@@ -140,7 +137,7 @@ All images follow the `flower_survey_xx.png` naming convention.
 * Python 3.11
 * Azure Custom Vision subscription.
 
-### Azure Custom Vision Setup
+### Azure Custom Vision setup
 
 #### Create a Custom Vision Project
 
@@ -152,14 +149,14 @@ All images follow the `flower_survey_xx.png` naming convention.
    * Domain: Select appropriate for flower images.
    * Resource: Create or select existing.
 
-#### Train the Model
+#### Train the model
 
 1. For each class (`roses`, `orchids`, `daisies`, `carnations`, `sunflowers`) upload representative images from `dataset/` folders to corresponding tags.
 2. Remove duplicates, low-quality, or incorrectly-tagged images.
 3. Click **Train** > **Quick Training**.
 4. Publish the iteration with a descriptive **Published Name**.
 
-#### Get Credentials
+#### Get credentials
 
 * Copy `Prediction Key` and `Endpoint URL` from **Settings**.
 * Copy `Project ID` from **Azure Portal**.
@@ -176,7 +173,7 @@ CUSTOM_VISION_PROJECT_ID='your-project-id'
 CUSTOM_VISION_PUBLISHED_NAME='your-published-iteration-name'
 ```
 
-### Virtual Environment Setup
+### Virtual environment setup
 
 From the repository root:
 
@@ -192,20 +189,20 @@ source .venv/bin/activate
 
 ```
 
-### Install Dependencies
+### Install dependencies
 
 ```bash
 python -m pip install --upgrade pip setuptools wheel
 python -m pip install -e ".[dev]"
 ```
 
-### Run Locally
+### Run locally
 
 ```bash
 py ./src/app.py
 ```
 
-### Update After Changes (Optional)
+### Update after changes (optional)
 
 If you modify dependencies:
 
@@ -215,21 +212,15 @@ python -m pip install -e . --upgrade
 
 ---
 
-## Model Evaluation & Metrics
+## Model evaluation & metrics
 
-### Overall Performance
+### Overall performance
 
 The published iteration demonstrates strong classification performance across the validation set:
 
 ![Overall metrics](docs/metrics/overall_metrics.png)
 
-#### Key metrics
-
-* **Precision**: Proportion of correct positive predictions.
-* **Recall**: Proportion of actual positives correctly identified.
-* **Average Precision (AP)**: Overall model accuracy.
-
-### Per-Class Performance
+### Per-Class performance
 
 Individual class metrics reveal which categories are well-represented and which may benefit from additional training data:
 
@@ -237,51 +228,51 @@ Individual class metrics reveal which categories are well-represented and which 
 
 ---
 
-## Scalability & Extensibility
+## Scalability & extensibility
 
 The application is designed for growth:
 
 | Extension point | Detail |
 | --------------- | -------------- |
-| **Additional Pages** | Adding new page classes in `gui/pages/` with simple navigation is straightforward. |
-| **More Languages** | Adding new languages (`xx.json` catalogs) to `resources/i18n/` just requieres a small enum update. |
+| **Additional pages** | Adding new page classes in `gui/pages/` with simple navigation is straightforward. |
+| **More languages** | Adding new languages (`xx.json` catalogs) to `resources/i18n/` just requieres a small enum update. |
 | **Themes** | Centralized styles in `gui/styles/` enable dark/light mode support without large code changes. |
-| **New Flower Types** | Adding new tags to the Custom Vision model is straightforward; UI adapts automatically. |
+| **New flower types** | Adding new tags to the Custom Vision model is straightforward; UI adapts automatically. |
 | **Larger datasets / Improved Models** | As dataset size increases or a different model is adopted, the prediction API remains compatible. |
-| **Cloud Storage** | The `RecordsService` and `Paths` module centralize I/O operations, enabling straightforward migration to cloud-based solutions. |
+| **Cloud storage** | The `RecordsService` and `Paths` encapsulates storage logic, enabling straightforward migration to cloud-based solutions. |
 
 ---
 
-## Limitations & Risks
+## Limitations & risks
 
-* Single-user desktop design (no concurrent access).
+* Single-user desktop design, not intended for concurrent multi-user usage.
 * Local storage grows with survey submissions.
-* Requires active internet connection and Azure subscription.
+* Requires network connectivity and Azure Custom Vision subscription.
 * Free-tier limitations or constrained subscription limits may restrict the number of monthly predictions.
 * Classification accuracy may be affected by poor image resolution, blur, or non-standard formats.
 
 ---
 
-## Credits
+## Attribution & credits
 
-### Visual Design & Content
+### Visual design & content
 
 The application's visual identity and informational content are inspired by and adapted from the **Jardín Botánico Nacional** (National Botanical Garden of the Dominican Republic):
 
-* **UI Design**: Layout and color scheme inspired by [jbn.gob.do](https://www.jbn.gob.do/).
-* **Branding Assets**: Logo, banner images, and iconography sourced from official website.
-* **About Content**: Terms, policies, and informational sections translated and adapted from official documentation.
+* **UI design**: Layout and color scheme inspired by [jbn.gob.do](https://www.jbn.gob.do/).
+* **Branding assets**: Logo, banner images, and iconography sourced from official website.
+* **About content**: Terms, policies, and informational sections translated and adapted from official documentation.
 
 This is an educational project demonstrating Azure Custom Vision integration. All content from JBN is used respectfully for demonstration purposes.
 
 ### Dataset
 
-* **Image Source**: [Pexels](https://www.pexels.com/) (royalty-free)
+* **Image source**: [Pexels](https://www.pexels.com/)
 * **Curation**: Abel Eduardo Martínez Robles
 
 ### Technology
 
-* **AI Service**: Azure Custom Vision
+* **Prediction service**: Azure Custom Vision
 * **Application Development**: Roniel Antonio Sabala Germán
 
 ---
