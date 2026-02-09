@@ -6,23 +6,23 @@ Desktop application that classifies five flower types using an Azure Custom Visi
 
 ## Table of Contents
 
-* [Use case & motivation](#use-case--motivation)
-* [Features](#features)
-* [Architecture overview](#architecture-overview)
-* [Installation](#installation)
-  * [Requirements](#requirements)
-  * [Azure Custom Vision setup](#azure-custom-vision-setup)
-  * [`.env` configuration](#env-configuration)
-  * [Virtual environment setup](#virtual-environment-setup)
-  * [Install dependencies](#install-dependencies)
-  * [Run locally](#run-locally)
-  * [Update after changes (optional)](#update-after-changes-optional)
-* [Model evaluation & metrics](#model-evaluation--metrics)
-* [Scalability & extensibility](#scalability--extensibility)
-* [Limitations & risks](#limitations--risks)
-* [Attribution & credits](#attribution--credits)
-* [Contributing](#contributing)
-* [License](#license)
+- [Use case \& motivation](#use-case--motivation)
+- [Features](#features)
+- [Architecture overview](#architecture-overview)
+- [Installation](#installation)
+  - [Requirements](#requirements)
+  - [Azure Custom Vision setup](#azure-custom-vision-setup)
+  - [`.env` Configuration](#env-configuration)
+  - [Virtual Environment Setup](#virtual-environment-setup)
+  - [Install Dependencies](#install-dependencies)
+  - [Run Locally](#run-locally)
+  - [Update After Changes (optional)](#update-after-changes-optional)
+- [Model Evaluation \& Metrics](#model-evaluation--metrics)
+- [Scalability \& Extensibility](#scalability--extensibility)
+- [Limitations \& Risks](#limitations--risks)
+- [Attribution \& Credits](#attribution--credits)
+- [Contributing](#contributing)
+- [License](#license)
 
 ---
 
@@ -52,7 +52,7 @@ This repository implements a desktop application that supports that workflow: im
 
 The project follows a layered design that separates concerns between presentation, business logic, models, and common utilities. Each module is designed with clear responsibilities to ensure maintainability and scalability.
 
-### High-level structure
+### High-level Structure <!-- omit in toc -->
 
 ```md
 BotanicalClassifier/
@@ -68,9 +68,9 @@ BotanicalClassifier/
 └── README.md
 ```
 
-### Layer responsibilities
+### Layer Responsibilities <!-- omit in toc -->
 
-#### Presentation layer (`gui/`)
+#### Presentation Layer (`gui/`)
 
 User interface built with Tkinter, organized into three main components:
 
@@ -78,7 +78,7 @@ User interface built with Tkinter, organized into three main components:
 - **pages/**: Application screens.
 - **styles/**: Style definitions of all UI components.
 
-#### Business logic (`services/`)
+#### Business Logic (`services/`)
 
 Handles core application functionality:
 
@@ -88,7 +88,7 @@ Handles core application functionality:
 - **form_service**: Validation logic for the survey form.
 - **about_service**: Dynamic content loader for About sections.
 
-#### Data layer (`models/`)
+#### Data Layer (`models/`)
 
 Data models representing core domain entities:
 
@@ -113,7 +113,7 @@ Static and dynamic content assets:
 - **images/**: Static images.
 - **local/**: Local storage directory for user survey data.
 
-### Dataset organization
+### Dataset Organization <!-- omit in toc -->
 
 Training images are organized by class:
 
@@ -134,8 +134,8 @@ All images follow the `flower_survey_xx.png` naming convention.
 
 ### Requirements
 
-* Python 3.11
-* Azure Custom Vision subscription.
+- Python >= 3.13.9
+- Azure Custom Vision subscription.
 
 ### Azure Custom Vision setup
 
@@ -156,13 +156,13 @@ All images follow the `flower_survey_xx.png` naming convention.
 3. Click **Train** > **Quick Training**.
 4. Publish the iteration with a descriptive **Published Name**.
 
-#### Get credentials
+#### Get Credentials
 
 - Copy `Prediction Key` and `Endpoint URL` from **Settings**.
 - Copy `Project ID` from **Azure Portal**.
 - Note your `Published Name` from the published iteration.
 
-### `.env` configuration
+### `.env` Configuration
 
 Create a `.env` under `src/common/` containing your **Custom Vision** credentials:
 
@@ -173,13 +173,13 @@ CUSTOM_VISION_PROJECT_ID='your-project-id'
 CUSTOM_VISION_PUBLISHED_NAME='your-published-iteration-name'
 ```
 
-### Virtual environment setup
+### Virtual Environment Setup
 
 From the repository root:
 
 ```bash
 # Create virtual environment
-py -3.11 -m venv .venv
+python -m venv .venv
 
 # Activate (Windows)
 .venv\Scripts\Activate.ps1
@@ -189,20 +189,20 @@ source .venv/bin/activate
 
 ```
 
-### Install dependencies
+### Install Dependencies
 
 ```bash
 python -m pip install --upgrade pip setuptools wheel
 python -m pip install -e ".[dev]"
 ```
 
-### Run locally
+### Run Locally
 
 ```bash
 py ./src/app.py
 ```
 
-### Update after changes (optional)
+### Update After Changes (optional)
 
 If you modify dependencies:
 
@@ -212,15 +212,15 @@ python -m pip install -e . --upgrade
 
 ---
 
-## Model evaluation & metrics
+## Model Evaluation & Metrics
 
-### Overall performance
+### Overall Performance <!-- omit in toc -->
 
 The published iteration demonstrates strong classification performance across the validation set:
 
 ![Overall metrics](docs/metrics/overall_metrics.png)
 
-### Per-Class performance
+### Per-Class Performance <!-- omit in toc -->
 
 Individual class metrics reveal which categories are well-represented and which may benefit from additional training data:
 
@@ -228,7 +228,7 @@ Individual class metrics reveal which categories are well-represented and which 
 
 ---
 
-## Scalability & extensibility
+## Scalability & Extensibility
 
 The application is designed for growth:
 
@@ -243,7 +243,7 @@ The application is designed for growth:
 
 ---
 
-## Limitations & risks
+## Limitations & Risks
 
 - Single-user desktop design, not intended for concurrent multi-user usage.
 - Local storage grows with survey submissions.
@@ -253,9 +253,9 @@ The application is designed for growth:
 
 ---
 
-## Attribution & credits
+## Attribution & Credits
 
-### Visual design & content
+### Visual Design & Content <!-- omit in toc -->
 
 The application's visual identity and informational content are inspired by and adapted from the **Jardín Botánico Nacional** (National Botanical Garden of the Dominican Republic):
 
@@ -265,12 +265,12 @@ The application's visual identity and informational content are inspired by and 
 
 This is an educational project demonstrating Azure Custom Vision integration. All content from JBN is used respectfully for demonstration purposes.
 
-### Dataset
+### Dataset <!-- omit in toc -->
 
 - **Image source**: [Pexels](https://www.pexels.com/)
 - **Curation**: Abel Eduardo Martínez Robles
 
-### Technology
+### Technology <!-- omit in toc -->
 
 - **Prediction service**: Azure Custom Vision
 - **Application Development**: Roniel Antonio Sabala Germán
