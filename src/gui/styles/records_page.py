@@ -5,7 +5,7 @@ from common.utils import remove_keys_from_mapping
 from ..tk_enums import MouseType
 from .app import _generic_button, primary_button
 
-cell_font = "Segoe UI Emoji", 13
+cell_font = ("Segoe UI Emoji", 13)
 
 even_row_cell = {"bg": "Gray92"}
 
@@ -17,7 +17,7 @@ index_cell_column_anchor = {"padx": 15, "anchor": "e"}
 
 uploaded_by_cell_column_anchor = {"padx": 15, "anchor": "w"}
 
-column_font = "Arial", 16, "bold"
+column_font = ("Arial", 16, "bold")
 column_filter_font = column_font + ("underline",)
 column_cell = {"fg": "White", "bg": "Dodgerblue4"}
 

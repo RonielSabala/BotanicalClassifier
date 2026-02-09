@@ -5,7 +5,7 @@ from .app import page_title
 
 title = {**page_title, "font": ("Arial", 30)}
 
-subtitle_font = "Arial", 15
+subtitle_font = ("Arial", 15)
 
 emoji = {"fg": "DodgerBlue4", "font": ("Arial", 32)}
 
