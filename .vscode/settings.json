@@ -19,6 +19,7 @@
     "nsew",
     "padx",
     "pady",
+    "pyproject",
     "relx",
     "selectforeground",
     "shutil",

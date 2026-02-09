@@ -11,12 +11,12 @@ Desktop application that classifies five flower types using an Azure Custom Visi
 - [Architecture overview](#architecture-overview)
 - [Installation](#installation)
   - [Requirements](#requirements)
-  - [Azure Custom Vision setup](#azure-custom-vision-setup)
-  - [`.env` Configuration](#env-configuration)
+  - [PowerShell Setup (Windows only)](#powershell-setup-windows-only)
   - [Virtual Environment Setup](#virtual-environment-setup)
   - [Install Dependencies](#install-dependencies)
+  - [Azure Custom Vision setup](#azure-custom-vision-setup)
+  - [`.env` Configuration](#env-configuration)
   - [Run Locally](#run-locally)
-  - [Update After Changes (optional)](#update-after-changes-optional)
 - [Model Evaluation \& Metrics](#model-evaluation--metrics)
 - [Scalability \& Extensibility](#scalability--extensibility)
 - [Limitations \& Risks](#limitations--risks)
@@ -68,6 +68,8 @@ BotanicalClassifier/
 └── README.md
 ```
 
+---
+
 ### Layer Responsibilities <!-- omit in toc -->
 
 #### Presentation Layer (`gui/`)
@@ -77,6 +79,8 @@ User interface built with Tkinter, organized into three main components:
 - **assets/**: Image resource management.
 - **pages/**: Application screens.
 - **styles/**: Style definitions of all UI components.
+
+---
 
 #### Business Logic (`services/`)
 
@@ -88,12 +92,16 @@ Handles core application functionality:
 - **form_service**: Validation logic for the survey form.
 - **about_service**: Dynamic content loader for About sections.
 
+---
+
 #### Data Layer (`models/`)
 
 Data models representing core domain entities:
 
 - **prediction_model**: Structured representation of classification results from the Azure API.
 - **record_model**: Schema for persisted records with prediction metadata.
+
+---
 
 #### Shared (`common/`)
 
@@ -104,6 +112,8 @@ Shared utilities and application-wide configuration:
 - **paths**: Centralized path resolution for resources and local storage.
 - **utils**: Helper functions for common operations across modules.
 
+---
+
 #### Resources (`resources/`)
 
 Static and dynamic content assets:
@@ -112,6 +122,8 @@ Static and dynamic content assets:
 - **content/**: Static content for supported languages.
 - **images/**: Static images.
 - **local/**: Local storage directory for user survey data.
+
+---
 
 ### Dataset Organization <!-- omit in toc -->
 
@@ -134,8 +146,59 @@ All images follow the `flower_survey_xx.png` naming convention.
 
 ### Requirements
 
-- Python >= 3.13.9
-- Azure Custom Vision subscription.
+- [Python](https://www.python.org/downloads/) >= 3.13.9
+- [Azure Custom Vision](https://www.customvision.ai/) subscription.
+
+---
+
+### PowerShell Setup (Windows only)
+
+Before installation, Windows users need to configure PowerShell to allow script execution. Open **PowerShell as Administrator** and run:
+
+```powershell
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned -Force
+```
+
+---
+
+### Virtual Environment Setup
+
+From now on, we will execute all commands from the **repository root**.
+
+Create a virtual environment:
+
+```bash
+python -m venv .venv
+```
+
+Activate:
+
+```bash
+# Windows
+.venv\Scripts\Activate.ps1
+
+# macOS/Linux
+source .venv/bin/activate
+```
+
+---
+
+### Install Dependencies
+
+```bash
+# With the venv activated
+python -m pip install -U pip setuptools wheel
+python -m pip install -e ".[dev]"
+```
+
+If you change dependencies in `pyproject.toml`
+
+```bash
+# Re-install
+python -m pip install -e ".[dev]" -U
+```
+
+---
 
 ### Azure Custom Vision setup
 
@@ -162,6 +225,8 @@ All images follow the `flower_survey_xx.png` naming convention.
 - Copy `Project ID` from **Azure Portal**.
 - Note your `Published Name` from the published iteration.
 
+---
+
 ### `.env` Configuration
 
 Create a `.env` under `src/common/` containing your **Custom Vision** credentials:
@@ -173,41 +238,12 @@ CUSTOM_VISION_PROJECT_ID='your-project-id'
 CUSTOM_VISION_PUBLISHED_NAME='your-published-iteration-name'
 ```
 
-### Virtual Environment Setup
-
-From the repository root:
-
-```bash
-# Create virtual environment
-python -m venv .venv
-
-# Activate (Windows)
-.venv\Scripts\Activate.ps1
-
-# Activate (macOS/Linux)
-source .venv/bin/activate
-
-```
-
-### Install Dependencies
-
-```bash
-python -m pip install --upgrade pip setuptools wheel
-python -m pip install -e ".[dev]"
-```
+---
 
 ### Run Locally
 
 ```bash
 py ./src/app.py
-```
-
-### Update After Changes (optional)
-
-If you modify dependencies:
-
-```bash
-python -m pip install -e . --upgrade
 ```
 
 ---
@@ -219,6 +255,8 @@ python -m pip install -e . --upgrade
 The published iteration demonstrates strong classification performance across the validation set:
 
 ![Overall metrics](docs/metrics/overall_metrics.png)
+
+---
 
 ### Per-Class Performance <!-- omit in toc -->
 
@@ -265,10 +303,14 @@ The application's visual identity and informational content are inspired by and 
 
 This is an educational project demonstrating Azure Custom Vision integration. All content from JBN is used respectfully for demonstration purposes.
 
+---
+
 ### Dataset <!-- omit in toc -->
 
 - **Image source**: [Pexels](https://www.pexels.com/)
 - **Curation**: Abel Eduardo Martínez Robles
+
+---
 
 ### Technology <!-- omit in toc -->
 
@@ -282,7 +324,7 @@ This is an educational project demonstrating Azure Custom Vision integration. Al
 Contributions are welcome. Suggested workflow:
 
 1. Fork the repository.
-2. Create a feature branch: `feature/my-change`.
+2. Create a feature branch: `feat/my-change`
 3. Commit, push, and open a pull request describing the change and reason.
 
 > Please, ensure your code follows the existing style and includes appropriate documentation.
