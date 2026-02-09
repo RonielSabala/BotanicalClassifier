@@ -10,13 +10,10 @@ from tkinter import messagebox
 from typing import Any, Optional
 
 from common.utils import load_resized_image_tk, path_exists
-from gui.assets.images import EMPTY_IMAGE
-from models.prediction_model import TagPrediction
-from models.record_model import Record
-from services.i18n_service import i18n
-from services.records_service import RecordsService
+from models import Record, TagPrediction
+from services import RecordsService, i18n
 
-from ..assets.images import APP_ICON_IMAGE
+from ..assets import APP_ICON_IMAGE, EMPTY_IMAGE
 from ..page import Page
 from ..styles import app as app_styles, records_page as page_styles
 from ..tk_enums import EventType, MouseType

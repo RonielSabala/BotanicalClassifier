@@ -5,13 +5,12 @@ Main menu page of the application.
 import tkinter as tk
 
 from common.utils import get_subclasses
-from services.i18n_service import Language, i18n
+from services import Language, i18n
 
-from ..assets.images import APP_BANNER_IMAGE
+from ..assets import APP_BANNER_IMAGE
 from ..main import ROOT, set_window_title
 from ..page import Page
-from ..styles import app as app_styles
-from ..styles import menu_page as page_styles
+from ..styles import app as app_styles, menu_page as page_styles
 from ..tk_enums import EventType
 
 

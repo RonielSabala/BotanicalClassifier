@@ -8,10 +8,9 @@ from enum import Enum
 from typing import Any
 
 from common.constants import ABOUT
-from services.about_service import AboutService
-from services.i18n_service import i18n
+from services import AboutService, i18n
 
-from ..assets.images import APP_ICON_IMAGE, COUNTRY_SHIELD_IMAGE
+from ..assets import APP_ICON_IMAGE, COUNTRY_SHIELD_IMAGE
 from ..page import Page
 from ..styles import about_page as page_styles
 from .menu_page import MenuPage

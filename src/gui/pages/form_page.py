@@ -8,14 +8,12 @@ from tkinter import filedialog
 
 from common.constants import ALLOWED_IMAGE_EXTENSIONS_STR
 from common.utils import show_error_messagebox
-from models.record_model import Record
-from services.form_service import FormService
-from services.i18n_service import i18n
+from models import Record
+from services import FormService, i18n
 
-from ..assets.images import APP_ICON_IMAGE
+from ..assets import APP_ICON_IMAGE
 from ..page import Page
-from ..styles import app as app_styles
-from ..styles import form_page as page_styles
+from ..styles import app as app_styles, form_page as page_styles
 from ..tk_enums import EventType
 
 
