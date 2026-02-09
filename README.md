@@ -24,6 +24,8 @@ Desktop application that classifies five flower types using an Azure Custom Visi
 - [Contributing](#contributing)
 - [License](#license)
 
+---
+
 ## Use case & motivation
 
 The Jardín Botánico Nacional is conducting a nationwide research project to estimate how many flowers of each type people keep in their homes. For this effort, the botanic garden created an online survey where participants fill a short form and upload a photograph of the plants they keep at home. All submitted photos are stored in a local folder on the botanic garden's research computer. Photo filenames follow the convention `flower_survey_xx.png`.
@@ -31,6 +33,8 @@ The Jardín Botánico Nacional is conducting a nationwide research project to es
 The garden needs to standardize these photos and assign a flower type to each image. The target classes are: **roses**, **orchids**, **daisies**, **carnations**, and **sunflowers**. Manual labeling at scale is time-consuming and staff resources are limited, so they require an automated solution to speed up classification and reduce human workload.
 
 This repository implements a desktop application that supports that workflow: image ingestion, local storage, a survey GUI, and an integration with Azure Custom Vision to obtain and display model predictions.
+
+---
 
 ## Features
 
@@ -41,6 +45,8 @@ This repository implements a desktop application that supports that workflow: im
   - Browsing/searching stored survey records, paginated view, and manual classification trigger.
 - **Local-first design**: images and JSON records are stored locally.
 - **Internationalization (i18n)**: English and Spanish language support.
+
+---
 
 ## Architecture overview
 
@@ -267,6 +273,8 @@ The application is designed for growth:
 | **Larger datasets / Improved Models** | As dataset size increases or a different model is adopted, the prediction API remains compatible. |
 | **Cloud storage** | `records_service.py` and `paths.py` encapsulates storage logic, enabling straightforward migration to cloud-based solutions. |
 
+---
+
 ## Limitations & Risks
 
 - Single-user desktop design, not intended for concurrent multi-user usage.
@@ -310,6 +318,8 @@ Contributions are welcome. Suggested workflow:
 3. Commit, push, and open a pull request describing the change and reason.
 
 > Please, ensure your code follows the existing style and includes appropriate documentation.
+
+---
 
 ## License
 
