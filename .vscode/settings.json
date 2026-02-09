@@ -22,8 +22,10 @@
     "pyproject",
     "relx",
     "selectforeground",
+    "setuptools",
     "shutil",
     "textvariable",
-    "tkinter"
+    "tkinter",
+    "venv"
   ]
 }
