@@ -174,7 +174,7 @@ class _ScrollableTextPage(Page):
 
     @classmethod
     def load(cls) -> None:
-        # Widgets
+        # Widget
         scrollable_text = cls.get_scrollable_text()
 
         # Configuration

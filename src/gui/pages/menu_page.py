@@ -56,10 +56,8 @@ class MenuPage(Page):
         from .form_page import FormPage
         from .records_page import RecordsPage
 
-        # - Widgets:
-
+        # Widgets
         page_banner = cls.get_label(image=APP_BANNER_IMAGE)
-
         lang_combobox = cls.get_combobox(values=Language.all_languages())
         form_button = cls.get_button()
         records_button = cls.get_button()
@@ -85,7 +83,7 @@ class MenuPage(Page):
             **page_styles.exit_button,
         )
 
-        # Bindings
+        # Binding
         lang_combobox.bind(
             EventType.DROP_DOWN_CLICK, lambda _: cls._on_language_select()
         )
