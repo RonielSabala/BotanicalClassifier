@@ -58,9 +58,4 @@ def get_copyright() -> str:
 
 
 # Public API
-__all__ = (
-    "ROOT",
-    "FRAME",
-    "set_window_title",
-    "get_copyright",
-)
+__all__ = ("ROOT", "FRAME", "set_window_title", "get_copyright")

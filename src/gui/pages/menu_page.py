@@ -76,15 +76,9 @@ class MenuPage(Page):
             **app_styles.primary_button,
         )
 
-        records_button.config(
-            command=RecordsPage.show,
-            **page_styles.records_button,
-        )
+        records_button.config(command=RecordsPage.show, **page_styles.records_button)
 
-        about_button.config(
-            command=AboutPage.show,
-            **page_styles.about_button,
-        )
+        about_button.config(command=AboutPage.show, **page_styles.about_button)
 
         exit_button.config(
             text=i18n.get("menu.exit_button"),
@@ -111,9 +105,7 @@ class MenuPage(Page):
 
         # Language selector
         cls.set_text_at(
-            text=i18n.get("app.language"),
-            coords=(0, 0),
-            **page_styles.language_label,
+            text=i18n.get("app.language"), coords=(0, 0), **page_styles.language_label
         )
         lang_combobox.place(relx=0.005, rely=0.03)
 

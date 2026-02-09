@@ -1,8 +1,4 @@
-from common.paths import (
-    LOCAL_IMAGES_DIR,
-    LOCAL_RECORDS_FILE,
-    LOCAL_RESOURCES_DIR,
-)
+from common.paths import LOCAL_IMAGES_DIR, LOCAL_RECORDS_FILE, LOCAL_RESOURCES_DIR
 from gui import main as app
 from gui.pages.menu_page import MenuPage
 

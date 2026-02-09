@@ -49,10 +49,7 @@ def load_resized_image_tk(image_path: str | Path) -> ImageTk.PhotoImage:
     )
 
     image_width, image_height = image.size
-    ratio = min(
-        IMAGE_SIZE_PX / image_width,
-        IMAGE_SIZE_PX / image_height,
-    )
+    ratio = min(IMAGE_SIZE_PX / image_width, IMAGE_SIZE_PX / image_height)
 
     new_width = int(image_width * ratio)
     new_height = int(image_height * ratio)

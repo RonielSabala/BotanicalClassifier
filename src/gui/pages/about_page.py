@@ -110,9 +110,7 @@ class AboutPage(Page):
             **page_styles.link,
         )
         faq_link.config(
-            text=i18n.get("about.faq.title"),
-            command=FaqPage.show,
-            **page_styles.link,
+            text=i18n.get("about.faq.title"), command=FaqPage.show, **page_styles.link
         )
 
         # - Layout:

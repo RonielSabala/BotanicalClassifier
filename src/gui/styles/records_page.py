@@ -7,35 +7,19 @@ from .app import _generic_button, primary_button
 
 cell_font = "Segoe UI Emoji", 13
 
-even_row_cell = {
-    "bg": "Gray92",
-}
+even_row_cell = {"bg": "Gray92"}
 
-odd_row_cell = {
-    "bg": "Gray96",
-}
+odd_row_cell = {"bg": "Gray96"}
 
-first_column_cell_anchor = {
-    "padx": 15,
-    "anchor": "center",
-}
+first_column_cell_anchor = {"padx": 15, "anchor": "center"}
 
-index_cell_column_anchor = {
-    "padx": 15,
-    "anchor": "e",
-}
+index_cell_column_anchor = {"padx": 15, "anchor": "e"}
 
-uploaded_by_cell_column_anchor = {
-    "padx": 15,
-    "anchor": "w",
-}
+uploaded_by_cell_column_anchor = {"padx": 15, "anchor": "w"}
 
 column_font = "Arial", 16, "bold"
 column_filter_font = column_font + ("underline",)
-column_cell = {
-    "fg": "White",
-    "bg": "Dodgerblue4",
-}
+column_cell = {"fg": "White", "bg": "Dodgerblue4"}
 
 column_button = {
     "border": 0,
@@ -43,10 +27,7 @@ column_button = {
     "activebackground": "DodgerBlue4",
 }
 
-empty_prediction_cell_label = {
-    "text": "N/A",
-    "font": ("Arial", 13),
-}
+empty_prediction_cell_label = {"text": "N/A", "font": ("Arial", 13)}
 
 classify_button = {
     **primary_button,
@@ -55,21 +36,11 @@ classify_button = {
 }
 remove_keys_from_mapping(classify_button, ("bg", "activebackground"))
 
-top_prediction_cell = {
-    "bg": "GoldenRod1",
-    "font": ("Arial", 10),
-}
+top_prediction_cell = {"bg": "GoldenRod1", "font": ("Arial", 10)}
 
-failed_prediction_cell = {
-    "fg": "Gray60",
-    "font": ("Arial", 10),
-}
+failed_prediction_cell = {"fg": "Gray60", "font": ("Arial", 10)}
 
-tag_column_cell = {
-    "fg": "White",
-    "bg": "Gray15",
-    "font": ("Arial", 12, "bold"),
-}
+tag_column_cell = {"fg": "White", "bg": "Gray15", "font": ("Arial", 12, "bold")}
 
 probability_column_cell = {
     "fg": "GoldenRod1",
@@ -107,6 +78,4 @@ navigation_arrow = {
     "font": ("Arial", 24),
 }
 
-page_indexation: dict[str, Any] = {
-    "font": ("Arial", 14),
-}
+page_indexation: dict[str, Any] = {"font": ("Arial", 14)}

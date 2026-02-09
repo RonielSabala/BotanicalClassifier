@@ -117,9 +117,7 @@ class Page(ABC):
 
     @classmethod
     def get_label(
-        cls,
-        root: Optional[tk.Frame] = None,
-        image: Optional[ImageTk.PhotoImage] = None,
+        cls, root: Optional[tk.Frame] = None, image: Optional[ImageTk.PhotoImage] = None
     ) -> tk.Label:
         """
         Return a simple tk.Label widget with `root` as its
@@ -168,10 +166,7 @@ class Page(ABC):
             root = cls.root
 
         return tk.Entry(
-            root,
-            fg=cls.fg_color,
-            bg=cls.bg_color,
-            selectforeground=cls.fg_color,
+            root, fg=cls.fg_color, bg=cls.bg_color, selectforeground=cls.fg_color
         )
 
     @classmethod
@@ -194,10 +189,7 @@ class Page(ABC):
         """
 
         return ttk.Combobox(
-            cls.root,
-            values=values,
-            background=cls.bg_color,
-            foreground=cls.fg_color,
+            cls.root, values=values, background=cls.bg_color, foreground=cls.fg_color
         )
 
     @classmethod
@@ -206,22 +198,13 @@ class Page(ABC):
         Return a simple scrolledtext.ScrolledText widget.
         """
 
-        return scrolledtext.ScrolledText(
-            cls.root,
-            fg=cls.fg_color,
-            bg=cls.bg_color,
-        )
+        return scrolledtext.ScrolledText(cls.root, fg=cls.fg_color, bg=cls.bg_color)
 
     # - Helpers to place and configure widgets:
 
     @classmethod
     def set_text(
-        cls,
-        *,
-        text: str,
-        pady: int,
-        font: tuple[str, int],
-        fg: Optional[str] = None,
+        cls, *, text: str, pady: int, font: tuple[str, int], fg: Optional[str] = None
     ) -> None:
         """
         Packs a new Label widget in the page.
@@ -281,8 +264,7 @@ class Page(ABC):
         # Configuration
         button.config(command=lambda: _on_escape(None), **app_styles.return_button)
         button_label.config(
-            text=i18n.get("app.return_button"),
-            **app_styles.return_button_label,
+            text=i18n.get("app.return_button"), **app_styles.return_button_label
         )
 
         # Bindings

@@ -18,8 +18,7 @@ from services.records_service import RecordsService
 
 from ..assets.images import APP_ICON_IMAGE
 from ..page import Page
-from ..styles import app as app_styles
-from ..styles import records_page as page_styles
+from ..styles import app as app_styles, records_page as page_styles
 from ..tk_enums import EventType, MouseType
 from .form_page import FormPage
 from .menu_page import MenuPage
@@ -312,11 +311,7 @@ class RecordsPage(Page):
         cell_font = page_styles.column_font
 
         # Label
-        if row > 0 or col in (
-            0,
-            flower_column_index,
-            TableLayout.COLUMNS - 1,
-        ):
+        if row > 0 or col in (0, flower_column_index, TableLayout.COLUMNS - 1):
             cell = cls.get_label(root)
             if row > 0:
                 cell_font = page_styles.cell_font
@@ -372,6 +367,7 @@ class RecordsPage(Page):
                 break
 
             # Get row cells
+            record_id = -1
             insert_empty_row = False
             if row == 0:
                 row_cells = cls._column_names

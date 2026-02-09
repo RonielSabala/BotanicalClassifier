@@ -6,9 +6,7 @@ import shutil
 from pathlib import Path
 
 from common.constants import IMAGE_FILENAME_PREFIX
-from common.paths import (
-    LOCAL_IMAGES_DIR,
-)
+from common.paths import LOCAL_IMAGES_DIR
 from common.utils import path_exists, show_error_messagebox
 from models.record_model import Record
 from services.records_service import RecordsService
