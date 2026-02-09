@@ -546,7 +546,3 @@ class RecordsPage(Page):
 
         cls.set_copyright()
         cls._render_records_grid(records_grid)
-
-
-# Public API
-__all__ = ("RecordsPage",)

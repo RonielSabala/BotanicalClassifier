@@ -6,6 +6,7 @@ from collections.abc import Generator, Iterable
 from pathlib import Path
 from tkinter import messagebox
 from typing import Any
+
 from PIL import Image, ImageTk
 
 from .constants import IMAGE_BG_RGBA, IMAGE_MODE, IMAGE_SIZE_PX
@@ -60,9 +61,7 @@ def load_resized_image_tk(image_path: str | Path) -> ImageTk.PhotoImage:
     return ImageTk.PhotoImage(base_image)
 
 
-def remove_keys_from_mapping(
-    style: dict[str, Any], to_remove: Iterable[str]
-) -> None:
+def remove_keys_from_mapping(style: dict[str, Any], to_remove: Iterable[str]) -> None:
     """
     Remove keys from a mapping in-place.
     """
@@ -86,14 +85,3 @@ def get_subclasses[T](obj: T) -> Generator[T, None, None]:
 
     for subclass in subclasses:
         yield from get_subclasses(subclass)
-
-
-# Public API
-__all__ = (
-    "path_exists",
-    "show_error_messagebox",
-    "load_image_tk",
-    "load_resized_image_tk",
-    "remove_keys_from_mapping",
-    "get_subclasses",
-)

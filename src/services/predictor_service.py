@@ -58,7 +58,3 @@ class PredictorService:
             TagPrediction(str(p.tag_name), float(p.probability))
             for p in results.predictions  # type: ignore
         ]
-
-
-# Public API
-__all__ = ("PredictorService",)

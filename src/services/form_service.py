@@ -117,7 +117,3 @@ class FormService:
             )
             and cls._validate_image_path(record.image_path)
         )
-
-
-# Public API
-__all__ = ("FormService",)

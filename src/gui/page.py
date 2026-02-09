@@ -292,6 +292,3 @@ class Page(ABC):
         label = cls.get_label()
         label.config(pady=pady, **app_styles.empty_separator)
         label.pack()
-
-
-__all__ = ("Page",)

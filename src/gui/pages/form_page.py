@@ -166,7 +166,3 @@ class FormPage(Page):
         save_button.pack(pady=40)
 
         cls.set_copyright()
-
-
-# Public API
-__all__ = ("FormPage",)

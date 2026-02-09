@@ -221,7 +221,3 @@ class TermsPage(_ScrollableTextPage):
     title_pad_y = 0
     scrollable_text_pad_y = 30
     scrollable_text_styles = page_styles.default_scrollable_text
-
-
-# Public API
-__all__ = ("AboutPage",)

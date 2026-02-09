@@ -108,7 +108,3 @@ class RecordsService:
         record = cls._load_record(record_id, data)
         PredictorService.set_flower_prediction(record)
         cls.insert_record(record, data)
-
-
-# Public API
-__all__ = ("RecordsService",)

@@ -140,7 +140,3 @@ class MenuPage(Page):
         )
 
         cls.set_copyright()
-
-
-# Public API
-__all__ = ("MenuPage",)

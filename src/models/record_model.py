@@ -47,7 +47,3 @@ class Record:
             return self.address
 
         raise ValueError(f"index ({index}) is not valid for record properties.")
-
-
-# Public API
-__all__ = ("Record",)

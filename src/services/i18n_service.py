@@ -82,6 +82,3 @@ class I18nService:
 
 # Global singleton
 i18n = I18nService(default=Language.EN)
-
-# Public API
-__all__ = ("Language", "i18n")

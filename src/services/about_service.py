@@ -50,7 +50,3 @@ class AboutService:
         """
 
         return cls._load_page(policies_path)
-
-
-# Public API
-__all__ = ("AboutService",)
