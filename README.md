@@ -38,13 +38,13 @@ This repository implements a desktop application that supports that workflow: im
 
 ## Features
 
-* Lightweight desktop GUI with Tkinter for:
-  * Filling a short survey (name, surname, address) and attaching a flower image.
-  * Saving images and structured records locally for research and audit.
-  * Sending images to **Azure Custom Vision** and showing sorted predictions by confidence.
-  * Browsing/searching stored survey records, paginated view, and manual classification trigger.
-* **Local-first design**: images and JSON records are stored locally.
-* **Internationalization (i18n)**: English and Spanish language support.
+- Lightweight desktop GUI with Tkinter for:
+  - Filling a short survey (name, surname, address) and attaching a flower image.
+  - Saving images and structured records locally for research and audit.
+  - Sending images to **Azure Custom Vision** and showing sorted predictions by confidence.
+  - Browsing/searching stored survey records, paginated view, and manual classification trigger.
+- **Local-first design**: images and JSON records are stored locally.
+- **Internationalization (i18n)**: English and Spanish language support.
 
 ---
 
@@ -74,44 +74,44 @@ BotanicalClassifier/
 
 User interface built with Tkinter, organized into three main components:
 
-* **assets/**: Image resource management.
-* **pages/**: Application screens.
-* **styles/**: Style definitions of all UI components.
+- **assets/**: Image resource management.
+- **pages/**: Application screens.
+- **styles/**: Style definitions of all UI components.
 
 #### Business logic (`services/`)
 
 Handles core application functionality:
 
-* **i18n_service**: Internationalization management for language support.
-* **predictor_service**: Integration wrapper for Azure Custom Vision API calls and response processing.
-* **records_service**: Persistent storage operations using JSON-based local storage.
-* **form_service**: Validation logic for the survey form.
-* **about_service**: Dynamic content loader for About sections.
+- **i18n_service**: Internationalization management for language support.
+- **predictor_service**: Integration wrapper for Azure Custom Vision API calls and response processing.
+- **records_service**: Persistent storage operations using JSON-based local storage.
+- **form_service**: Validation logic for the survey form.
+- **about_service**: Dynamic content loader for About sections.
 
 #### Data layer (`models/`)
 
 Data models representing core domain entities:
 
-* **prediction_model**: Structured representation of classification results from the Azure API.
-* **record_model**: Schema for persisted records with prediction metadata.
+- **prediction_model**: Structured representation of classification results from the Azure API.
+- **record_model**: Schema for persisted records with prediction metadata.
 
 #### Shared (`common/`)
 
 Shared utilities and application-wide configuration:
 
-* **config**: Environment variables.
-* **constants**: Application-wide constants.
-* **paths**: Centralized path resolution for resources and local storage.
-* **utils**: Helper functions for common operations across modules.
+- **config**: Environment variables.
+- **constants**: Application-wide constants.
+- **paths**: Centralized path resolution for resources and local storage.
+- **utils**: Helper functions for common operations across modules.
 
 #### Resources (`resources/`)
 
 Static and dynamic content assets:
 
-* **i18n/**: Translation catalogs in JSON format for supported languages.
-* **content/**: Static content for supported languages.
-* **images/**: Static images.
-* **local/**: Local storage directory for user survey data.
+- **i18n/**: Translation catalogs in JSON format for supported languages.
+- **content/**: Static content for supported languages.
+- **images/**: Static images.
+- **local/**: Local storage directory for user survey data.
 
 ### Dataset organization
 
@@ -143,11 +143,11 @@ All images follow the `flower_survey_xx.png` naming convention.
 
 1. Sign in to Azure Custom Vision at [https://www.customvision.ai](https://www.customvision.ai)
 2. Click **New Project**:
-   * Name: `botanical-classifier`
-   * Project Type: **Classification**
-   * Classification Type: **Multiclass**
-   * Domain: Select appropriate for flower images.
-   * Resource: Create or select existing.
+   - Name: `botanical-classifier`
+   - Project Type: **Classification**
+   - Classification Type: **Multiclass**
+   - Domain: Select appropriate for flower images.
+   - Resource: Create or select existing.
 
 #### Train the model
 
@@ -158,9 +158,9 @@ All images follow the `flower_survey_xx.png` naming convention.
 
 #### Get credentials
 
-* Copy `Prediction Key` and `Endpoint URL` from **Settings**.
-* Copy `Project ID` from **Azure Portal**.
-* Note your `Published Name` from the published iteration.
+- Copy `Prediction Key` and `Endpoint URL` from **Settings**.
+- Copy `Project ID` from **Azure Portal**.
+- Note your `Published Name` from the published iteration.
 
 ### `.env` configuration
 
@@ -245,11 +245,11 @@ The application is designed for growth:
 
 ## Limitations & risks
 
-* Single-user desktop design, not intended for concurrent multi-user usage.
-* Local storage grows with survey submissions.
-* Requires network connectivity and Azure Custom Vision subscription.
-* Free-tier limitations or constrained subscription limits may restrict the number of monthly predictions.
-* Classification accuracy may be affected by poor image resolution, blur, or non-standard formats.
+- Single-user desktop design, not intended for concurrent multi-user usage.
+- Local storage grows with survey submissions.
+- Requires network connectivity and Azure Custom Vision subscription.
+- Free-tier limitations or constrained subscription limits may restrict the number of monthly predictions.
+- Classification accuracy may be affected by poor image resolution, blur, or non-standard formats.
 
 ---
 
@@ -259,21 +259,21 @@ The application is designed for growth:
 
 The application's visual identity and informational content are inspired by and adapted from the **Jardín Botánico Nacional** (National Botanical Garden of the Dominican Republic):
 
-* **UI design**: Layout and color scheme inspired by [jbn.gob.do](https://www.jbn.gob.do/).
-* **Branding assets**: Logo, banner images, and iconography sourced from official website.
-* **About content**: Terms, policies, and informational sections translated and adapted from official documentation.
+- **UI design**: Layout and color scheme inspired by [jbn.gob.do](https://www.jbn.gob.do/).
+- **Branding assets**: Logo, banner images, and iconography sourced from official website.
+- **About content**: Terms, policies, and informational sections translated and adapted from official documentation.
 
 This is an educational project demonstrating Azure Custom Vision integration. All content from JBN is used respectfully for demonstration purposes.
 
 ### Dataset
 
-* **Image source**: [Pexels](https://www.pexels.com/)
-* **Curation**: Abel Eduardo Martínez Robles
+- **Image source**: [Pexels](https://www.pexels.com/)
+- **Curation**: Abel Eduardo Martínez Robles
 
 ### Technology
 
-* **Prediction service**: Azure Custom Vision
-* **Application Development**: Roniel Antonio Sabala Germán
+- **Prediction service**: Azure Custom Vision
+- **Application Development**: Roniel Antonio Sabala Germán
 
 ---
 
