@@ -2,6 +2,8 @@
 
 Desktop application that classifies five flower types using an Azure Custom Vision model: **roses**, **orchids**, **daisies**, **carnations**, and **sunflowers**. The app provides a friendly Tkinter GUI to collect survey responses, upload and store images locally, and request real-time predictions from Azure Custom Vision.
 
+---
+
 ## Table of Contents
 
 - [Use case \& motivation](#use-case--motivation)
@@ -263,9 +265,7 @@ The application is designed for growth:
 | **Themes** | Centralized styles in `gui/styles/` enable dark/light mode support without large code changes. |
 | **New flower types** | Adding new tags to the Custom Vision model is straightforward; UI adapts automatically. |
 | **Larger datasets / Improved Models** | As dataset size increases or a different model is adopted, the prediction API remains compatible. |
-| **Cloud storage** | The `records_service` and `Paths` encapsulates storage logic, enabling straightforward migration to cloud-based solutions. |
-
----
+| **Cloud storage** | `records_service.py` and `paths.py` encapsulates storage logic, enabling straightforward migration to cloud-based solutions. |
 
 ## Limitations & Risks
 
