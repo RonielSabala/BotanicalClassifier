@@ -2,8 +2,8 @@
 Service to load localized static content.
 """
 
+from collections.abc import Callable
 from pathlib import Path
-from typing import Callable
 
 from common.paths import faq_path, policies_path, terms_path
 

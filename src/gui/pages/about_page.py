@@ -3,8 +3,9 @@ About-related pages: About, FAQ, Policies, and Terms.
 """
 
 import tkinter as tk
+from collections.abc import Callable
 from enum import Enum
-from typing import Any, Callable
+from typing import Any
 
 from common.constants import ABOUT
 from services.about_service import AboutService

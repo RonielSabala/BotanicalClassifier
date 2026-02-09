@@ -2,15 +2,13 @@
 Utility functions used by the GUI.
 """
 
+from collections.abc import Generator, Iterable
 from pathlib import Path
 from tkinter import messagebox
-from typing import Any, Generator, Iterable, TypeVar
-
+from typing import Any
 from PIL import Image, ImageTk
 
 from .constants import IMAGE_BG_RGBA, IMAGE_MODE, IMAGE_SIZE_PX
-
-T = TypeVar("T")
 
 
 def path_exists(path: str | Path) -> bool:
@@ -62,7 +60,9 @@ def load_resized_image_tk(image_path: str | Path) -> ImageTk.PhotoImage:
     return ImageTk.PhotoImage(base_image)
 
 
-def remove_keys_from_mapping(style: dict[str, Any], to_remove: Iterable[str]) -> None:
+def remove_keys_from_mapping(
+    style: dict[str, Any], to_remove: Iterable[str]
+) -> None:
     """
     Remove keys from a mapping in-place.
     """
@@ -74,7 +74,7 @@ def remove_keys_from_mapping(style: dict[str, Any], to_remove: Iterable[str]) ->
             raise KeyError(f"style ({style}) doesn't has the key '{key}'")
 
 
-def get_subclasses(obj: T) -> Generator[T, None, None]:
+def get_subclasses[T](obj: T) -> Generator[T, None, None]:
     """
     Yield all the subclasses of `obj`.
     """

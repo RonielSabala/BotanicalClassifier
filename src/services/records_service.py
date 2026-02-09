@@ -4,8 +4,9 @@ as JSON plus image files.
 """
 
 import json
+from collections.abc import Generator
 from dataclasses import asdict
-from typing import Any, Generator, Optional
+from typing import Any, Optional
 
 from common.paths import LOCAL_IMAGES_DIR, LOCAL_RECORDS_FILE
 from models.prediction_model import TagPrediction
