@@ -16,7 +16,7 @@ dependencies = [
     "msrest",
     "Pillow",
     "pydantic",
-    "python-dotenv",
+    "pydantic-settings",
 ]
 
 [project.optional-dependencies]

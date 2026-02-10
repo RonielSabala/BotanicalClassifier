@@ -7,6 +7,7 @@ from typing import Final
 
 _SRC_DIR: Final[Path] = Path(__file__).resolve().parent.parent
 _RESOURCES_DIR: Final[Path] = _SRC_DIR / "resources"
+DOTENV_PATH: Final[Path] = _SRC_DIR / "common" / ".env"
 
 # Local storage
 LOCAL_RESOURCES_DIR: Final[Path] = _RESOURCES_DIR / "local"
