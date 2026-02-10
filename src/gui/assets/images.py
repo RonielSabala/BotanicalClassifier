@@ -1,3 +1,8 @@
+"""
+Module with all images present in resources/images as PhotoImage
+objects.
+"""
+
 from common.paths import (
     APP_BANNER_IMAGE_PATH,
     APP_ICON_IMAGE_PATH,

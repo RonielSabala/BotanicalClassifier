@@ -1,11 +1,3 @@
-"""
-Abstract base Page class providing common widget factories and
-lifecycle helpers.
-
-Pages must subclass Page and implement the `load()` classmethod
-in which they build their UI.
-"""
-
 from __future__ import annotations
 
 import tkinter as tk
@@ -24,6 +16,9 @@ from .tk_enums import EventType
 
 class Page(ABC):
     """
+    Abstract base Page class providing common widget factories and
+    lifecycle helpers.
+
     * Class variables:
         - root: The page root. Each subclass will have its own
         frame stored here.
