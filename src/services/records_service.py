@@ -13,19 +13,19 @@ from models.record_model import Record
 
 from .predictor_service import PredictorService
 
-RecordsData = dict[str, Any]
+type JsonData = dict[str, Any]
 
 
 class RecordsService:
     @staticmethod
-    def _read_records_data() -> RecordsData:
+    def _read_records_data() -> JsonData:
         """
         Read and return the parsed JSON content of the
         records file.
         """
 
         if LOCAL_RECORDS_FILE.stat().st_size == 0:
-            # Empty file
+            # Empty json
             return dict()
 
         with open(LOCAL_RECORDS_FILE, "r") as f:
@@ -34,13 +34,13 @@ class RecordsService:
     @classmethod
     def next_record_id(cls) -> int:
         """
-        Return the next record id using stored records.
+        Return the next record id.
         """
 
         return len(tuple(LOCAL_IMAGES_DIR.iterdir()))
 
     @staticmethod
-    def _load_record(record_id: int, data: RecordsData) -> Record:
+    def _load_record(record_id: int, data: JsonData) -> Record:
         """
         Reconstruct a Record object for a given `record_id`
         using the provided data mapping.
@@ -78,11 +78,11 @@ class RecordsService:
         """
 
         LOCAL_RECORDS_FILE.write_text("{}")
-        for image_file in LOCAL_IMAGES_DIR.iterdir():
-            image_file.unlink()
+        for image_path in LOCAL_IMAGES_DIR.iterdir():
+            image_path.unlink()
 
     @classmethod
-    def insert_record(cls, record: Record, data: Optional[RecordsData] = None) -> None:
+    def insert_record(cls, record: Record, data: Optional[JsonData] = None) -> None:
         """
         Insert/update a record in the records file.
         """

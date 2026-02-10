@@ -19,13 +19,9 @@ class FormService:
         convention.
         """
 
-        record_id += 1
-        flower_number = f"0{record_id}" if record_id < 10 else str(record_id)
         image_extension = user_image_path.suffix.lower()
-
-        # Build path
-        image_filename = f"{IMAGE_FILENAME_PREFIX}{flower_number}{image_extension}"
-        return LOCAL_IMAGES_DIR / image_filename
+        image_file = f"{IMAGE_FILENAME_PREFIX}{(record_id + 1):02d}{image_extension}"
+        return LOCAL_IMAGES_DIR / image_file
 
     @classmethod
     def save_form(cls, record: Record) -> None:
@@ -34,15 +30,14 @@ class FormService:
         into the local images directory.
         """
 
-        # Determine next id
-        record_id = RecordsService.next_record_id()
+        new_record_id = RecordsService.next_record_id()
 
         # Normalize user-provided image path
         user_image_path = Path(record.image_path)
-        dest_path = cls._get_image_dest(user_image_path, record_id)
+        dest_path = cls._get_image_dest(user_image_path, new_record_id)
 
         # Update record
-        record.record_id = record_id
+        record.record_id = new_record_id
         record.image_path = str(dest_path)
 
         # Save data
