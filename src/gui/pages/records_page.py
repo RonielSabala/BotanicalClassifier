@@ -20,14 +20,23 @@ from ..tk_enums import EventType, MouseType
 from .form_page import FormPage
 from .menu_page import MenuPage
 
+COLUMN_NAMES: tuple[str, ...] = ()
 
-class UISymbols(str, Enum):
-    PREV_PAGE = "<"
-    NEXT_PAGE = ">"
-    ADD_RECORD = "✚"
-    DELETE_RECORDS = "✘"
-    SUCCESS = "✔"
-    FAILURE = "✗"
+
+def _update_column_names() -> None:
+    """
+    Update table columns names.
+    """
+
+    global COLUMN_NAMES
+    COLUMN_NAMES = (
+        "",  # <- Record index column
+        i18n.get("records.owner_column"),
+        i18n.get("records.surname_column"),
+        i18n.get("records.address_column"),
+        i18n.get("records.flower_column"),
+        i18n.get("records.prediction_column"),
+    )
 
 
 class TableLayout(int, Enum):
@@ -43,11 +52,28 @@ class SearchFilter:
     column: Optional[str] = field(default=None)
 
     def is_active(self) -> bool:
+        """
+        Whether `text` is not empty.
+        """
+
         return self.text is not None and self.text != ""
 
     def reset(self) -> None:
+        """
+        Set both `text` and `column` to None.
+        """
+
         self.text = None
         self.column = None
+
+
+class UISymbols(str, Enum):
+    PREV_PAGE = "<"
+    NEXT_PAGE = ">"
+    ADD_RECORD = "✚"
+    DELETE_RECORDS = "✘"
+    SUCCESS = "✔"
+    FAILURE = "✗"
 
 
 class RecordsPage(Page):
@@ -81,7 +107,7 @@ class RecordsPage(Page):
             return cls._all_records.copy()
 
         text_to_filter = cls._filter_var.get().lower()
-        filter_column_index = cls._column_names.index(cls._active_filter_column) - 1
+        filter_column_index = COLUMN_NAMES.index(cls._active_filter_column) - 1
 
         result: list[Record] = []
         for record in cls._all_records:
@@ -367,7 +393,7 @@ class RecordsPage(Page):
             record_id = -1
             insert_empty_row = False
             if row == 0:
-                row_cells = cls._column_names
+                row_cells = COLUMN_NAMES
             else:
                 record = cls._visible_records[record_index]
                 record_id = record.record_id if isinstance(record, Record) else -1
@@ -431,15 +457,8 @@ class RecordsPage(Page):
         FormPage.prev_page = cls
 
         # Update language data
-        cls._active_filter_column: str = i18n.get("records.owner_column")
-        cls._column_names = (
-            "",  # <- Record index column
-            i18n.get("records.owner_column"),
-            i18n.get("records.surname_column"),
-            i18n.get("records.address_column"),
-            i18n.get("records.flower_column"),
-            i18n.get("records.prediction_column"),
-        )
+        cls._active_filter_column = i18n.get("records.owner_column")
+        _update_column_names()
 
         cls._reload_records()
         cls._paginate()
