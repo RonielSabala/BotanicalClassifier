@@ -42,11 +42,7 @@ def load_resized_image_tk(image_path: str | Path) -> ImageTk.PhotoImage:
     """
 
     image = Image.open(image_path).convert(IMAGE_MODE)
-    base_image = Image.new(
-        IMAGE_MODE,
-        (IMAGE_SIZE_PX, IMAGE_SIZE_PX),
-        IMAGE_BG_RGBA,  # type: ignore
-    )
+    base_image = Image.new(IMAGE_MODE, (IMAGE_SIZE_PX, IMAGE_SIZE_PX), IMAGE_BG_RGBA)
 
     image_width, image_height = image.size
     ratio = min(IMAGE_SIZE_PX / image_width, IMAGE_SIZE_PX / image_height)
