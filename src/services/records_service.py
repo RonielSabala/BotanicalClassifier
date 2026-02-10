@@ -4,7 +4,7 @@ as JSON plus image files.
 """
 
 import json
-from collections.abc import Generator
+from collections.abc import Iterator
 from typing import Any, Optional
 
 from common.paths import LOCAL_IMAGES_DIR, LOCAL_RECORDS_FILE
@@ -59,7 +59,7 @@ class RecordsService:
         return Record(**record_data)
 
     @classmethod
-    def iter_records(cls) -> Generator[Record, None, None]:
+    def iter_records(cls) -> Iterator[Record]:
         """
         Iterate over all stored records in numeric key order
         yielding Record objects.

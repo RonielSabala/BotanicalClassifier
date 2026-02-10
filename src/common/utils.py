@@ -2,7 +2,7 @@
 Utility functions used by the GUI.
 """
 
-from collections.abc import Generator, Iterable
+from collections.abc import Iterable, Iterator
 from pathlib import Path
 from tkinter import messagebox
 from typing import Any
@@ -74,7 +74,7 @@ def remove_keys_from_mapping(style: dict[str, Any], to_remove: Iterable[str]) ->
             raise KeyError(f"style ({style}) doesn't has the key '{key}'")
 
 
-def get_subclasses[T](obj: T) -> Generator[T, None, None]:
+def get_subclasses[T](obj: T) -> Iterator[T]:
     """
     Yield all the subclasses of `obj`.
     """
