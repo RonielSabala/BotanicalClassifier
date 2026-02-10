@@ -1,30 +1,27 @@
-"""
-Model describing a single predicted tag from the predictor.
-"""
-
 from __future__ import annotations
 
-from dataclasses import dataclass
+from typing import Annotated
+
+from pydantic import BaseModel, Field, StringConstraints
 
 
-@dataclass(slots=True, frozen=True)
-class TagPrediction:
+class TagPrediction(BaseModel):
     """
+    Model describing a single predicted tag from the predictor.
+
     * Attributes:
         - tag_name: Name of the predicted tag.
 
-        - probability: Confidence for the tag in the range [0.0, 1.0].
+        - probability: Confidence for the tag in [0.0, 1.0].
     """
 
-    tag_name: str
-    probability: float
+    tag_name: Annotated[str, StringConstraints(min_length=1, strip_whitespace=True)]
+    probability: float = Field(..., ge=0.0, le=1.0)
 
-    def __post_init__(self) -> None:
-        # Validate numeric range
-        if not (0 <= self.probability <= 1):
-            raise ValueError(
-                f"probability ({self.probability}) must be between 0 and 1 inclusive."
-            )
+    model_config = {"frozen": True, "from_attributes": True}
 
     def __lt__(self, other: TagPrediction) -> bool:
+        if not isinstance(other, type(self)):
+            return NotImplemented
+
         return self.probability < other.probability

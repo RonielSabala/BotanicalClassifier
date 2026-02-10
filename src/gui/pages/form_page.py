@@ -6,8 +6,10 @@ an image.
 import tkinter as tk
 from tkinter import filedialog
 
+from pydantic import ValidationError
+
 from common.constants import ALLOWED_IMAGE_EXTENSIONS_STR
-from common.utils import show_error_messagebox
+from common.utils import get_clean_error_message, show_error_messagebox
 from models import Record
 from services import FormService, i18n
 
@@ -60,21 +62,23 @@ class FormPage(Page):
         the previous page.
         """
 
-        record = Record(
-            cls.name_var.get(),
-            cls.surname_var.get(),
-            cls.address_var.get(),
-            cls.image_path,
-        )
-
-        if not FormService.validate_record(record):
+        try:
+            record = Record(
+                name=cls.name_var.get(),
+                surname=cls.surname_var.get(),
+                address=cls.address_var.get(),
+                image_path=cls.image_path,
+            )
+        except ValidationError as e:
+            error_msg = get_clean_error_message(e)
+            show_error_messagebox(error_msg)
             return
 
         try:
             FormService.save_form(record)
         except Exception as e:
-            save_error = i18n.get("form.save_error")
-            show_error_messagebox(f"{save_error}: {e}")
+            save_error_msg = i18n.get("form.save_error")
+            show_error_messagebox(f"{save_error_msg}: {e}")
             return
 
         if cls.prev_page is not None:

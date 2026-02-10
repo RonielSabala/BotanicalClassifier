@@ -55,6 +55,6 @@ class PredictorService:
             )
 
         record.predictions = [
-            TagPrediction(str(p.tag_name), float(p.probability))
+            TagPrediction(tag_name=str(p.tag_name), probability=float(p.probability))
             for p in results.predictions  # type: ignore
         ]

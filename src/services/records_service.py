@@ -5,7 +5,6 @@ as JSON plus image files.
 
 import json
 from collections.abc import Generator
-from dataclasses import asdict
 from typing import Any, Optional
 
 from common.paths import LOCAL_IMAGES_DIR, LOCAL_RECORDS_FILE
@@ -92,7 +91,7 @@ class RecordsService:
             data = cls._read_records_data()
 
         key = str(record.record_id)
-        data[key] = asdict(record)
+        data[key] = record.model_dump(exclude_none=True)
         with open(LOCAL_RECORDS_FILE, "w") as f:
             json.dump(data, f, indent=2)
 

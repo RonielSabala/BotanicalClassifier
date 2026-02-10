@@ -12,10 +12,11 @@ authors = [{ name = "Roniel Sabala", email = "ronielsabala@gmail.com" }]
 keywords = ["botany", "computer-vision", "custom-vision", "azure", "flowers"]
 requires-python = ">=3.13.9"
 dependencies = [
-    "Pillow",
-    "python-dotenv",
-    "msrest",
     "azure-cognitiveservices-vision-customvision",
+    "msrest",
+    "Pillow",
+    "pydantic",
+    "python-dotenv",
 ]
 
 [project.optional-dependencies]

@@ -8,6 +8,7 @@ from tkinter import messagebox
 from typing import Any
 
 from PIL import Image, ImageTk
+from pydantic import ValidationError
 
 from .constants import IMAGE_BG_RGBA, IMAGE_MODE, IMAGE_SIZE_PX
 
@@ -78,10 +79,21 @@ def get_subclasses[T](obj: T) -> Generator[T, None, None]:
     Yield all the subclasses of `obj`.
     """
 
-    subclasses = obj.__subclasses__()  # type: ignore
+    subclasses = obj.__subclasses__()  # pyright: ignore[reportAttributeAccessIssue]
     yield from subclasses
     if not subclasses:
         return
 
     for subclass in subclasses:
         yield from get_subclasses(subclass)
+
+
+def get_clean_error_message(error: ValidationError) -> str:
+    """
+    Return the first validation error message provided by
+    a ValueError exception.
+    """
+
+    first_error = error.errors()[0]
+    context = first_error["ctx"]  # pyright: ignore[reportTypedDictNotRequiredAccess]
+    return context["error"]
