@@ -99,7 +99,7 @@ Data models representing core domain entities:
 
 Shared utilities and application-wide configuration:
 
-- **config**: Environment variables.
+- **settings**: Environment variables.
 - **constants**: Application-wide constants.
 - **paths**: Centralized path resolution for resources and local storage.
 - **utils**: Helper functions for common operations across modules.
