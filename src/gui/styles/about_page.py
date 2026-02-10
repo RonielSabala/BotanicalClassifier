@@ -1,6 +1,6 @@
 import tkinter as tk
 
-from ..tk_enums import MouseType
+from ..tk_enums import CursorType
 from .app import page_title
 
 title = {**page_title, "font": ("Arial", 30)}
@@ -25,7 +25,7 @@ link = {
     "width": 0,
     "border": 0,
     "relief": "sunken",
-    "cursor": MouseType.CAN_CLICK,
+    "cursor": CursorType.CAN_CLICK,
     "fg": "SpringGreen4",
     "activeforeground": "violetred3",
     "font": ("Arial", 13),

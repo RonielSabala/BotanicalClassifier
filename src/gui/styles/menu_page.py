@@ -1,4 +1,4 @@
-from ..tk_enums import MouseType
+from ..tk_enums import CursorType
 from .app import page_title
 
 header = {"coords": (0.5, 0.01), "anchor": "center", "font": ("Arial", 9)}
@@ -20,7 +20,7 @@ instructions = {"pady": 3, "font": ("Arial", 13)}
 _button = {
     "width": 2,
     "border": 0,
-    "cursor": MouseType.CAN_CLICK,
+    "cursor": CursorType.CAN_CLICK,
     "font": ("Arial", 50),
 }
 

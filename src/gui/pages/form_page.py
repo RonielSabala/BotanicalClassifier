@@ -16,7 +16,7 @@ from services import FormService, i18n
 from ..assets import APP_ICON_IMAGE
 from ..page import Page
 from ..styles import app as app_styles, form_page as page_styles
-from ..tk_enums import EventType
+from ..tk_enums import BindingKey
 
 
 class FormPage(Page):
@@ -121,23 +121,23 @@ class FormPage(Page):
 
         # Bindings:
 
-        name_entry.bind(EventType.ESCAPE, lambda _: cls.root.focus_set())
-        name_entry.bind(EventType.ARROW_DOWN, lambda _: surname_entry.focus_set())
-        name_entry.bind(EventType.RETURN, lambda _: surname_entry.focus_set())
+        name_entry.bind(BindingKey.ESCAPE, lambda _: cls.root.focus_set())
+        name_entry.bind(BindingKey.ARROW_DOWN, lambda _: surname_entry.focus_set())
+        name_entry.bind(BindingKey.RETURN, lambda _: surname_entry.focus_set())
 
-        surname_entry.bind(EventType.ESCAPE, lambda _: cls.root.focus_set())
-        surname_entry.bind(EventType.ARROW_UP, lambda _: name_entry.focus_set())
-        surname_entry.bind(EventType.ARROW_DOWN, lambda _: address_entry.focus_set())
-        surname_entry.bind(EventType.RETURN, lambda _: address_entry.focus_set())
+        surname_entry.bind(BindingKey.ESCAPE, lambda _: cls.root.focus_set())
+        surname_entry.bind(BindingKey.ARROW_UP, lambda _: name_entry.focus_set())
+        surname_entry.bind(BindingKey.ARROW_DOWN, lambda _: address_entry.focus_set())
+        surname_entry.bind(BindingKey.RETURN, lambda _: address_entry.focus_set())
 
-        address_entry.bind(EventType.ESCAPE, lambda _: cls.root.focus_set())
-        address_entry.bind(EventType.ARROW_UP, lambda _: surname_entry.focus_set())
+        address_entry.bind(BindingKey.ESCAPE, lambda _: cls.root.focus_set())
+        address_entry.bind(BindingKey.ARROW_UP, lambda _: surname_entry.focus_set())
         address_entry.bind(
-            EventType.RETURN, lambda _: cls._on_image_select(image_entry)
+            BindingKey.RETURN, lambda _: cls._on_image_select(image_entry)
         )
 
         image_entry.bind(
-            EventType.LEFT_CLICK, lambda _: cls._on_image_select(image_entry)
+            BindingKey.LEFT_CLICK, lambda _: cls._on_image_select(image_entry)
         )
 
         # - Layout:

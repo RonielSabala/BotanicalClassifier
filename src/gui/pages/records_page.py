@@ -16,7 +16,7 @@ from services import RecordsService, i18n
 from ..assets import APP_ICON_IMAGE, EMPTY_IMAGE
 from ..page import Page
 from ..styles import app as app_styles, records_page as page_styles
-from ..tk_enums import EventType, MouseType
+from ..tk_enums import BindingKey, CursorType
 from .form_page import FormPage
 from .menu_page import MenuPage
 
@@ -241,7 +241,7 @@ class RecordsPage(Page):
     @staticmethod
     def _get_arrow_state(enable: bool) -> dict[str, Any]:
         state = tk.NORMAL if enable else tk.DISABLED
-        cursor = MouseType.CAN_CLICK if enable else MouseType.CANT_CLICK
+        cursor = CursorType.CAN_CLICK if enable else CursorType.CANT_CLICK
         return {"state": state, "cursor": cursor}
 
     # - Grid rendering:
@@ -339,7 +339,7 @@ class RecordsPage(Page):
             if row > 0:
                 cell_font = page_styles.cell_font
                 if col > 0:
-                    cell.config(cursor=MouseType.READ_TEXT)
+                    cell.config(cursor=CursorType.READ_TEXT)
         # Button
         else:
             # Underline filter column
@@ -529,8 +529,8 @@ class RecordsPage(Page):
         )
 
         # Bindings
-        search_entry.bind(EventType.RETURN, lambda _: cls._on_search())
-        search_entry.bind(EventType.ESCAPE, lambda _: cls.root.focus_set())
+        search_entry.bind(BindingKey.RETURN, lambda _: cls._on_search())
+        search_entry.bind(BindingKey.ESCAPE, lambda _: cls.root.focus_set())
         cls._filter_var.trace_add("write", lambda *args: cls._on_search_entry(args))
 
         # - Layout:

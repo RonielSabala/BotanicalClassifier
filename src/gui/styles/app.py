@@ -1,6 +1,6 @@
 from typing import Any
 
-from ..tk_enums import MouseType
+from ..tk_enums import CursorType
 
 fg_color = "Black"
 
@@ -15,7 +15,7 @@ _generic_button = {
     "padx": 5,
     "pady": 2,
     "relief": "flat",
-    "cursor": MouseType.CAN_CLICK,
+    "cursor": CursorType.CAN_CLICK,
     "font": ("Arial", 16, "bold"),
 }
 
@@ -27,7 +27,7 @@ return_button = {
     "border": 0,
     "anchor": "s",
     "relief": "flat",
-    "cursor": MouseType.CAN_CLICK,
+    "cursor": CursorType.CAN_CLICK,
     "activebackground": "Gray78",
     "font": ("Arial", 25),
 }

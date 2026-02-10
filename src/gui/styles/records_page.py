@@ -2,7 +2,7 @@ from typing import Any
 
 from common.utils import remove_keys_from_mapping
 
-from ..tk_enums import MouseType
+from ..tk_enums import CursorType
 from .app import _generic_button, primary_button
 
 cell_font = ("Segoe UI Emoji", 13)
@@ -23,7 +23,7 @@ column_cell = {"fg": "White", "bg": "Dodgerblue4"}
 
 column_button = {
     "border": 0,
-    "cursor": MouseType.CAN_CLICK,
+    "cursor": CursorType.CAN_CLICK,
     "activebackground": "DodgerBlue4",
 }
 
@@ -65,7 +65,7 @@ delete_all_button = {
 }
 
 search_button = {
-    "cursor": MouseType.CAN_CLICK,
+    "cursor": CursorType.CAN_CLICK,
     "bg": "gray90",
     "activebackground": "gray80",
     "font": ("Arial", 13),

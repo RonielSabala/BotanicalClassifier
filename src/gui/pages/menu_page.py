@@ -11,7 +11,7 @@ from ..assets import APP_BANNER_IMAGE
 from ..main import ROOT, set_window_title
 from ..page import Page
 from ..styles import app as app_styles, menu_page as page_styles
-from ..tk_enums import EventType
+from ..tk_enums import BindingKey
 
 
 class MenuPage(Page):
@@ -85,7 +85,7 @@ class MenuPage(Page):
 
         # Binding
         lang_combobox.bind(
-            EventType.DROP_DOWN_CLICK, lambda _: cls._on_language_select()
+            BindingKey.DROP_DOWN_CLICK, lambda _: cls._on_language_select()
         )
 
         # - Layout:

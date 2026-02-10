@@ -11,7 +11,7 @@ from services.i18n_service import i18n
 
 from .main import FRAME, get_copyright
 from .styles import app as app_styles
-from .tk_enums import EventType
+from .tk_enums import BindingKey
 
 
 class Page(ABC):
@@ -263,7 +263,7 @@ class Page(ABC):
         )
 
         # Bindings
-        cls.root.bind(EventType.ESCAPE, _on_escape)
+        cls.root.bind(BindingKey.ESCAPE, _on_escape)
 
         # Layout
         rel_x, rel_y = 0.045, 0.03
