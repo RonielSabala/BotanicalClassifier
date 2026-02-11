@@ -150,8 +150,8 @@ powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | ie
 # macOS / Linux
 curl -LsSf https://astral.sh/uv/install.sh | sh
 
-# Or install via pipx
-pipx install uv
+# Or install via pip
+pip install uv
 ```
 
 ---
