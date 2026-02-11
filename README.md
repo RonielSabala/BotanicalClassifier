@@ -11,9 +11,7 @@ Desktop application that classifies five flower types using an Azure Custom Visi
 - [Architecture overview](#architecture-overview)
 - [Installation](#installation)
   - [Requirements](#requirements)
-  - [PowerShell Setup (Windows only)](#powershell-setup-windows-only)
-  - [Virtual Environment Setup](#virtual-environment-setup)
-  - [Install Dependencies](#install-dependencies)
+  - [Install `uv`](#install-uv)
   - [Azure Custom Vision setup](#azure-custom-vision-setup)
   - [`.env` Configuration](#env-configuration)
   - [Run Locally](#run-locally)
@@ -141,51 +139,19 @@ All images follow the `flower_survey_xx.png` naming convention.
 
 ---
 
-### PowerShell Setup (Windows only)
+### Install `uv`
 
-Before installation, Windows users need to configure PowerShell to allow script execution. Open **PowerShell as Administrator** and run:
-
-```powershell
-Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned -Force
-```
-
----
-
-### Virtual Environment Setup
-
-From now on, we will execute all commands from the **repository root**.
-
-Create a virtual environment:
-
-```bash
-python -m venv .venv
-```
-
-Activate:
+Recommended methods:
 
 ```bash
 # Windows
-.venv\Scripts\Activate.ps1
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
 
-# macOS/Linux
-source .venv/bin/activate
-```
+# macOS / Linux
+curl -LsSf https://astral.sh/uv/install.sh | sh
 
----
-
-### Install Dependencies
-
-```bash
-# With the venv activated
-python -m pip install -U pip setuptools wheel
-python -m pip install -e ".[dev]"
-```
-
-If you change dependencies in `pyproject.toml`
-
-```bash
-# Re-install
-python -m pip install -e ".[dev]" -U
+# Or install via pipx
+pipx install uv
 ```
 
 ---
@@ -239,7 +205,7 @@ CUSTOM_VISION_PUBLISHED_NAME=YOUR_PUBLISHED_ITERATION_NAME
 ### Run Locally
 
 ```bash
-python src/app.py
+uv src/app.py
 ```
 
 ---

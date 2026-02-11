@@ -1,6 +1,5 @@
 .env
 .venv
 .ruff_cache
-*.egg-info
 */resources/local
 __pycache__
