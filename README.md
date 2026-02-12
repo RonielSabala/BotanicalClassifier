@@ -6,15 +6,16 @@ Desktop application that classifies five flower types using an Azure Custom Visi
 
 ## Table of Contents
 
-- [Use case \& motivation](#use-case--motivation)
+- [Motivation](#motivation)
+- [Solution](#solution)
 - [Features](#features)
-- [Architecture overview](#architecture-overview)
+- [Architecture](#architecture)
 - [Installation](#installation)
   - [Requirements](#requirements)
   - [Install `uv`](#install-uv)
   - [Azure Custom Vision setup](#azure-custom-vision-setup)
   - [`.env` Configuration](#env-configuration)
-  - [Run Locally](#run-locally)
+- [Run Locally](#run-locally)
 - [Model Evaluation \& Metrics](#model-evaluation--metrics)
 - [Scalability \& Extensibility](#scalability--extensibility)
 - [Limitations \& Risks](#limitations--risks)
@@ -24,31 +25,33 @@ Desktop application that classifies five flower types using an Azure Custom Visi
 
 ---
 
-## Use case & motivation
+## Motivation
 
 The Jardín Botánico Nacional is conducting a nationwide research project to estimate how many flowers of each type people keep in their homes. For this effort, the botanic garden created an online survey where participants fill a short form and upload a photograph of the plants they keep at home. All submitted photos are stored in a local folder on the botanic garden's research computer. Photo filenames follow the convention `flower_survey_xx.png`.
 
 The garden needs to standardize these photos and assign a flower type to each image. The target classes are: **roses**, **orchids**, **daisies**, **carnations**, and **sunflowers**. Manual labeling at scale is time-consuming and staff resources are limited, so they require an automated solution to speed up classification and reduce human workload.
 
-This repository implements a desktop application that supports that workflow: image ingestion, local storage, a survey GUI, and an integration with Azure Custom Vision to obtain and display model predictions.
+## Solution
+
+This repository implements a desktop application that supports: image ingestion, local storage, a survey GUI, and an integration with Azure Custom Vision to obtain and display model predictions.
 
 ---
 
 ## Features
 
-- Lightweight desktop GUI with Tkinter for:
+- Lightweight desktop GUI for:
   - Filling a short survey (name, surname, address) and attaching a flower image.
   - Saving images and structured records locally for research and audit.
   - Sending images to **Azure Custom Vision** and showing sorted predictions by confidence.
   - Browsing/searching stored survey records, paginated view, and manual classification trigger.
-- **Local-first design**: images and JSON records are stored locally.
+- **Local-first design**: Images and JSON records are stored locally.
 - **Internationalization (i18n)**: English and Spanish language support.
 
 ---
 
-## Architecture overview
+## Architecture
 
-The project follows a layered design that separates concerns between presentation, business logic, models, and common utilities. Each module is designed with clear responsibilities to ensure maintainability and scalability.
+The project follows a layered design that separates concerns between presentation, business logic, models, and common utilities.
 
 ### High-level Structure <!-- omit in toc -->
 
@@ -62,7 +65,6 @@ BotanicalClassifier/
 │   ├── resources/ # Static assets and content
 │   ├── services/  # Business logic layer
 │   └── app.py     # Application entry point
-├── pyproject.toml
 └── README.md
 ```
 
@@ -126,7 +128,7 @@ dataset/
   └── sunflowers/
 ```
 
-All images follow the `flower_survey_xx.png` naming convention.
+All images follow the `flower_survey_xx.png` convention.
 
 ---
 
@@ -170,7 +172,7 @@ pip install uv
 
 #### Train the model
 
-1. For each class (`roses`, `orchids`, `daisies`, `carnations`, `sunflowers`) upload representative images from `dataset/` folders to corresponding tags.
+1. For each class (roses, orchids, daisies, carnations, and sunflowers) upload representative images from `dataset/` folders to corresponding tags.
 2. Remove duplicates, low-quality, or incorrectly-tagged images.
 3. Click **Train** > **Quick Training**.
 4. Publish the iteration with a descriptive **Published Name**.
@@ -202,7 +204,7 @@ CUSTOM_VISION_PUBLISHED_NAME=YOUR_PUBLISHED_ITERATION_NAME
 
 ---
 
-### Run Locally
+## Run Locally
 
 ```bash
 uv src/app.py
@@ -257,7 +259,7 @@ The application is designed for growth:
 
 The application's visual identity and informational content are inspired by and adapted from the **Jardín Botánico Nacional** (National Botanical Garden of the Dominican Republic):
 
-- **UI design**: Layout and color scheme inspired by [jbn.gob.do](https://www.jbn.gob.do/).
+- **UI design**: Layout and color scheme inspired by [jbn.gob.do](https://www.jbn.gob.do/)
 - **Branding assets**: Logo, banner images, and iconography sourced from official website.
 - **About content**: Terms, policies, and informational sections translated and adapted from official documentation.
 
@@ -266,12 +268,12 @@ This is an educational project demonstrating Azure Custom Vision integration. Al
 ### Dataset <!-- omit in toc -->
 
 - **Image source**: [Pexels](https://www.pexels.com/)
-- **Curation**: Abel Eduardo Martínez Robles
+- **Curation**: Abel Eduardo Martínez Robles; [abelrobles0409@gmail.com](abelrobles0409@gmail.com)
 
 ### Technology <!-- omit in toc -->
 
 - **Prediction service**: Azure Custom Vision
-- **Application Development**: Roniel Antonio Sabala Germán
+- **Application Development**: Roniel Antonio Sabala Germán; [ronielsabala@gmail.com](ronielsabala@gmail.com)
 
 ---
 
