@@ -38,8 +38,8 @@
   "form.utils.enter_address": "an address",
   "form.utils.minimum_char_requirement": "with 5 or more characters",
   "form.utils.maximum_char_requirement": "of 50 characters or fewer",
-  "form.utils.unselected_image_error": "Please provide an image.",
-  "form.utils.invalid_image_error": "The image path is invalid.",
+  "form.utils.unselected_image_error": "Please provide an image",
+  "form.utils.invalid_image_error": "The image path is invalid",
 
   "records.title": "Records",
   "records.search": "Search",

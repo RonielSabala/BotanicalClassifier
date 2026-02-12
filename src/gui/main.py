@@ -55,12 +55,3 @@ def get_copyright() -> str:
     year = date.today().year
     rights = i18n.get("app.rights")
     return f"{ORGANIZATION_NAME}\n{COPYRIGHT_SYMBOL}{year} {rights}"
-
-
-# Public API
-__all__ = (
-    "ROOT",
-    "FRAME",
-    "set_window_title",
-    "get_copyright",
-)

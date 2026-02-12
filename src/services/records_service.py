@@ -4,8 +4,8 @@ as JSON plus image files.
 """
 
 import json
-from dataclasses import asdict
-from typing import Any, Generator, Optional
+from collections.abc import Iterator
+from typing import Any, Optional
 
 from common.paths import LOCAL_IMAGES_DIR, LOCAL_RECORDS_FILE
 from models.prediction_model import TagPrediction
@@ -13,19 +13,19 @@ from models.record_model import Record
 
 from .predictor_service import PredictorService
 
-RecordsData = dict[str, Any]
+type JsonData = dict[str, Any]
 
 
 class RecordsService:
     @staticmethod
-    def _read_records_data() -> RecordsData:
+    def _read_records_data() -> JsonData:
         """
         Read and return the parsed JSON content of the
         records file.
         """
 
         if LOCAL_RECORDS_FILE.stat().st_size == 0:
-            # Empty file
+            # Empty json
             return dict()
 
         with open(LOCAL_RECORDS_FILE, "r") as f:
@@ -34,13 +34,13 @@ class RecordsService:
     @classmethod
     def next_record_id(cls) -> int:
         """
-        Return the next record id using stored records.
+        Return the next record id.
         """
 
         return len(tuple(LOCAL_IMAGES_DIR.iterdir()))
 
     @staticmethod
-    def _load_record(record_id: int, data: RecordsData) -> Record:
+    def _load_record(record_id: int, data: JsonData) -> Record:
         """
         Reconstruct a Record object for a given `record_id`
         using the provided data mapping.
@@ -59,7 +59,7 @@ class RecordsService:
         return Record(**record_data)
 
     @classmethod
-    def iter_records(cls) -> Generator[Record, None, None]:
+    def iter_records(cls) -> Iterator[Record]:
         """
         Iterate over all stored records in numeric key order
         yielding Record objects.
@@ -78,11 +78,11 @@ class RecordsService:
         """
 
         LOCAL_RECORDS_FILE.write_text("{}")
-        for image_file in LOCAL_IMAGES_DIR.iterdir():
-            image_file.unlink()
+        for image_path in LOCAL_IMAGES_DIR.iterdir():
+            image_path.unlink()
 
     @classmethod
-    def insert_record(cls, record: Record, data: Optional[RecordsData] = None) -> None:
+    def insert_record(cls, record: Record, data: Optional[JsonData] = None) -> None:
         """
         Insert/update a record in the records file.
         """
@@ -91,7 +91,7 @@ class RecordsService:
             data = cls._read_records_data()
 
         key = str(record.record_id)
-        data[key] = asdict(record)
+        data[key] = record.model_dump(exclude_none=True)
         with open(LOCAL_RECORDS_FILE, "w") as f:
             json.dump(data, f, indent=2)
 
@@ -107,7 +107,3 @@ class RecordsService:
         record = cls._load_record(record_id, data)
         PredictorService.set_flower_prediction(record)
         cls.insert_record(record, data)
-
-
-# Public API
-__all__ = ("RecordsService",)

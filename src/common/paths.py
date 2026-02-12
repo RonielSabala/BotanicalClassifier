@@ -7,6 +7,7 @@ from typing import Final
 
 _SRC_DIR: Final[Path] = Path(__file__).resolve().parent.parent
 _RESOURCES_DIR: Final[Path] = _SRC_DIR / "resources"
+DOTENV_PATH: Final[Path] = _SRC_DIR / "common" / ".env"
 
 # Local storage
 LOCAL_RESOURCES_DIR: Final[Path] = _RESOURCES_DIR / "local"
@@ -61,19 +62,3 @@ def policies_path(lang: str) -> Path:
     """
 
     return _about_content_dir(lang) / "policies.txt"
-
-
-# Public API
-__all__ = (
-    "LOCAL_RESOURCES_DIR",
-    "LOCAL_IMAGES_DIR",
-    "LOCAL_RECORDS_FILE",
-    "APP_ICON_IMAGE_PATH",
-    "APP_BANNER_IMAGE_PATH",
-    "COUNTRY_SHIELD_IMAGE_PATH",
-    "EMPTY_IMAGE_PATH",
-    "i18n_file_path",
-    "faq_path",
-    "terms_path",
-    "policies_path",
-)

@@ -5,14 +5,13 @@ Main menu page of the application.
 import tkinter as tk
 
 from common.utils import get_subclasses
-from services.i18n_service import Language, i18n
+from services import Language, i18n
 
-from ..assets.images import APP_BANNER_IMAGE
+from ..assets import APP_BANNER_IMAGE
 from ..main import ROOT, set_window_title
 from ..page import Page
-from ..styles import app as app_styles
-from ..styles import menu_page as page_styles
-from ..tk_enums import EventType
+from ..styles import app as app_styles, menu_page as page_styles
+from ..tk_enums import BindingKey
 
 
 class MenuPage(Page):
@@ -57,10 +56,8 @@ class MenuPage(Page):
         from .form_page import FormPage
         from .records_page import RecordsPage
 
-        # - Widgets:
-
+        # Widgets
         page_banner = cls.get_label(image=APP_BANNER_IMAGE)
-
         lang_combobox = cls.get_combobox(values=Language.all_languages())
         form_button = cls.get_button()
         records_button = cls.get_button()
@@ -76,15 +73,9 @@ class MenuPage(Page):
             **app_styles.primary_button,
         )
 
-        records_button.config(
-            command=RecordsPage.show,
-            **page_styles.records_button,
-        )
+        records_button.config(command=RecordsPage.show, **page_styles.records_button)
 
-        about_button.config(
-            command=AboutPage.show,
-            **page_styles.about_button,
-        )
+        about_button.config(command=AboutPage.show, **page_styles.about_button)
 
         exit_button.config(
             text=i18n.get("menu.exit_button"),
@@ -92,9 +83,9 @@ class MenuPage(Page):
             **page_styles.exit_button,
         )
 
-        # Bindings
+        # Binding
         lang_combobox.bind(
-            EventType.DROP_DOWN_CLICK, lambda _: cls._on_language_select()
+            BindingKey.DROP_DOWN_CLICK, lambda _: cls._on_language_select()
         )
 
         # - Layout:
@@ -111,9 +102,7 @@ class MenuPage(Page):
 
         # Language selector
         cls.set_text_at(
-            text=i18n.get("app.language"),
-            coords=(0, 0),
-            **page_styles.language_label,
+            text=i18n.get("app.language"), coords=(0, 0), **page_styles.language_label
         )
         lang_combobox.place(relx=0.005, rely=0.03)
 
@@ -148,7 +137,3 @@ class MenuPage(Page):
         )
 
         cls.set_copyright()
-
-
-# Public API
-__all__ = ("MenuPage",)

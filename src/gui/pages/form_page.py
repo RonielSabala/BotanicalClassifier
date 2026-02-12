@@ -6,17 +6,17 @@ an image.
 import tkinter as tk
 from tkinter import filedialog
 
-from common.constants import ALLOWED_IMAGE_EXTENSIONS_STR
-from common.utils import show_error_messagebox
-from models.record_model import Record
-from services.form_service import FormService
-from services.i18n_service import i18n
+from pydantic import ValidationError
 
-from ..assets.images import APP_ICON_IMAGE
+from common.constants import ALLOWED_IMAGE_EXTENSIONS_STR
+from common.utils import get_clean_error_message, show_error_messagebox
+from models import Record
+from services import FormService, i18n
+
+from ..assets import APP_ICON_IMAGE
 from ..page import Page
-from ..styles import app as app_styles
-from ..styles import form_page as page_styles
-from ..tk_enums import EventType
+from ..styles import app as app_styles, form_page as page_styles
+from ..tk_enums import BindingKey
 
 
 class FormPage(Page):
@@ -62,21 +62,23 @@ class FormPage(Page):
         the previous page.
         """
 
-        record = Record(
-            cls.name_var.get(),
-            cls.surname_var.get(),
-            cls.address_var.get(),
-            cls.image_path,
-        )
-
-        if not FormService.validate_record(record):
+        try:
+            record = Record(
+                name=cls.name_var.get(),
+                surname=cls.surname_var.get(),
+                address=cls.address_var.get(),
+                image_path=cls.image_path,
+            )
+        except ValidationError as e:
+            error_msg = get_clean_error_message(e)
+            show_error_messagebox(error_msg)
             return
 
         try:
             FormService.save_form(record)
         except Exception as e:
-            save_error = i18n.get("form.save_error")
-            show_error_messagebox(f"{save_error}: {e}")
+            save_error_msg = i18n.get("form.save_error")
+            show_error_messagebox(f"{save_error_msg}: {e}")
             return
 
         if cls.prev_page is not None:
@@ -119,23 +121,23 @@ class FormPage(Page):
 
         # Bindings:
 
-        name_entry.bind(EventType.ESCAPE, lambda _: cls.root.focus_set())
-        name_entry.bind(EventType.ARROW_DOWN, lambda _: surname_entry.focus_set())
-        name_entry.bind(EventType.RETURN, lambda _: surname_entry.focus_set())
+        name_entry.bind(BindingKey.ESCAPE, lambda _: cls.root.focus_set())
+        name_entry.bind(BindingKey.ARROW_DOWN, lambda _: surname_entry.focus_set())
+        name_entry.bind(BindingKey.RETURN, lambda _: surname_entry.focus_set())
 
-        surname_entry.bind(EventType.ESCAPE, lambda _: cls.root.focus_set())
-        surname_entry.bind(EventType.ARROW_UP, lambda _: name_entry.focus_set())
-        surname_entry.bind(EventType.ARROW_DOWN, lambda _: address_entry.focus_set())
-        surname_entry.bind(EventType.RETURN, lambda _: address_entry.focus_set())
+        surname_entry.bind(BindingKey.ESCAPE, lambda _: cls.root.focus_set())
+        surname_entry.bind(BindingKey.ARROW_UP, lambda _: name_entry.focus_set())
+        surname_entry.bind(BindingKey.ARROW_DOWN, lambda _: address_entry.focus_set())
+        surname_entry.bind(BindingKey.RETURN, lambda _: address_entry.focus_set())
 
-        address_entry.bind(EventType.ESCAPE, lambda _: cls.root.focus_set())
-        address_entry.bind(EventType.ARROW_UP, lambda _: surname_entry.focus_set())
+        address_entry.bind(BindingKey.ESCAPE, lambda _: cls.root.focus_set())
+        address_entry.bind(BindingKey.ARROW_UP, lambda _: surname_entry.focus_set())
         address_entry.bind(
-            EventType.RETURN, lambda _: cls._on_image_select(image_entry)
+            BindingKey.RETURN, lambda _: cls._on_image_select(image_entry)
         )
 
         image_entry.bind(
-            EventType.LEFT_CLICK, lambda _: cls._on_image_select(image_entry)
+            BindingKey.LEFT_CLICK, lambda _: cls._on_image_select(image_entry)
         )
 
         # - Layout:
@@ -166,7 +168,3 @@ class FormPage(Page):
         save_button.pack(pady=40)
 
         cls.set_copyright()
-
-
-# Public API
-__all__ = ("FormPage",)

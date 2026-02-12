@@ -5,9 +5,9 @@ Simple enums for Tkinter-related constants.
 from enum import Enum
 
 
-class MouseType(str, Enum):
+class CursorType(str, Enum):
     """
-    Common mouse cursor types used in the UI.
+    Common Tkinter mouse cursor types used in the UI.
     """
 
     DEFAULT = "arrow"
@@ -16,9 +16,9 @@ class MouseType(str, Enum):
     READ_TEXT = "xterm"
 
 
-class EventType(str, Enum):
+class BindingKey(str, Enum):
     """
-    Common Tkinter event strings used for widget bindings.
+    Common Tkinter keyboard events used for widget bindings.
     """
 
     ARROW_UP = "<Up>"

@@ -2,15 +2,15 @@
 Utility functions used by the GUI.
 """
 
+from collections.abc import Iterable, Iterator
 from pathlib import Path
 from tkinter import messagebox
-from typing import Any, Generator, Iterable, TypeVar
+from typing import Any
 
 from PIL import Image, ImageTk
+from pydantic import ValidationError
 
 from .constants import IMAGE_BG_RGBA, IMAGE_MODE, IMAGE_SIZE_PX
-
-T = TypeVar("T")
 
 
 def path_exists(path: str | Path) -> bool:
@@ -42,17 +42,10 @@ def load_resized_image_tk(image_path: str | Path) -> ImageTk.PhotoImage:
     """
 
     image = Image.open(image_path).convert(IMAGE_MODE)
-    base_image = Image.new(
-        IMAGE_MODE,
-        (IMAGE_SIZE_PX, IMAGE_SIZE_PX),
-        IMAGE_BG_RGBA,  # type: ignore
-    )
+    base_image = Image.new(IMAGE_MODE, (IMAGE_SIZE_PX, IMAGE_SIZE_PX), IMAGE_BG_RGBA)
 
     image_width, image_height = image.size
-    ratio = min(
-        IMAGE_SIZE_PX / image_width,
-        IMAGE_SIZE_PX / image_height,
-    )
+    ratio = min(IMAGE_SIZE_PX / image_width, IMAGE_SIZE_PX / image_height)
 
     new_width = int(image_width * ratio)
     new_height = int(image_height * ratio)
@@ -77,12 +70,12 @@ def remove_keys_from_mapping(style: dict[str, Any], to_remove: Iterable[str]) ->
             raise KeyError(f"style ({style}) doesn't has the key '{key}'")
 
 
-def get_subclasses(obj: T) -> Generator[T, None, None]:
+def get_subclasses[T](obj: T) -> Iterator[T]:
     """
     Yield all the subclasses of `obj`.
     """
 
-    subclasses = obj.__subclasses__()  # type: ignore
+    subclasses = obj.__subclasses__()  # pyright: ignore[reportAttributeAccessIssue]
     yield from subclasses
     if not subclasses:
         return
@@ -91,12 +84,12 @@ def get_subclasses(obj: T) -> Generator[T, None, None]:
         yield from get_subclasses(subclass)
 
 
-# Public API
-__all__ = (
-    "path_exists",
-    "show_error_messagebox",
-    "load_image_tk",
-    "load_resized_image_tk",
-    "remove_keys_from_mapping",
-    "get_subclasses",
-)
+def get_clean_error_message(error: ValidationError) -> str:
+    """
+    Return the first validation error message provided by
+    a ValueError exception.
+    """
+
+    first_error = error.errors()[0]
+    context = first_error["ctx"]  # pyright: ignore[reportTypedDictNotRequiredAccess]
+    return context["error"]

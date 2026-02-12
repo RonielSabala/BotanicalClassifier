@@ -38,8 +38,8 @@
   "form.utils.enter_address": "una ubicación",
   "form.utils.minimum_char_requirement": "con 5 o más caracteres",
   "form.utils.maximum_char_requirement": "de 50 caracteres o menos",
-  "form.utils.unselected_image_error": "Ingrese una imagen.",
-  "form.utils.invalid_image_error": "La ruta de la imagen es invalida.",
+  "form.utils.unselected_image_error": "Ingrese una imagen",
+  "form.utils.invalid_image_error": "La ruta de la imagen es invalida",
 
   "records.title": "Registros",
   "records.search": "Buscar",

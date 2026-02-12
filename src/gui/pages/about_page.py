@@ -3,14 +3,14 @@ About-related pages: About, FAQ, Policies, and Terms.
 """
 
 import tkinter as tk
+from collections.abc import Callable
 from enum import Enum
-from typing import Any, Callable
+from typing import Any
 
 from common.constants import ABOUT
-from services.about_service import AboutService
-from services.i18n_service import i18n
+from services import AboutService, i18n
 
-from ..assets.images import APP_ICON_IMAGE, COUNTRY_SHIELD_IMAGE
+from ..assets import APP_ICON_IMAGE, COUNTRY_SHIELD_IMAGE
 from ..page import Page
 from ..styles import about_page as page_styles
 from .menu_page import MenuPage
@@ -110,9 +110,7 @@ class AboutPage(Page):
             **page_styles.link,
         )
         faq_link.config(
-            text=i18n.get("about.faq.title"),
-            command=FaqPage.show,
-            **page_styles.link,
+            text=i18n.get("about.faq.title"), command=FaqPage.show, **page_styles.link
         )
 
         # - Layout:
@@ -176,7 +174,7 @@ class _ScrollableTextPage(Page):
 
     @classmethod
     def load(cls) -> None:
-        # Widgets
+        # Widget
         scrollable_text = cls.get_scrollable_text()
 
         # Configuration
@@ -222,7 +220,3 @@ class TermsPage(_ScrollableTextPage):
     title_pad_y = 0
     scrollable_text_pad_y = 30
     scrollable_text_styles = page_styles.default_scrollable_text
-
-
-# Public API
-__all__ = ("AboutPage",)
