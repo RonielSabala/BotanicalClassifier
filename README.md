@@ -15,7 +15,7 @@ Desktop application that classifies five flower types using an Azure Custom Visi
 - [Installation](#installation)
   - [Requirements](#requirements)
   - [Install Dependencies](#install-dependencies)
-  - [Azure Custom Vision setup](#azure-custom-vision-setup)
+  - [Azure Custom Vision Setup](#azure-custom-vision-setup)
   - [`.env` Configuration](#env-configuration)
 - [Run Locally](#run-locally)
 - [Model Evaluation \& Metrics](#model-evaluation--metrics)
@@ -126,7 +126,7 @@ uv sync
 
 ---
 
-### Azure Custom Vision setup
+### Azure Custom Vision Setup
 
 #### Step 1. Create a Custom Vision project
 
