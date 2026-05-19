@@ -2,7 +2,7 @@
 
 Desktop application that classifies five flower types using an Azure Custom Vision model: **roses**, **orchids**, **daisies**, **carnations**, and **sunflowers**. The app provides a Tkinter GUI to collect survey responses, store images locally, and request real-time predictions from Azure Custom Vision.
 
-![App screenshot](docs/screenshots/hero_screenshot.jpg)
+![App screenshot](docs/screenshots/hero_screenshot.png)
 
 ---
 
@@ -39,7 +39,7 @@ The garden needs to assign a flower type to each image automatically. The target
 
 This repository implements a desktop application supporting image ingestion, local storage, a survey GUI, and an integration with Azure Custom Vision to obtain and display model predictions.
 
-![Main page](docs/screenshots/main_page.jpg)
+![Main page](docs/screenshots/main_page.png)
 
 ---
 
@@ -53,7 +53,7 @@ This repository implements a desktop application supporting image ingestion, loc
 - **Local-first design**: images and JSON records are stored locally.
 - **Internationalization (i18n)**: English and Spanish language support.
 
-![Form page](docs/screenshots/form_page.jpg)
+![Form page](docs/screenshots/form_page.png)
 
 ---
 
@@ -218,7 +218,7 @@ The application's visual identity and informational content are inspired by and 
 - **Branding assets**: Logo, banner images, and iconography sourced from the official website.
 - **About content**: Terms, policies, and informational sections translated and adapted from official documentation.
 
-![About page](docs/screenshots/about_page.jpg)
+![About page](docs/screenshots/about_page.png)
 
 This is an educational project demonstrating Azure Custom Vision integration. All JBN content is used respectfully for demonstration purposes only.
 
