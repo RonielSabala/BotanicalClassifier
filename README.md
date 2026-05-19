@@ -39,7 +39,7 @@ The garden needs to assign a flower type to each image automatically. The target
 
 This repository implements a desktop application supporting image ingestion, local storage, a survey GUI, and an integration with Azure Custom Vision to obtain and display model predictions.
 
-![Menu page](docs/screenshots/menu_page.png)
+![Menu](docs/screenshots/menu.png)
 
 ---
 
