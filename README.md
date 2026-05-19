@@ -121,11 +121,11 @@ Training images are organized by class:
 
 ```md
 dataset/
-  ├── carnations/
-  ├── daisies/
-  ├── orchids/
-  ├── roses/
-  └── sunflowers/
+├── carnations/
+├── daisies/
+├── orchids/
+├── roses/
+└── sunflowers/
 ```
 
 All images follow the `flower_survey_xx.png` convention.
@@ -232,14 +232,14 @@ Individual class metrics reveal which categories are well-represented and which 
 
 The application is designed for growth:
 
-| Extension point | Detail |
-| --------------- | -------------- |
-| **Additional pages** | Adding new page classes in `gui/pages/` with simple navigation is straightforward. |
-| **More languages** | Adding new languages (`xx.json` catalogs) to `resources/i18n/` just requires a small enum update. |
-| **Themes** | Centralized styles in `gui/styles/` enable dark/light mode support without large code changes. |
-| **New flower types** | Adding new tags to the Custom Vision model is straightforward; UI adapts automatically. |
-| **Larger datasets / Improved Models** | As dataset size increases or a different model is adopted, the prediction API remains compatible. |
-| **Cloud storage** | `records_service.py` and `paths.py` encapsulates storage logic, enabling straightforward migration to cloud-based solutions. |
+| Extension point                       | Detail                                                                                                                       |
+| ------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| **Additional pages**                  | Adding new page classes in `gui/pages/` with simple navigation is straightforward.                                           |
+| **More languages**                    | Adding new languages (`xx.json` catalogs) to `resources/i18n/` just requires a small enum update.                            |
+| **Themes**                            | Centralized styles in `gui/styles/` enable dark/light mode support without large code changes.                               |
+| **New flower types**                  | Adding new tags to the Custom Vision model is straightforward; UI adapts automatically.                                      |
+| **Larger datasets / Improved Models** | As dataset size increases or a different model is adopted, the prediction API remains compatible.                            |
+| **Cloud storage**                     | `records_service.py` and `paths.py` encapsulates storage logic, enabling straightforward migration to cloud-based solutions. |
 
 ---
 
