@@ -178,10 +178,10 @@ uv run src/app.py
 
 ## Model Evaluation & Metrics
 
-| View                  | Description                                                                                        | Image                                                          |
-| --------------------- | -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
-| Overall performance   | The published iteration demonstrates strong classification results across the full validation set. | ![Overall metrics](docs/metrics/overall_metrics.png)           |
-| Per-class performance | Reveals which categories are well-represented and which may benefit from more training data.       | ![Per-class performance](docs/metrics/performance_per_tag.png) |
+| View                  | Image                                                          |
+| --------------------- | -------------------------------------------------------------- |
+| Overall performance   | ![Overall metrics](docs/metrics/overall_metrics.png)           |
+| Per-class performance | ![Per-class performance](docs/metrics/performance_per_tag.png) |
 
 ---
 
