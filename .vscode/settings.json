@@ -1,28 +1,29 @@
 {
-  // Markdown config
+  "files.eol": "\n",
+  "files.insertFinalNewline": true,
+  "editor.formatOnSave": true,
+  "cSpell.language": "en",
+  "cSpell.caseSensitive": true,
+  "cSpell.words": [
+    "activebackground",
+    "activeforeground",
+    "columnspan",
+    "dotenv",
+    "nsew",
+    "padx",
+    "pady",
+    "relx",
+    "textvariable"
+  ],
   "markdown.extension.toc.levels": "2..3",
   "markdown.extension.toc.omittedFromToc": {
     "README.md": ["## Table of Contents"]
   },
-  // Project-specific words that should not be flagged as typos
-  "cSpell.words": [
-    "activebackground",
-    "activeforeground",
-    "cognitiveservices",
-    "columnspan",
-    "customvision",
-    "dotenv",
-    "msrest",
-    "nsew",
-    "padx",
-    "pady",
-    "pyproject",
-    "relx",
-    "selectforeground",
-    "setuptools",
-    "shutil",
-    "textvariable",
-    "tkinter",
-    "venv"
-  ]
+  "python.defaultInterpreterPath": "${workspaceFolder}/.venv/Scripts/python.exe",
+  "[python]": {
+    "editor.defaultFormatter": "charliermarsh.ruff"
+  },
+  "[toml]": {
+    "editor.defaultFormatter": "tamasfe.even-better-toml"
+  }
 }
