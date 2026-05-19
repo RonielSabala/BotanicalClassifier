@@ -1,11 +1,7 @@
 [project]
 name = "botanical-classifier"
 version = "0.1.0"
-description = "Desktop Python application for classifying five flower species using Azure Custom Vision."
-readme = "README.md"
-license = { text = "MIT" }
-authors = [{ name = "Roniel Sabala", email = "ronielsabala@gmail.com" }]
-keywords = ["botany", "computer-vision", "custom-vision", "azure", "flowers"]
+description = "Desktop application for flower classification using Python, Tkinter, and Azure Custom Vision."
 requires-python = ">=3.13.9"
 dependencies = [
     "azure-cognitiveservices-vision-customvision>=3.1.1",
@@ -19,6 +15,13 @@ dependencies = [
 dev = ["pyright>=1.1.408", "ruff>=0.15.0"]
 
 # Tool configs
+
+[tool.pyright]
+venv = ".venv"
+venvPath = "."
+include = ["src"]
+exclude = ["**/__pycache__", "**/node_modules", "dataset", "docs"]
+typeCheckingMode = "standard"
 
 [tool.ruff]
 fix = true
@@ -37,6 +40,3 @@ convention = "google"
 [tool.ruff.lint.isort]
 combine-as-imports = true
 split-on-trailing-comma = false
-
-[tool.pyright]
-typeCheckingMode = "standard"
